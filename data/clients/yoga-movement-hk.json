@@ -1,0 +1,155 @@
+{
+  "id": "yoga-movement-hk",
+  "name": "Yoga Movement Hong Kong",
+  "business_unit": "Yoga Movement (YMHK)",
+  "market": "Hong Kong",
+  "currency": "HKD, written as HK$ (e.g. HK$380)",
+  "website": "https://www.yogamovement.com",
+  "landing_pages": [
+    "https://www.yogamovement.com/new-to-ym",
+    "https://www.yogamovement.com/classes/buy-class-pack"
+  ],
+  "brand_voice": {
+    "summary": "Same warm, inclusive, community-first voice as Yoga Movement Singapore, localised for Hong Kong. Lower-commitment entry offers dominate, so copy often reduces friction for first-timers (\"no commitment needed\", \"try YM without overthinking it\").",
+    "tone": ["Warm", "Inclusive", "Reassuring", "Community-led", "Simple and human"],
+    "signature_phrases": [
+      "Your mat's waiting",
+      "Come find your flow",
+      "Yoga that meets you where you are",
+      "For every body, every level",
+      "Find your flow, find your people",
+      "Yoga feels better together",
+      "No commitment needed",
+      "Bring a friend, bring a few, or bring the whole crew",
+      "Your kind of yoga"
+    ],
+    "rules": [
+      "Always write prices as HK$ (e.g. HK$380), never plain $.",
+      "Reference Hong Kong where it helps local relevance (\"Get Moving In Hong Kong\").",
+      "Practical reassurances work well for newcomers: mats, towels and showers are provided.",
+      "The branded merch is written \"YM MVMT Kit\".",
+      "Class packs are shareable with unlimited friends.",
+      "Use British spelling (favourite, colour)."
+    ],
+    "avoid": [
+      "Singapore pricing or $ without HK",
+      "Overly spiritual or vague clichés",
+      "Intimidating or elite yoga language",
+      "Implying the viewer is inflexible, unfit or stressed (Meta personal attributes policy)"
+    ]
+  },
+  "products": [
+    { "name": "Intro offers", "description": "Low-commitment starter offers for new customers (e.g. first 3 classes, 2 weeks unlimited)." },
+    { "name": "Class packs", "description": "Credits usable across Yoga Movement Hong Kong studios. Shareable with unlimited friends." },
+    { "name": "Classes", "description": "7 yoga-based class types for different bodies, moods and movement goals, including hot yoga, community events and special classes." },
+    { "name": "YM MVMT Kit", "description": "Branded merch kit bundled with selected class packs, while stocks last." }
+  ],
+  "historical_offers": [
+    "First 3 classes for HK$380",
+    "First 3 classes for HK$380, August only",
+    "2 weeks unlimited (new customers)",
+    "20 classes + 8 free classes",
+    "20 + 8 free classes + free YM MVMT Kit, while stocks last"
+  ],
+  "approved_copy": [
+    {
+      "name": "Yoga For Every Body", "status": "Enabled", "objective": "branding", "offer_type": "evergreen",
+      "headlines": ["Yoga That Meets You Where You Are", "Move Your Way With Yoga Movement", "For Every Body, Every Level"],
+      "primary_texts": [
+        "New to yoga, coming back to it, or already in your flow? There's a class for every body at Yoga Movement.",
+        "Yoga doesn't need to feel intimidating. Move at your own pace with classes made for real people, and real schedules.",
+        "From your first class to your weekly flow, Yoga Movement is built for every body, every level, and every kind of practice."
+      ]
+    },
+    {
+      "name": "Movement Feels Better Together", "status": "Enabled", "objective": "branding", "offer_type": "community",
+      "headlines": ["Find Your Flow, Find Your People", "Yoga Feels Better Together", "Move With A Community That Gets It"],
+      "primary_texts": [
+        "The best part of yoga is not just the movement. It's the people that show up with you.",
+        "Whether you come solo or with a friend, there's always a spot for you on the mat at Yoga Movement.",
+        "Find a class, find your movement, and find the people who make showing up feel easier."
+      ]
+    },
+    {
+      "name": "First 3 Classes HK$380", "status": "Enabled", "objective": "lead_gen", "offer_type": "new_customer",
+      "headlines": ["3 Classes for HK$380", "Try Yoga Movement from HK$380", "Start With 3 Classes"],
+      "primary_texts": [
+        "New to Yoga Movement? Start with 3 classes for HK$380 and explore the movement that suits you best.",
+        "We thought yoga wasn't for us too. Then, we tried Yoga Movement. Try your first 3 classes for HK$380 and find out on the mat.",
+        "Start simple. Get 3 classes for HK$380 and experience Yoga Movement at your own pace."
+      ]
+    },
+    {
+      "name": "New To Yoga Movement", "status": "Enabled", "objective": "lead_gen", "offer_type": "new_customer",
+      "headlines": ["New Here? Start With 3 Classes", "Your First 3 Classes, HK$380", "Try YM Without Overthinking It"],
+      "primary_texts": [
+        "Been meaning to try yoga? This is your sign. Start with 3 classes for HK$380.",
+        "New to Yoga Movement? Ease in with 3 classes for HK$380 and discover the classes that work for you.",
+        "No commitment needed. Try 3 classes for HK$380 and get a feel for the Yoga Movement experience."
+      ]
+    },
+    {
+      "name": "Your Mat's Waiting", "status": "Enabled", "objective": "lead_gen", "offer_type": "new_customer",
+      "headlines": ["Your Mat's Waiting", "Book Your First 3 Classes", "Come Find Your Flow"],
+      "primary_texts": [
+        "Your mat's waiting. Start with 3 classes for HK$380 and access hot yoga, community events and special classes.",
+        "Whether you want to move, stretch or sweat, your first step is covered. Enjoy 3 classes for HK$380 at Yoga Movement.",
+        "Start where you are. Your first 3 classes are HK$380, the rest is on us."
+      ]
+    },
+    {
+      "name": "Your Mat's Waiting (August)", "status": "Enabled", "objective": "lead_gen", "offer_type": "limited_time",
+      "headlines": ["Your Mat's Waiting This August", "3 Classes, HK$380. August Only", "Come Find Your Flow This August"],
+      "primary_texts": [
+        "Your mat's waiting. Start with 3 classes for HK$380 this August and get access to hot yoga, community events and special classes.",
+        "Whether you want to move, stretch or sweat, your first step is covered. 3 classes for HK$380 at Yoga Movement, August only.",
+        "Start where you are. Your first 3 classes are HK$380, available this August only."
+      ]
+    },
+    {
+      "name": "New To YM (August)", "status": "Enabled", "objective": "lead_gen", "offer_type": "limited_time",
+      "headlines": ["New Here? Start With 3 Classes in August", "Your First 3 Classes: August Only", "Try YM Without Overthinking It This August"],
+      "primary_texts": [
+        "Been meaning to try yoga? This is your sign. Start with 3 classes for HK$380, August only.",
+        "New to Yoga Movement? Ease in with 3 classes for HK$380 this August and find the classes that work for you.",
+        "No commitment needed. Try 3 classes for HK$380 before August ends and get a feel for the Yoga Movement experience."
+      ]
+    },
+    {
+      "name": "Lead Gen 2 Weeks Unlimited (video)", "status": "Enabled", "objective": "lead_gen", "offer_type": "new_customer",
+      "headlines": ["Get Moving In Hong Kong", "Your Kind Of Yoga In HK", "2 Weeks Unlimited At YM"],
+      "primary_texts": [
+        "New to Yoga Movement Hong Kong? Start with 2 weeks unlimited and explore 7 yoga-based classes made for different bodies, moods, and movement goals.",
+        "Looking for a place to move in Hong Kong? Whether you train hard, stretch it out, or just need a reset, there's a class for you at Yoga Movement.",
+        "Mats, towels, and showers are provided. Just bring yourself, try 2 weeks unlimited, and find the class that feels like your kind of yoga."
+      ]
+    },
+    {
+      "name": "Find What Moves You (20 + 8 Free)", "status": "Enabled", "objective": "retention", "offer_type": "bigger_package",
+      "headlines": ["More Classes, More Flexibility", "Find What Moves You", "20 + 8 Free Classes"],
+      "primary_texts": [
+        "For the days you want to flow, sweat, stretch, or reset, stock up with 20 classes + 8 free classes at Yoga Movement.",
+        "If Yoga Movement is already part of your routine, make your next pack go further with 20 + 8 free classes.",
+        "More classes, more ways to move. Get 20 + 8 free classes and use them across your favourite YM studios."
+      ]
+    },
+    {
+      "name": "20 + 8 Free Classes + Free YM MVMT Kit", "status": "Enabled", "objective": "retention", "offer_type": "free_gift",
+      "headlines": ["20 + 8 Free Classes", "Free YM MVMT Kit Included", "Move More With YM"],
+      "primary_texts": [
+        "Already know you'll be back on the mat? Get 20 classes + 8 free classes, plus a free YM MVMT Kit.",
+        "Your next class pack comes with more. Enjoy 20 + 8 free classes and a free YM MVMT Kit while stocks last.",
+        "Keep your routine going with 20 + 8 free classes, plus a free YM MVMT Kit made to move with you."
+      ]
+    },
+    {
+      "name": "Share Your Best Hour (unlimited friends)", "status": "Enabled", "objective": "conversion", "offer_type": "shareable_package",
+      "headlines": ["Share Your Best Hour", "Bring Your People To YM", "Yoga Feels Better Together"],
+      "primary_texts": [
+        "Your class pack goes further with friends. Bring unlimited friends to Yoga Movement and share the good vibes on the mat.",
+        "Movement feels better with your people. Get a shareable YM class pack and bring unlimited friends along.",
+        "Bring a friend, bring a few, or bring the whole crew. Share your class pack with unlimited friends at Yoga Movement."
+      ]
+    }
+  ]
+}

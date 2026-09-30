@@ -1,0 +1,229 @@
+{
+  "id": "strong-sg",
+  "name": "STRONG Singapore",
+  "business_unit": "DFM (Strong)",
+  "market": "Singapore",
+  "currency": "SGD, written as $ (e.g. $69)",
+  "website": "https://strongpilates.sg",
+  "landing_pages": [
+    "https://strongpilates.sg/new-to-strong/",
+    "https://strongpilates.sg/about-strong/",
+    "https://strongpilates.sg/locations/"
+  ],
+  "brand_voice": {
+    "summary": "Energetic, confident and encouraging. Performance-minded without being intimidating. STRONG sells one efficient, coach-led 45-minute class that combines strength, cardio and Pilates-inspired training.",
+    "tone": ["Confident", "Energetic", "Encouraging", "Clear and benefit-led", "Beginner-friendly but challenging"],
+    "signature_phrases": [
+      "Strength, cardio and Pilates in one class",
+      "45-minute full-body workout",
+      "The STRONG experience",
+      "Coach-led",
+      "High intensity, low impact",
+      "Build strength, stamina and confidence",
+      "This is your sign",
+      "Why pick one?"
+    ],
+    "rules": [
+      "Always write the brand name as STRONG in capitals.",
+      "Say \"Pilates-inspired\" when describing the training method. \"Strength, Pilates and cardio\" is fine as a three-part list.",
+      "Reference the 45-minute class length where relevant.",
+      "Reassure beginners that they do not need to be the fittest person in the room."
+    ],
+    "avoid": [
+      "Shame-based fitness language (no excuses, crush it, beast mode)",
+      "Weight-loss or body-transformation promises",
+      "Implying the viewer is unfit or overweight (Meta personal attributes policy)",
+      "Calling STRONG a pure Pilates studio"
+    ]
+  },
+  "products": [
+    { "name": "STRONG class", "description": "45-minute coach-led full-body class combining strength (resistance), cardio and Pilates-inspired movement on one machine. High intensity, low impact, progressive." }
+  ],
+  "historical_offers": [
+    "2 weeks unlimited classes for $79 (introductory offer)",
+    "2 weeks unlimited, $20 off (August campaign, ended 31 Aug)",
+    "One week unlimited for $69 (October campaign)"
+  ],
+  "approved_copy": [
+    {
+      "name": "One Week Unlimited $69 - 3 in 1 (static)", "status": "Approved", "objective": "lead_gen", "offer_type": "new_customer",
+      "headlines": ["Strength, Pilates & Cardio", "One Week Unlimited For $69", "Try The Full STRONG Experience"],
+      "primary_texts": [
+        "Get strength, Pilates, and cardio in one workout. Try one week unlimited at STRONG for $69.",
+        "One week, unlimited classes, and a full-body workout that brings strength, Pilates, and cardio together.",
+        "Ready to feel the STRONG difference? Start with one week unlimited and experience all 3 in one class."
+      ]
+    },
+    {
+      "name": "One Week Unlimited $69 - New To STRONG (static)", "status": "Approved", "objective": "lead_gen", "offer_type": "new_customer",
+      "headlines": ["New To STRONG? Start Here", "One Week Unlimited For $69", "Your STRONG Trial Starts Here"],
+      "primary_texts": [
+        "New to STRONG? Start with one week unlimited for $69 and see how strength, Pilates, and cardio come together.",
+        "Try STRONG your way with one week of unlimited classes. Build strength, move with control, and get a serious sweat in.",
+        "If you've been curious about STRONG, this is your sign. One week unlimited, $69, and all the full-body burn you need."
+      ]
+    },
+    {
+      "name": "One Week Unlimited $69 - Why Pick 1 (static)", "status": "Approved", "objective": "lead_gen", "offer_type": "explainer",
+      "headlines": ["Why Pick One?", "Try Strength, Pilates & Cardio", "All 3 In 45 Minutes"],
+      "primary_texts": [
+        "Why choose between strength, Pilates, and cardio when you can have all 3 in one 45-minute STRONG workout?",
+        "STRONG brings strength, Pilates, and cardio into one efficient full-body workout. Come try it for yourself.",
+        "One class, three ways to move. Build strength, control, and endurance in 45 minutes at STRONG."
+      ]
+    },
+    {
+      "name": "One Week Unlimited $69 (video)", "status": "Approved", "objective": "lead_gen", "offer_type": "new_customer",
+      "headlines": ["One Week Unlimited For $69", "Try STRONG For $69", "Strength, Pilates & Cardio"],
+      "primary_texts": [
+        "New to STRONG? Get one week of unlimited access for $69 and try a workout that brings strength, Pilates, and cardio together.",
+        "One week, unlimited classes, and the full STRONG experience. Try it for $69 and see what your body can do.",
+        "Why pick one workout when you can get strength, Pilates, and cardio in every class? Start with one week unlimited for $69."
+      ]
+    },
+    {
+      "name": "Branding Traffic (video)", "status": "Approved", "objective": "traffic", "offer_type": "evergreen",
+      "headlines": ["It's time to start STRONG", "Strength, Cardio, Pilates", "Your First STRONG Step"],
+      "primary_texts": [
+        "New to fitness? STRONG gives you strength, cardio, and Pilates-inspired training in one guided 45-minute class.",
+        "You do not need to be the fittest person in the room to start. Just show up, move with us, and build from there.",
+        "Start with a workout that brings strength, cardio, and Pilates together, all in 45 minutes."
+      ]
+    },
+    {
+      "name": "Strong Experience - 2 Weeks Unlimited", "status": "Enabled", "objective": "lead_gen", "offer_type": "new_customer",
+      "headlines": ["Experience STRONG for $79", "Two Weeks. Unlimited Classes.", "Your STRONG Trial Starts Here"],
+      "primary_texts": [
+        "Curious about STRONG? Give yourself two weeks to experience it properly. Get unlimited classes for $79 and explore our signature combination of strength, cardio and Pilates-inspired training.",
+        "One class gives you a taste. Two weeks lets you see what STRONG can become in your routine. Train as often as you like for 14 days with our $79 introductory offer.",
+        "Meet the workout that brings strength, cardio and Pilates together in one 45 min class. Start with two weeks of unlimited classes for $79 and discover the full STRONG experience."
+      ]
+    },
+    {
+      "name": "14 Days To See What STRONG Is All About", "status": "Enabled", "objective": "lead_gen", "offer_type": "new_customer",
+      "headlines": ["Try Unlimited Classes for $79", "Discover STRONG in 14 Days", "Your Two-Week STRONG Trial"],
+      "primary_texts": [
+        "See what STRONG is all about with 14 days of unlimited classes for $79. Try different sessions, meet the coaches, and find a training rhythm that works for you.",
+        "Your first class is only the beginning. Get unlimited access for 14 days and experience STRONG as many times as your schedule allows, all for $79.",
+        "Two weeks. Unlimited opportunities to move, build strength and try something new. Start your STRONG experience with unlimited classes for $79."
+      ]
+    },
+    {
+      "name": "Ready To Get Strong", "status": "Enabled", "objective": "branding", "offer_type": "evergreen",
+      "headlines": ["45-Minute Full-Body Workout", "Build Strength. Boost Stamina.", "Strength Meets Cardio Meets Pilates"],
+      "primary_texts": [
+        "Looking for more intensity from your weekly workout? STRONG combines controlled movement, resistance training and cardio to challenge your whole body in 45 minutes.",
+        "Beginner-friendly progressive training that gets you stronger every week. Experience strength, cardio and Pilates-inspired training in one coach-led class.",
+        "Prefer a workout that keeps moving? Train across strength, cardio and Pilates-inspired exercises, all within one structured 45-minute session."
+      ]
+    },
+    {
+      "name": "Weekly Full Body Workout", "status": "Enabled", "objective": "branding", "offer_type": "explainer",
+      "headlines": ["Three Training Styles. One Class.", "Full-Body Training in 45 Minutes", "Strength. Cardio. Pilates."],
+      "primary_texts": [
+        "Why choose between strength, cardio and Pilates when you can train all three? STRONG combines them in one efficient, coach-led 45-minute workout.",
+        "Make every 45 minutes count. Build strength, raise your heart rate and work through controlled Pilates-inspired movements in one full-body class.",
+        "More variety. More challenge. One complete workout. Experience strength, cardio and Pilates-inspired training within a single 45-minute session."
+      ]
+    },
+    {
+      "name": "High Intensity Low Impact", "status": "Enabled", "objective": "branding", "offer_type": "explainer",
+      "headlines": ["Work Hard Without Overworking Your Body", "High Intensity. Joint-Friendly Training.", "Build Strength With Less Impact"],
+      "primary_texts": [
+        "Challenge your muscles and stamina while keeping the impact controlled. STRONG combines resistance, cardio and Pilates-inspired movement for a powerful full-body workout that doesn't overtax your body.",
+        "High intensity does not have to mean constant jumping or heavy impact. Build strength and endurance through controlled, coach-led movements designed to challenge your whole body.",
+        "Push your fitness while training with greater control. STRONG delivers a high-intensity, low-impact workout that helps you build strength, stamina and confidence."
+      ]
+    },
+    {
+      "name": "Built To Keep You Coming Back", "status": "Enabled", "objective": "retention", "offer_type": "evergreen",
+      "headlines": ["A Workout You Can Keep Building On", "Come Back Stronger", "Progress Starts With Showing Up"],
+      "primary_texts": [
+        "Progress comes from finding a workout you can return to consistently. Every STRONG class gives you another opportunity to move better, build strength and take on the next challenge.",
+        "The workout stays challenging because you keep getting stronger. Train with expert coaching, structured progressions and a class format designed to keep you moving forward.",
+        "Some days feel stronger than others. Showing up still counts. STRONG gives you the coaching, structure and variety to keep building from one class to the next."
+      ]
+    },
+    {
+      "name": "2 Weeks Unlimited - $20 Off (August)", "status": "Enabled", "objective": "lead_gen", "offer_type": "limited_time",
+      "headlines": ["Save $20 On STRONG", "2 Weeks Unlimited, $20 Off", "Try The STRONG Experience"],
+      "primary_texts": [
+        "New to STRONG? Get $20 off The STRONG Experience and enjoy 2 weeks of unlimited classes, only till 31 Aug.",
+        "Start with 2 weeks of unlimited STRONG classes and experience our workout that blends strength, cardio, and resistance training.",
+        "Ready to see what STRONG is about? Save $20 on your 2-week unlimited trial this August."
+      ]
+    },
+    {
+      "name": "August Only", "status": "Enabled", "objective": "lead_gen", "offer_type": "limited_time",
+      "headlines": ["August Only: Save $20", "Get $20 Off Unlimited Classes", "Your STRONG August Starts Here"],
+      "primary_texts": [
+        "August only: save $20 on unlimited STRONG classes and find out why every class hits different.",
+        "Your first STRONG class does not have to be your last. Get $20 off unlimited classes this August.",
+        "Move, sweat, and push your limits with 2 weeks of unlimited STRONG classes, now $20 off."
+      ]
+    },
+    {
+      "name": "The STRONG Experience - $20 Off", "status": "Enabled", "objective": "lead_gen", "offer_type": "limited_time",
+      "headlines": ["2 Weeks Unlimited, Now $20 Off", "Try Every STRONG Class", "Unlimited Classes, Limited Time"],
+      "primary_texts": [
+        "Try every class, find your pace, and get stronger with 2 weeks of unlimited STRONG classes, now $20 off.",
+        "Not sure where to start? Go unlimited for 2 weeks and experience the full STRONG workout for less.",
+        "From strength to sweat, try it all. Save $20 on 2 weeks of unlimited classes this August."
+      ]
+    },
+    {
+      "name": "Your STRONG Start", "status": "Enabled", "objective": "lead_gen", "offer_type": "limited_time",
+      "headlines": ["Your STRONG Start", "Save $20 This August", "Start STRONG For Less"],
+      "primary_texts": [
+        "Start STRONG this August. Save $20 on 2 weeks of unlimited classes and experience the workout for yourself.",
+        "Your STRONG start is here. Get $20 off unlimited classes and see what you are capable of.",
+        "New to STRONG? This is your sign to start. Save $20 on 2 weeks of unlimited classes this August."
+      ]
+    },
+    {
+      "name": "Branding - 45 Minutes A Day", "status": "Enabled", "objective": "branding", "offer_type": "evergreen",
+      "headlines": ["45 Minutes, Full-Body Strong", "Better Health, Stronger Body", "Your Daily Dose Of STRONG"],
+      "primary_texts": [
+        "Short on time? STRONG combines strength, cardio, and Pilates-inspired movement into one 45-minute workout.",
+        "Build better health and a stronger body with a workout designed to challenge you from start to finish.",
+        "45 minutes is all it takes to move, sweat, and feel stronger with STRONG Singapore."
+      ]
+    },
+    {
+      "name": "Branding - One Workout", "status": "Enabled", "objective": "branding", "offer_type": "evergreen",
+      "headlines": ["One Workout, Full-Body Results", "Full-Body Fitness In One Class", "Strength, Sweat, Done"],
+      "primary_texts": [
+        "One class, one machine, one full-body workout. Experience strength, cardio, and resistance training in a different way.",
+        "STRONG is built to train your whole body in 45 minutes, with every move designed to make your effort count.",
+        "Looking for a workout that feels efficient, focused, and intense? This is STRONG."
+      ]
+    },
+    {
+      "name": "Branding - Build A Stronger Body", "status": "Enabled", "objective": "branding", "offer_type": "evergreen",
+      "headlines": ["Build A Stronger Body", "Strength That Stays With You", "Get Stronger For Life"],
+      "primary_texts": [
+        "Build strength that goes beyond the studio. STRONG helps you train for better movement, better health, and a stronger body.",
+        "Every rep, push, and pull is designed to help you get stronger for life, not just today.",
+        "Train with purpose. STRONG brings together resistance, cardio, and control for a full-body workout."
+      ]
+    },
+    {
+      "name": "Branding - New To Fitness", "status": "Enabled", "objective": "branding", "offer_type": "evergreen",
+      "headlines": ["New To Fitness? Start Here", "Strength, Cardio, Pilates", "Your First STRONG Step"],
+      "primary_texts": [
+        "New to fitness? STRONG gives you strength, cardio, and Pilates-inspired training in one guided 45-minute class.",
+        "You do not need to be the fittest person in the room to start. Just show up, move with us, and build from there.",
+        "Start with a workout that brings strength, cardio, and Pilates together, all in 45 minutes."
+      ]
+    },
+    {
+      "name": "Branding - Looking For Your Next Workout", "status": "Paused", "objective": "branding", "offer_type": "evergreen",
+      "headlines": ["Looking For Your Next Workout?", "Full-Body Fitness In 45 Minutes", "Meet Your New Workout"],
+      "primary_texts": [
+        "Looking for something different from your usual workout? STRONG delivers full-body fitness in 45 minutes.",
+        "Strength, cardio, and control in one class. Meet the workout that could be your next fitness routine.",
+        "If you want a workout that challenges your whole body without taking your whole day, start with STRONG."
+      ]
+    }
+  ]
+}

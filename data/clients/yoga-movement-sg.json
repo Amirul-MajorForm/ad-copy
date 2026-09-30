@@ -1,0 +1,266 @@
+{
+  "id": "yoga-movement-sg",
+  "name": "Yoga Movement Singapore",
+  "business_unit": "Yoga Movement (YMSG)",
+  "market": "Singapore",
+  "currency": "SGD, written as $ (e.g. $229/month)",
+  "website": "https://www.yogamovement.com",
+  "landing_pages": [
+    "https://www.yogamovement.com/new-to-ym",
+    "https://www.yogamovement.com/classes/buy-class-pack",
+    "https://www.yogamovement.com/blog/2026/the-all-new-ym-line-up-eight-new-ways-to-move"
+  ],
+  "brand_voice": {
+    "summary": "Warm, inclusive and community-first. Yoga Movement (YM) makes yoga feel approachable and social: find your flow, find your people. Copy is simple, human and upbeat, and treats movement as part of everyday life rather than a spiritual quest.",
+    "tone": ["Warm", "Inclusive", "Upbeat", "Community-led", "Simple and human", "Lightly playful"],
+    "signature_phrases": [
+      "Find what moves you",
+      "Find your flow, find your people",
+      "Your kind of yoga",
+      "Movement starts here",
+      "Good vibes",
+      "Already know you'll be back on the mat?",
+      "Make your next pack go further",
+      "Bring a friend, bring a few, or bring the whole crew",
+      "Move, stretch, sweat, reset",
+      "This is your sign"
+    ],
+    "rules": [
+      "Yoga Movement can be shortened to YM after the first mention, or used alone in short headlines.",
+      "The branded merch is written \"YM MVMT Kit\".",
+      "Class names are written with a colon: \"Flow: Pace\", \"Flow: Build\", \"Flow: Power\", and \"BASE\" in capitals.",
+      "Class packs are shareable with unlimited friends. Mention it when the offer is a class pack and sharing is relevant.",
+      "Bigger packs and memberships speak to people who already practise (retention), not only beginners.",
+      "Use British/Singapore spelling (favourite, colour)."
+    ],
+    "avoid": [
+      "Overly spiritual or vague clichés (namaste vibes, unlock your inner self)",
+      "Intimidating or elite yoga language",
+      "Shame-based or body-focused messaging",
+      "Implying the viewer is inflexible, unfit or stressed (Meta personal attributes policy)"
+    ]
+  },
+  "products": [
+    { "name": "Class packs", "description": "Credits usable across all Yoga Movement studios in Singapore (9 studios). Shareable with unlimited friends." },
+    { "name": "Monthly Membership", "description": "Unlimited classes, priority bookings, all-studio access, no lock-in period." },
+    { "name": "YM MVMT Kit", "description": "Branded activewear/merch kit bundled with selected class packs." },
+    { "name": "New class line-up (2026)", "description": "8 new yoga-based classes including BASE (foundations, alignment, props), Flow: Pace (breath-led flow), Flow: Build (progressive peak-pose skills) and Flow: Power (stronger, faster, dynamic)." }
+  ],
+  "historical_offers": [
+    "20 Class Pack + 6 free classes + YM MVMT Kit",
+    "30 Class Pack + 8 free classes (38 classes)",
+    "Extra $80 off 30 + 8 pack for new customers with code MOVEWITHUS80",
+    "Starter Pack: 5 classes + 5 free classes (October)",
+    "Monthly Membership from $229/month",
+    "8 new classes, 8 free classes on us"
+  ],
+  "approved_copy": [
+    {
+      "name": "Starter Pack 5 + 5 Free (October)", "status": "Approved", "objective": "lead_gen", "offer_type": "new_customer",
+      "headlines": ["New To YM? Get 5 + 5 Free Classes", "Your 10-Class Pack Starts Here", "Start your Yoga Journey with Us"],
+      "primary_texts": [
+        "New to YM? Get 5 classes + 5 free classes. Access all 9 studios and learn how to move & breathe better at YM.",
+        "Your next 10 classes start here. Get 5 + 5 free classes and learn new ways to move with Yoga Movement.",
+        "Learn to move & breathe better at YM. Start your Yoga journey with us. Get 5 classes + 5 free for a limited time."
+      ]
+    },
+    {
+      "name": "Monthly Membership (October)", "status": "Approved", "objective": "retention", "offer_type": "membership",
+      "headlines": ["Unlimited Yoga From $229/Month", "More Classes, More Movement", "Your Monthly YM Routine"],
+      "primary_texts": [
+        "Get unlimited classes, priority bookings, and access to all Yoga Movement studios from $229/month.",
+        "Make movement part of your routine with unlimited classes, all-studio access, and no lock-in period.",
+        "Move well, worry less. Have zero disruption to your YM journey. Upgrade to Monthly Membership today for unlimited classes."
+      ]
+    },
+    {
+      "name": "Traffic: Branding (class type videos)", "status": "Approved", "objective": "traffic", "offer_type": "discovery",
+      "headlines": ["Find Your Kind Of Yoga", "8 New Ways to Move at YM", "Find What Moves You"],
+      "primary_texts": [
+        "8 new ways to move, reset & progress. Explore YM's new classes. Be part of the bigger community.",
+        "Looking for a place to move & progress? Discover 8 new classes at YM, this is your intro to the YM life.",
+        "8 new classes added. Explore the full YM line-up, find what works for you. Kickstart your Yoga journey today."
+      ]
+    },
+    {
+      "name": "20 Class Pack + 6 Free Classes", "status": "Enabled", "objective": "retention", "offer_type": "bigger_package",
+      "headlines": ["20 Classes, 6 More On Us", "Get the 26 Classes Promo", "Get More From Your Class Packs"],
+      "primary_texts": [
+        "Ready to keep the good vibes going? Get a 20 Class Pack with 6 free classes and a YM MVMT Kit.",
+        "More classes, more movement, more reasons to show up. Get 6 free classes with your 20 Class Pack.",
+        "Running low on your credits? Get a little extra this month, with 6 FREE classes and YM MVMT Kit with the 20 Class Pack deal."
+      ]
+    },
+    {
+      "name": "Get 6 Free Classes", "status": "Enabled", "objective": "retention", "offer_type": "bigger_package",
+      "headlines": ["Get 6 Free Classes", "More Classes, Same Good Vibes", "Your 20 Class Pack Comes With More"],
+      "primary_texts": [
+        "Your favourite excuse to move just got better. Get 6 free classes when you purchase a 20 Class Pack.",
+        "Already know you'll be back on the mat? Make it count with 6 free classes added to your 20 Class Pack.",
+        "Bring a friend, find your flow, or keep your routine going. Get 6 free classes with your 20 Class Pack."
+      ]
+    },
+    {
+      "name": "Designed To Move With You (YM MVMT Kit)", "status": "Enabled", "objective": "conversion", "offer_type": "free_gift",
+      "headlines": ["Designed To Move With You", "Get Your YM MVMT Kit", "Look good. Feel good. Move better."],
+      "primary_texts": [
+        "Your movement routine comes with a little extra. Get your YM MVMT Kit with selected class pack purchases.",
+        "Built for class days, coffee runs, and everything in between. Get your YM MVMT Kit now.",
+        "Movement goes beyond the studio. Experience the new YM MVMT Kit with your next class pack."
+      ]
+    },
+    {
+      "name": "Move With Intention", "status": "Enabled", "objective": "branding", "offer_type": "evergreen",
+      "headlines": ["Move With Intention", "Make Your Next Move Count", "Your Practice, With Purpose"],
+      "primary_texts": [
+        "Whether it's a reset, a challenge, or just time for yourself, move with intention at Yoga Movement.",
+        "Some days you need sweat. Some days you need stillness. Your practice can meet you where you are.",
+        "Take the first step back to the mat. Move with intention, build consistency, and find your flow again."
+      ]
+    },
+    {
+      "name": "Movement Starts Here", "status": "Enabled", "objective": "branding", "offer_type": "community",
+      "headlines": ["Movement Starts Here", "Find Your Flow, Find Your People", "Where Movement Meets Community"],
+      "primary_texts": [
+        "Yoga feels better when you're not doing it alone. Find your flow and your people at Yoga Movement.",
+        "Come for the class, stay for the energy. Movement starts here, and there's a spot waiting for you.",
+        "Whether you come solo or with your crew, YM is where movement, community, and good vibes meet."
+      ]
+    },
+    {
+      "name": "YMSG Branding Cut (video)", "status": "Enabled", "objective": "branding", "offer_type": "evergreen",
+      "headlines": ["More Movement Good Vibes", "Movement Starts Here", "Your Kind Of Yoga"],
+      "primary_texts": [
+        "Whether it's your first class or your weekly reset, Yoga Movement is where you can start moving your way.",
+        "Your practice does not need to be perfect. Just show up, find your pace, and let the movement begin.",
+        "From flow to stretch to sweat, there's a class for every kind of day at Yoga Movement."
+      ]
+    },
+    {
+      "name": "26 Classes Start Here", "status": "Enabled", "objective": "lead_gen", "offer_type": "new_customer",
+      "headlines": ["Your First 26 Classes Start Here", "Get Moving With 26 Classes", "Start Your Flow With YM"],
+      "primary_texts": [
+        "Ready to get into your flow? Start with 26 classes and find the rhythm, teachers, and studios that move with you.",
+        "Your first 26 classes are waiting. Move, breathe, sweat, reset, and get on with the flow at Yoga Movement.",
+        "Whether you are starting fresh or getting back on the mat, this is your sign to move with us."
+      ]
+    },
+    {
+      "name": "Made To Move With You (26 Classes + Kit)", "status": "Enabled", "objective": "conversion", "offer_type": "free_gift",
+      "headlines": ["Made To Move With You", "26 Classes + YM MVMT Kit", "Your YM Routine Starts Here"],
+      "primary_texts": [
+        "Made for your next routine. Get 26 classes, access to all studios, and a YM MVMT Kit to move with you.",
+        "From studio days to everything after, start your YM journey with 26 classes and your own YM MVMT Kit.",
+        "Find your flow across all Yoga Movement studios with 26 classes and gear made to move with you."
+      ]
+    },
+    {
+      "name": "Find Out What Moves You (8 new classes)", "status": "Enabled", "objective": "traffic", "offer_type": "discovery",
+      "headlines": ["8 New Classes", "Discover 8 new ways to move with us.", "Find What Moves You"],
+      "primary_texts": [
+        "We just added 8 new classes. Explore the full line-up and find the class that fits your body, mood, and pace.",
+        "Ready for something new on the mat? Discover 8 new YM classes made for different ways to move, sweat, stretch, and reset.",
+        "From stronger flows to deeper resets, our new line-up gives you more ways to find what moves you."
+      ]
+    },
+    {
+      "name": "Discover 8 New Classes", "status": "Enabled", "objective": "traffic", "offer_type": "discovery",
+      "headlines": ["Discover All 8 Classes", "Find What Moves You", "Try The Full YM Line-Up"],
+      "primary_texts": [
+        "Yoga Movement just added 8 new classes. Explore the full line-up and find the class that fits your body, mood, and pace.",
+        "From flow to build, power to reset, discover all 8 new classes and find what moves you.",
+        "Not sure which class is your kind of yoga? Try the new YM line-up and explore all 8 classes."
+      ]
+    },
+    {
+      "name": "8 New Classes Intro Campaign (video)", "status": "Enabled", "objective": "traffic", "offer_type": "discovery",
+      "headlines": ["8 New Ways To Move", "Find Your Kind Of Yoga", "Try The New YM Line-Up"],
+      "primary_texts": [
+        "Yoga Movement's new line-up is here. Explore 8 new classes built for different bodies, moods, and ways to move.",
+        "From stronger flows to deeper resets, discover 8 new ways to move with Yoga Movement.",
+        "Not every practice has to feel the same. Try the new YM line-up and find the class that moves you."
+      ]
+    },
+    {
+      "name": "8 New Classes, 8 Free On Us", "status": "Enabled", "objective": "conversion", "offer_type": "bundle",
+      "headlines": ["Try The New YM Line-Up", "8 New Classes, 8 Free", "Find What Moves You Next"],
+      "primary_texts": [
+        "Yoga Movement just added 8 new classes. Get 8 free classes on us and explore more ways to move.",
+        "New classes are here. Try more, move more, and find the class that fits your body, mood, and pace.",
+        "From flow to reset, discover 8 new ways to move with Yoga Movement, all with 8 free classes on us."
+      ]
+    },
+    {
+      "name": "30 Class Pack + 8 Free (V1)", "status": "Enabled", "objective": "conversion", "offer_type": "bigger_package",
+      "headlines": ["30 + 8 Free Classes", "Your 38-Class Pack Starts Here", "More Movement, More Classes"],
+      "primary_texts": [
+        "Get 30 classes + 8 free classes at Yoga Movement. Move across all studios and share the pack with unlimited friends.",
+        "Your next 38 classes start here. Get 30 + 8 free classes and find more ways to move with YM.",
+        "More movement, more flexibility, more reasons to show up. Get 30 classes + 8 free for a limited time."
+      ]
+    },
+    {
+      "name": "30 Class Pack + 8 Free (V2)", "status": "Enabled", "objective": "retention", "offer_type": "bigger_package",
+      "headlines": ["Your 38-Class Pack Starts Here", "30 Classes + 8 Free", "More Movement In One Pack"],
+      "primary_texts": [
+        "Make your next class pack go further. Get 30 classes + 8 free classes at Yoga Movement.",
+        "Already know you'll be back on the mat? Stock up with 30 classes + 8 free classes.",
+        "More classes, more flexibility, more reasons to show up. Get 30 + 8 free classes for your next YM pack."
+      ]
+    },
+    {
+      "name": "Extra $80 Off (new customers, code)", "status": "Enabled", "objective": "lead_gen", "offer_type": "new_customer",
+      "headlines": ["New To YM? Get $80 Off", "Start Your YM Journey", "Move With Us For Less"],
+      "primary_texts": [
+        "New to Yoga Movement? Get an additional $80 off your 30 class pack + 8 free classes with code MOVEWITHUS80.",
+        "Your first YM pack just got better. Use code MOVEWITHUS80 for an extra $80 off.",
+        "New here? Start with 30 + 8 free classes and get an additional $80 off with code MOVEWITHUS80."
+      ]
+    },
+    {
+      "name": "Share With Unlimited Friends", "status": "Enabled", "objective": "conversion", "offer_type": "shareable_package",
+      "headlines": ["Share With Unlimited Friends", "Bring Your People To YM", "Your Pack Goes Further"],
+      "primary_texts": [
+        "Your class pack goes further with your people. Share with unlimited friends and move together at YM.",
+        "Bring a friend, bring a few, or bring the whole crew. This YM class pack is shareable with unlimited friends.",
+        "Yoga feels better together. Share your pack freely and bring unlimited friends along for the flow."
+      ]
+    },
+    {
+      "name": "BASE (new class)", "status": "Enabled", "objective": "traffic", "offer_type": "explainer",
+      "headlines": ["Start Strong With BASE", "Build Your Base", "Back To The Foundation"],
+      "primary_texts": [
+        "Whether you are new to yoga or coming back to basics, BASE helps you build strength, alignment, and confidence from the ground up.",
+        "Foundational poses, steady holds, and support from blocks. BASE is designed to help you understand how your body moves.",
+        "Go slower, hold longer, and move with more intention. BASE helps you strengthen your foundation and refine your practice."
+      ]
+    },
+    {
+      "name": "Flow: Pace (new class)", "status": "Enabled", "objective": "traffic", "offer_type": "explainer",
+      "headlines": ["Move With Your Breath", "Find Your Flow At Your Pace", "Flow Without The Rush"],
+      "primary_texts": [
+        "Flow: Pace helps you connect movement with breath, so you can build rhythm, control, and confidence on the mat.",
+        "Move through a breath-led flow that keeps you steady, focused, and present from one pose to the next.",
+        "If you like flow classes but want something more intentional, Flow: Pace helps you move with rhythm instead of rushing through."
+      ]
+    },
+    {
+      "name": "Flow: Build (new class)", "status": "Enabled", "objective": "traffic", "offer_type": "explainer",
+      "headlines": ["Build Strength with our new Flow", "Level Up Your Flow", "Challenge yourself with Flow: Build"],
+      "primary_texts": [
+        "Flow: Build breaks down peak poses and helps you build strength, balance and mobility, one step at a time.",
+        "Get the same smooth flow you love from Flow: Pace, plus a progressive, challenging finish that sharpens your skills.",
+        "Flow: Build isolates a specific peak pose, transition, or movement pattern so you can approach it safely and confidently."
+      ]
+    },
+    {
+      "name": "Flow: Power (new class)", "status": "Enabled", "objective": "traffic", "offer_type": "explainer",
+      "headlines": ["Find Power In Your Flow", "Move Stronger With Every Breath", "Challenge yourself with Flow: Power"],
+      "primary_texts": [
+        "Flow: Power brings breath and movement together in a stronger, more dynamic practice built to challenge your pace and control.",
+        "Move seamlessly from one shape to the next. Build stability & endurance with Flow: Power.",
+        "Connect breath to movement. Expect faster pace, more complex transitions and challenging variations in Flow: Power."
+      ]
+    }
+  ]
+}

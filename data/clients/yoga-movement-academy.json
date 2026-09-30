@@ -1,0 +1,106 @@
+{
+  "id": "yoga-movement-academy",
+  "name": "Yoga Movement Academy",
+  "business_unit": "Yoga Movement Academy (YMA)",
+  "market": "Singapore",
+  "currency": "SGD, written as $",
+  "website": "https://www.yogamovement.com/teacher-training",
+  "landing_pages": ["https://www.yogamovement.com/teacher-training"],
+  "brand_voice": {
+    "summary": "Aspirational, supportive and grounded. Yoga Movement Academy runs YMTT (Yoga Movement Teacher Training). Copy speaks to dedicated students whose practice has started to feel like something they want to share, and reassures them they do not need to have it all figured out.",
+    "tone": ["Aspirational", "Supportive", "Encouraging", "Grounded", "Community-led"],
+    "signature_phrases": [
+      "Your voice belongs in the room",
+      "Teach what moves you",
+      "Turn practice into purpose",
+      "Your next chapter has company",
+      "Take the leap into teaching",
+      "Learn to lead with confidence",
+      "You don't need to have it all figured out",
+      "Future yoga teachers, this one's for you"
+    ],
+    "rules": [
+      "Write the programme as YMTT (Yoga Movement Teacher Training) and the brand as Yoga Movement Academy.",
+      "Focus on skills and growth: cueing, supporting, holding space, leading with confidence.",
+      "Tuition support should be described as \"up to 50%\" unless the brief confirms a flat 50%.",
+      "Position teaching as a natural next step for people who keep showing up to practise."
+    ],
+    "avoid": [
+      "Guaranteeing jobs or income",
+      "Implying applicants must already be advanced or \"perfect\" practitioners",
+      "Overly spiritual clichés"
+    ]
+  },
+  "products": [
+    { "name": "YMTT", "description": "Yoga Movement Teacher Training. Builds skills in movement, cueing, supporting students and holding space, with practice, feedback and community." }
+  ],
+  "historical_offers": [
+    "Up to 50% sponsored tuition fees / tuition support for YMTT",
+    "50% sponsored tuition fees, limited time (paused)"
+  ],
+  "approved_copy": [
+    {
+      "name": "Your Voice Belongs In The Room", "status": "Enabled", "objective": "lead_gen", "offer_type": "aspiration",
+      "headlines": ["Lead Your First Yoga Class", "Your Voice Belongs In The Room", "Learn To Lead With Confidence"],
+      "primary_texts": [
+        "If your practice has started to feel like something you want to share, Yoga Movement Academy helps you take that next step.",
+        "Teacher training is not about already having all the answers. It is about learning how to cue, support, and lead with confidence.",
+        "Build the skills to guide a class with clarity, care, and your own voice through Yoga Movement Academy."
+      ]
+    },
+    {
+      "name": "Teach What Moves You", "status": "Enabled", "objective": "lead_gen", "offer_type": "aspiration",
+      "headlines": ["Teach What Moves You", "Turn Practice Into Purpose", "Start With The Practice You Love"],
+      "primary_texts": [
+        "The best teachers often start as students who simply kept showing up. Take the practice you love and learn how to share it.",
+        "Yoga Movement Academy is for those ready to understand yoga more deeply, from movement and cueing to what it means to hold space.",
+        "Been looking to turn your practice into purpose? Yoga Movement Academy equips you with all the right skills to teach and guide."
+      ]
+    },
+    {
+      "name": "Your Next Chapter Has Company", "status": "Enabled", "objective": "branding", "offer_type": "community",
+      "headlines": ["Grow Into Teaching, Together", "Find Your People On The Mat", "Your Next Chapter Has Company"],
+      "primary_texts": [
+        "Learn, practice, move and grow together.",
+        "From first cues to shared breakthroughs, Yoga Movement Academy is built around practice, feedback, and community.",
+        "Go deeper into your practice. You can train and grow together with others."
+      ]
+    },
+    {
+      "name": "Take The Leap", "status": "Enabled", "objective": "lead_gen", "offer_type": "limited_time",
+      "headlines": ["Take The Leap Into Teaching", "We'll Back Your YMTT Journey", "Up To 50% Tuition Support"],
+      "primary_texts": [
+        "Take the leap into teacher training with up to 50% tuition support from Yoga Movement Academy.",
+        "You don't need to have it all figured out. Start your YMTT journey with support, structure, and guidance.",
+        "If your practice has started to feel like something more, apply now for up to 50% sponsored tuition support."
+      ]
+    },
+    {
+      "name": "Future Yoga Teachers", "status": "Enabled", "objective": "lead_gen", "offer_type": "limited_time",
+      "headlines": ["Future Yoga Teachers, This Is For You", "Up To 50% Sponsored Tuition Fees", "Invest In Your Next Chapter"],
+      "primary_texts": [
+        "We're investing in the next generation of yoga teachers. Apply now for up to 50% sponsored tuition fees.",
+        "Your practice could become something you share. Take the next step with YMTT and get up to 50% tuition support.",
+        "Future yoga teachers, this one's for you. Yoga Movement Academy is offering up to 50% sponsored tuition fees."
+      ]
+    },
+    {
+      "name": "Up To 50% Off", "status": "Enabled", "objective": "lead_gen", "offer_type": "limited_time",
+      "headlines": ["Start Your Teaching Journey", "Up To 50% YMTT Scholarship", "Train With The Right Support"],
+      "primary_texts": [
+        "Ready to take your practice further? Apply for up to 50% support for your Yoga Movement Teacher Training journey.",
+        "Your teaching journey starts with the right support. Get up to 50% sponsored tuition fees for YMTT.",
+        "If you've been thinking about becoming a yoga teacher, this is your sign to begin with Yoga Movement Academy."
+      ]
+    },
+    {
+      "name": "New Yoga Teachers", "status": "On Hold", "objective": "lead_gen", "offer_type": "limited_time",
+      "headlines": ["Aspiring Yoga Teachers, This Is For You", "Enjoy 50% Sponsored Tuition Fees", "Become the next YM Teacher"],
+      "primary_texts": [
+        "Become the next yoga teacher at YM. Apply today for 50% sponsored tuition fees, limited time only.",
+        "At YM, we provide you the platform to perform. Complete your YMTT and become a teacher with us.",
+        "For a limited time only, YM will cover 50% of your sponsored tuition fees. Aspiring yoga teachers, this one's for you."
+      ]
+    }
+  ]
+}

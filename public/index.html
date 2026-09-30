@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ad Copy Studio</title>
+<link rel="icon" href="logo.svg" type="image/svg+xml">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="container">
+
+  <!-- Hero -->
+  <header class="hero">
+    <div class="hero-top">
+      <img class="hero-logo" src="logo.svg" alt="MajorForm">
+      <div class="hero-titles">
+        <h1>Ad Copy Studio</h1>
+        <p class="subtitle">by MajorForm - platform-safe headlines, primary text and descriptions in your clients' voice</p>
+      </div>
+    </div>
+    <p class="hero-tagline">Upload static or video creatives, write a brief, or both. Pick the client, platform and objective, and get ready-to-paste copy that fits every character limit.</p>
+    <div class="framework-row">
+      <span class="framework-pill">Reads statics and videos like ROAST</span>
+      <span class="framework-pill">Client voice from approved copy</span>
+      <span class="framework-pill">Checked against platform limits</span>
+      <span class="framework-pill">Paste-ready TSV for Sheets</span>
+    </div>
+  </header>
+
+  <form id="copy-form" onsubmit="return false">
+
+    <!-- Step 1: setup -->
+    <section class="card">
+      <div class="card-title"><span class="step">1</span> Setup</div>
+
+      <div class="grid-2">
+        <div class="field">
+          <label for="client">Client</label>
+          <select id="client"></select>
+          <p class="field-hint" id="client-hint"></p>
+        </div>
+        <div class="field">
+          <label for="platform">Platform</label>
+          <select id="platform"></select>
+          <p class="field-hint" id="platform-hint"></p>
+        </div>
+      </div>
+
+      <div id="custom-client" class="grid-2" hidden>
+        <div class="field">
+          <label for="custom-name">Brand name</label>
+          <input type="text" id="custom-name" placeholder="e.g. Oatside">
+        </div>
+        <div class="field">
+          <label for="custom-notes">Brand notes (optional)</label>
+          <textarea id="custom-notes" rows="2" placeholder="Tone, words to use or avoid, offer details, audience..."></textarea>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Ad objective</label>
+        <div class="chips" id="objective-chips" role="radiogroup" aria-label="Ad objective"></div>
+      </div>
+
+      <div class="field">
+        <label>Number of variations</label>
+        <div class="counts" id="counts"></div>
+      </div>
+    </section>
+
+    <!-- Step 2: creative + brief -->
+    <section class="card">
+      <div class="card-title"><span class="step">2</span> Creative and brief <span class="card-title-note">Upload, write, or both</span></div>
+
+      <div class="drop-zone" id="drop-zone" tabindex="0" role="button" aria-label="Upload creatives">
+        <div class="drop-icon" aria-hidden="true">&#8679;</div>
+        <div class="drop-label">Drop creatives here or click to browse</div>
+        <div class="drop-sub">Images (JPG, PNG, WebP) or video (MP4, MOV, WebM) &middot; up to <span id="max-files">5</span> files &middot; 50MB each</div>
+        <input type="file" id="file-input" accept="image/*,video/*" multiple hidden>
+      </div>
+
+      <div id="queue" hidden>
+        <div class="thumb-strip" id="thumb-strip"></div>
+        <p class="field-hint" id="queue-note"></p>
+      </div>
+
+      <div class="field">
+        <label for="brief">Brief / instructions</label>
+        <textarea id="brief" rows="4" placeholder="e.g. October promo: 5 classes + 5 free for new customers, valid till 31 Oct. Target people who have never tried YM. Lean into access to all 9 studios. Avoid mentioning price in headlines."></textarea>
+        <p class="field-hint">Offers, dates, promo codes and anything to emphasise or avoid. Offers only appear in the copy if they are in the brief or on the creative.</p>
+      </div>
+    </section>
+
+    <button type="button" class="primary-btn" id="generate-btn">Generate ad copy</button>
+    <p class="form-error" id="form-error" role="alert"></p>
+  </form>
+
+  <!-- Progress -->
+  <div id="progress" class="progress" hidden>
+    <div class="progress-bar-wrap"><div class="progress-bar" id="progress-bar"></div></div>
+    <div class="progress-label" id="progress-label">Preparing...</div>
+  </div>
+
+  <!-- Results -->
+  <section id="results" hidden>
+    <div class="results-head">
+      <div>
+        <div class="results-title">Your ad copy</div>
+        <div class="results-meta" id="results-meta"></div>
+      </div>
+      <div class="results-actions">
+        <button type="button" class="ghost-btn" id="copy-all-btn">Copy all as TSV</button>
+      </div>
+    </div>
+    <div class="tabs" id="result-tabs" role="tablist"></div>
+    <div id="result-panels"></div>
+    <p class="field-hint results-foot">Click any line to edit it; the character count updates as you type. Counts turn red when a line is over the platform limit.</p>
+  </section>
+
+</div>
+<script src="app.js"></script>
+</body>
+</html>
