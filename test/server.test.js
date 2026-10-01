@@ -136,3 +136,44 @@ test('rejects a request with neither creative nor brief', async () => {
   assert.strictEqual(events[0].event, 'error');
   assert.match(events[0].data.message, /Upload a creative or write a brief/);
 });
+
+test('revise sends current copy and stacked feedback, without images', async () => {
+  calls.length = 0;
+  replies = [() => ({
+    creative_read: { on_screen_text: 'x', creative_role: 'x', offer: 'x', audience: 'x', copy_job: 'x' },
+    headlines: [{ text: 'Lead With 5 + 5 Free', angle: 'Offer' }, { text: 'My Edited Headline', angle: 'Kept' }]
+  })];
+  const read = { on_screen_text: '5 + 5 FREE', creative_role: 'Offer-led', offer: '5 + 5', audience: 'New', copy_job: 'Offer' };
+  const res = await fetch(`http://127.0.0.1:${server.address().port}/api/revise`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      settings: { clientId: 'yoga-movement-sg', platformId: 'meta', objectiveId: 'lead_gen', counts: { headlines: 2 }, brief: '' },
+      feedback: ['No exclamation marks', 'Lead with the offer'],
+      targets: [{ index: 1, label: 'reel.mp4', isVideo: true, creative_read: read,
+        current: { headlines: [{ text: 'Old One', angle: 'a' }, { text: 'My Edited Headline', angle: 'b' }] } }]
+    })
+  });
+  const text = await res.text();
+  const done = JSON.parse(text.match(/event: complete\ndata: (.*)/)[1]);
+  const r = done.results[0];
+  assert.strictEqual(r.index, 1);
+  assert.strictEqual(r.fields[0].items[0].text, 'Lead With 5 + 5 Free');
+  assert.deepStrictEqual(r.creative_read, read);
+
+  const sent = calls[0].messages[0].content;
+  assert.ok(sent.every(b => b.type === 'text'), 'no images on revision');
+  const prompt = sent[0].text;
+  assert.match(prompt, /headlines 2: "My Edited Headline"/);
+  assert.match(prompt, /EARLIER FEEDBACK[\s\S]*No exclamation marks/);
+  assert.match(prompt, /NEW FEEDBACK:\nLead with the offer/);
+  assert.match(prompt, /On-screen text: 5 \+ 5 FREE/);
+});
+
+test('revise rejects empty feedback', async () => {
+  const res = await fetch(`http://127.0.0.1:${server.address().port}/api/revise`, {
+    method: 'POST', headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ settings: { clientId: 'strong-sg', platformId: 'meta', objectiveId: 'branding', counts: { headlines: 1 } }, feedback: [' '], targets: [{ index: 0 }] })
+  });
+  assert.match(await res.text(), /Write some feedback first/);
+});

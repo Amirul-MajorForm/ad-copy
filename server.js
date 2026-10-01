@@ -196,6 +196,71 @@ app.post('/api/generate', upload.array('files', MAX_CREATIVES), async (req, res)
   }
 });
 
+// ─── POST /api/revise (SSE) ──────────────────────────────────────────────────
+// Rewrites existing copy using the team's feedback. Body:
+//   { settings, feedback: [oldest ... newest], targets: [{ index, label, isVideo, creative_read, current: { field: [{ text, angle }] } }] }
+// Images are not re-sent; the first round's creative read stands in for them.
+
+function sanitiseCurrent(current, platform, counts) {
+  const out = {};
+  for (const f of platform.fields) {
+    if (!counts[f.key]) continue;
+    out[f.key] = ((current || {})[f.key] || []).slice(0, counts[f.key]).map(it => ({
+      text: String((it && it.text) || '').slice(0, f.hardMax),
+      angle: String((it && it.angle) || '').slice(0, 80)
+    }));
+  }
+  return out;
+}
+
+app.post('/api/revise', express.json({ limit: '1mb' }), async (req, res) => {
+  res.setHeader('Content-Type', 'text/event-stream');
+  res.setHeader('Cache-Control', 'no-cache');
+  res.setHeader('Connection', 'keep-alive');
+  res.setHeader('X-Accel-Buffering', 'no');
+  const sse = (type, data) => {
+    res.write(`event: ${type}\ndata: ${JSON.stringify(data)}\n\n`);
+    if (typeof res.flush === 'function') res.flush();
+  };
+
+  try {
+    const body = req.body || {};
+    const settings = parseSettings(JSON.stringify(body.settings || {}));
+    const feedback = (Array.isArray(body.feedback) ? body.feedback : [])
+      .map(f => String(f || '').trim().slice(0, 2000)).filter(Boolean).slice(-10);
+    if (!feedback.length) throw new Error('Write some feedback first');
+    const targets = (Array.isArray(body.targets) ? body.targets : []).slice(0, MAX_CREATIVES);
+    if (!targets.length) throw new Error('Nothing to revise');
+
+    let done = 0;
+    sse('progress', { pct: 10, label: targets.length > 1 ? `Revising copy for ${targets.length} creatives...` : 'Revising copy...' });
+    const results = await Promise.all(targets.map(async t => {
+      const label = String(t.label || 'Creative').slice(0, 200);
+      try {
+        const creative = { type: 'read', label, read: t.creative_read || null };
+        const current = sanitiseCurrent(t.current, settings.platform, settings.counts);
+        const copy = await generateCopy({ ...settings, creative, revision: { current, feedback } });
+        return { index: t.index, label, isVideo: !!t.isVideo, ...copy };
+      } catch (e) {
+        console.error('[revise]', label, e.message);
+        return { index: t.index, label, isVideo: !!t.isVideo, error: e.message || 'Revision failed' };
+      } finally {
+        done++;
+        sse('progress', { pct: 10 + Math.round((done / targets.length) * 85), label: `Revised ${done} of ${targets.length}...` });
+      }
+    }));
+
+    if (results.every(r => r.error)) throw new Error(results[0].error);
+    sse('complete', { results });
+    logToSheets({ timestamp: new Date().toISOString(), tool: 'ad-copy-studio', type: 'revision', model: MODEL, feedback, results });
+  } catch (e) {
+    console.error('[revise]', e.message);
+    sse('error', { message: e.message || 'Revision failed' });
+  } finally {
+    res.end();
+  }
+});
+
 // ─── Start ───────────────────────────────────────────────────────────────────
 
 if (require.main === module) {

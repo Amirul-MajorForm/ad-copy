@@ -47,6 +47,8 @@ async function init() {
   wireUpload();
   $('generate-btn').addEventListener('click', generate);
   $('copy-all-btn').addEventListener('click', e => copyText(allTsv(), e.currentTarget, 'Copy all for Sheets'));
+  $('revise-btn').addEventListener('click', revise);
+  $('undo-btn').addEventListener('click', undoRevision);
 }
 
 function renderClients() {
@@ -215,6 +217,34 @@ function setProgress(pct, label, isError) {
   $('progress-label').classList.toggle('error', !!isError);
 }
 
+// Reads a server-sent-events response; resolves with the "complete" payload.
+async function readSse(res, onProgress) {
+  if (!res.ok || !res.body) throw new Error('Server error: ' + res.status);
+  const reader = res.body.getReader();
+  const decoder = new TextDecoder();
+  let buffer = '';
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    buffer += decoder.decode(value, { stream: true });
+    const blocks = buffer.split('\n\n');
+    buffer = blocks.pop();
+    for (const block of blocks) {
+      let event = 'message', data = '';
+      block.split('\n').forEach(line => {
+        if (line.startsWith('event: ')) event = line.slice(7).trim();
+        else if (line.startsWith('data: ')) data += line.slice(6);
+      });
+      if (!data) continue;
+      const payload = JSON.parse(data);
+      if (event === 'progress') onProgress(payload);
+      else if (event === 'error') throw new Error(payload.message);
+      else if (event === 'complete') return payload;
+    }
+  }
+  throw new Error('The connection closed before the copy was ready. Please try again.');
+}
+
 async function generate() {
   const settings = collectSettings();
   const problem = validate(settings);
@@ -230,44 +260,20 @@ async function generate() {
   const form = new FormData();
   queue.forEach(q => form.append('files', q.file));
   form.append('settings', JSON.stringify(settings));
+  // Own preview URLs so thumbnails survive later changes to the upload queue
+  const thumbs = queue.map(q => ({ isVideo: q.isVideo, url: URL.createObjectURL(q.file) }));
 
   try {
     const res = await fetch('/api/generate', { method: 'POST', body: form });
-    if (!res.ok || !res.body) throw new Error('Server error: ' + res.status);
-
-    const reader = res.body.getReader();
-    const decoder = new TextDecoder();
-    let buffer = '';
-    let finished = false;
-
-    while (!finished) {
-      const { done, value } = await reader.read();
-      if (done) break;
-      buffer += decoder.decode(value, { stream: true });
-      const blocks = buffer.split('\n\n');
-      buffer = blocks.pop();
-
-      for (const block of blocks) {
-        let event = 'message', data = '';
-        block.split('\n').forEach(line => {
-          if (line.startsWith('event: ')) event = line.slice(7).trim();
-          else if (line.startsWith('data: ')) data += line.slice(6);
-        });
-        if (!data) continue;
-        const payload = JSON.parse(data);
-        if (event === 'progress') setProgress(payload.pct, payload.label);
-        else if (event === 'error') throw new Error(payload.message);
-        else if (event === 'complete') {
-          finished = true;
-          setProgress(100, 'Done');
-          lastRun = payload;
-          renderResults();
-          setTimeout(() => { $('progress').hidden = true; }, 400);
-        }
-      }
-    }
-    if (!finished) throw new Error('The connection closed before the copy was ready. Please try again.');
+    const payload = await readSse(res, p => setProgress(p.pct, p.label));
+    setProgress(100, 'Done');
+    if (lastRun) lastRun.thumbs.forEach(t => URL.revokeObjectURL(t.url));
+    lastRun = { ...payload, settings, thumbs, feedback: [], history: [] };
+    $('feedback').value = '';
+    renderResults(true);
+    setTimeout(() => { $('progress').hidden = true; }, 400);
   } catch (e) {
+    thumbs.forEach(t => URL.revokeObjectURL(t.url));
     setProgress(100, 'Error: ' + e.message, true);
   } finally {
     btn.disabled = false;
@@ -277,32 +283,31 @@ async function generate() {
 
 // ─── Results ─────────────────────────────────────────────────────────────────
 
-function renderResults() {
+function renderResults(scroll) {
   const { meta, results } = lastRun;
   $('results-meta').textContent = `${meta.client} · ${meta.platform} · ${meta.objective}`;
-  const tabs = $('result-tabs');
-  const panels = $('result-panels');
-  tabs.innerHTML = '';
-  panels.innerHTML = '';
-  tabs.hidden = results.length < 2;
-
-  results.forEach((r, i) => {
-    const tab = el('button', { type: 'button', class: 'tab', role: 'tab', 'aria-selected': i === 0 ? 'true' : 'false' },
-      (r.isVideo ? '▶ ' : '') + r.label);
-    tab.addEventListener('click', () => selectTab(i));
-    tabs.append(tab);
-    const panel = el('div', { class: 'panel', role: 'tabpanel' }, r.error ? el('div', { class: 'error-card' }, `${r.label}: ${r.error}`) : buildPanel(r));
-    panel.hidden = i !== 0;
-    panels.append(panel);
-  });
-
+  const list = $('result-list');
+  list.innerHTML = '';
+  results.forEach((r, i) => list.append(buildSection(r, i)));
+  renderFeedbackControls();
   $('results').hidden = false;
-  $('results').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  if (scroll) $('results').scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
-function selectTab(i) {
-  document.querySelectorAll('#result-tabs .tab').forEach((t, j) => t.setAttribute('aria-selected', j === i ? 'true' : 'false'));
-  document.querySelectorAll('#result-panels .panel').forEach((p, j) => { p.hidden = j !== i; });
+function buildSection(r, i) {
+  const thumb = lastRun.thumbs[i];
+  let media;
+  if (thumb && thumb.isVideo) media = el('video', { class: 'creative-thumb', src: thumb.url, muted: true, preload: 'metadata' });
+  else if (thumb) media = el('img', { class: 'creative-thumb', src: thumb.url, alt: '' });
+  else media = el('div', { class: 'creative-thumb placeholder' }, 'BRIEF');
+  const kind = thumb ? (thumb.isVideo ? 'Video' : 'Static') : 'From brief';
+  const head = el('div', { class: 'creative-head' }, media,
+    el('div', {},
+      el('div', { class: 'creative-name' }, r.label, r.round ? el('span', { class: 'revised-tag' }, `REVISED x${r.round}`) : null),
+      el('div', { class: 'creative-sub' }, `Creative ${i + 1} of ${lastRun.results.length} · ${kind}`)
+    ));
+  return el('section', { class: 'creative-section' }, head,
+    r.error ? el('div', { class: 'error-card' }, r.error) : buildPanel(r));
 }
 
 function buildPanel(r) {
@@ -313,8 +318,8 @@ function buildPanel(r) {
       ['On-screen text', read.on_screen_text], ['Creative role', read.creative_role], ['Offer', read.offer],
       ['Audience', read.audience], ['Copy job', read.copy_job]
     ].filter(([, v]) => v);
-    frag.append(el('div', { class: 'read-card' },
-      el('div', { class: 'read-title' }, 'How the creative was read'),
+    frag.append(el('details', { class: 'read-card', open: lastRun.results.length === 1 },
+      el('summary', { class: 'read-title' }, 'How the creative was read'),
       el('dl', { class: 'read-grid' }, rows.map(([k, v]) => [el('dt', {}, k), el('dd', {}, v)]))
     ));
   }
@@ -337,7 +342,7 @@ function buildFieldCard(r, f) {
     paint();
     const copyBtn = el('button', { type: 'button', class: 'icon-btn', title: 'Copy', 'aria-label': 'Copy line' }, '⧉');
     copyBtn.addEventListener('click', () => copyText(tsvCell(item.text), copyBtn, '⧉', '✓'));
-    return el('div', { class: 'copy-row' },
+    return el('div', { class: 'copy-row' + (item.changed ? ' changed' : ''), title: item.changed ? 'Changed in the last revision' : null },
       el('span', { class: 'copy-num' }, String(i + 1)),
       el('div', { class: 'copy-body' }, text, item.angle ? el('div', { class: 'copy-angle' }, item.angle) : null),
       el('div', { class: 'copy-side' }, badge, copyBtn)
@@ -354,6 +359,93 @@ function buildFieldCard(r, f) {
     ),
     rows
   );
+}
+
+// ─── Feedback and revisions ──────────────────────────────────────────────────
+
+function renderFeedbackControls() {
+  const ok = lastRun.results.map((r, i) => ({ r, i })).filter(x => !x.r.error);
+  const scope = $('feedback-scope');
+  const prev = scope.value;
+  scope.innerHTML = '';
+  scope.append(el('option', { value: 'all' }, ok.length > 1 ? `All ${ok.length} creatives` : 'This creative'));
+  if (ok.length > 1) ok.forEach(({ r, i }) => scope.append(el('option', { value: String(i) }, `Only: ${r.label}`)));
+  if ([...scope.options].some(o => o.value === prev)) scope.value = prev;
+  scope.hidden = ok.length < 2;
+
+  const hist = $('feedback-history');
+  hist.innerHTML = '';
+  lastRun.feedback.forEach(f => hist.append(el('li', {}, f)));
+  hist.hidden = !lastRun.feedback.length;
+  $('undo-btn').hidden = !lastRun.history.length;
+}
+
+function setReviseStatus(text, isError) {
+  $('revise-status').textContent = text;
+  $('revise-status').classList.toggle('error', !!isError);
+}
+
+async function revise() {
+  const note = $('feedback').value.trim();
+  if (!note) { setReviseStatus('Write what you would like changed first.', true); return; }
+
+  const scope = $('feedback-scope').value;
+  const indexes = lastRun.results
+    .map((r, i) => i)
+    .filter(i => !lastRun.results[i].error && (scope === 'all' || String(i) === scope));
+  const targets = indexes.map(i => {
+    const r = lastRun.results[i];
+    const current = {};
+    r.fields.forEach(f => { current[f.key] = f.items.map(it => ({ text: it.text, angle: it.angle })); });
+    return { index: i, label: r.label, isVideo: r.isVideo, creative_read: r.creative_read, current };
+  });
+
+  const btn = $('revise-btn');
+  btn.disabled = true;
+  btn.textContent = 'Revising...';
+  setReviseStatus('Sending feedback...');
+  const feedback = [...lastRun.feedback, note];
+
+  try {
+    const res = await fetch('/api/revise', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ settings: lastRun.settings, feedback, targets })
+    });
+    const payload = await readSse(res, p => setReviseStatus(p.label));
+
+    lastRun.history.push({ results: JSON.parse(JSON.stringify(lastRun.results)), feedback: lastRun.feedback });
+    const failed = [];
+    lastRun.results.forEach(r => (r.fields || []).forEach(f => f.items.forEach(it => { it.changed = false; })));
+    payload.results.forEach(nr => {
+      const old = lastRun.results[nr.index];
+      if (!old) return;
+      if (nr.error) { failed.push(`${nr.label}: ${nr.error}`); return; }
+      nr.fields.forEach(f => {
+        const before = (old.fields.find(x => x.key === f.key) || { items: [] }).items;
+        f.items.forEach((it, j) => { it.changed = !before[j] || before[j].text !== it.text; });
+      });
+      lastRun.results[nr.index] = { ...nr, round: (old.round || 0) + 1 };
+    });
+    lastRun.feedback = feedback;
+    $('feedback').value = '';
+    renderResults(false);
+    setReviseStatus(failed.length ? 'Some creatives could not be revised. ' + failed.join(' ') : 'Revised. Changed lines are marked in green.', failed.length > 0);
+  } catch (e) {
+    setReviseStatus('Error: ' + e.message, true);
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Revise copy';
+  }
+}
+
+function undoRevision() {
+  const prev = lastRun.history.pop();
+  if (!prev) return;
+  lastRun.results = prev.results;
+  lastRun.feedback = prev.feedback;
+  renderResults(false);
+  setReviseStatus('Restored the previous version.');
 }
 
 // ─── TSV export for Google Sheets ───────────────────────────────────────────
