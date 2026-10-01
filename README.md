@@ -99,7 +99,7 @@ npm test               # unit + end-to-end tests (Claude is mocked)
 
 | Variable | Required | Description |
 |---|---|---|
-| `ANTHROPIC_API_KEY` | Yes | Anthropic API key |
+| `ANTHROPIC_API_KEY` | Yes | Anthropic API key. This is the only variable you need. |
 | `CLAUDE_MODEL` | No | Defaults to `claude-opus-5-5` |
 | `CLAUDE_EFFORT` | No | `low`, `medium` (default), `high` |
 | `APP_PASSWORD` | No | Turns on HTTP Basic Auth for the whole app |
