@@ -32,7 +32,9 @@ Upload / brief ──► server.js ──► lib/media.js       (image resize / 
 
 Each uploaded creative gets its own copy set (up to 5 per run, generated in parallel). With no upload, the brief alone produces one set.
 
-All creatives appear on one page, one section each. Below the results there is a **feedback box**: write what should change (for example "lead headlines with the offer, make primary text 2 more playful") and press **Revise copy**. You can apply feedback to all creatives or just one. Manual edits are kept, feedback stacks across rounds, changed lines are marked in green, and **Undo last revision** restores the previous version. Revisions are text-only (images are not re-sent), so they are faster and cheaper than the first run.
+All creatives appear in **one consolidated table**, laid out like the activation sheet: one row per creative, then Headline 1..n, Primary Text 1..n, Description 1..n across. Every cell is editable and shows its character count. **Copy table for Sheets** copies the whole table; click one cell in Google Sheets and paste.
+
+Below the table there is a **feedback box**: write what should change (for example "lead headlines with the offer, make primary text 2 more playful") and press **Revise copy**. You can apply feedback to all creatives or just one. Manual edits are kept, feedback stacks across rounds, changed cells are marked in green, and **Undo last revision** restores the previous version. Revisions are text-only (images are not re-sent), so they are faster and cheaper than the first run.
 
 ---
 

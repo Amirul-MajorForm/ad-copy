@@ -110,11 +110,16 @@
         <div class="results-meta" id="results-meta"></div>
       </div>
       <div class="results-actions">
-        <button type="button" class="ghost-btn" id="copy-all-btn" title="One row per creative with every field, in the activation sheet column order">Copy all for Sheets</button>
+        <button type="button" class="ghost-btn" id="copy-all-btn" title="Copies the whole table, ready to paste into Google Sheets">Copy table for Sheets</button>
       </div>
     </div>
-    <div id="result-list"></div>
-    <p class="field-hint results-foot">Click any line to edit it; the character count updates as you type. Counts turn red when a line is over the platform limit. "Copy all for Sheets" gives one row per creative (Headline 1, 2, 3, Primary Text 1, 2, 3...), so click a single cell in Sheets and paste.</p>
+    <div class="table-wrap" id="result-table"></div>
+    <p class="field-hint results-foot">One row per creative, laid out like your activation sheet. Click any cell to edit it; the count turns red if a line goes over the platform limit. "Copy table for Sheets" copies the whole table: click one cell in Google Sheets and paste.</p>
+
+    <details class="read-card" id="read-card">
+      <summary class="read-title">How each creative was read</summary>
+      <div id="read-list"></div>
+    </details>
 
     <!-- Feedback -->
     <div class="card feedback-card">
@@ -130,7 +135,7 @@
       </div>
       <p class="field-hint" id="revise-status" role="status"></p>
       <ul class="feedback-history" id="feedback-history" hidden></ul>
-      <p class="field-hint">Your manual edits are kept and treated as approved. Feedback stacks: each round remembers the earlier notes. Changed lines are marked in green.</p>
+      <p class="field-hint">Your manual edits are kept and treated as approved. Feedback stacks: each round remembers the earlier notes. Changed cells are marked in green.</p>
     </div>
   </section>
 

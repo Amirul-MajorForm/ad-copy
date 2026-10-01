@@ -46,7 +46,7 @@ async function init() {
   renderObjectives();
   wireUpload();
   $('generate-btn').addEventListener('click', generate);
-  $('copy-all-btn').addEventListener('click', e => copyText(allTsv(), e.currentTarget, 'Copy all for Sheets'));
+  $('copy-all-btn').addEventListener('click', e => copyText(allTsv(), e.currentTarget, 'Copy table for Sheets'));
   $('revise-btn').addEventListener('click', revise);
   $('undo-btn').addEventListener('click', undoRevision);
 }
@@ -281,84 +281,106 @@ async function generate() {
   }
 }
 
-// ─── Results ─────────────────────────────────────────────────────────────────
+// ─── Results: one consolidated table ─────────────────────────────────────────
+// Same shape as the Google Sheets paste: one row per creative, then
+// Headline 1..n, Primary Text 1..n, Description 1..n across the columns.
+
+function okResults() {
+  return lastRun.results.filter(r => !r.error);
+}
+
+// Flattened column list, e.g. [{ key: 'headlines', label: 'Headline', n: 1, limit: 40 }, ...]
+function tableColumns() {
+  const ok = okResults();
+  if (!ok.length) return [];
+  const cols = [];
+  ok[0].fields.forEach(f => {
+    const width = Math.max(...ok.map(r => (r.fields.find(x => x.key === f.key) || { items: [] }).items.length));
+    for (let n = 1; n <= width; n++) cols.push({ key: f.key, label: f.label, n, limit: f.limit });
+  });
+  return cols;
+}
 
 function renderResults(scroll) {
   const { meta, results } = lastRun;
-  $('results-meta').textContent = `${meta.client} · ${meta.platform} · ${meta.objective}`;
-  const list = $('result-list');
-  list.innerHTML = '';
-  results.forEach((r, i) => list.append(buildSection(r, i)));
+  $('results-meta').textContent = `${meta.client} · ${meta.platform} · ${meta.objective} · ${results.length} creative${results.length > 1 ? 's' : ''}`;
+  const cols = tableColumns();
+
+  const head = el('tr', {},
+    el('th', { class: 'col-creative', scope: 'col' }, 'Creative'),
+    cols.map(c => el('th', { scope: 'col', class: c.n === 1 ? 'group-start' : null },
+      `${c.label} ${c.n}`, el('span', { class: 'th-limit' }, `≤ ${c.limit}`)))
+  );
+  const body = results.map((r, i) => el('tr', {},
+    el('th', { class: 'col-creative', scope: 'row' }, creativeCell(r, i)),
+    r.error
+      ? el('td', { class: 'row-error', colspan: Math.max(cols.length, 1) }, r.error)
+      : cols.map(c => copyCell(r, c))
+  ));
+
+  const wrap = $('result-table');
+  wrap.innerHTML = '';
+  wrap.append(el('table', { class: 'copy-table' }, el('thead', {}, head), el('tbody', {}, body)));
+  renderReads();
   renderFeedbackControls();
   $('results').hidden = false;
   if (scroll) $('results').scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
-function buildSection(r, i) {
+function creativeCell(r, i) {
   const thumb = lastRun.thumbs[i];
   let media;
   if (thumb && thumb.isVideo) media = el('video', { class: 'creative-thumb', src: thumb.url, muted: true, preload: 'metadata' });
   else if (thumb) media = el('img', { class: 'creative-thumb', src: thumb.url, alt: '' });
   else media = el('div', { class: 'creative-thumb placeholder' }, 'BRIEF');
-  const kind = thumb ? (thumb.isVideo ? 'Video' : 'Static') : 'From brief';
-  const head = el('div', { class: 'creative-head' }, media,
+  return el('div', { class: 'creative-cell' }, media,
     el('div', {},
-      el('div', { class: 'creative-name' }, r.label, r.round ? el('span', { class: 'revised-tag' }, `REVISED x${r.round}`) : null),
-      el('div', { class: 'creative-sub' }, `Creative ${i + 1} of ${lastRun.results.length} · ${kind}`)
+      el('div', { class: 'creative-name' }, r.label),
+      el('div', { class: 'creative-sub' }, thumb ? (thumb.isVideo ? 'Video' : 'Static') : 'From brief',
+        r.round ? el('span', { class: 'revised-tag' }, `REVISED x${r.round}`) : null)
     ));
-  return el('section', { class: 'creative-section' }, head,
-    r.error ? el('div', { class: 'error-card' }, r.error) : buildPanel(r));
 }
 
-function buildPanel(r) {
-  const frag = document.createDocumentFragment();
-  const read = r.creative_read;
-  if (read) {
+function copyCell(r, c) {
+  const field = r.fields.find(f => f.key === c.key);
+  const item = field && field.items[c.n - 1];
+  if (!item) return el('td', { class: c.n === 1 ? 'group-start empty' : 'empty' }, '');
+  const mode = lastRun.meta.countMode;
+  const badge = el('span', { class: 'char-badge' });
+  const paint = () => {
+    const len = countChars(item.text, mode);
+    badge.textContent = `${len}/${c.limit}`;
+    badge.className = 'char-badge ' + (len <= c.limit ? 'ok' : 'over');
+    badge.title = len <= c.limit ? 'Within the platform limit' : `Over the ${c.limit} character limit`;
+  };
+  const text = el('div', { class: 'copy-text', contenteditable: 'plaintext-only', spellcheck: 'true', role: 'textbox', 'aria-label': `${r.label}, ${c.label} ${c.n}` }, item.text);
+  text.addEventListener('input', () => { item.text = text.textContent.replace(/\s*\n\s*/g, ' '); paint(); });
+  paint();
+  const copyBtn = el('button', { type: 'button', class: 'icon-btn', title: 'Copy this cell', 'aria-label': 'Copy' }, '⧉');
+  copyBtn.addEventListener('click', () => copyText(tsvCell(item.text), copyBtn, '⧉', '✓'));
+  return el('td', { class: [c.n === 1 ? 'group-start' : '', item.changed ? 'changed' : ''].join(' ').trim() || null, title: item.changed ? 'Changed in the last revision' : null },
+    text,
+    el('div', { class: 'cell-foot' }, item.angle ? el('span', { class: 'copy-angle' }, item.angle) : el('span'), el('span', { class: 'cell-tools' }, badge, copyBtn))
+  );
+}
+
+// How Claude read each creative, tucked under the table.
+function renderReads() {
+  const list = $('read-list');
+  list.innerHTML = '';
+  okResults().forEach(r => {
+    const read = r.creative_read;
+    if (!read) return;
     const rows = [
       ['On-screen text', read.on_screen_text], ['Creative role', read.creative_role], ['Offer', read.offer],
       ['Audience', read.audience], ['Copy job', read.copy_job]
     ].filter(([, v]) => v);
-    frag.append(el('details', { class: 'read-card', open: lastRun.results.length === 1 },
-      el('summary', { class: 'read-title' }, 'How the creative was read'),
+    list.append(el('div', { class: 'read-item' },
+      el('div', { class: 'read-name' }, r.label),
       el('dl', { class: 'read-grid' }, rows.map(([k, v]) => [el('dt', {}, k), el('dd', {}, v)]))
     ));
-  }
-  r.fields.forEach(f => frag.append(buildFieldCard(r, f)));
-  return frag;
-}
-
-function buildFieldCard(r, f) {
-  const mode = lastRun.meta.countMode;
-  const rows = f.items.map((item, i) => {
-    const badge = el('span', { class: 'char-badge' });
-    const paint = () => {
-      const n = countChars(item.text, mode);
-      badge.textContent = `${n}/${f.limit}`;
-      badge.className = 'char-badge ' + (n <= f.limit ? 'ok' : 'over');
-      badge.title = n <= f.limit ? 'Within the platform limit' : `Over the ${f.limit} character limit`;
-    };
-    const text = el('div', { class: 'copy-text', contenteditable: 'plaintext-only', spellcheck: 'true', role: 'textbox', 'aria-label': `${f.label} ${i + 1}` }, item.text);
-    text.addEventListener('input', () => { item.text = text.textContent.replace(/\s*\n\s*/g, ' '); paint(); });
-    paint();
-    const copyBtn = el('button', { type: 'button', class: 'icon-btn', title: 'Copy', 'aria-label': 'Copy line' }, '⧉');
-    copyBtn.addEventListener('click', () => copyText(tsvCell(item.text), copyBtn, '⧉', '✓'));
-    return el('div', { class: 'copy-row' + (item.changed ? ' changed' : ''), title: item.changed ? 'Changed in the last revision' : null },
-      el('span', { class: 'copy-num' }, String(i + 1)),
-      el('div', { class: 'copy-body' }, text, item.angle ? el('div', { class: 'copy-angle' }, item.angle) : null),
-      el('div', { class: 'copy-side' }, badge, copyBtn)
-    );
   });
-
-  const tsvBtn = el('button', { type: 'button', class: 'ghost-btn' }, 'Copy for Sheets');
-  tsvBtn.addEventListener('click', () => copyText(fieldTsv(f.key), tsvBtn, 'Copy for Sheets'));
-
-  return el('div', { class: 'field-card' },
-    el('div', { class: 'field-card-head' },
-      el('div', { class: 'field-card-title' }, f.label, el('span', { class: 'count-limit' }, `≤ ${f.limit} chars`)),
-      el('div', { class: 'field-card-actions' }, tsvBtn)
-    ),
-    rows
-  );
+  $('read-card').hidden = !list.children.length;
 }
 
 // ─── Feedback and revisions ──────────────────────────────────────────────────
@@ -430,7 +452,7 @@ async function revise() {
     lastRun.feedback = feedback;
     $('feedback').value = '';
     renderResults(false);
-    setReviseStatus(failed.length ? 'Some creatives could not be revised. ' + failed.join(' ') : 'Revised. Changed lines are marked in green.', failed.length > 0);
+    setReviseStatus(failed.length ? 'Some creatives could not be revised. ' + failed.join(' ') : 'Revised. Changed cells are marked in green.', failed.length > 0);
   } catch (e) {
     setReviseStatus('Error: ' + e.message, true);
   } finally {
@@ -467,45 +489,17 @@ function tsvRow(cells) {
   return cells.map(tsvCell).join('\t');
 }
 
-function okResults() {
-  return lastRun.results.filter(r => !r.error);
-}
-
-// One table per field: a header row, then one row per creative.
-function fieldTsv(key) {
-  const ok = okResults();
-  const fields = ok.map(r => r.fields.find(f => f.key === key)).filter(Boolean);
-  if (!fields.length) return '';
-  const label = fields[0].label;
-  const width = Math.max(...fields.map(f => f.items.length));
-  const lines = [tsvRow(['Creative', ...Array.from({ length: width }, (_, i) => `${label} ${i + 1}`)])];
-  ok.forEach(r => {
-    const f = r.fields.find(x => x.key === key);
-    if (f) lines.push(tsvRow([r.label, ...f.items.map(it => it.text)]));
-  });
-  return lines.join('\n');
-}
-
-// One row per creative with every field side by side, in the same column
-// order as the activation sheet: Headline 1..n, Primary Text 1..n, Description 1..n.
+// The table above as TSV: header row, then one row per creative.
 function allTsv() {
-  const ok = okResults();
-  if (!ok.length) return '';
-  const columns = ok[0].fields.map(f => ({
-    key: f.key,
-    label: f.label,
-    width: Math.max(...ok.map(r => (r.fields.find(x => x.key === f.key) || { items: [] }).items.length))
-  }));
-  const header = ['Creative'];
-  columns.forEach(c => { for (let i = 1; i <= c.width; i++) header.push(`${c.label} ${i}`); });
-  const lines = [tsvRow(header)];
-  ok.forEach(r => {
-    const row = [r.label];
-    columns.forEach(c => {
-      const items = (r.fields.find(x => x.key === c.key) || { items: [] }).items;
-      for (let i = 0; i < c.width; i++) row.push(items[i] ? items[i].text : '');
-    });
-    lines.push(tsvRow(row));
+  const cols = tableColumns();
+  if (!cols.length) return '';
+  const lines = [tsvRow(['Creative', ...cols.map(c => `${c.label} ${c.n}`)])];
+  okResults().forEach(r => {
+    lines.push(tsvRow([r.label, ...cols.map(c => {
+      const f = r.fields.find(x => x.key === c.key);
+      const item = f && f.items[c.n - 1];
+      return item ? item.text : '';
+    })]));
   });
   return lines.join('\n');
 }
