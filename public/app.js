@@ -46,7 +46,7 @@ async function init() {
   renderObjectives();
   wireUpload();
   $('generate-btn').addEventListener('click', generate);
-  $('copy-all-btn').addEventListener('click', e => copyText(allTsv(), e.currentTarget, 'Copy all as TSV'));
+  $('copy-all-btn').addEventListener('click', e => copyText(allTsv(), e.currentTarget, 'Copy all for Sheets'));
 }
 
 function renderClients() {
@@ -336,7 +336,7 @@ function buildFieldCard(r, f) {
     text.addEventListener('input', () => { item.text = text.textContent.replace(/\s*\n\s*/g, ' '); paint(); });
     paint();
     const copyBtn = el('button', { type: 'button', class: 'icon-btn', title: 'Copy', 'aria-label': 'Copy line' }, '⧉');
-    copyBtn.addEventListener('click', () => copyText(item.text, copyBtn, '⧉', '✓'));
+    copyBtn.addEventListener('click', () => copyText(tsvCell(item.text), copyBtn, '⧉', '✓'));
     return el('div', { class: 'copy-row' },
       el('span', { class: 'copy-num' }, String(i + 1)),
       el('div', { class: 'copy-body' }, text, item.angle ? el('div', { class: 'copy-angle' }, item.angle) : null),
@@ -344,8 +344,8 @@ function buildFieldCard(r, f) {
     );
   });
 
-  const tsvBtn = el('button', { type: 'button', class: 'ghost-btn' }, 'Copy TSV');
-  tsvBtn.addEventListener('click', () => copyText(fieldTsv(f.key), tsvBtn, 'Copy TSV'));
+  const tsvBtn = el('button', { type: 'button', class: 'ghost-btn' }, 'Copy for Sheets');
+  tsvBtn.addEventListener('click', () => copyText(fieldTsv(f.key), tsvBtn, 'Copy for Sheets'));
 
   return el('div', { class: 'field-card' },
     el('div', { class: 'field-card-head' },
@@ -356,32 +356,66 @@ function buildFieldCard(r, f) {
   );
 }
 
-// ─── TSV export (format from the MajorForm copywriter prompt) ────────────────
+// ─── TSV export for Google Sheets ───────────────────────────────────────────
+// Sheets parses pasted plain text as TSV: tabs split columns, new lines split
+// rows, a leading straight quote starts a quoted field (which can swallow the
+// following cells), and a leading = + @ becomes a formula. tsvCell guards all
+// of these so every line lands in exactly one cell, as text.
 
 function tsvCell(s) {
-  return String(s || '').replace(/[\t\r\n]+/g, ' ').trim();
+  return String(s || '')
+    .replace(/[\t\r\n]+/g, ' ')
+    .replace(/(^|[\s(\[])"/g, '$1\u201C')
+    .replace(/"/g, '\u201D')
+    .replace(/^[=+@]+\s*/, '')
+    .trim();
+}
+
+function tsvRow(cells) {
+  return cells.map(tsvCell).join('\t');
+}
+
+function okResults() {
+  return lastRun.results.filter(r => !r.error);
 }
 
 // One table per field: a header row, then one row per creative.
 function fieldTsv(key) {
-  const ok = lastRun.results.filter(r => !r.error);
+  const ok = okResults();
   const fields = ok.map(r => r.fields.find(f => f.key === key)).filter(Boolean);
   if (!fields.length) return '';
   const label = fields[0].label;
   const width = Math.max(...fields.map(f => f.items.length));
-  const header = ['Creative', ...Array.from({ length: width }, (_, i) => `${label} ${i + 1}`)];
-  const lines = [header.join('\t')];
+  const lines = [tsvRow(['Creative', ...Array.from({ length: width }, (_, i) => `${label} ${i + 1}`)])];
   ok.forEach(r => {
     const f = r.fields.find(x => x.key === key);
-    if (f) lines.push([tsvCell(r.label), ...f.items.map(it => tsvCell(it.text))].join('\t'));
+    if (f) lines.push(tsvRow([r.label, ...f.items.map(it => it.text)]));
   });
   return lines.join('\n');
 }
 
+// One row per creative with every field side by side, in the same column
+// order as the activation sheet: Headline 1..n, Primary Text 1..n, Description 1..n.
 function allTsv() {
-  const first = lastRun.results.find(r => !r.error);
-  if (!first) return '';
-  return first.fields.map(f => fieldTsv(f.key)).filter(Boolean).join('\n\n');
+  const ok = okResults();
+  if (!ok.length) return '';
+  const columns = ok[0].fields.map(f => ({
+    key: f.key,
+    label: f.label,
+    width: Math.max(...ok.map(r => (r.fields.find(x => x.key === f.key) || { items: [] }).items.length))
+  }));
+  const header = ['Creative'];
+  columns.forEach(c => { for (let i = 1; i <= c.width; i++) header.push(`${c.label} ${i}`); });
+  const lines = [tsvRow(header)];
+  ok.forEach(r => {
+    const row = [r.label];
+    columns.forEach(c => {
+      const items = (r.fields.find(x => x.key === c.key) || { items: [] }).items;
+      for (let i = 0; i < c.width; i++) row.push(items[i] ? items[i].text : '');
+    });
+    lines.push(tsvRow(row));
+  });
+  return lines.join('\n');
 }
 
 async function copyText(text, btn, label, doneLabel) {

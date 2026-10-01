@@ -27,7 +27,7 @@ Upload / brief ──► server.js ──► lib/media.js       (image resize / 
                               repair pass (up to 2 rounds, only the broken lines)
                                      │
                                      ▼
-                              UI: per-line char counts, inline editing, Copy TSV
+                              UI: per-line char counts, inline editing, Copy for Sheets
 ```
 
 Each uploaded creative gets its own copy set (up to 5 per run, generated in parallel). With no upload, the brief alone produces one set.
