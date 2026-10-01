@@ -196,6 +196,24 @@ thead .col-creative { background: var(--surface-2); z-index: 2; }
 .feedback-history li { margin-bottom: 3px; }
 #revise-status.error { color: var(--bad); }
 
+/* ─── Team learnings ─── */
+.memory-panel { margin: 0 0 14px; border: 0.5px solid var(--line); border-radius: 10px; padding: 10px 12px; background: var(--surface-2); }
+.memory-panel summary { cursor: pointer; font-size: 12.5px; font-weight: 600; display: flex; gap: 8px; align-items: baseline; flex-wrap: wrap; }
+.memory-sub { font-weight: 400; color: var(--muted); font-size: 11.5px; }
+.memory-list { list-style: none; margin: 8px 0; display: grid; gap: 6px; }
+.memory-list li { display: flex; align-items: flex-start; gap: 8px; background: var(--surface); border: 0.5px solid var(--line); border-radius: 8px; padding: 7px 8px 7px 10px; font-size: 12.5px; }
+.memory-list li span.rule { flex: 1; }
+.memory-list .empty-note { color: var(--muted); background: none; border: none; padding: 0; }
+.scope-tag { font-size: 9.5px; font-weight: 700; letter-spacing: 0.04em; color: var(--ink-2); background: var(--surface-2); border-radius: 99px; padding: 2px 7px; white-space: nowrap; }
+.memory-list .icon-btn { width: 24px; height: 22px; font-size: 12px; flex-shrink: 0; }
+.memory-add { display: flex; gap: 6px; flex-wrap: wrap; }
+.memory-add input { flex: 1; min-width: 200px; }
+.memory-add select { width: auto; }
+.check { display: flex; align-items: center; gap: 8px; font-size: 12.5px; color: var(--ink-2); margin-top: 10px; cursor: pointer; }
+.check input { width: 16px; height: 16px; accent-color: var(--dark); }
+.similar-tag { display: inline-block; font-size: 10px; font-weight: 600; color: #8a5a00; background: #fff4dc; border-radius: 99px; padding: 1px 7px; margin-top: 5px; }
+.learned { margin-top: 6px; color: var(--ok); }
+
 /* ─── Mobile ─── */
 @media (max-width: 640px) {
   body { padding: 1rem 16px 2.5rem; }

@@ -48,6 +48,9 @@ async function init() {
   $('generate-btn').addEventListener('click', generate);
   $('copy-all-btn').addEventListener('click', e => copyText(allTsv(), e.currentTarget, 'Copy table for Sheets'));
   $('revise-btn').addEventListener('click', revise);
+  $('memory-add-btn').addEventListener('click', addMemoryRule);
+  $('memory-input').addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); addMemoryRule(); } });
+  $('custom-name').addEventListener('change', loadMemory);
   $('undo-btn').addEventListener('click', undoRevision);
 }
 
@@ -59,6 +62,7 @@ function renderClients() {
   sel.addEventListener('change', () => {
     const c = config.clients.find(x => x.id === sel.value);
     $('custom-client').hidden = sel.value !== 'custom';
+    loadMemory();
     $('client-hint').textContent = c
       ? `${c.market} · ${c.example_count} approved copy sets used as a style reference.`
       : (sel.value === 'custom' ? 'No approved copy on file. Add brand notes below for a better match.' : '');
@@ -213,7 +217,7 @@ function validate(s) {
 function setProgress(pct, label, isError) {
   $('progress').hidden = false;
   $('progress-bar').style.width = pct + '%';
-  $('progress-label').textContent = label;
+  if (label) $('progress-label').textContent = label;
   $('progress-label').classList.toggle('error', !!isError);
 }
 
@@ -303,7 +307,9 @@ function tableColumns() {
 
 function renderResults(scroll) {
   const { meta, results } = lastRun;
-  $('results-meta').textContent = `${meta.client} · ${meta.platform} · ${meta.objective} · ${results.length} creative${results.length > 1 ? 's' : ''}`;
+  const used = lastRun.lessonsUsed ? ` · ${lastRun.lessonsUsed} learned rule${lastRun.lessonsUsed > 1 ? 's' : ''} applied` : '';
+  $('results-meta').textContent = `${meta.client} · ${meta.platform} · ${meta.objective} · ${results.length} creative${results.length > 1 ? 's' : ''}${used}`;
+  $('remember-client').textContent = `${meta.client} copy`;
   const cols = tableColumns();
 
   const head = el('tr', {},
@@ -360,6 +366,7 @@ function copyCell(r, c) {
   copyBtn.addEventListener('click', () => copyText(tsvCell(item.text), copyBtn, '⧉', '✓'));
   return el('td', { class: [c.n === 1 ? 'group-start' : '', item.changed ? 'changed' : ''].join(' ').trim() || null, title: item.changed ? 'Changed in the last revision' : null },
     text,
+    item.similarTo ? el('span', { class: 'similar-tag', title: 'Still close to another line after the automatic rewrite. Edit it or give feedback.' }, `Similar to ${item.similarTo}`) : null,
     el('div', { class: 'cell-foot' }, item.angle ? el('span', { class: 'copy-angle' }, item.angle) : el('span'), el('span', { class: 'cell-tools' }, badge, copyBtn))
   );
 }
@@ -422,6 +429,16 @@ async function revise() {
     return { index: i, label: r.label, isVideo: r.isVideo, creative_read: r.creative_read, current };
   });
 
+  const others = lastRun.results
+    .map((r, i) => ({ r, i }))
+    .filter(({ r, i }) => !r.error && !indexes.includes(i))
+    .map(({ r }) => {
+      const current = {};
+      r.fields.forEach(f => { current[f.key] = f.items.map(it => ({ text: it.text, angle: it.angle })); });
+      return { label: r.label, current };
+    });
+  const remember = $('remember').checked;
+
   const btn = $('revise-btn');
   btn.disabled = true;
   btn.textContent = 'Revising...';
@@ -432,9 +449,9 @@ async function revise() {
     const res = await fetch('/api/revise', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ settings: lastRun.settings, feedback, targets })
+      body: JSON.stringify({ settings: lastRun.settings, feedback, targets, others, remember })
     });
-    const payload = await readSse(res, p => setReviseStatus(p.label));
+    const payload = await readSse(res, p => { if (p.label) setReviseStatus(p.label); });
 
     lastRun.history.push({ results: JSON.parse(JSON.stringify(lastRun.results)), feedback: lastRun.feedback });
     const failed = [];
@@ -453,6 +470,7 @@ async function revise() {
     $('feedback').value = '';
     renderResults(false);
     setReviseStatus(failed.length ? 'Some creatives could not be revised. ' + failed.join(' ') : 'Revised. Changed cells are marked in green.', failed.length > 0);
+    showLearned(payload.learned, remember);
   } catch (e) {
     setReviseStatus('Error: ' + e.message, true);
   } finally {
@@ -468,6 +486,76 @@ function undoRevision() {
   lastRun.feedback = prev.feedback;
   renderResults(false);
   setReviseStatus('Restored the previous version.');
+}
+
+// ─── Team learnings (persistent memory) ──────────────────────────────────────
+
+function memoryQuery() {
+  const clientId = $('client').value;
+  const customName = $('custom-name').value.trim();
+  return { clientId, customName };
+}
+
+async function loadMemory() {
+  const { clientId, customName } = memoryQuery();
+  const panel = $('memory-panel');
+  if (!clientId || (clientId === 'custom' && !customName)) { panel.hidden = true; return; }
+  try {
+    const res = await fetch(`/api/memory?clientId=${encodeURIComponent(clientId)}&customName=${encodeURIComponent(customName)}`);
+    renderMemory(await res.json());
+  } catch (e) {
+    panel.hidden = true;
+  }
+}
+
+function renderMemory(data) {
+  const panel = $('memory-panel');
+  const list = $('memory-list');
+  list.innerHTML = '';
+  const rows = [
+    ...(data.client || []).map(l => ({ ...l, bucket: data.bucket, scope: 'This client' })),
+    ...(data.all || []).map(l => ({ ...l, bucket: 'all-clients', scope: 'All clients' }))
+  ];
+  rows.forEach(l => {
+    const del = el('button', { type: 'button', class: 'icon-btn', title: 'Remove this rule', 'aria-label': 'Remove rule' }, '×');
+    del.addEventListener('click', async () => {
+      await fetch(`/api/memory/${encodeURIComponent(l.bucket)}/${encodeURIComponent(l.id)}`, { method: 'DELETE' });
+      loadMemory();
+    });
+    list.append(el('li', {}, el('span', { class: 'rule' }, l.text), el('span', { class: 'scope-tag' }, l.scope.toUpperCase()), del));
+  });
+  if (!rows.length) list.append(el('li', { class: 'empty-note' }, 'Nothing learned yet. Feedback you give after a run is turned into rules here.'));
+  $('memory-sub').textContent = rows.length ? `${rows.length} rule${rows.length > 1 ? 's' : ''} applied to every run` : 'none yet';
+  panel.hidden = false;
+}
+
+async function addMemoryRule() {
+  const text = $('memory-input').value.trim();
+  if (!text) return;
+  const { clientId, customName } = memoryQuery();
+  const res = await fetch('/api/memory', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ clientId, customName, text, scope: $('memory-scope').value })
+  });
+  if (res.ok) {
+    $('memory-input').value = '';
+    renderMemory(await res.json());
+  }
+}
+
+function showLearned(learned, remember) {
+  if (!remember || !learned) return;
+  const status = $('revise-status');
+  if (learned.error) {
+    status.append(el('div', { class: 'learned' }, learned.error));
+  } else if (learned.added && learned.added.length) {
+    status.append(el('div', { class: 'learned' }, 'Saved to memory: ' + learned.added.map(l => `"${l.text}"`).join(' · ')));
+  } else {
+    status.append(el('div', { class: 'learned' }, 'Nothing new to remember from this note (it looked specific to this run).'));
+  }
+  // Refresh the panel if the form still shows the same client
+  if (lastRun && $('client').value === lastRun.settings.clientId) loadMemory();
 }
 
 // ─── TSV export for Google Sheets ───────────────────────────────────────────

@@ -30,7 +30,7 @@ Upload / brief ──► server.js ──► lib/media.js       (image resize / 
                               UI: per-line char counts, inline editing, Copy for Sheets
 ```
 
-Each uploaded creative gets its own copy set (up to 5 per run, generated in parallel). With no upload, the brief alone produces one set.
+All creatives in a run (up to 5) are written in **one Claude call**, so Claude plans the whole table at once and gives each creative its own angles. After that, every line is checked against every other creative's lines: two lines that share a run of 5+ words, or most of their meaningful words, count as duplicates, and so does any line that lifts 6+ words from an approved example. Only those lines are sent back to be rewritten (up to 2 rounds, together with any lines over the character limit). If a line is still too close after that, its cell gets an amber "Similar to ..." tag. With no upload, the brief alone produces one set.
 
 All creatives appear in **one consolidated table**, laid out like the activation sheet: one row per creative, then Headline 1..n, Primary Text 1..n, Description 1..n across. Every cell is editable and shows its character count. **Copy table for Sheets** copies the whole table; click one cell in Google Sheets and paste.
 
@@ -87,6 +87,17 @@ Past offers are marked as history: the app only puts an offer, price, date or pr
 **Adding a client or new approved copy:** copy one of the JSON files, keep the same structure, and restart the server. For a client that is not in the database, pick **Other (not in database)** in the UI and add brand notes.
 
 ---
+
+## Team learnings (persistent memory)
+
+Feedback typed after a run is also turned into lasting rules, so the tool improves over time:
+
+1. When you press **Revise copy** with "Remember this feedback" ticked, Claude reads the note and keeps only what is worth remembering for future copy, written as short rules (e.g. "Lead headlines with the offer, not the format"). One-off notes like "make headline 2 shorter" are ignored.
+2. Rules are saved per client. A note that clearly applies to everyone ("never use exclamation marks for any client") is saved as an all-clients rule.
+3. Every future run for that client includes its rules plus the all-clients rules. The results header shows how many were applied.
+4. The **Learned from feedback** panel under the client picker lists the rules. You can remove a wrong rule or add one by hand.
+
+Rules are stored as JSON files, one per client. **On Railway, attach a Volume to the service** (Service → Settings → Volumes, any mount path such as `/data`). The app finds it automatically through Railway's `RAILWAY_VOLUME_MOUNT_PATH`, so no extra variable is needed. Without a volume, rules are kept in `data/memory/` and are lost on every redeploy.
 
 ## Local setup
 

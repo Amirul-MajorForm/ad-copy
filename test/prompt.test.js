@@ -2,7 +2,7 @@
 
 const test = require('node:test');
 const assert = require('node:assert');
-const { buildUserPrompt, buildSchema, SYSTEM_PROMPT } = require('../lib/prompt');
+const { buildBatchPrompt, buildSchema, SYSTEM_PROMPT } = require('../lib/prompt');
 const { getPlatform } = require('../lib/platforms');
 const { getObjective } = require('../lib/objectives');
 const { getClient, CLIENTS } = require('../lib/clients');
@@ -29,8 +29,8 @@ test('system prompt keeps the MajorForm method and adds the app rules', () => {
 test('user prompt includes limits, objective, brief and ranks matching examples first', () => {
   const platform = getPlatform('meta');
   const objective = getObjective('retention');
-  const prompt = buildUserPrompt({
-    creative: null,
+  const prompt = buildBatchPrompt({
+    items: [{ label: 'Brief', creative: null }],
     client: getClient('yoga-movement-sg'),
     platform,
     objective,
@@ -49,8 +49,9 @@ test('user prompt includes limits, objective, brief and ranks matching examples 
 
 test('schema only asks for requested fields', () => {
   const schema = buildSchema(getPlatform('google_rsa'), { headlines: 10, descriptions: 0 });
-  assert.deepStrictEqual(schema.required, ['creative_read', 'headlines']);
-  assert.strictEqual(schema.additionalProperties, false);
+  const item = schema.properties.creatives.items;
+  assert.deepStrictEqual(item.required, ['creative_number', 'creative_read', 'headlines']);
+  assert.strictEqual(item.additionalProperties, false);
 });
 
 test('approved STRONG headlines fit the Meta headline limit', () => {
