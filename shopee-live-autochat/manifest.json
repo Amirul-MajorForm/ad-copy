@@ -1,0 +1,17 @@
+{
+  "manifest_version": 3,
+  "name": "Shopee Live Auto Chat",
+  "version": "1.0.0",
+  "description": "Posts scheduled host messages about the currently showing product in a Shopee Live session.",
+  "permissions": ["storage", "alarms", "scripting", "tabs"],
+  "host_permissions": ["https://live.shopee.sg/*"],
+  "background": { "service_worker": "background.js" },
+  "content_scripts": [
+    {
+      "matches": ["https://live.shopee.sg/pc/*"],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "action": { "default_title": "Shopee Live Auto Chat", "default_popup": "popup.html" }
+}
