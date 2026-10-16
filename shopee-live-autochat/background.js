@@ -56,7 +56,17 @@ async function scheduleNext() {
   await chrome.storage.local.set({ nextAt: Date.now() + delay * 60000 });
 }
 
-async function postOnce() {
+// Run posts one at a time so a product change and the timer can't collide.
+let queue = Promise.resolve();
+function enqueue(fn) {
+  const run = queue.then(fn);
+  queue = run.catch(() => {});
+  return run;
+}
+
+// restartProduct: start the product list from its first line (used when a new
+// product starts showing, or when Start is pressed).
+async function postOnce({ restartProduct = false } = {}) {
   const s = await getSettings();
   const tab = await findLiveTab();
   if (!tab) {
@@ -66,6 +76,7 @@ async function postOnce() {
 
   const res = await sendToTab(tab.id, { type: 'getProduct' });
   const product = res && res.product;
+  await chrome.storage.local.set({ lastProductName: product ? product.name : null });
   const listKey = product ? 'productMessages' : 'generalMessages';
   const lines = parseLines(s[listKey]);
   if (!lines.length) {
@@ -74,7 +85,8 @@ async function postOnce() {
   }
 
   const idxKey = listKey + 'Index';
-  const { [idxKey]: idx = 0 } = await chrome.storage.local.get(idxKey);
+  let { [idxKey]: idx = 0 } = await chrome.storage.local.get(idxKey);
+  if (restartProduct && product) idx = 0;
   const line = lines[idx % lines.length];
   await chrome.storage.local.set({ [idxKey]: (idx + 1) % lines.length });
 
@@ -89,26 +101,44 @@ chrome.alarms.onAlarm.addListener(async (alarm) => {
   const s = await getSettings();
   if (!s.running) return;
   try {
-    await postOnce();
+    await enqueue(() => postOnce());
   } catch (e) {
     await addLog({ ok: false, text: 'Error: ' + e.message });
   }
   await scheduleNext();
 });
 
+// A new product started showing: post its first message now and restart the interval.
+function onProductChanged(product) {
+  return enqueue(async () => {
+    const { running, lastProductName } = await chrome.storage.local.get(['running', 'lastProductName']);
+    if (!running) return;
+    const name = product ? product.name : null;
+    if (name === lastProductName) return;
+    if (!product) {
+      await chrome.storage.local.set({ lastProductName: null });
+      return;
+    }
+    await postOnce({ restartProduct: true });
+    await scheduleNext();
+  });
+}
+
 chrome.runtime.onMessage.addListener((msg, _sender, sendResponse) => {
   (async () => {
     if (msg.type === 'start') {
-      await chrome.storage.local.set({ running: true });
+      await chrome.storage.local.set({ running: true, generalMessagesIndex: 0 });
+      const result = await enqueue(() => postOnce({ restartProduct: true }));
       await scheduleNext();
-      return { ok: true };
+      return result;
     }
+    if (msg.type === 'productChanged') return onProductChanged(msg.product);
     if (msg.type === 'stop') {
       await chrome.storage.local.set({ running: false, nextAt: null });
       await chrome.alarms.clear(ALARM);
       return { ok: true };
     }
-    if (msg.type === 'sendNow') return postOnce();
+    if (msg.type === 'sendNow') return enqueue(() => postOnce());
     if (msg.type === 'getProduct') {
       const tab = await findLiveTab();
       if (!tab) return { ok: false, error: 'No Shopee Live tab open.' };

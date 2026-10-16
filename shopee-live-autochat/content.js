@@ -142,5 +142,24 @@
     }
   });
 
+  // Tell the background worker when the showing product changes, once it has
+  // been stable for a couple of seconds (switching products can flicker).
+  let lastReported;
+  let pending = null;
+  function checkProduct() {
+    pending = null;
+    const product = getShowingProduct();
+    const name = product ? product.name : null;
+    if (name === lastReported) return;
+    lastReported = name;
+    chrome.runtime.sendMessage({ type: 'productChanged', product }).catch(() => {});
+  }
+  function scheduleCheck() {
+    if (!pending) pending = setTimeout(checkProduct, 2000);
+  }
+  new MutationObserver(scheduleCheck).observe(document.body, { subtree: true, childList: true, characterData: true });
+  setInterval(scheduleCheck, 30000);
+  scheduleCheck();
+
   window.__shopeeAutoChat = { getShowingProduct, post };
 })();
