@@ -36,10 +36,15 @@
     <input id="jitterMinutes" type="number" min="0"> min
   </div>
 
+  <div class="row">
+    Mix in a general message every <input id="generalEvery" type="number" min="0"> messages
+    <span class="hint">(0 = never)</span>
+  </div>
+
   <label>Product messages <span class="hint">used when a product is showing. {product} {price} {lowprice}</span></label>
   <textarea id="productMessages"></textarea>
 
-  <label>General messages <span class="hint">used when nothing is showing</span></label>
+  <label>General messages <span class="hint">used when nothing is showing, and mixed in while a product is</span></label>
   <textarea id="generalMessages"></textarea>
   <div class="hint">One message per line. Start a line with [pin] to pin it. Max 150 characters each.</div>
 

@@ -77,16 +77,24 @@ async function postOnce({ restartProduct = false } = {}) {
   const res = await sendToTab(tab.id, { type: 'getProduct' });
   const product = res && res.product;
   await chrome.storage.local.set({ lastProductName: product ? product.name : null });
-  const listKey = product ? 'productMessages' : 'generalMessages';
+  // Mix general messages in while a product is showing. A new product's first
+  // message is always the product one.
+  const { sinceGeneral = 0 } = await chrome.storage.local.get('sinceGeneral');
+  const every = Number(s.generalEvery) || 0;
+  const useGeneral =
+    !product ||
+    (!restartProduct && every > 0 && sinceGeneral >= every - 1 && parseLines(s.generalMessages).length > 0);
+  await chrome.storage.local.set({ sinceGeneral: useGeneral ? 0 : (restartProduct ? 0 : sinceGeneral) + 1 });
+  const listKey = useGeneral ? 'generalMessages' : 'productMessages';
   const lines = parseLines(s[listKey]);
   if (!lines.length) {
-    await addLog({ ok: false, text: `No ${product ? 'product' : 'general'} messages set.` });
+    await addLog({ ok: false, text: `No ${useGeneral ? 'general' : 'product'} messages set.` });
     return { ok: false, error: 'No messages set.' };
   }
 
   const idxKey = listKey + 'Index';
   let { [idxKey]: idx = 0 } = await chrome.storage.local.get(idxKey);
-  if (restartProduct && product) idx = 0;
+  if (restartProduct && !useGeneral) idx = 0;
   const line = lines[idx % lines.length];
   await chrome.storage.local.set({ [idxKey]: (idx + 1) % lines.length });
 
@@ -127,7 +135,7 @@ function onProductChanged(product) {
 chrome.runtime.onMessage.addListener((msg, _sender, sendResponse) => {
   (async () => {
     if (msg.type === 'start') {
-      await chrome.storage.local.set({ running: true, generalMessagesIndex: 0 });
+      await chrome.storage.local.set({ running: true, generalMessagesIndex: 0, sinceGeneral: 0 });
       const result = await enqueue(() => postOnce({ restartProduct: true }));
       await scheduleNext();
       return result;

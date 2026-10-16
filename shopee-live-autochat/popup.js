@@ -1,4 +1,4 @@
-const FIELDS = ['intervalMinutes', 'jitterMinutes', 'productMessages', 'generalMessages'];
+const FIELDS = ['intervalMinutes', 'jitterMinutes', 'generalEvery', 'productMessages', 'generalMessages'];
 const $ = (id) => document.getElementById(id);
 const send = (msg) => chrome.runtime.sendMessage(msg);
 

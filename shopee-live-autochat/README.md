@@ -22,6 +22,8 @@ dashboard). When nothing is showing, it uses your general messages instead.
   - Shopee allows 150 characters per message; longer messages are cut off.
 - **Send one now** posts the next message right away (good for a first test).
 - **Start** posts every N minutes, give or take the random variation. **Stop** ends it.
+- While a product is showing, every Nth message (default 3rd) is a general message, so
+  welcome and voucher reminders keep going out. Set it to 0 to turn this off.
 - Messages rotate in order. The log at the bottom shows what was sent and any errors.
 
 ## Notes
