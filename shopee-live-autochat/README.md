@@ -24,6 +24,9 @@ dashboard). When nothing is showing, it uses your general messages instead.
 - **Start** posts every N minutes, give or take the random variation. **Stop** ends it.
 - While a product is showing, every Nth message (default 3rd) is a general message, so
   welcome and voucher reminders keep going out. Set it to 0 to turn this off.
+- Countdown messages go out once per live when the timer reaches each mark, e.g.
+  `60 | [pin] Only 1 hour left!` sends at 1:00:00 on a 120-minute live. A mark is skipped
+  if the extension was started more than 5 minutes after it.
 - Messages rotate in order. The log at the bottom shows what was sent and any errors.
 
 ## Notes

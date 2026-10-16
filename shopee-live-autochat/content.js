@@ -39,6 +39,25 @@
     return { name, price, lowprice };
   }
 
+  // The header shows "Live 00:25:55": seconds since the live started.
+  function getElapsedSeconds() {
+    const times = [...document.querySelectorAll('body *')].filter(
+      (e) => e.children.length === 0 && /^\d{1,2}:\d{2}:\d{2}$/.test(e.textContent.trim())
+    );
+    const nearLive = times.find((e) => {
+      let p = e;
+      for (let i = 0; i < 3 && p.parentElement; i++) {
+        p = p.parentElement;
+        if (/\blive\b/i.test(p.textContent.replace(e.textContent, ''))) return true;
+      }
+      return false;
+    });
+    const el = nearLive || times[0];
+    if (!el) return null;
+    const [h, m, sec] = el.textContent.trim().split(':').map(Number);
+    return h * 3600 + m * 60 + sec;
+  }
+
   function getInput() {
     return (
       document.querySelector('[class*="divTextarea_"][contenteditable="true"]') ||
@@ -135,7 +154,7 @@
 
   chrome.runtime.onMessage.addListener((msg, _sender, sendResponse) => {
     if (msg.type === 'getProduct') {
-      sendResponse({ ok: true, product: getShowingProduct() });
+      sendResponse({ ok: true, product: getShowingProduct(), elapsed: getElapsedSeconds() });
     } else if (msg.type === 'post') {
       post(msg.text, msg.pin).then(sendResponse, (e) => sendResponse({ ok: false, error: String(e) }));
       return true;
@@ -161,5 +180,11 @@
   setInterval(scheduleCheck, 30000);
   scheduleCheck();
 
-  window.__shopeeAutoChat = { getShowingProduct, post };
+  // Report the live timer so the background can send countdown messages.
+  setInterval(() => {
+    const elapsed = getElapsedSeconds();
+    if (elapsed != null) chrome.runtime.sendMessage({ type: 'timer', elapsed }).catch(() => {});
+  }, 10000);
+
+  window.__shopeeAutoChat = { getShowingProduct, getElapsedSeconds, post };
 })();

@@ -1,4 +1,4 @@
-const FIELDS = ['intervalMinutes', 'jitterMinutes', 'generalEvery', 'productMessages', 'generalMessages'];
+const FIELDS = ['intervalMinutes', 'jitterMinutes', 'generalEvery', 'liveDurationMinutes', 'productMessages', 'generalMessages', 'countdownMessages'];
 const $ = (id) => document.getElementById(id);
 const send = (msg) => chrome.runtime.sendMessage(msg);
 
@@ -34,8 +34,11 @@ async function loadForm() {
 async function showProduct() {
   const res = await send({ type: 'getProduct' }).catch(() => null);
   if (!res || res.ok === false) $('product').textContent = (res && res.error) || 'Open the Shopee Live dashboard tab.';
-  else if (!res.product) $('product').textContent = 'Showing product: none (general messages will be used)';
-  else $('product').textContent = `Showing product: ${res.product.name} (${res.product.price})`;
+  else {
+    const p = res.product ? `${res.product.name} (${res.product.price})` : 'none (general messages will be used)';
+    const t = res.elapsed == null ? 'not found' : new Date(res.elapsed * 1000).toISOString().slice(11, 19);
+    $('product').textContent = `Showing product: ${p}. Live timer: ${t}`;
+  }
 }
 
 $('save').onclick = async () => { await save(); $('save').textContent = 'Saved'; setTimeout(() => ($('save').textContent = 'Save'), 1200); };

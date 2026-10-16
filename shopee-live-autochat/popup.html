@@ -46,7 +46,11 @@
 
   <label>General messages <span class="hint">used when nothing is showing, and mixed in while a product is</span></label>
   <textarea id="generalMessages"></textarea>
-  <div class="hint">One message per line. Start a line with [pin] to pin it. Max 150 characters each.</div>
+
+  <label>Countdown messages <span class="hint">minutes left | message</span></label>
+  <div class="row">Live length <input id="liveDurationMinutes" type="number" min="1"> min</div>
+  <textarea id="countdownMessages"></textarea>
+  <div class="hint">One message per line. Start a message with [pin] to pin it. Max 150 characters each.</div>
 
   <div id="log"></div>
   <script src="defaults.js"></script>

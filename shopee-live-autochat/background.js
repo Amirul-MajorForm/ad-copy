@@ -132,7 +132,47 @@ function onProductChanged(product) {
   });
 }
 
-chrome.runtime.onMessage.addListener((msg, _sender, sendResponse) => {
+function parseCountdown(text) {
+  return (text || '')
+    .split('\n')
+    .map((l) => l.match(/^\s*(\d+)\s*\|\s*(.+)$/))
+    .filter(Boolean)
+    .map((m) => {
+      const pin = /^\[pin\]/i.test(m[2]);
+      return { minutesLeft: Number(m[1]), template: m[2].replace(/^\[pin\]\s*/i, ''), pin };
+    });
+}
+
+// Only send a countdown message within this many seconds after its mark, so
+// starting the extension late in a live doesn't fire old marks.
+const COUNTDOWN_WINDOW = 300;
+
+function onTimer(elapsed, tab) {
+  return enqueue(async () => {
+    const s = await getSettings();
+    if (!s.running || !tab) return;
+    const session = new URL(tab.url).searchParams.get('session') || tab.url;
+    const { countdownSent = {} } = await chrome.storage.local.get('countdownSent');
+    const sent = countdownSent[session] || [];
+    const total = Number(s.liveDurationMinutes) * 60;
+
+    const due = parseCountdown(s.countdownMessages).find((c) => {
+      const mark = total - c.minutesLeft * 60;
+      return !sent.includes(c.minutesLeft) && elapsed >= mark && elapsed < mark + COUNTDOWN_WINDOW;
+    });
+    if (!due) return;
+
+    await chrome.storage.local.set({ countdownSent: { [session]: [...sent, due.minutesLeft] } });
+    const res = await sendToTab(tab.id, { type: 'getProduct' });
+    const text = fill(due.template, res && res.product);
+    const result = await sendToTab(tab.id, { type: 'post', text, pin: due.pin });
+    await addLog({ ok: !!(result && result.ok), pin: due.pin, text, error: result && (result.error || result.note) });
+    // Give the countdown message room before the next timed one.
+    await scheduleNext();
+  });
+}
+
+chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
   (async () => {
     if (msg.type === 'start') {
       await chrome.storage.local.set({ running: true, generalMessagesIndex: 0, sinceGeneral: 0 });
@@ -141,6 +181,7 @@ chrome.runtime.onMessage.addListener((msg, _sender, sendResponse) => {
       return result;
     }
     if (msg.type === 'productChanged') return onProductChanged(msg.product);
+    if (msg.type === 'timer') return onTimer(msg.elapsed, sender.tab);
     if (msg.type === 'stop') {
       await chrome.storage.local.set({ running: false, nextAt: null });
       await chrome.alarms.clear(ALARM);
