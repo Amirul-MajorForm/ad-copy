@@ -4,9 +4,7 @@
   <meta charset="utf-8">
   <style>
     body { width: 380px; margin: 0; padding: 12px; font: 13px -apple-system, BlinkMacSystemFont, sans-serif; color: #222; }
-    h1 { font-size: 15px; margin: 0; color: #ee4d2d; flex: 1; }
-    #clientName { width: 120px; }
-    body.tab { margin: 0 auto; }
+    h1 { font-size: 15px; margin: 0 0 8px; color: #ee4d2d; }
     .row { display: flex; gap: 8px; align-items: center; margin-bottom: 8px; }
     label { font-weight: 600; display: block; margin: 10px 0 4px; }
     .hint { font-weight: 400; color: #777; font-size: 11px; }
@@ -23,9 +21,7 @@
   </style>
 </head>
 <body>
-  <div class="row"><h1>Shopee Live Auto Chat</h1>
-    <input id="clientName" placeholder="Client name" title="Which client this profile is for">
-  </div>
+  <h1 id="title">Shopee Live Auto Chat</h1>
   <div id="status">Stopped</div>
   <div id="product">Showing product: checking...</div>
 
@@ -33,11 +29,6 @@
     <button id="toggle" class="primary">Start</button>
     <button id="sendNow">Send one now</button>
     <button id="save">Save</button>
-  </div>
-  <div class="row">
-    <button id="exportBtn">Export settings</button>
-    <button id="importBtn">Import settings</button>
-    <input id="importFile" type="file" accept=".json,application/json" hidden>
   </div>
 
   <div class="row">

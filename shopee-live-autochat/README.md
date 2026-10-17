@@ -32,13 +32,12 @@ dashboard). When nothing is showing, it uses your general messages instead.
   are skipped when no tip matches the product.
 - Messages rotate in order. The log at the bottom shows what was sent and any errors.
 
-## Clients, profiles and computers
+## Clients
 
-- Settings are saved per Chrome profile and per computer. Each client's profile keeps its own setup.
-- **Export settings** saves the current setup as a `.json` file. **Import settings** loads one
-  (it opens a full tab, because a file picker would close the popup).
-- Ready-made setups live in `presets/`, e.g. `presets/shiseido-professional-autochat.json`.
-  Update vouchers and gifts in them to match each campaign.
+- Each client gets its own build with its messages filled in: `clients/<client>/defaults.js`.
+- Build a client's zip with `./build-client.sh shiseido-professional`. Install it in that
+  client's Chrome profile from its own folder.
+- Settings are saved per Chrome profile and per computer; they do not sync between computers.
 
 ## Notes
 
