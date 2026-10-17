@@ -53,6 +53,10 @@ async function findLiveTab() {
 }
 
 async function sendToTab(tabId, msg) {
+  // Never post a message with a code that wasn't filled in, e.g. "{range}".
+  const leftover = msg.type === 'post' && msg.text.match(/\{[a-z]+\}/i);
+  if (leftover) return { ok: false, error: `Not sent: ${leftover[0]} is not a known code. Edit this message in the popup.` };
+
   try {
     return await chrome.tabs.sendMessage(tabId, msg);
   } catch {
@@ -212,6 +216,18 @@ function onTimer(elapsed, tab) {
     await scheduleNext();
   });
 }
+
+// Saved settings from versions that used {range}/{tip} would post those codes as
+// text. On update, replace any such messages (and the old-style product tips,
+// which were descriptions rather than full messages) with this build's defaults.
+chrome.runtime.onInstalled.addListener(async () => {
+  const keys = ['productMessages', 'generalMessages', 'countdownMessages', 'tipMessages'];
+  const stored = await chrome.storage.local.get(keys);
+  const old = keys.filter((k) => /\{(range|tip)\}/.test(stored[k] || ''));
+  if (!old.length) return;
+  await chrome.storage.local.remove([...old, 'productTips', 'tipMessages', 'tipMessagesIndex', 'productMessagesIndex']);
+  await addLog({ ok: true, text: 'Updated messages that used the old {range}/{tip} codes to the new defaults.' });
+});
 
 chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
   (async () => {
