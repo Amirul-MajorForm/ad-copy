@@ -3,17 +3,33 @@
  * Scattered dots flow into wave lines, then a growth path draws through them.
  * Loop: Observe (scatter) -> Decide (waves) -> Act (path) -> back to scatter.
  *
- * Usage: <div data-hero-dots data-preset="dark"></div> and include this script.
- * Optional attributes: data-bg (hex or "transparent"), data-dot, data-accent,
- * data-mint, data-speed (1 = normal), data-interactive ("false" to disable cursor).
+ * Usage: <div data-hero-dots data-mode="dark" data-palette="ember"></div> and include this script.
+ * Optional attributes:
+ *   data-mode         "dark" or "light" (background and field dots)
+ *   data-palette      "ember", "citron", "ice" or "coral" (cobalt path + one highlight colour)
+ *   data-fill         "section" to fill the closest <section> (for Squarespace code blocks)
+ *   data-labels       "false" to hide the Observe / Decide / Act labels
+ *   data-bg           hex or "transparent"; data-dot, data-accent, data-highlight override colours
+ *   data-speed        1 = normal; data-interactive "false" disables the cursor push
  */
 (function () {
   "use strict";
 
-  var PRESETS = {
-    dark: { bg: "#0b0b0e", dot: "#ecebf6", accent: "#7b6bff", mint: "#5fe3b0", dotAlpha: 1 },
-    light: { bg: "#f6f4ee", dot: "#3a2be0", accent: "#3a2be0", mint: "#4fd9a4", dotAlpha: 0.9 }
+  var MODES = {
+    dark: { bg: "#0b0b0e", dot: "#dfe5ff", dotAlpha: 1 },
+    light: { bg: "#f6f4ee", dot: null, dotAlpha: 0.85 } // null: field dots use the cobalt accent
   };
+
+  // Cobalt path colour per mode (brighter on dark so it holds contrast), plus a highlight colour.
+  var PALETTES = {
+    ember: { accent: ["#3d6bff", "#0047ab"], highlight: ["#ff7a3d", "#f2662a"] },
+    citron: { accent: ["#3d6bff", "#0047ab"], highlight: ["#d9f24e", "#9fbf0a"] },
+    ice: { accent: ["#3d6bff", "#0047ab"], highlight: ["#a8d4ff", "#5aa8f5"] },
+    coral: { accent: ["#3d6bff", "#0047ab"], highlight: ["#ff6b81", "#ec4d68"] }
+  };
+
+  var LABELS = ["Observe", "Decide", "Act"];
+  var LABEL_FONT = "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500&display=swap";
 
   var LOOP = 14; // seconds per Observe -> Decide -> Act cycle
 
@@ -29,18 +45,29 @@
     return { morph: morph, path: path, pathAlpha: pathAlpha, phase: phase };
   }
 
+  // Squarespace sections keep their background in .section-background, behind the content.
+  function resolveHost(el) {
+    if (el.dataset.fill !== "section") return el;
+    var section = el.closest("section");
+    if (!section) return el;
+    el.style.display = "none";
+    return section.querySelector(".section-background") || section;
+  }
+
   function HeroDots(el, opts) {
     opts = opts || {};
     var ds = el.dataset;
-    this.el = el;
+    this.el = el = resolveHost(el);
     this.speed = parseFloat(opts.speed || ds.speed || 1) || 1;
     this.interactive = (opts.interactive !== undefined ? opts.interactive : ds.interactive) + "" !== "false";
+    this.showLabels = (opts.labels !== undefined ? opts.labels : ds.labels) + "" !== "false";
     this.onPhase = opts.onPhase || null;
     this.overrides = {
-      bg: opts.bg || ds.bg, dot: opts.dot || ds.dot,
-      accent: opts.accent || ds.accent, mint: opts.mint || ds.mint
+      bg: opts.bg || ds.bg, dot: opts.dot || ds.dot, accent: opts.accent || ds.accent,
+      highlight: opts.highlight || ds.highlight || ds.mint
     };
-    this.setPreset(opts.preset || ds.preset || "dark");
+    this.mode = opts.mode || ds.mode || ds.preset || "dark";
+    this.palette = opts.palette || ds.palette || "ember";
 
     if (getComputedStyle(el).position === "static") el.style.position = "relative";
     var c = this.canvas = document.createElement("canvas");
@@ -48,6 +75,8 @@
     c.style.cssText = "position:absolute;inset:0;width:100%;height:100%;display:block;pointer-events:none";
     el.insertBefore(c, el.firstChild);
     this.ctx = c.getContext("2d");
+    if (this.showLabels) this.buildLabels();
+    this.applyColors();
 
     this.t = 0;
     this.last = 0;
@@ -90,14 +119,59 @@
     }
   }
 
-  HeroDots.prototype.setPreset = function (name) {
-    var p = PRESETS[name] || PRESETS.dark, o = this.overrides;
-    this.colors = {
-      bg: o.bg || p.bg, dot: o.dot || p.dot, accent: o.accent || p.accent,
-      mint: o.mint || p.mint, dotAlpha: p.dotAlpha
-    };
-    if (this.reduced && this.ctx) this.draw();
+  HeroDots.prototype.buildLabels = function () {
+    if (!document.querySelector('link[href="' + LABEL_FONT + '"]')) {
+      var link = document.createElement("link");
+      link.rel = "stylesheet";
+      link.href = LABEL_FONT;
+      document.head.appendChild(link);
+    }
+    var wrap = this.labelWrap = document.createElement("div");
+    wrap.setAttribute("aria-hidden", "true");
+    wrap.style.cssText = "position:absolute;left:20px;bottom:16px;z-index:1;display:flex;gap:16px;" +
+      "pointer-events:none;font:500 10px/1 'Space Grotesk',system-ui,sans-serif;" +
+      "letter-spacing:.16em;text-transform:uppercase";
+    this.labelEls = LABELS.map(function (text) {
+      var item = document.createElement("span");
+      item.style.cssText = "display:inline-flex;align-items:center;gap:6px;opacity:.4;transition:opacity .4s";
+      var dot = document.createElement("i");
+      dot.style.cssText = "width:5px;height:5px;border-radius:50%;background:currentColor;transition:background .4s";
+      item.appendChild(dot);
+      item.appendChild(document.createTextNode(text));
+      wrap.appendChild(item);
+      return item;
+    });
+    this.el.appendChild(wrap);
   };
+
+  HeroDots.prototype.updateLabels = function () {
+    if (!this.labelEls) return;
+    var c = this.colors, phase = this.phase;
+    this.labelWrap.style.color = c.label;
+    this.labelEls.forEach(function (item, i) {
+      item.style.opacity = i === phase ? "1" : ".4";
+      item.firstChild.style.background = i === phase ? c.highlight : "currentColor";
+    });
+  };
+
+  HeroDots.prototype.applyColors = function () {
+    var dark = this.mode !== "light", i = dark ? 0 : 1;
+    var m = MODES[this.mode] || MODES.dark;
+    var p = PALETTES[this.palette] || PALETTES.ember;
+    var o = this.overrides;
+    var accent = o.accent || p.accent[i];
+    this.colors = {
+      bg: o.bg || m.bg, dot: o.dot || m.dot || accent, accent: accent,
+      highlight: o.highlight || p.highlight[i], dotAlpha: m.dotAlpha,
+      label: dark ? "#eef1ff" : "#14161f"
+    };
+    this.updateLabels();
+    if (this.reduced && this.W) this.draw();
+  };
+
+  HeroDots.prototype.setMode = function (mode) { this.mode = mode; this.applyColors(); };
+  HeroDots.prototype.setPalette = function (name) { this.palette = name; this.applyColors(); };
+  HeroDots.prototype.setPreset = HeroDots.prototype.setMode;
 
   HeroDots.prototype.resize = function () {
     var r = this.el.getBoundingClientRect();
@@ -172,6 +246,7 @@
 
     if (tl.phase !== this.phase) {
       this.phase = tl.phase;
+      this.updateLabels();
       if (this.onPhase) this.onPhase(tl.phase);
     }
 
@@ -209,8 +284,8 @@
       ctx.fill();
     }
 
-    // Mint accent dots
-    ctx.fillStyle = c.mint;
+    // Highlight dots
+    ctx.fillStyle = c.highlight;
     for (var j = 0; j < this.mints.length; j++) {
       var md = this.mints[j];
       var mm = ease(tl.morph * 1.5 - md.u * 0.4);
@@ -272,6 +347,7 @@
     window.removeEventListener("pointermove", this.onMove);
     document.removeEventListener("pointerleave", this.onLeave);
     this.canvas.remove();
+    if (this.labelWrap) this.labelWrap.remove();
   };
 
   function mountAll() {
