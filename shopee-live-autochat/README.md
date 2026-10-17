@@ -27,7 +27,18 @@ dashboard). When nothing is showing, it uses your general messages instead.
 - Countdown messages go out once per live when the timer reaches each mark, e.g.
   `60 | [pin] Only 1 hour left!` sends at 1:00:00 on a 120-minute live. A mark is skipped
   if the extension was started more than 5 minutes after it.
+- **Product tips** (`keyword | tip`): when the showing product's name contains the keyword,
+  `{range}` becomes the keyword and `{tip}` the tip. Message lines that use `{range}` or `{tip}`
+  are skipped when no tip matches the product.
 - Messages rotate in order. The log at the bottom shows what was sent and any errors.
+
+## Clients, profiles and computers
+
+- Settings are saved per Chrome profile and per computer. Each client's profile keeps its own setup.
+- **Export settings** saves the current setup as a `.json` file. **Import settings** loads one
+  (it opens a full tab, because a file picker would close the popup).
+- Ready-made setups live in `presets/`, e.g. `presets/shiseido-professional-autochat.json`.
+  Update vouchers and gifts in them to match each campaign.
 
 ## Notes
 

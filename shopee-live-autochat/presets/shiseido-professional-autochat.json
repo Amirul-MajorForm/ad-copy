@@ -1,0 +1,11 @@
+{
+  "clientName": "Shiseido Professional",
+  "intervalMinutes": 10,
+  "jitterMinutes": 1,
+  "generalEvery": 3,
+  "liveDurationMinutes": 120,
+  "productTips": "Adenovital | for thinning, flat hair. Supports scalp, roots & hair for fuller-looking hair\nAqua Intensive | for damaged hair from colouring & perming. Replenishes lost moisture\nLuminoforce | for coloured hair. Protects colour while boosting shine & smoothness\nAiry Flow | for frizzy, wavy hair. Uses everyday heat to make hair easier to manage\nFuente Forte | for scalp dryness, oiliness, dandruff & itchiness. Hydrates the scalp\nTimetic | for premium anti-ageing scalp & hair care that follows your circadian rhythm\nWonder Shield | for everyday protection from heat, UV, humidity & pollution",
+  "productMessages": "[pin] Now showing: SUBLIMIC {range}, {tip} ✨\nNow showing: {product}. Enjoy 12% off with our live voucher, no min spend 🎟️\nSUBLIMIC {range} is {tip}. Ask us anything about it 💬\nNot sure which SUBLIMIC range suits you? Share your hair & scalp concerns and we'll recommend one 💬",
+  "generalMessages": "[pin] Welcome to Shiseido Professional Live! SUBLIMIC is our premium salon range from Japan. Share your hair concerns & we'll recommend a match ✨\n[pin] LIVE-EXCLUSIVE: 12% off voucher with no min spend + 5% off all single items. Claim them in the bag icon 🎟️\n[pin] SPEND & WIN: Spend $90 during the live & comment your order ID to win SUBLIMIC Luminoforce Shampoo 50ml! 3 winners this live 🎁\nFREE GIFT: SUBLIMIC Fuente Forte Oily Scalp Shampoo & Treatment 10ml (worth $8) with any purchase, no min spend 🎁\nMore savings storewide: 11% off min spend $90 (capped $10) & 13% off min spend $120 (capped $16) 🛍️",
+  "countdownMessages": "60 | [pin] 1 hour left! Our 12% live voucher & free Fuente Forte minis are only here during the stream ✨\n30 | [pin] 30 minutes left! Spend $90 & comment your order ID to win SUBLIMIC Luminoforce Shampoo 50ml 🎁\n10 | [pin] Final 10 minutes! Live-exclusive vouchers end with the stream, check out now ✨"
+}

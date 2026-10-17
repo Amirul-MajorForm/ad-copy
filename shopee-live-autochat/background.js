@@ -19,8 +19,24 @@ function parseLines(text) {
     });
 }
 
-function fill(template, product) {
+// Product tips: "keyword | tip" lines. The first keyword found in the product
+// name gives {range} and {tip}.
+function findTip(product, tipsText) {
+  if (!product) return null;
+  const name = product.name.toLowerCase();
+  for (const line of (tipsText || '').split('\n')) {
+    const m = line.match(/^\s*([^|]+?)\s*\|\s*(.+?)\s*$/);
+    if (m && name.includes(m[1].toLowerCase())) return { range: m[1], tip: m[2] };
+  }
+  return null;
+}
+
+const NEEDS_TIP = /\{(range|tip)\}/;
+
+function fill(template, product, tip) {
   return template
+    .replace(/\{range\}/g, tip ? tip.range : '')
+    .replace(/\{tip\}/g, tip ? tip.tip : '')
     .replace(/\{product\}/g, product ? product.name : '')
     .replace(/\{price\}/g, product ? product.price : '')
     .replace(/\{lowprice\}/g, product ? product.lowprice : '')
@@ -95,10 +111,19 @@ async function postOnce({ restartProduct = false } = {}) {
   const idxKey = listKey + 'Index';
   let { [idxKey]: idx = 0 } = await chrome.storage.local.get(idxKey);
   if (restartProduct && !useGeneral) idx = 0;
-  const line = lines[idx % lines.length];
-  await chrome.storage.local.set({ [idxKey]: (idx + 1) % lines.length });
 
-  const text = fill(line.template, product);
+  // Skip lines using {range}/{tip} when the showing product has no tip.
+  const tip = findTip(product, s.productTips);
+  let k = 0;
+  while (k < lines.length && !tip && NEEDS_TIP.test(lines[(idx + k) % lines.length].template)) k++;
+  if (k === lines.length) {
+    await addLog({ ok: false, text: 'Every message needs a product tip, but none matches this product.' });
+    return { ok: false, error: 'No usable message.' };
+  }
+  const line = lines[(idx + k) % lines.length];
+  await chrome.storage.local.set({ [idxKey]: (idx + k + 1) % lines.length });
+
+  const text = fill(line.template, product, tip);
   const result = await sendToTab(tab.id, { type: 'post', text, pin: line.pin });
   await addLog({ ok: !!(result && result.ok), pin: line.pin, text, error: result && (result.error || result.note) });
   return result;
@@ -164,7 +189,8 @@ function onTimer(elapsed, tab) {
 
     await chrome.storage.local.set({ countdownSent: { [session]: [...sent, due.minutesLeft] } });
     const res = await sendToTab(tab.id, { type: 'getProduct' });
-    const text = fill(due.template, res && res.product);
+    const product = res && res.product;
+    const text = fill(due.template, product, findTip(product, s.productTips));
     const result = await sendToTab(tab.id, { type: 'post', text, pin: due.pin });
     await addLog({ ok: !!(result && result.ok), pin: due.pin, text, error: result && (result.error || result.note) });
     // Give the countdown message room before the next timed one.

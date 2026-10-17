@@ -13,6 +13,8 @@ const DEFAULT_SETTINGS = {
     '30 | [pin] 30 minutes left! Check out now to enjoy live-only prices ⏰',
     '10 | [pin] Final 10 minutes! Last chance for our live-only deals, check out now 🔥'
   ].join('\n'),
+  // Product tips: "keyword | tip". Used by {range} and {tip} in messages.
+  productTips: '',
   productMessages: [
     '[pin] Now showing: {product}! Only {price} on this live. Tap the bag icon to grab it 🛒',
     'Loving the {product}? Get it from {lowprice} today, add to cart now!',
