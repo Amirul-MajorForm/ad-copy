@@ -93,7 +93,7 @@
     if (getComputedStyle(el).position === "static") el.style.position = "relative";
     var c = this.canvas = document.createElement("canvas");
     c.setAttribute("aria-hidden", "true");
-    c.style.cssText = "position:absolute;inset:0;width:100%;height:100%;display:block;pointer-events:none";
+    c.style.cssText = "position:absolute;top:0;left:0;width:100%;height:100%;display:block;pointer-events:none";
     el.insertBefore(c, el.firstChild);
     this.ctx = c.getContext("2d");
     if (this.showLabels) this.buildLabels();
@@ -127,7 +127,8 @@
       document.addEventListener("pointerleave", this.onLeave);
     }
     if (window.IntersectionObserver) {
-      this.io = new IntersectionObserver(function (en) { self.visible = en[0].isIntersecting; });
+      // Safari can batch several entries into one callback; the last one is current.
+      this.io = new IntersectionObserver(function (en) { self.visible = en[en.length - 1].isIntersecting; });
       this.io.observe(el);
     }
 
