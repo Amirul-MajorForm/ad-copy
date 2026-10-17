@@ -34,6 +34,8 @@ function findTip(product, tipsText) {
 }
 
 function fill(template, product) {
+  // No price shown for this product (some bundles): drop "at/from/only {price}".
+  if (product && !product.price) template = template.replace(/\s*(?:at|from|only)?\s*\{(?:low)?price\}/gi, '');
   return template
     .replace(/\{product\}/g, product ? product.name : '')
     .replace(/\{price\}/g, product ? product.price : '')

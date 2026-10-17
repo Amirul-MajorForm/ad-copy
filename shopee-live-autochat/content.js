@@ -5,13 +5,32 @@
   window.__shopeeAutoChatLoaded = true;
 
   const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
-  const PRICE_RE = /\$\s?[\d,]+(?:\.\d+)?(?:\s*~\s*\$\s?[\d,]+(?:\.\d+)?)?/;
+  const PRICE_RE = /\$\s?[\d,]+(?:\.\d+)?(?:\s*[~\-–]\s*\$\s?[\d,]+(?:\.\d+)?)?/;
 
-  function leafTexts(root) {
-    return [...root.querySelectorAll('*')]
-      .filter((e) => e.children.length === 0)
-      .map((e) => e.textContent.trim())
-      .filter(Boolean);
+  // Text of an element with a space between child elements, so a separate label
+  // like "[Buy 2 Get 1]" doesn't run into the rest of the name.
+  function textOf(el) {
+    const parts = [];
+    const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+    while (walker.nextNode()) parts.push(walker.currentNode.nodeValue);
+    return parts.join(' ').replace(/\s+/g, ' ').trim();
+  }
+
+  // Name candidates: any element's text that isn't the "Showing" tip, the
+  // "Product List" link or a price. The longest one is the product name, which
+  // keeps labels such as "[Buy 2 Get 1]" attached to it.
+  // Only elements that are a single line of text: no children, or only inline
+  // children such as a "[Buy 2 Get 1]" label. Excludes wrappers that bundle the
+  // name with other lines like "Stock 12".
+  function isTextLine(el) {
+    return [...el.children].every((c) => getComputedStyle(c).display.startsWith('inline'));
+  }
+
+  function nameCandidates(box) {
+    return [...box.querySelectorAll('*')]
+      .filter(isTextLine)
+      .map(textOf)
+      .filter((t) => t.length >= 4 && !/showing|product list/i.test(t) && !PRICE_RE.test(t));
   }
 
   // Shopee's class names carry a build hash (e.g. showing-tip_a09d3), so match the prefix.
@@ -21,21 +40,29 @@
     const count = parseInt(tip.textContent, 10);
     if (count === 0) return null;
 
+    // Climb from the tip to the first box with a name in it, then up to two more
+    // levels for a price (bundles may show none). Stop as soon as a level brings
+    // in any other product's name, so a price from the product list is never used.
     let box = tip;
-    for (let i = 0; i < 6 && box.parentElement; i++) {
+    let name = null;
+    let priceBox = null;
+    for (let i = 0, sinceName = 0; i < 6 && box.parentElement && sinceName <= 2; i++) {
       box = box.parentElement;
-      if (PRICE_RE.test(box.textContent)) break;
+      const candidates = nameCandidates(box);
+      if (!candidates.length) continue;
+      const longest = candidates.sort((a, b) => b.length - a.length)[0];
+      if (!name) name = longest;
+      else if (candidates.some((c) => !name.includes(c))) break;
+      sinceName++;
+      if (PRICE_RE.test(textOf(box))) {
+        priceBox = box;
+        break;
+      }
     }
-    const full = box.textContent.replace(/\s+/g, ' ');
-    const priceMatch = full.match(PRICE_RE);
-    if (!priceMatch) return null;
-    const price = priceMatch[0].replace(/\s*~\s*/, ' ~ ');
-    const lowprice = price.split('~')[0].trim();
-
-    const name = leafTexts(box)
-      .filter((t) => !/showing/i.test(t) && !/^product list$/i.test(t) && !PRICE_RE.test(t) && t !== '~')
-      .sort((a, b) => b.length - a.length)[0];
     if (!name) return null;
+    const priceMatch = priceBox && textOf(priceBox).match(PRICE_RE);
+    const price = priceMatch ? priceMatch[0].replace(/\s*[~\-–]\s*/, ' ~ ') : '';
+    const lowprice = price.split('~')[0].trim();
     return { name, price, lowprice };
   }
 
