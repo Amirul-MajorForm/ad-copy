@@ -3,25 +3,64 @@
 <head>
   <meta charset="utf-8">
   <style>
-    body { width: 380px; margin: 0; padding: 12px; font: 13px -apple-system, BlinkMacSystemFont, sans-serif; color: #222; }
-    h1 { font-size: 15px; margin: 0 0 8px; color: #ee4d2d; }
+    @font-face { font-family: 'DM Sans'; font-weight: 600; src: url(fonts/dm-sans-latin-600-normal.woff2) format('woff2'); }
+    @font-face { font-family: 'DM Sans'; font-weight: 700; src: url(fonts/dm-sans-latin-700-normal.woff2) format('woff2'); }
+    @font-face { font-family: 'Space Grotesk'; font-weight: 400; src: url(fonts/space-grotesk-latin-400-normal.woff2) format('woff2'); }
+    @font-face { font-family: 'Space Grotesk'; font-weight: 500; src: url(fonts/space-grotesk-latin-500-normal.woff2) format('woff2'); }
+    @font-face { font-family: 'Space Grotesk'; font-weight: 600; src: url(fonts/space-grotesk-latin-600-normal.woff2) format('woff2'); }
+
+    /* MajorForm colours, taken from the logo. */
+    :root {
+      --navy: #172935;
+      --navy-soft: #e8ecef;
+      --line: #d3dadf;
+      --muted: #5d6b75;
+      --white: #ffffff;
+      --error: #b3261e;
+    }
+    body { width: 380px; margin: 0; padding: 0; background: var(--white); color: var(--navy);
+           font: 13px 'Space Grotesk', -apple-system, sans-serif; }
+    main { padding: 12px 14px 4px; }
+    header { display: flex; align-items: center; gap: 10px; padding: 12px 14px; border-bottom: 1px solid var(--line); }
+    header img { width: 28px; height: 28px; }
+    h1, label { font-family: 'DM Sans', -apple-system, sans-serif; }
+    h1 { font-size: 15px; font-weight: 700; margin: 0; line-height: 1.25; }
+    label { font-weight: 600; font-size: 13px; display: block; margin: 14px 0 4px; }
     .row { display: flex; gap: 8px; align-items: center; margin-bottom: 8px; }
-    label { font-weight: 600; display: block; margin: 10px 0 4px; }
-    .hint { font-weight: 400; color: #777; font-size: 11px; }
-    textarea { width: 100%; box-sizing: border-box; height: 80px; font: 12px inherit; }
-    input[type=number] { width: 52px; }
-    button { padding: 6px 10px; border: 1px solid #ccc; background: #fff; border-radius: 4px; cursor: pointer; }
-    button.primary { background: #ee4d2d; color: #fff; border-color: #ee4d2d; }
-    #status { padding: 6px 8px; border-radius: 4px; background: #f3f3f3; margin-bottom: 8px; }
-    #status.on { background: #e7f6ec; color: #11692f; }
-    #product { font-size: 12px; color: #444; margin-bottom: 8px; }
-    #log { max-height: 140px; overflow-y: auto; font-size: 11px; border-top: 1px solid #eee; margin-top: 8px; padding-top: 6px; }
+    .hint { font-family: 'Space Grotesk', sans-serif; font-weight: 400; color: var(--muted); font-size: 11px; }
+    textarea, input { font: 12px 'Space Grotesk', sans-serif; color: var(--navy); border: 1px solid var(--line); border-radius: 6px; }
+    textarea { width: 100%; box-sizing: border-box; height: 80px; padding: 6px; }
+    textarea:focus, input:focus { outline: 2px solid var(--navy); outline-offset: -1px; }
+    input[type=number] { width: 48px; padding: 3px 4px; }
+    button { font: 500 12px 'Space Grotesk', sans-serif; padding: 7px 12px; border: 1px solid var(--navy);
+             background: var(--white); color: var(--navy); border-radius: 6px; cursor: pointer; }
+    button:hover { background: var(--navy-soft); }
+    button.primary { background: var(--navy); color: var(--white); }
+    button.primary:hover { opacity: 0.9; }
+    button:disabled { opacity: 0.5; cursor: default; }
+    #status { padding: 7px 10px; border-radius: 6px; background: var(--navy-soft); margin-bottom: 8px; font-weight: 500; }
+    #status.on { background: var(--navy); color: var(--white); }
+    #product { font-size: 12px; color: var(--muted); margin-bottom: 10px; }
+    #log { max-height: 140px; overflow-y: auto; font-size: 11px; border-top: 1px solid var(--line); margin-top: 12px; padding-top: 8px; }
     #log div { margin-bottom: 4px; }
-    .bad { color: #c0392b; }
+    #log:empty { display: none; }
+    #client { font-size: 12px; }
+    .bad { color: var(--error); }
+    footer { display: flex; align-items: center; justify-content: center; gap: 6px; padding: 10px 14px 12px;
+             border-top: 1px solid var(--line); margin-top: 8px; font-size: 11px; color: var(--muted); }
+    footer img { width: 14px; height: 14px; }
+    footer strong { font-family: 'DM Sans', sans-serif; font-weight: 700; color: var(--navy); }
   </style>
 </head>
 <body>
-  <h1 id="title">Shopee Live Auto Chat</h1>
+  <header>
+    <img src="icons/logo.png" alt="MajorForm">
+    <div>
+      <h1>Shopee Live Auto Chat</h1>
+      <div id="client" class="hint"></div>
+    </div>
+  </header>
+  <main>
   <div id="status">Stopped</div>
   <div id="product">Showing product: checking...</div>
 
@@ -56,6 +95,8 @@
   <div class="hint">One message per line. Start a message with [pin] to pin it. Max 150 characters each.</div>
 
   <div id="log"></div>
+  </main>
+  <footer><img src="icons/icon32.png" alt="">Powered by <strong>MajorForm</strong></footer>
   <script src="defaults.js"></script>
   <script src="popup.js"></script>
 </body>
