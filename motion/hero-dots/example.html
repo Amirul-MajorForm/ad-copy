@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hero Dots Example</title>
+  <style>
+    body { margin: 0; background: #2b2a2d; font-family: system-ui, sans-serif; }
+    .hero {
+      position: relative;
+      overflow: hidden;
+      min-height: 560px;
+      display: grid;
+      place-items: center;
+      border-radius: 0 0 28px 28px;
+    }
+    .hero__dots { position: absolute; inset: 0; z-index: 0; }
+    .hero h1 {
+      position: relative;
+      z-index: 1;
+      margin: 0;
+      padding: 0 16px;
+      max-width: 14ch;
+      text-align: center;
+      color: #fff;
+      font-size: clamp(40px, 7vw, 92px);
+      line-height: 0.95;
+      letter-spacing: -0.04em;
+    }
+  </style>
+</head>
+<body>
+  <section class="hero">
+    <div class="hero__dots" data-hero-dots data-preset="dark"></div>
+    <h1>We work with brands to unlock the power of digital media <em>together.</em></h1>
+  </section>
+  <script src="hero-dots.js"></script>
+</body>
+</html>
