@@ -1,0 +1,403 @@
+<!-- MajorForm pillar dots: Performance marketing hero (Wada 281, Antwerp).
+     Paste this whole file into a Squarespace Code block inside the page's hero section,
+     with Display Source turned off. It fills the section behind your headline.
+     Keep the headline left-aligned; the motion plays on the right. -->
+<div data-pillar-dots data-pillar="performance" data-palette="antwerp" data-fill="section"></div>
+<script>
+/*!
+ * MajorForm pillar dots
+ * Hero motion for the service pages. Every page plays the same three beats:
+ * dots drift (scatter), the right ones are identified, then they connect.
+ * Only the final shape changes per pillar:
+ *   performance  identified dots settle onto a rising trend and join into a growth line
+ *   social       dots link outward from an origin, like a post being shared
+ *   commerce     dots converge on one checkout point that grows with each arrival
+ *
+ * Usage: <div data-pillar-dots data-pillar="performance"></div> and include this script.
+ * Optional attributes:
+ *   data-palette   antwerp, blue-lemon, sea-lime, grenadine, grenadine-olive, old-rose,
+ *                  ocher-violet, pomegranate, scarlet, lilac (defaults per pillar below)
+ *   data-fill      "section" to fill the closest <section> (for Squarespace code blocks)
+ *   data-layout    "right" (default) keeps the motion right of a left-aligned headline; "full" uses the whole width
+ *   data-labels    "false" to hide, or three comma-separated labels to override the defaults
+ */
+(function () {
+  "use strict";
+
+  // Sanzo Wada combinations, lifted for a dark ground. Field dots stay Cobalt Green on
+  // every pillar so the pages read as one family with the homepage (Wada 282, lilac).
+  var PALETTES = {
+    "antwerp": { bg: "#04202c", field: "#96d1aa", accent: "#ffefae", ring: "#2fc2b6", float: "#2fc2b6" },          // Wada 281
+    "blue-lemon": { bg: "#071a2e", field: "#96d1aa", accent: "#f8ed43", ring: "#e0713a", float: "#4a9be0" },       // Wada 333
+    "sea-lime": { bg: "#08191a", field: "#96d1aa", accent: "#c7d14f", ring: "#78cdd0", float: "#00b49b" },         // Wada 291
+    "grenadine": { bg: "#1a1214", field: "#96d1aa", accent: "#f48067", ring: "#b5decc", float: "#b5decc" },        // Wada 230
+    "grenadine-olive": { bg: "#16140b", field: "#96d1aa", accent: "#f48067", ring: "#c2bb52", float: "#b3ad45" },  // Wada 201
+    "old-rose": { bg: "#161117", field: "#a9bb88", accent: "#e07f8b", ring: "#c08fb6", float: "#c08fb6" },         // Wada 162
+    "ocher-violet": { bg: "#120e22", field: "#96d1aa", accent: "#d6b43e", ring: "#8f7fd8", float: "#8f7fd8" },     // Wada 156
+    "pomegranate": { bg: "#0b1d1b", field: "#96d1aa", accent: "#e0477f", ring: "#2bbcc2", float: "#2bbcc2" },      // Wada 271
+    "scarlet": { bg: "#1a1110", field: "#96d1aa", accent: "#e8505f", ring: "#e5773d", float: "#d1b0a7" },          // Wada 308
+    "lilac": { bg: "#15111a", field: "#a3cb94", accent: "#b277ae", ring: "#d2493a", float: "#b8924c" }             // Wada 282
+  };
+
+  var DEFAULTS = {
+    performance: { palette: "antwerp", labels: ["Observe", "Identify", "Connect"] },
+    social: { palette: "grenadine-olive", labels: ["Listen", "Engage", "Amplify"] },
+    commerce: { palette: "pomegranate", labels: ["Discover", "Consider", "Convert"] }
+  };
+
+  var LABEL_FONT = "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500&display=swap";
+  var TAU = 6.283, LOOP = 13;
+
+  function clamp(v, a, b) { return v < a ? a : v > b ? b : v; }
+  function ease(v) { v = clamp(v, 0, 1); return v * v * (3 - 2 * v); }
+  function ramp(t, a, b) { return ease((t - a) / (b - a)); }
+  function dot(ctx, x, y, r) { ctx.beginPath(); ctx.arc(x, y, r, 0, TAU); ctx.fill(); }
+  function line(ctx, ax, ay, bx, by, f) {
+    if (f <= 0) return;
+    ctx.beginPath(); ctx.moveTo(ax, ay); ctx.lineTo(ax + (bx - ax) * f, ay + (by - ay) * f); ctx.stroke();
+  }
+  function dist2(a, b) { var dx = a.x - b.x, dy = a.y - b.y; return dx * dx + dy * dy; }
+
+  // Pick k dots spread out across the field (best of a few random candidates each time).
+  function spread(dots, k, filter) {
+    var pool = dots.filter(filter), out = [];
+    while (out.length < k && pool.length) {
+      var best = null, bestD = -1;
+      for (var i = 0; i < 12; i++) {
+        var c = pool[Math.floor(Math.random() * pool.length)], d = Infinity;
+        for (var j = 0; j < out.length; j++) d = Math.min(d, dist2(c, out[j]));
+        if (d > bestD) { bestD = d; best = c; }
+      }
+      out.push(best);
+      pool.splice(pool.indexOf(best), 1);
+    }
+    return out;
+  }
+
+  var MODES = {
+    performance: {
+      select: function (s) {
+        var K = s.narrow ? 7 : 10, chosen = [];
+        for (var i = 0; i < K; i++) {
+          var q = i / (K - 1);
+          var ax = s.x0 + (s.x1 - s.x0) * q;
+          var ay = s.H * (0.8 - 0.6 * Math.pow(q, 1.25)) + Math.sin(q * 9) * s.H * 0.03;
+          var best = null, bd = Infinity;
+          s.dots.forEach(function (d) {
+            if (d.sel) return;
+            var dd = (d.x - ax) * (d.x - ax) + (d.y - ay) * (d.y - ay);
+            if (dd < bd) { bd = dd; best = d; }
+          });
+          best.sel = { q: q, ax: ax, ay: ay };
+          chosen.push(best);
+        }
+        return chosen;
+      },
+      draw: function (s, ctx, t) {
+        var conn = ramp(t, 6.2, 9.4), fade = 1 - ramp(t, 10.8, 11.8), n = s.chosen.length, shown = conn * (n - 1);
+        ctx.strokeStyle = s.C.accent; ctx.lineWidth = 1.3 * s.k; ctx.globalAlpha = 0.55 * fade;
+        for (var i = 0; i < n - 1; i++) {
+          var a = s.chosen[i], b = s.chosen[i + 1];
+          line(ctx, a.px, a.py, b.px, b.py, clamp(shown - i, 0, 1));
+        }
+        if (conn > 0 && fade > 0) {
+          var lead = s.chosen[Math.min(n - 1, Math.floor(shown))], p = (s.t * 0.9) % 1;
+          ctx.strokeStyle = s.C.ring; ctx.globalAlpha = (1 - p) * 0.6 * fade;
+          ctx.beginPath(); ctx.arc(lead.px, lead.py, lead.pr + p * 18 * s.k, 0, TAU); ctx.stroke();
+        }
+      },
+      snap: function (d, t) { return ramp(t, 5.4, 6.6) * (1 - ramp(t, 11, 12.4)); },
+      size: function (d) { return 3 + 6 * Math.pow(d.sel.q, 1.4); }
+    },
+
+    social: {
+      select: function (s) {
+        var left = s.x0 + (s.x1 - s.x0) * 0.1;
+        var chosen = spread(s.dots, s.narrow ? 9 : 14, function (d) { return d.x > left && d.y > s.H * 0.14 && d.y < s.H * 0.88; });
+        var centre = { x: (s.x0 + s.x1) / 2, y: s.H * 0.5 }, origin = chosen[0];
+        chosen.forEach(function (d) { if (dist2(d, centre) < dist2(origin, centre)) origin = d; });
+        // Prim's tree from the origin gives the share order, plus a few extra links for a web feel.
+        var inTree = [origin], rest = chosen.filter(function (d) { return d !== origin; }), edges = [];
+        while (rest.length) {
+          var bestA = null, bestB = null, bd = Infinity;
+          inTree.forEach(function (a) {
+            rest.forEach(function (b) { var dd = dist2(a, b); if (dd < bd) { bd = dd; bestA = a; bestB = b; } });
+          });
+          edges.push([bestA, bestB]); inTree.push(bestB); rest.splice(rest.indexOf(bestB), 1);
+        }
+        var extra = Math.round(chosen.length * 0.35);
+        for (var e = 0; e < extra; e++) {
+          var a = chosen[Math.floor(Math.random() * chosen.length)], near = null, nd = Infinity;
+          chosen.forEach(function (b) {
+            if (b === a || edges.some(function (x) { return (x[0] === a && x[1] === b) || (x[0] === b && x[1] === a); })) return;
+            var dd = dist2(a, b);
+            if (dd < nd) { nd = dd; near = b; }
+          });
+          if (near) edges.push([a, near]);
+        }
+        chosen.forEach(function (d) { d.sel = { deg: 0, reach: Infinity }; });
+        edges.forEach(function (x, i) {
+          x[0].sel.deg++; x[1].sel.deg++;
+          x[0].sel.reach = Math.min(x[0].sel.reach, i + 1);
+          x[1].sel.reach = Math.min(x[1].sel.reach, i + 1);
+        });
+        origin.sel.reach = 0; origin.sel.origin = true;
+        s.edges = edges; s.origin = origin;
+        return chosen;
+      },
+      draw: function (s, ctx, t) {
+        var conn = ramp(t, 6, 9.6), fade = 1 - ramp(t, 10.8, 11.8), shown = conn * s.edges.length;
+        ctx.strokeStyle = s.C.accent; ctx.lineWidth = 1.2 * s.k; ctx.globalAlpha = 0.5 * fade;
+        s.edges.forEach(function (x, i) {
+          line(ctx, x[0].px, x[0].py, x[1].px, x[1].py, clamp((shown - i) * 1.6, 0, 1));
+        });
+        var o = s.origin;
+        if (conn > 0 && fade > 0) {
+          for (var r = 0; r < 2; r++) {
+            var p = (s.t * 0.6 + r * 0.5) % 1;
+            ctx.strokeStyle = s.C.ring; ctx.globalAlpha = (1 - p) * 0.5 * fade;
+            ctx.beginPath(); ctx.arc(o.px, o.py, o.pr + p * 30 * s.k, 0, TAU); ctx.stroke();
+          }
+        }
+      },
+      snap: function () { return 0; },
+      size: function (d, s, t) {
+        if (d.sel.origin) return 8;
+        var at = 6 + (d.sel.reach / s.edges.length) * 3.6;
+        return 3 + Math.min(d.sel.deg, 4) * 1.1 * ramp(t, at - 0.2, at + 0.3);
+      }
+    },
+
+    commerce: {
+      stillTime: 8.7,
+      select: function (s) {
+        s.hub = { x: s.x0 + (s.x1 - s.x0) * 0.92, y: s.H * 0.52 };
+        var reach = (s.x1 - s.x0) * 0.25;
+        var chosen = spread(s.dots, s.narrow ? 7 : 11, function (d) {
+          return d.x > s.x0 + reach * 0.3 && d.x < s.hub.x - reach && d.y > s.H * 0.14 && d.y < s.H * 0.9;
+        });
+        chosen.sort(function (a, b) { return dist2(b, s.hub) - dist2(a, s.hub); });
+        chosen.forEach(function (d, i) { d.sel = { i: i, n: chosen.length }; });
+        s.pinged = {};
+        return chosen;
+      },
+      travel: function (d, t) { var st = 8 + (d.sel.i / d.sel.n) * 1.8; return ramp(t, st, st + 0.9); },
+      move: function (d, t) { return this.travel(d, t); },
+      draw: function (s, ctx, t) {
+        var conn = ramp(t, 6, 7.6), fade = 1 - ramp(t, 10.8, 11.8), self = this, arrived = 0;
+        ctx.strokeStyle = s.C.accent; ctx.lineWidth = 1.2 * s.k;
+        s.chosen.forEach(function (d, i) {
+          var tr = self.travel(d, t);
+          if (tr >= 1) arrived++;
+          if (tr >= 1 && !s.pinged[i]) { s.pinged[i] = true; s.rings.push({ t: 0 }); }
+          ctx.globalAlpha = 0.45 * fade * (1 - tr * 0.6);
+          var f = clamp(conn * 1.5 - (d.sel.i / d.sel.n) * 0.5, 0, 1);
+          line(ctx, d.x + (s.hub.x - d.x) * tr, d.y + (s.hub.y - d.y) * tr, s.hub.x, s.hub.y, f);
+        });
+        var hubIn = ramp(t, 5.6, 6.4) * fade;
+        var hr = (8.5 + 1.6 * arrived) * s.k * hubIn;
+        if (hr > 0) { ctx.fillStyle = s.C.accent; ctx.globalAlpha = hubIn; dot(ctx, s.hub.x, s.hub.y, hr); }
+        ctx.strokeStyle = s.C.ring; ctx.lineWidth = 1.5 * s.k;
+        s.rings = s.rings.filter(function (g) {
+          g.t += s.dt * 1.2;
+          if (g.t > 1) return false;
+          ctx.globalAlpha = (1 - g.t) * 0.7;
+          ctx.beginPath(); ctx.arc(s.hub.x, s.hub.y, hr + g.t * 22 * s.k, 0, TAU); ctx.stroke();
+          return true;
+        });
+      },
+      snap: function () { return 0; },
+      size: function (d, s, t) { return 3.8 * (1 - 0.4 * this.travel(d, t)); }
+    }
+  };
+
+  // Squarespace sections keep their background in .section-background, behind the content.
+  function resolveHost(el) {
+    if (el.dataset.fill !== "section") return el;
+    var section = el.closest("section");
+    if (!section) return el;
+    el.style.display = "none";
+    return section.querySelector(".section-background") || section;
+  }
+
+  function PillarDots(source) {
+    var ds = source.dataset;
+    var pillar = MODES[ds.pillar] ? ds.pillar : "performance";
+    var defaults = DEFAULTS[pillar];
+    var el = resolveHost(source);
+    var mode = MODES[pillar];
+    var s = { t: 0, dt: 0, phase: -1, rings: [], cycle: -1, chosen: null };
+    s.C = PALETTES[ds.palette] || PALETTES[defaults.palette];
+    var full = ds.layout === "full";
+    var reduced = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    if (getComputedStyle(el).position === "static") el.style.position = "relative";
+    var canvas = document.createElement("canvas");
+    canvas.setAttribute("aria-hidden", "true");
+    canvas.style.cssText = "position:absolute;inset:0;width:100%;height:100%;display:block;pointer-events:none";
+    el.insertBefore(canvas, el.firstChild);
+    var ctx = canvas.getContext("2d");
+
+    var labelEls = [];
+    if (ds.labels !== "false") {
+      var names = ds.labels ? ds.labels.split(",").map(function (x) { return x.trim(); }) : defaults.labels;
+      if (!document.querySelector('link[href="' + LABEL_FONT + '"]')) {
+        var link = document.createElement("link");
+        link.rel = "stylesheet"; link.href = LABEL_FONT;
+        document.head.appendChild(link);
+      }
+      var wrap = document.createElement("div");
+      wrap.setAttribute("aria-hidden", "true");
+      wrap.style.cssText = "position:absolute;left:20px;bottom:16px;z-index:1;display:flex;gap:10px;pointer-events:none;" +
+        "font:500 10px/1 'Space Grotesk',system-ui,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#efe6ee";
+      labelEls = names.slice(0, 3).map(function (text) {
+        var item = document.createElement("span");
+        item.style.cssText = "display:inline-flex;align-items:center;gap:5px;opacity:.4;transition:opacity .4s";
+        var mark = document.createElement("i");
+        mark.style.cssText = "width:5px;height:5px;border-radius:50%;background:currentColor;transition:background .4s";
+        item.appendChild(mark);
+        item.appendChild(document.createTextNode(text));
+        wrap.appendChild(item);
+        return item;
+      });
+      el.appendChild(wrap);
+    }
+
+    function setPhase(phase) {
+      s.phase = phase;
+      labelEls.forEach(function (item, i) {
+        item.style.opacity = i === phase ? "1" : ".4";
+        item.firstChild.style.background = i === phase ? s.C.ring : "currentColor";
+      });
+    }
+
+    function build() {
+      var r = el.getBoundingClientRect(), dpr = Math.min(window.devicePixelRatio || 1, 2);
+      s.W = Math.max(1, r.width); s.H = Math.max(1, r.height);
+      s.k = clamp(Math.min(s.W, s.H * 1.6) / 900, 0.55, 1.4);
+      canvas.width = Math.round(s.W * dpr); canvas.height = Math.round(s.H * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      s.narrow = s.W < 760;
+      s.x0 = s.narrow || full ? s.W * 0.08 : s.W * 0.4;
+      s.x1 = s.W * 0.94;
+      var n = Math.round((s.x1 - s.x0 + 80) * s.H / (s.narrow ? 1500 : 2100));
+      s.dots = [];
+      for (var i = 0; i < n; i++) {
+        s.dots.push({
+          x: s.x0 - 60 + Math.random() * (s.x1 - s.x0 + 100), y: s.H * 0.06 + Math.random() * s.H * 0.88,
+          vx: (Math.random() - 0.5) * 10, vy: (Math.random() - 0.5) * 10,
+          base: 0.9 + Math.random() * 1.3, seed: Math.random() * TAU
+        });
+      }
+      s.cycle = -1;
+      s.chosen = null; // the old selection pointed at dots that no longer exist
+    }
+
+    function select() {
+      s.dots.forEach(function (d) { d.sel = null; });
+      s.rings = [];
+      s.chosen = mode.select(s);
+    }
+
+    // Faint homepage wave field behind everything, for continuity across pages.
+    function field() {
+      var rows = 13, gap = s.W < 640 ? 13 : 16, cols = Math.ceil(s.W / gap) + 1;
+      ctx.fillStyle = s.C.field;
+      for (var r = 0; r < rows; r++) {
+        var kk = r / (rows - 1) - 0.5;
+        ctx.globalAlpha = 0.08 * (1 - Math.abs(kk));
+        for (var c = 0; c < cols; c++) {
+          var u = c / (cols - 1), dd = u - 0.56, sp = 0.25 + 0.75 * (1 - Math.exp(-(dd * dd) / 0.05));
+          dot(ctx, u * s.W, s.H * 0.5 + kk * s.H * 0.95 * sp + Math.sin(u * 5.6 + s.t * 0.5 + kk * 1.7) * s.H * 0.05, 1);
+        }
+      }
+    }
+
+    function draw() {
+      var t = s.t % LOOP, k = s.k, cycle = Math.floor(s.t / LOOP);
+      if (!s.chosen || (cycle !== s.cycle && t >= 2.8)) { s.cycle = cycle; select(); }
+      var phase = t < 3 ? 0 : t < 6 ? 1 : t < 11.5 ? 2 : 0;
+      if (phase !== s.phase) setPhase(phase);
+
+      ctx.globalAlpha = 1; ctx.fillStyle = s.C.bg; ctx.fillRect(0, 0, s.W, s.H);
+      field();
+
+      var still = ramp(t, 2.4, 3.4) * (1 - ramp(t, 11, 12.2)); // drift pauses while identifying and connecting
+      var dim = ramp(t, 3.4, 4.6) * (1 - ramp(t, 10.8, 12));
+      var drift = (1 - still) * s.dt;
+
+      ctx.fillStyle = s.C.field;
+      s.dots.forEach(function (d) {
+        d.x += d.vx * drift; d.y += d.vy * drift;
+        if (d.x < s.x0 - 70) d.x = s.x1 + 40; else if (d.x > s.x1 + 40) d.x = s.x0 - 70;
+        if (d.y < s.H * 0.04) d.y = s.H * 0.95; else if (d.y > s.H * 0.96) d.y = s.H * 0.05;
+        if (d.sel) return;
+        var edge = s.narrow || full ? 1 : ramp(d.x, s.x0 - 70, s.x0 + 30);
+        var sh = 0.55 + 0.45 * Math.sin(s.t * 1.8 + d.seed * 3);
+        ctx.globalAlpha = (0.3 + 0.45 * sh) * (1 - 0.6 * dim) * edge;
+        dot(ctx, d.x, d.y, d.base * k);
+      });
+
+      // Identified dots: work out positions, draw the connection layer, then the dots on top.
+      var idStart = 3.2, step = 2.2 / Math.max(1, s.chosen.length);
+      s.chosen.forEach(function (d, i) {
+        var lit = ramp(t, idStart + i * step, idStart + i * step + 0.35) * (1 - ramp(t, 11, 12.4));
+        var sn = mode.snap(d, t), mv = mode.move ? mode.move(d, t) : 0;
+        var x = d.x, y = d.y;
+        if (sn) { x += (d.sel.ax - d.x) * sn; y += (d.sel.ay - d.y) * sn; }
+        if (mv) { x = d.x + (s.hub.x - d.x) * mv; y = d.y + (s.hub.y - d.y) * mv; }
+        d.px = x; d.py = y; d.lit = lit; d.ti = idStart + i * step;
+        d.pr = (d.base + (mode.size(d, s, t) - d.base) * lit) * k;
+      });
+      mode.draw(s, ctx, t);
+      s.chosen.forEach(function (d) {
+        if (mode.move && mode.move(d, t) >= 1) return;
+        ctx.globalAlpha = 0.75 + 0.25 * d.lit;
+        ctx.fillStyle = d.lit > 0.5 ? s.C.accent : s.C.field;
+        dot(ctx, d.px, d.py, Math.max(0.8, d.pr));
+        var rt = (t - d.ti) / 0.7; // reticle ring closing in as each dot is identified
+        if (rt > 0 && rt < 1) {
+          ctx.strokeStyle = s.C.accent; ctx.lineWidth = 1.2 * k; ctx.globalAlpha = Math.sin(rt * Math.PI) * 0.8;
+          ctx.beginPath(); ctx.arc(d.px, d.py, d.pr + (1 - ease(rt)) * 22 * k + 3 * k, 0, TAU); ctx.stroke();
+        }
+      });
+
+      ctx.globalAlpha = 0.9; ctx.fillStyle = s.C.float;
+      dot(ctx, s.x0 - 20 + Math.sin(s.t * 0.4) * 20 * k, s.H * 0.86 + Math.cos(s.t * 0.3) * 10 * k, 4 * k);
+      ctx.globalAlpha = 1;
+    }
+
+    function still() { s.t = mode.stillTime || 9.9; s.dt = 0; s.chosen = null; draw(); }
+
+    var last = 0, visible = true;
+    function frame(now) {
+      var dt = last ? Math.min((now - last) / 1000, 0.05) : 0;
+      last = now;
+      if (visible && !document.hidden) { s.t += dt; s.dt = dt; draw(); }
+      requestAnimationFrame(frame);
+    }
+
+    if (window.ResizeObserver) {
+      new ResizeObserver(function () { build(); if (reduced) still(); }).observe(el);
+    } else {
+      window.addEventListener("resize", function () { build(); if (reduced) still(); });
+    }
+    if (window.IntersectionObserver) {
+      new IntersectionObserver(function (e) { visible = e[0].isIntersecting; }).observe(el);
+    }
+    build();
+    if (reduced) still(); else requestAnimationFrame(frame);
+  }
+
+  function mountAll() {
+    var els = document.querySelectorAll("[data-pillar-dots]");
+    for (var i = 0; i < els.length; i++) {
+      if (!els[i].__pillarDots) { els[i].__pillarDots = true; new PillarDots(els[i]); }
+    }
+  }
+
+  window.PillarDots = { mountAll: mountAll, palettes: PALETTES };
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", mountAll);
+  else mountAll();
+})();
+</script>
