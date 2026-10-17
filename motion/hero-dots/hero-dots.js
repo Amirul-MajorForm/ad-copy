@@ -38,7 +38,7 @@
       light: { bg: BG.light, dot: "#0a3261", dotAlpha: 0.8, accent: "#0d4951", highlights: ["#88af7e", "#e2c23a"], label: "#0a3261" }
     },
     lilac: {
-      dark: { bg: "#15111a", dot: "#83ab76", dotAlpha: 0.85, accent: "#b277ae", highlights: ["#d2493a", "#b8924c"], label: "#efe6ee" },
+      dark: { bg: "#15111a", dot: "#a3cb94", dotAlpha: 1, accent: "#b277ae", highlights: ["#d2493a", "#b8924c"], label: "#efe6ee" },
       light: { bg: BG.light, dot: "#92598f", dotAlpha: 0.8, accent: "#ae2f20", highlights: ["#83ab76", "#917239"], label: "#3b2238" }
     }
   };
@@ -82,7 +82,7 @@
       highlight: opts.highlight || ds.highlight || ds.mint
     };
     this.mode = opts.mode || ds.mode || ds.preset || "dark";
-    this.palette = opts.palette || ds.palette || "ember";
+    this.palette = opts.palette || ds.palette || "lilac";
 
     if (getComputedStyle(el).position === "static") el.style.position = "relative";
     var c = this.canvas = document.createElement("canvas");
@@ -170,7 +170,7 @@
   };
 
   HeroDots.prototype.applyColors = function () {
-    var pal = PALETTES[this.palette] || PALETTES.ember;
+    var pal = PALETTES[this.palette] || PALETTES.lilac;
     var m = this.mode === "light" ? pal.light : pal.dark;
     var o = this.overrides;
     this.colors = {
