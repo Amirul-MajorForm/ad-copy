@@ -36,11 +36,24 @@ function findTip(product, tipsText) {
 function fill(template, product) {
   // No price shown for this product (some bundles): drop "at/from/only {price}".
   if (product && !product.price) template = template.replace(/\s*(?:at|from|only)?\s*\{(?:low)?price\}/gi, '');
-  return template
-    .replace(/\{product\}/g, product ? product.name : '')
-    .replace(/\{price\}/g, product ? product.price : '')
-    .replace(/\{lowprice\}/g, product ? product.lowprice : '')
-    .slice(0, MAX_CHARS);
+  const render = (name) =>
+    template
+      .replace(/\{product\}/g, name)
+      .replace(/\{price\}/g, product ? product.price : '')
+      .replace(/\{lowprice\}/g, product ? product.lowprice : '');
+  let name = product ? product.name : '';
+  let text = render(name);
+  // Too long for Shopee: shorten the product name rather than cut off the end.
+  if (text.length > MAX_CHARS && name && template.includes('{product}')) {
+    const uses = template.split('{product}').length - 1;
+    const keep = name.length - Math.ceil((text.length - MAX_CHARS + 1) / uses);
+    if (keep >= 15) {
+      name = name.slice(0, keep).trimEnd() + '…';
+      text = render(name);
+    }
+  }
+  // Still too long: cut at a whole character so an emoji is never split.
+  return text.length > MAX_CHARS ? Array.from(text).slice(0, MAX_CHARS - 1).join('') : text;
 }
 
 async function addLog(entry) {

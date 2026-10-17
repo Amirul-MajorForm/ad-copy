@@ -6,6 +6,10 @@
 
   const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
   const PRICE_RE = /\$\s?[\d,]+(?:\.\d+)?(?:\s*[~\-–]\s*\$\s?[\d,]+(?:\.\d+)?)?/;
+  // Text that is only a price, e.g. "$40.23" or "$18.10 ~ $63.80". Product names
+  // can contain prices too ("... $38 (Worth $52)"), so a name is never mistaken
+  // for the price or thrown away for containing one.
+  const ONLY_PRICE_RE = new RegExp('^S?' + PRICE_RE.source + '$');
 
   // Text of an element with a space between child elements, so a separate label
   // like "[Buy 2 Get 1]" doesn't run into the rest of the name.
@@ -26,11 +30,18 @@
     return [...el.children].every((c) => getComputedStyle(c).display.startsWith('inline'));
   }
 
-  function nameCandidates(box) {
+  // The first text line in the box that is only a price.
+  function findPrice(box) {
+    const el = [...box.querySelectorAll('*')].find((e) => isTextLine(e) && ONLY_PRICE_RE.test(textOf(e)));
+    return el ? textOf(el) : '';
+  }
+
+  function nameCandidates(box, price) {
     return [...box.querySelectorAll('*')]
       .filter(isTextLine)
       .map(textOf)
-      .filter((t) => t.length >= 4 && !/showing|product list/i.test(t) && !PRICE_RE.test(t));
+      .filter((t) => t.length >= 4 && !/showing|product list/i.test(t) && !ONLY_PRICE_RE.test(t))
+      .filter((t) => !price || !t.includes(price));
   }
 
   // Shopee's class names carry a build hash (e.g. showing-tip_a09d3), so match the prefix.
@@ -45,22 +56,23 @@
     // in any other product's name, so a price from the product list is never used.
     let box = tip;
     let name = null;
-    let priceBox = null;
+    let priceText = '';
     for (let i = 0, sinceName = 0; i < 6 && box.parentElement && sinceName <= 2; i++) {
       box = box.parentElement;
-      const candidates = nameCandidates(box);
+      const levelPrice = findPrice(box);
+      const candidates = nameCandidates(box, levelPrice);
       if (!candidates.length) continue;
       const longest = candidates.sort((a, b) => b.length - a.length)[0];
       if (!name) name = longest;
       else if (candidates.some((c) => !name.includes(c))) break;
       sinceName++;
-      if (PRICE_RE.test(textOf(box))) {
-        priceBox = box;
+      if (levelPrice) {
+        priceText = levelPrice;
         break;
       }
     }
     if (!name) return null;
-    const priceMatch = priceBox && textOf(priceBox).match(PRICE_RE);
+    const priceMatch = priceText.match(PRICE_RE);
     const price = priceMatch ? priceMatch[0].replace(/\s*[~\-–]\s*/, ' ~ ') : '';
     const lowprice = price.split('~')[0].trim();
     return { name, price, lowprice };
