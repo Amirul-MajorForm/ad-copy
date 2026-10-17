@@ -120,35 +120,58 @@ async function postOnce({ restartProduct = false } = {}) {
   const text = fill(line.template, product);
   const result = await sendToTab(tab.id, { type: 'post', text, pin: line.pin });
   await addLog({ ok: !!(result && result.ok), pin: line.pin, text, error: result && (result.error || result.note) });
-  // A new product's first message is followed by a tip message.
-  if (restartProduct && !useGeneral && result && result.ok) scheduleTip(product, s);
+  // A new product's first message is followed by its product tip. Scheduled even
+  // if the send looked unconfirmed: Shopee can be slow to clear the chat box.
+  if (restartProduct && !useGeneral) await scheduleTip(product, s);
   return result;
 }
 
-// Product tip: sent tipDelaySeconds after a new product's first message, if the
-// same product is still showing and its name matches a product tip keyword.
-function scheduleTip(product, s) {
-  if (!findTip(product, s.productTips)) return;
+// Product tip: sent tipDelaySeconds after a new product's first message, if a
+// product with the same tip is still showing. The pending tip is stored and
+// backed by an alarm, so it survives Chrome pausing the background worker.
+const TIP_ALARM = 'shopee-autochat-tip';
+
+async function scheduleTip(product, s) {
+  const tip = findTip(product, s.productTips);
+  if (!tip) {
+    await addLog({ ok: false, text: `No product tip: none of the keywords is in "${product.name}".` });
+    return;
+  }
   const delay = Math.max(0, Number(s.tipDelaySeconds) || 0) * 1000;
-  setTimeout(() => enqueue(() => postTip(product.name)).catch(() => {}), delay);
+  const at = Date.now() + delay;
+  await chrome.storage.local.set({ pendingTip: { template: tip.template, at } });
+  await chrome.alarms.create(TIP_ALARM, { when: at });
+  setTimeout(() => sendPendingTip(at).catch(() => {}), delay);
 }
 
-async function postTip(productName) {
-  const s = await getSettings();
-  if (!s.running) return;
-  const tab = await findLiveTab();
-  if (!tab) return;
-  const res = await sendToTab(tab.id, { type: 'getProduct' });
-  const product = res && res.product;
-  if (!product || product.name !== productName) return;
-  const tip = findTip(product, s.productTips);
-  if (!tip) return;
-  const text = fill(tip.template, product);
-  const result = await sendToTab(tab.id, { type: 'post', text, pin: tip.pin });
-  await addLog({ ok: !!(result && result.ok), pin: tip.pin, text, error: result && (result.error || result.note) });
+// Called by the timer (with its own due time) or the alarm, whichever comes
+// first; the other finds nothing to send. A timer only sends its own tip.
+function sendPendingTip(dueAt) {
+  return enqueue(async () => {
+    const { pendingTip } = await chrome.storage.local.get('pendingTip');
+    if (!pendingTip || (dueAt ? pendingTip.at !== dueAt : Date.now() < pendingTip.at - 500)) return;
+    await chrome.storage.local.remove('pendingTip');
+    await chrome.alarms.clear(TIP_ALARM);
+
+    const s = await getSettings();
+    if (!s.running) return;
+    const tab = await findLiveTab();
+    if (!tab) return;
+    const res = await sendToTab(tab.id, { type: 'getProduct' });
+    const product = res && res.product;
+    const tip = findTip(product, s.productTips);
+    if (!tip || tip.template !== pendingTip.template) {
+      await addLog({ ok: false, text: 'Product tip skipped: a different product is showing now.' });
+      return;
+    }
+    const text = fill(tip.template, product);
+    const result = await sendToTab(tab.id, { type: 'post', text, pin: tip.pin });
+    await addLog({ ok: !!(result && result.ok), pin: tip.pin, text, error: result && (result.error || result.note) });
+  });
 }
 
 chrome.alarms.onAlarm.addListener(async (alarm) => {
+  if (alarm.name === TIP_ALARM) return sendPendingTip();
   if (alarm.name !== ALARM) return;
   const s = await getSettings();
   if (!s.running) return;
@@ -241,7 +264,9 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
     if (msg.type === 'timer') return onTimer(msg.elapsed, sender.tab);
     if (msg.type === 'stop') {
       await chrome.storage.local.set({ running: false, nextAt: null });
+      await chrome.storage.local.remove('pendingTip');
       await chrome.alarms.clear(ALARM);
+      await chrome.alarms.clear(TIP_ALARM);
       return { ok: true };
     }
     if (msg.type === 'sendNow') return enqueue(() => postOnce());
