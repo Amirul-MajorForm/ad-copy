@@ -126,7 +126,37 @@ async function postOnce({ restartProduct = false } = {}) {
   const text = fill(line.template, product, tip);
   const result = await sendToTab(tab.id, { type: 'post', text, pin: line.pin });
   await addLog({ ok: !!(result && result.ok), pin: line.pin, text, error: result && (result.error || result.note) });
+  // A new product's first message is followed by a tip message.
+  if (restartProduct && !useGeneral && result && result.ok) scheduleTip(product, s);
   return result;
+}
+
+// Tip message: sent tipDelaySeconds after a new product's first message, if the
+// same product is still showing and has a matching product tip.
+function scheduleTip(product, s) {
+  if (!findTip(product, s.productTips) || !parseLines(s.tipMessages || '').length) return;
+  const delay = Math.max(0, Number(s.tipDelaySeconds) || 0) * 1000;
+  setTimeout(() => enqueue(() => postTip(product.name)).catch(() => {}), delay);
+}
+
+async function postTip(productName) {
+  const s = await getSettings();
+  if (!s.running) return;
+  const tab = await findLiveTab();
+  if (!tab) return;
+  const res = await sendToTab(tab.id, { type: 'getProduct' });
+  const product = res && res.product;
+  if (!product || product.name !== productName) return;
+  const tip = findTip(product, s.productTips);
+  const lines = parseLines(s.tipMessages || '');
+  if (!tip || !lines.length) return;
+
+  const { tipMessagesIndex: idx = 0 } = await chrome.storage.local.get('tipMessagesIndex');
+  const line = lines[idx % lines.length];
+  await chrome.storage.local.set({ tipMessagesIndex: (idx + 1) % lines.length });
+  const text = fill(line.template, product, tip);
+  const result = await sendToTab(tab.id, { type: 'post', text, pin: line.pin });
+  await addLog({ ok: !!(result && result.ok), pin: line.pin, text, error: result && (result.error || result.note) });
 }
 
 chrome.alarms.onAlarm.addListener(async (alarm) => {

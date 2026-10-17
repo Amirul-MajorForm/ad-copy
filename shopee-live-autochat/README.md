@@ -30,6 +30,8 @@ dashboard). When nothing is showing, it uses your general messages instead.
 - **Product tips** (`keyword | tip`): when the showing product's name contains the keyword,
   `{range}` becomes the keyword and `{tip}` the tip. Message lines that use `{range}` or `{tip}`
   are skipped when no tip matches the product.
+- **Tip message**: a set number of seconds (default 10) after a new product's first message,
+  a tip message is sent if the product has a matching product tip and is still showing.
 - Messages rotate in order. The log at the bottom shows what was sent and any errors.
 
 ## Clients

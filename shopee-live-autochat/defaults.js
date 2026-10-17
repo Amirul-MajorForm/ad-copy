@@ -15,6 +15,9 @@ const DEFAULT_SETTINGS = {
   ].join('\n'),
   // Product tips: "keyword | tip". Used by {range} and {tip} in messages.
   productTips: '',
+  // Tip message: sent this many seconds after a new product's first message.
+  tipDelaySeconds: 10,
+  tipMessages: '💡 {range}: {tip}',
   productMessages: [
     '[pin] Now showing: {product}! Only {price} on this live. Tap the bag icon to grab it 🛒',
     'Loving the {product}? Get it from {lowprice} today, add to cart now!',

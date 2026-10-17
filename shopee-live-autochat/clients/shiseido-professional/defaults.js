@@ -23,10 +23,14 @@ const DEFAULT_SETTINGS = {
     "Timetic | for premium anti-ageing scalp & hair care that follows your circadian rhythm",
     "Wonder Shield | for everyday protection from heat, UV, humidity & pollution"
   ].join('\n'),
+  // Tip message: sent this many seconds after a new product's first message.
+  tipDelaySeconds: 10,
+  tipMessages: [
+    "💡 SUBLIMIC {range} is {tip} ✨"
+  ].join('\n'),
   productMessages: [
-    "[pin] Now showing: SUBLIMIC {range}, {tip} ✨",
-    "Now showing: {product}. Enjoy 12% off with our live voucher, no min spend 🎟️",
-    "SUBLIMIC {range} is {tip}. Ask us anything about it 💬",
+    "[pin] Now showing: {product} at {price}! Grab it with our 12% live voucher 🎟️",
+    "Have questions about SUBLIMIC {range}? Ask us in the comments and we'll answer live 💬",
     "Not sure which SUBLIMIC range suits you? Share your hair & scalp concerns and we'll recommend one 💬"
   ].join('\n'),
   generalMessages: [

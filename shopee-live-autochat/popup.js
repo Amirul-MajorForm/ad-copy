@@ -1,4 +1,4 @@
-const FIELDS = ['intervalMinutes', 'jitterMinutes', 'generalEvery', 'liveDurationMinutes', 'productTips', 'productMessages', 'generalMessages', 'countdownMessages'];
+const FIELDS = ['intervalMinutes', 'jitterMinutes', 'generalEvery', 'liveDurationMinutes', 'productTips', 'tipDelaySeconds', 'tipMessages', 'productMessages', 'generalMessages', 'countdownMessages'];
 const $ = (id) => document.getElementById(id);
 const send = (msg) => chrome.runtime.sendMessage(msg);
 // Client name comes from the manifest name, e.g. "Shopee Live Auto Chat (Sebamed)".
