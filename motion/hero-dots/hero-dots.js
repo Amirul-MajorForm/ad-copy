@@ -6,7 +6,7 @@
  * Usage: <div data-hero-dots data-mode="dark" data-palette="ember"></div> and include this script.
  * Optional attributes:
  *   data-mode         "dark" or "light" (background and field dots)
- *   data-palette      "ember", "citron", "ice" or "coral" (cobalt path + one highlight colour)
+ *   data-palette      cobalt sets "ember", "citron", "ice", "coral"; Wada sets "antwerp", "lilac"
  *   data-fill         "section" to fill the closest <section> (for Squarespace code blocks)
  *   data-labels       "false" to hide the Observe / Decide / Act labels
  *   data-bg           hex or "transparent"; data-dot, data-accent, data-highlight override colours
@@ -15,17 +15,32 @@
 (function () {
   "use strict";
 
-  var MODES = {
-    dark: { bg: "#0b0b0e", dot: "#dfe5ff", dotAlpha: 1 },
-    light: { bg: "#f6f4ee", dot: null, dotAlpha: 0.85 } // null: field dots use the cobalt accent
-  };
+  var BG = { dark: "#0b0b0e", light: "#f6f4ee" };
 
-  // Cobalt path colour per mode (brighter on dark so it holds contrast), plus a highlight colour.
+  // Cobalt path with one highlight colour. Brighter cobalt on dark so it holds contrast.
+  function cobalt(darkHighlight, lightHighlight) {
+    return {
+      dark: { bg: BG.dark, dot: "#dfe5ff", dotAlpha: 1, accent: "#3d6bff", highlights: [darkHighlight], label: "#eef1ff" },
+      light: { bg: BG.light, dot: "#0047ab", dotAlpha: 0.85, accent: "#0047ab", highlights: [lightHighlight], label: "#14161f" }
+    };
+  }
+
+  // Each palette defines both modes in full. The Wada sets come from Sanzo Wada's
+  // "A Dictionary of Color Combinations" (no. 281 and 282); dark variants lift the
+  // deeper inks so they read on a dark ground.
   var PALETTES = {
-    ember: { accent: ["#3d6bff", "#0047ab"], highlight: ["#ff7a3d", "#f2662a"] },
-    citron: { accent: ["#3d6bff", "#0047ab"], highlight: ["#d9f24e", "#9fbf0a"] },
-    ice: { accent: ["#3d6bff", "#0047ab"], highlight: ["#a8d4ff", "#5aa8f5"] },
-    coral: { accent: ["#3d6bff", "#0047ab"], highlight: ["#ff6b81", "#ec4d68"] }
+    ember: cobalt("#ff7a3d", "#f2662a"),
+    citron: cobalt("#d9f24e", "#9fbf0a"),
+    ice: cobalt("#a8d4ff", "#5aa8f5"),
+    coral: cobalt("#ff6b81", "#ec4d68"),
+    antwerp: {
+      dark: { bg: "#08254a", dot: "#88af7e", dotAlpha: 0.9, accent: "#ffec85", highlights: ["#ffec85", "#4fa7a0"], label: "#f6f0d0" },
+      light: { bg: BG.light, dot: "#0a3261", dotAlpha: 0.8, accent: "#0d4951", highlights: ["#88af7e", "#e2c23a"], label: "#0a3261" }
+    },
+    lilac: {
+      dark: { bg: "#15111a", dot: "#83ab76", dotAlpha: 0.85, accent: "#b277ae", highlights: ["#d2493a", "#b8924c"], label: "#efe6ee" },
+      light: { bg: BG.light, dot: "#92598f", dotAlpha: 0.8, accent: "#ae2f20", highlights: ["#83ab76", "#917239"], label: "#3b2238" }
+    }
   };
 
   var LABELS = ["Observe", "Decide", "Act"];
@@ -128,12 +143,12 @@
     }
     var wrap = this.labelWrap = document.createElement("div");
     wrap.setAttribute("aria-hidden", "true");
-    wrap.style.cssText = "position:absolute;left:20px;bottom:16px;z-index:1;display:flex;gap:16px;" +
+    wrap.style.cssText = "position:absolute;left:20px;bottom:16px;z-index:1;display:flex;gap:10px;" +
       "pointer-events:none;font:500 10px/1 'Space Grotesk',system-ui,sans-serif;" +
       "letter-spacing:.16em;text-transform:uppercase";
     this.labelEls = LABELS.map(function (text) {
       var item = document.createElement("span");
-      item.style.cssText = "display:inline-flex;align-items:center;gap:6px;opacity:.4;transition:opacity .4s";
+      item.style.cssText = "display:inline-flex;align-items:center;gap:5px;opacity:.4;transition:opacity .4s";
       var dot = document.createElement("i");
       dot.style.cssText = "width:5px;height:5px;border-radius:50%;background:currentColor;transition:background .4s";
       item.appendChild(dot);
@@ -150,20 +165,18 @@
     this.labelWrap.style.color = c.label;
     this.labelEls.forEach(function (item, i) {
       item.style.opacity = i === phase ? "1" : ".4";
-      item.firstChild.style.background = i === phase ? c.highlight : "currentColor";
+      item.firstChild.style.background = i === phase ? c.highlights[0] : "currentColor";
     });
   };
 
   HeroDots.prototype.applyColors = function () {
-    var dark = this.mode !== "light", i = dark ? 0 : 1;
-    var m = MODES[this.mode] || MODES.dark;
-    var p = PALETTES[this.palette] || PALETTES.ember;
+    var pal = PALETTES[this.palette] || PALETTES.ember;
+    var m = this.mode === "light" ? pal.light : pal.dark;
     var o = this.overrides;
-    var accent = o.accent || p.accent[i];
     this.colors = {
-      bg: o.bg || m.bg, dot: o.dot || m.dot || accent, accent: accent,
-      highlight: o.highlight || p.highlight[i], dotAlpha: m.dotAlpha,
-      label: dark ? "#eef1ff" : "#14161f"
+      bg: o.bg || m.bg, dot: o.dot || m.dot, accent: o.accent || m.accent,
+      highlights: o.highlight ? [o.highlight] : m.highlights,
+      dotAlpha: m.dotAlpha, label: m.label
     };
     this.updateLabels();
     if (this.reduced && this.W) this.draw();
@@ -285,13 +298,13 @@
     }
 
     // Highlight dots
-    ctx.fillStyle = c.highlight;
     for (var j = 0; j < this.mints.length; j++) {
       var md = this.mints[j];
       var mm = ease(tl.morph * 1.5 - md.u * 0.4);
       var mw = this.wave(md.u, md.k, flow);
       var fx = md.sx + Math.sin(t * 0.4 + md.seed) * 30 * s;
       var fy = md.sy + Math.cos(t * 0.33 + md.seed) * 24 * s;
+      ctx.fillStyle = c.highlights[j % c.highlights.length];
       ctx.globalAlpha = 0.9;
       ctx.beginPath();
       ctx.arc(fx + (mw.x - fx) * mm, fy + (mw.y - fy) * mm, 4.2 * s, 0, TAU);
