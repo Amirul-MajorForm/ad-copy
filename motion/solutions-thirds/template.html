@@ -1,15 +1,9 @@
-<!-- MajorForm solutions section: three service columns with live pillar animations.
-     Paste this whole file into a Squarespace Code block where the solutions section goes,
-     with Display Source turned off. It stretches to the full page width on its own.
+<!-- MajorForm solutions cards: three service cards with live pillar animations.
+     Paste this whole file into a Squarespace Code block, with Display Source turned off.
+     It fills only the code block's own area, so size and place the block as you like.
+     Put your section heading in a normal text block above it.
      All text and links are real HTML, so search engines read them like normal text. -->
-<section class="mf-sol" aria-labelledby="mf-sol-title">
-  <div class="mf-sol__intro">
-    <div>
-      <p class="mf-sol__eyebrow">Our solutions</p>
-      <h2 id="mf-sol-title" class="mf-sol__title">Three ways we grow brands.</h2>
-    </div>
-    <p class="mf-sol__lede"><strong>MajorForm</strong> is a Singapore marketing agency embedded with forward-thinking brands, across social media, performance marketing and social commerce, without the fees of a large agency.</p>
-  </div>
+<div class="mf-sol">
   <div class="mf-sol__cols">
     <article class="mf-sol__col" style="--mf-bg:#16140b;--mf-accent:#f48067">
       <div class="mf-sol__viz" data-pillar-dots data-pillar="social" data-palette="grenadine-olive" data-layout="full"></div>
@@ -42,52 +36,43 @@
       </div>
     </article>
   </div>
-</section>
+</div>
 <style>
   /* Fonts are inherited from your Squarespace site; only sizes and colours are set here. */
-  .mf-sol { --mf-gap: 12px; position: relative; background: #2b2a2d; color: #f3f2f7; padding: clamp(40px, 6vw, 88px) 0 var(--mf-gap); box-sizing: border-box; }
+  .mf-sol { --mf-gap: 12px; width: 100%; color: #f3f2f7; }
   .mf-sol *, .mf-sol *::before, .mf-sol *::after { box-sizing: border-box; }
-  .mf-sol__intro { max-width: 1240px; margin: 0 auto clamp(28px, 4vw, 48px); padding: 0 clamp(16px, 4vw, 56px); display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: 20px 48px; align-items: end; }
-  .mf-sol__eyebrow { margin: 0 0 6px; font-size: 11px; font-weight: 500; letter-spacing: .16em; text-transform: uppercase; color: #a9a7b4; line-height: 1.4; }
-  .mf-sol__eyebrow--accent { color: var(--mf-accent); }
-  .mf-sol .mf-sol__title { margin: 0; color: #f3f2f7; font-size: clamp(34px, 4.6vw, 60px); line-height: .96; letter-spacing: -.045em; text-wrap: balance; }
-  .mf-sol__lede { margin: 0; color: #a9a7b4; font-size: 16px; line-height: 1.55; max-width: 44ch; }
-  .mf-sol__lede strong { color: #f3f2f7; font-weight: 500; }
-  .mf-sol__cols { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--mf-gap); padding: 0 var(--mf-gap); }
+  .mf-sol__cols { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--mf-gap); }
+  .mf-sol--stack .mf-sol__cols { grid-template-columns: minmax(0, 1fr); }
   .mf-sol__col { background: var(--mf-bg); border-radius: 16px; overflow: hidden; display: grid; grid-template-rows: auto 1fr; min-width: 0; }
-  .mf-sol__viz { position: relative; height: clamp(260px, 24vw, 380px); }
-  .mf-sol__text { padding: 4px clamp(20px, 2.4vw, 32px) clamp(22px, 2.4vw, 32px); display: grid; gap: 14px; align-content: start; grid-template-rows: auto auto auto auto 1fr; }
+  .mf-sol__viz { position: relative; aspect-ratio: 4 / 3; max-height: 380px; width: 100%; }
+  .mf-sol--stack .mf-sol__viz { aspect-ratio: 16 / 9; }
+  .mf-sol__text { padding: 4px 24px 24px; display: grid; gap: 12px; align-content: start; grid-template-rows: auto auto auto auto 1fr; }
   .mf-sol__text > * { margin: 0; }
-  .mf-sol .mf-sol__name { margin: 0; color: #f3f2f7; font-size: clamp(28px, 2.6vw, 40px); line-height: .98; letter-spacing: -.04em; text-wrap: balance; }
-  .mf-sol__desc { color: rgba(243, 242, 247, .72); font-size: 15px; line-height: 1.5; max-width: 38ch; }
+  .mf-sol__eyebrow { margin: 0; font-size: 11px; font-weight: 500; letter-spacing: .16em; text-transform: uppercase; line-height: 1.4; color: var(--mf-accent); }
+  .mf-sol .mf-sol__name { margin: 0; color: #f3f2f7; font-size: 30px; line-height: 1; letter-spacing: -.04em; text-wrap: balance; }
+  .mf-sol--compact .mf-sol__name { font-size: 24px; }
+  .mf-sol--compact .mf-sol__text { padding: 4px 18px 20px; }
+  .mf-sol .mf-sol__desc { color: rgba(243, 242, 247, .72); font-size: 15px; line-height: 1.5; max-width: 38ch; }
   .mf-sol__pills { display: flex; flex-wrap: wrap; gap: 6px; padding: 0; list-style: none; }
-  .mf-sol__pills li { margin: 0; font-size: 12.5px; line-height: 1.3; color: #f3f2f7; border: 1px solid rgba(255, 255, 255, .2); border-radius: 999px; padding: 5px 11px; }
-  .mf-sol__pills li::before { content: none; }
-  .mf-sol .mf-sol__link { justify-self: start; align-self: end; margin-top: 8px; color: #f3f2f7; font-weight: 500; text-decoration: none; border-bottom: 1px solid rgba(255, 255, 255, .3); padding-bottom: 2px; }
+  .mf-sol__pills li { list-style: none; margin: 0; font-size: 12.5px; line-height: 1.3; color: #f3f2f7; border: 1px solid rgba(255, 255, 255, .2); border-radius: 999px; padding: 5px 11px; }
+  .mf-sol__pills li::before, .mf-sol__pills li::after, .mf-sol__pills li::marker { content: none; }
+  .mf-sol .mf-sol__link { justify-self: start; align-self: end; margin-top: 6px; color: #f3f2f7; font-weight: 500; text-decoration: none; border-bottom: 1px solid rgba(255, 255, 255, .3); padding-bottom: 2px; }
   .mf-sol .mf-sol__link:hover { border-color: #f3f2f7; }
   .mf-sol .mf-sol__link:focus-visible { outline: 2px solid #f3f2f7; outline-offset: 3px; }
-  @media (max-width: 900px) {
-    .mf-sol__intro, .mf-sol__cols { grid-template-columns: minmax(0, 1fr); }
-  }
 </style>
 <script>
 (function () {
-  // Stretch to the full page width, wherever Squarespace places the code block.
-  function fullBleed(el) {
-    function fit() {
-      el.style.marginLeft = "0px";
-      el.style.width = "auto";
-      var left = el.getBoundingClientRect().left + window.pageXOffset;
-      el.style.width = document.documentElement.clientWidth + "px";
-      el.style.marginLeft = -left + "px";
-    }
-    fit();
-    window.addEventListener("resize", fit);
-    if (window.ResizeObserver && el.parentElement) new ResizeObserver(fit).observe(el.parentElement);
+  // Lay out by the code block's own width, so the cards fit wherever the block is placed.
+  function fit(el) {
+    var w = el.getBoundingClientRect().width;
+    el.classList.toggle("mf-sol--stack", w < 760);
+    el.classList.toggle("mf-sol--compact", w >= 760 && w < 1020);
   }
   document.querySelectorAll(".mf-sol:not([data-mf-init])").forEach(function (el) {
     el.setAttribute("data-mf-init", "");
-    fullBleed(el);
+    fit(el);
+    if (window.ResizeObserver) new ResizeObserver(function () { fit(el); }).observe(el);
+    else window.addEventListener("resize", function () { fit(el); });
   });
 })();
 </script>

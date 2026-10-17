@@ -372,16 +372,17 @@
     }
 
     if (window.ResizeObserver) {
-      new ResizeObserver(function () { build(); if (reduced) still(); }).observe(el);
+      new ResizeObserver(function () { build(); if (reduced) still(); else draw(); }).observe(el);
     } else {
-      window.addEventListener("resize", function () { build(); if (reduced) still(); });
+      window.addEventListener("resize", function () { build(); if (reduced) still(); else draw(); });
     }
     if (window.IntersectionObserver) {
       // Safari can batch several entries into one callback; the last one is current.
       new IntersectionObserver(function (e) { visible = e[e.length - 1].isIntersecting; }).observe(el);
     }
     build();
-    if (reduced) still(); else requestAnimationFrame(frame);
+    // Draw one frame now, so blocks below the fold aren't blank before they scroll into view.
+    if (reduced) still(); else { draw(); requestAnimationFrame(frame); }
   }
 
   function mountAll() {

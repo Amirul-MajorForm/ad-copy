@@ -102,7 +102,7 @@
 
     var self = this;
     this.frame = function (now) { self.tick(now); };
-    this.onResize = function () { self.resize(); if (self.reduced) self.draw(); };
+    this.onResize = function () { self.resize(); self.draw(); };
     this.onMove = function (e) {
       var r = self.canvas.getBoundingClientRect();
       self.mouse.x = e.clientX - r.left;
@@ -131,6 +131,7 @@
       this.t = 9.5; // still frame with waves and the full path
       this.draw();
     } else {
+      this.draw(); // first frame straight away, even before it scrolls into view
       this.raf = requestAnimationFrame(this.frame);
     }
   }
