@@ -13,24 +13,21 @@ const DEFAULT_SETTINGS = {
     "30 | [pin] 30 minutes left! Spend $90 & comment your order ID to win SUBLIMIC Luminoforce Shampoo 50ml 🎁",
     "10 | [pin] Final 10 minutes! Live-exclusive vouchers end with the stream, check out now ✨"
   ].join('\n'),
-  // Product tips: "keyword | tip". Used by {range} and {tip} in messages.
-  productTips: [
-    "Adenovital | for thinning, flat hair. Supports scalp, roots & hair for fuller-looking hair",
-    "Aqua Intensive | for damaged hair from colouring & perming. Replenishes lost moisture",
-    "Luminoforce | for coloured hair. Protects colour while boosting shine & smoothness",
-    "Airy Flow | for frizzy, wavy hair. Uses everyday heat to make hair easier to manage",
-    "Fuente Forte | for scalp dryness, oiliness, dandruff & itchiness. Hydrates the scalp",
-    "Timetic | for premium anti-ageing scalp & hair care that follows your circadian rhythm",
-    "Wonder Shield | for everyday protection from heat, UV, humidity & pollution"
-  ].join('\n'),
-  // Tip message: sent this many seconds after a new product's first message.
+  // Product tips: "keyword | message", sent tipDelaySeconds after a new product's
+  // first message when the product name contains the keyword.
   tipDelaySeconds: 10,
-  tipMessages: [
-    "💡 SUBLIMIC {range} is {tip} ✨"
+  productTips: [
+    "Adenovital | 💡 SUBLIMIC Adenovital is for thinning, flat hair. Supports scalp, roots & hair for fuller-looking hair ✨",
+    "Aqua Intensive | 💡 SUBLIMIC Aqua Intensive is for damaged hair from colouring & perming. Replenishes lost moisture ✨",
+    "Luminoforce | 💡 SUBLIMIC Luminoforce is for coloured hair. Protects colour while boosting shine & smoothness ✨",
+    "Airy Flow | 💡 SUBLIMIC Airy Flow is for frizzy, wavy hair. Uses everyday heat to make hair easier to manage ✨",
+    "Fuente Forte | 💡 SUBLIMIC Fuente Forte is for scalp dryness, oiliness, dandruff & itchiness. Hydrates the scalp ✨",
+    "Timetic | 💡 SUBLIMIC Timetic is for premium anti-ageing scalp & hair care that follows your circadian rhythm ✨",
+    "Wonder Shield | 💡 SUBLIMIC Wonder Shield is for everyday protection from heat, UV, humidity & pollution ✨"
   ].join('\n'),
   productMessages: [
     "[pin] Now showing: {product} at {price}! Grab it with our 12% live voucher 🎟️",
-    "Have questions about SUBLIMIC {range}? Ask us in the comments and we'll answer live 💬",
+    "Have questions about this product? Ask us in the comments and we'll answer live 💬",
     "Not sure which SUBLIMIC range suits you? Share your hair & scalp concerns and we'll recommend one 💬"
   ].join('\n'),
   generalMessages: [

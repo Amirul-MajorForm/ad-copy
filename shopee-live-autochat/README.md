@@ -27,11 +27,9 @@ dashboard). When nothing is showing, it uses your general messages instead.
 - Countdown messages go out once per live when the timer reaches each mark, e.g.
   `60 | [pin] Only 1 hour left!` sends at 1:00:00 on a 120-minute live. A mark is skipped
   if the extension was started more than 5 minutes after it.
-- **Product tips** (`keyword | tip`): when the showing product's name contains the keyword,
-  `{range}` becomes the keyword and `{tip}` the tip. Message lines that use `{range}` or `{tip}`
-  are skipped when no tip matches the product.
-- **Tip message**: a set number of seconds (default 10) after a new product's first message,
-  a tip message is sent if the product has a matching product tip and is still showing.
+- **Product tips** (`keyword | message`): a set number of seconds (default 10) after a new
+  product's first message, the tip whose keyword appears in the product's name is sent, if that
+  product is still showing.
 - Messages rotate in order. The log at the bottom shows what was sent and any errors.
 
 ## Clients

@@ -80,14 +80,11 @@
     <span class="hint">(0 = never)</span>
   </div>
 
-  <label>Product tips <span class="hint">keyword in product name | tip. Fills {range} and {tip}</span></label>
-  <textarea id="productTips" placeholder="Luminoforce | for coloured hair, protects colour while boosting shine"></textarea>
-
-  <label>Tip message <span class="hint">sent after a new product's first message. {range} {tip}</span></label>
+  <label>Product tips <span class="hint">keyword | message. Sent after the product message when the pinned product's name contains the keyword</span></label>
   <div class="row">Send <input id="tipDelaySeconds" type="number" min="0"> seconds after the product message</div>
-  <textarea id="tipMessages" style="height: 44px"></textarea>
+  <textarea id="productTips" placeholder="Luminoforce | 💡 SUBLIMIC Luminoforce is for coloured hair ✨"></textarea>
 
-  <label>Product messages <span class="hint">used when a product is showing. {product} {price} {lowprice} {range} {tip}</span></label>
+  <label>Product messages <span class="hint">used when a product is showing. {product} {price} {lowprice}</span></label>
   <textarea id="productMessages"></textarea>
 
   <label>General messages <span class="hint">used when nothing is showing, and mixed in while a product is</span></label>
