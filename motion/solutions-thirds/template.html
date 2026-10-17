@@ -42,7 +42,8 @@
   .mf-sol { --mf-gap: 12px; width: 100%; color: #f3f2f7; }
   .mf-sol *, .mf-sol *::before, .mf-sol *::after { box-sizing: border-box; }
   .mf-sol__cols { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--mf-gap); }
-  .mf-sol--stack .mf-sol__cols { grid-template-columns: minmax(0, 1fr); }
+  .mf-sol--stack .mf-sol__cols, .mf-sol--single .mf-sol__cols { grid-template-columns: minmax(0, 1fr); }
+  .mf-sol--single, .mf-sol--single .mf-sol__cols, .mf-sol--single .mf-sol__col { height: 100%; }
   .mf-sol__col { background: var(--mf-bg); border-radius: 16px; overflow: hidden; display: grid; grid-template-rows: auto 1fr; min-width: 0; }
   .mf-sol__viz { position: relative; aspect-ratio: 4 / 3; max-height: 380px; width: 100%; }
   .mf-sol--stack .mf-sol__viz { aspect-ratio: 16 / 9; }
@@ -65,6 +66,10 @@
   // Lay out by the code block's own width, so the cards fit wherever the block is placed.
   function fit(el) {
     var w = el.getBoundingClientRect().width;
+    if (el.classList.contains("mf-sol--single")) {
+      el.classList.toggle("mf-sol--compact", w < 340);
+      return;
+    }
     el.classList.toggle("mf-sol--stack", w < 760);
     el.classList.toggle("mf-sol--compact", w >= 760 && w < 1020);
   }
