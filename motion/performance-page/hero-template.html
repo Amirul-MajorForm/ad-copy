@@ -1,30 +1,7 @@
-<!-- MajorForm performance page hero, part 2 of 2: dot animation (Antwerp, 30% faster) and buttons.
-     Paste into a Squarespace Code block in the hero, below your headline and intro text blocks,
-     with Display Source turned off. The animation fills the whole section behind everything. -->
+<!-- MajorForm performance page hero: dot animation only (Antwerp, about 30% faster).
+     Paste into a Squarespace Code block anywhere in the hero section, with Display Source turned off.
+     The animation fills the whole section behind your own headline, text and buttons. -->
 <div data-pillar-dots data-pillar="performance" data-palette="antwerp" data-fill="section" data-speed="1.3"></div>
-<div class="mf-hero">
-  <div class="mf-hero__btns">
-    <a class="mf-hero__btn mf-hero__btn--primary" href="https://www.majorform.co/contact">Talk to our strategists <span aria-hidden="true">→</span></a>
-    <a class="mf-hero__btn mf-hero__btn--ghost" href="#results">See our results</a>
-  </div>
-</div>
-<style>
-  /* Fonts are inherited from your Squarespace site; only sizes and colours are set here. */
-  /* Bottom margin keeps the Observe / Identify / Connect labels clear of the buttons. */
-  .mf-hero { position: relative; z-index: 1; max-width: 560px; display: grid; gap: 22px; color: #f3f2f7; margin-bottom: 56px; }
-  .mf-hero > * { margin: 0; }
-  .mf-hero__btns { display: flex; flex-wrap: wrap; gap: 10px; }
-  .mf-hero .mf-hero__btn { display: inline-flex; align-items: center; gap: 8px; font-size: 16px; font-weight: 500; line-height: 1; text-decoration: none; border-radius: 999px; padding: 14px 22px; transition: filter .2s, transform .2s; }
-  .mf-hero .mf-hero__btn--primary { background: #ffefae; color: #1a1a14; }
-  .mf-hero .mf-hero__btn--ghost { color: #f3f2f7; border: 1px solid rgba(255, 255, 255, .3); }
-  .mf-hero .mf-hero__btn:hover { filter: brightness(1.06); transform: translateY(-1px); }
-  .mf-hero .mf-hero__btn:focus-visible { outline: 2px solid #ffefae; outline-offset: 3px; }
-  /* On narrow screens the animation runs behind the text, so give the copy a soft panel. */
-  @media (max-width: 760px) {
-    .mf-hero { background: rgba(4, 32, 44, .78); padding: 22px; border-radius: 18px; }
-  }
-  @media (prefers-reduced-motion: reduce) { .mf-hero .mf-hero__btn { transition: none; } }
-</style>
 <script>
 /*PILLAR_DOTS*/
 </script>
