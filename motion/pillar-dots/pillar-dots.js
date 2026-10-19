@@ -14,6 +14,7 @@
  *   data-fill      "section" to fill the closest <section> (for Squarespace code blocks)
  *   data-layout    "right" (default) keeps the motion right of a left-aligned headline; "full" uses the whole width
  *   data-labels    "false" to hide, or three comma-separated labels to override the defaults
+ *   data-speed     playback speed, 1 = normal, 1.3 = about 30% faster through the three beats
  */
 (function () {
   "use strict";
@@ -223,6 +224,7 @@
     var s = { t: 0, dt: 0, phase: -1, rings: [], cycle: -1, chosen: null };
     s.C = PALETTES[ds.palette] || PALETTES[defaults.palette];
     var full = ds.layout === "full";
+    var speed = clamp(parseFloat(ds.speed) || 1, 0.25, 3);
     var reduced = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     if (getComputedStyle(el).position === "static") el.style.position = "relative";
@@ -367,7 +369,7 @@
     function frame(now) {
       var dt = last ? Math.min((now - last) / 1000, 0.05) : 0;
       last = now;
-      if (visible && !document.hidden) { s.t += dt; s.dt = dt; draw(); }
+      if (visible && !document.hidden) { s.t += dt * speed; s.dt = dt * speed; draw(); }
       requestAnimationFrame(frame);
     }
 

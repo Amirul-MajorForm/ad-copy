@@ -1,0 +1,55 @@
+<!-- MajorForm performance page: recent results strip.
+     Paste into a Squarespace Code block, with Display Source turned off. It fills only its block.
+     Tip: set the section background to #04202c (Antwerp navy) so the strip blends with the hero. -->
+<section class="mf-res" id="results" aria-labelledby="mf-res-title">
+  <h2 class="mf-res__title" id="mf-res-title">Recent results</h2>
+  <div class="mf-res__grid">
+    <a class="mf-res__card" href="https://www.majorform.co/our-work/oatside-digital-marketing-majorform-2026">
+      <span class="mf-res__num">+4%</span>
+      <span class="mf-res__what">Brand lift for <b>Oatside</b></span>
+      <span class="mf-res__cta">See how we did it <span aria-hidden="true">→</span></span>
+    </a>
+    <a class="mf-res__card" href="https://www.majorform.co/our-work/yogamovement-digital-marketing-majorform-2026">
+      <span class="mf-res__num">20%</span>
+      <span class="mf-res__what">Better cost per acquisition for <b>Yoga Movement</b></span>
+      <span class="mf-res__cta">See how we did it <span aria-hidden="true">→</span></span>
+    </a>
+    <a class="mf-res__card" href="https://www.majorform.co/our-work/blackmores-tiktok-livestreaming-majorform-2026">
+      <span class="mf-res__num">4×</span>
+      <span class="mf-res__what">Ecommerce ROI for <b>Blackmores</b></span>
+      <span class="mf-res__cta">See how we did it <span aria-hidden="true">→</span></span>
+    </a>
+  </div>
+  <p class="mf-res__foot">Want results like these? <a href="https://www.majorform.co/contact">Talk to our strategists <span aria-hidden="true">→</span></a></p>
+</section>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,500;9..40,600&display=swap">
+<style>
+  .mf-res { --mf-num: "DM Sans", "Helvetica Neue", Arial, sans-serif; width: 100%; display: grid; gap: 16px; color: #f3f2f7; }
+  .mf-res *, .mf-res *::before, .mf-res *::after { box-sizing: border-box; }
+  .mf-res .mf-res__title { margin: 0; font-size: 11px; font-weight: 500; letter-spacing: .16em; text-transform: uppercase; line-height: 1.4; color: #a9b8c0; }
+  .mf-res__grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+  .mf-res--stack .mf-res__grid { grid-template-columns: minmax(0, 1fr); }
+  .mf-res .mf-res__card { display: grid; gap: 8px; align-content: start; grid-template-rows: auto 1fr auto; padding: 24px; border-radius: 16px; background: #0a2b39; color: #f3f2f7; text-decoration: none; border: 1px solid rgba(255, 255, 255, .06); transition: border-color .2s, transform .2s; }
+  .mf-res .mf-res__card:hover { border-color: rgba(255, 255, 255, .35); transform: translateY(-2px); }
+  .mf-res .mf-res__card:focus-visible { outline: 2px solid #ffffff; outline-offset: 3px; }
+  .mf-res__num { font-family: var(--mf-num); font-weight: 600; font-size: clamp(48px, 5vw, 68px); line-height: 1; letter-spacing: -.04em; color: #ffffff; font-variant-numeric: tabular-nums; }
+  .mf-res__what { font-size: 15px; line-height: 1.45; color: rgba(243, 242, 247, .78); }
+  .mf-res__what b { color: #ffffff; font-weight: 500; }
+  .mf-res__cta { margin-top: 10px; font-size: 14px; font-weight: 500; color: #ffffff; justify-self: start; border-bottom: 1px solid rgba(255, 255, 255, .35); padding-bottom: 2px; }
+  .mf-res .mf-res__card:hover .mf-res__cta { border-color: #ffffff; }
+  .mf-res .mf-res__foot { margin: 4px 0 0; font-size: 15px; color: rgba(243, 242, 247, .78); }
+  .mf-res .mf-res__foot a { color: #ffffff; font-weight: 500; text-decoration: none; border-bottom: 1px solid rgba(255, 255, 255, .35); padding-bottom: 1px; margin-left: 4px; }
+  .mf-res .mf-res__foot a:hover { border-color: #ffffff; }
+  @media (prefers-reduced-motion: reduce) { .mf-res .mf-res__card { transition: none; } }
+</style>
+<script>
+(function () {
+  // Lay out by the code block's own width: three across when there's room, stacked when narrow.
+  document.querySelectorAll(".mf-res:not([data-mf-init])").forEach(function (el) {
+    el.setAttribute("data-mf-init", "");
+    function fit() { el.classList.toggle("mf-res--stack", el.getBoundingClientRect().width < 700); }
+    fit();
+    if (window.ResizeObserver) new ResizeObserver(fit).observe(el); else window.addEventListener("resize", fit);
+  });
+})();
+</script>
