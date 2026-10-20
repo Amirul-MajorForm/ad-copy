@@ -1,7 +1,7 @@
 <!-- MajorForm performance page: code injection.
      Paste into Page Settings > Advanced > Page Header Code Injection for the performance page only.
-     It runs the hero dots, the results entrance and count-up, the About facts animations, and sizes
-     the big numbers to match your H2 headings. The code blocks on the page hold only the content. -->
+     It runs the hero dots, the results entrance and count-up, the About facts animations, matches
+     the heights of the goal cards, and sizes the big numbers to match your H2 headings. The code blocks on the page hold only the content. -->
 <script>
 document.addEventListener("DOMContentLoaded", function () {
 /*!
@@ -553,6 +553,34 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     }, { threshold: 0.3 }).observe(root);
   });
+})();
+
+(function () {
+  // Goal cards sit in separate code blocks, which Squarespace sizes to their content.
+  // Match cards side by side to the tallest in their row; stacked cards keep their own height.
+  var queued = false;
+  function equalize() {
+    queued = false;
+    var cards = Array.prototype.slice.call(document.querySelectorAll(".mf-goal"));
+    cards.forEach(function (c) { c.style.minHeight = ""; });
+    var rows = [];
+    cards.forEach(function (c) {
+      var top = Math.round(c.getBoundingClientRect().top + window.pageYOffset);
+      var row = rows.filter(function (r) { return Math.abs(r.top - top) < 40; })[0];
+      if (!row) { row = { top: top, cards: [] }; rows.push(row); }
+      row.cards.push(c);
+    });
+    rows.forEach(function (r) {
+      if (r.cards.length < 2) return;
+      var max = Math.max.apply(null, r.cards.map(function (c) { return c.offsetHeight; }));
+      r.cards.forEach(function (c) { c.style.minHeight = max + "px"; });
+    });
+  }
+  function queue() { if (!queued) { queued = true; requestAnimationFrame(equalize); } }
+  queue();
+  window.addEventListener("load", queue);
+  window.addEventListener("resize", queue);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(queue);
 })();
 });
 </script>
