@@ -1,7 +1,9 @@
 <!-- MajorForm performance page: About facts with looping dot animations.
      Paste into a Squarespace Code block beside your About text, with Display Source turned off.
-     It fills only its block. Numbers count up once; the dot animations loop while on screen. -->
-<div class="mf-facts">
+     It fills only its block. Numbers count up once; the dot animations loop while on screen.
+     data-theme="light" is for white sections; change it to "dark" for a dark section.
+     Wide blocks show the three facts side by side; narrower blocks stack them. -->
+<div class="mf-facts" data-theme="light">
   <div class="mf-facts__row">
     <div><p class="mf-facts__num" data-count="10" data-suffix="+ years">10+ years</p><p class="mf-facts__lbl">of performance marketing experience</p></div>
     <div class="mf-facts__viz" data-viz="years" aria-hidden="true"></div>
@@ -17,28 +19,33 @@
 </div>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,600&family=Space+Grotesk:wght@400;500&display=swap">
 <style>
-  .mf-facts { width: 100%; display: grid; color: #f3f2f7; font-family: "Space Grotesk", system-ui, sans-serif; }
+  .mf-facts { --num: #ffffff; --lbl: #a9a7b4; --rule: rgba(255, 255, 255, .16); --dot: #96d1aa; --dot2: #2fc2b6; --hot: #ffefae; --track: rgba(255, 255, 255, .18);
+    width: 100%; display: grid; color: var(--num); font-family: "Space Grotesk", system-ui, sans-serif; }
+  /* Light theme for white sections: MajorForm navy numbers, deeper Antwerp (Wada 281) dots */
+  .mf-facts[data-theme="light"] { --num: #233551; --lbl: #5d6270; --rule: rgba(35, 53, 81, .16); --dot: #7cc39a; --dot2: #00978d; --hot: #0a3261; --track: rgba(35, 53, 81, .18); }
   .mf-facts *, .mf-facts *::before, .mf-facts *::after { box-sizing: border-box; }
-  .mf-facts__row { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 16px; border-top: 1px solid rgba(255, 255, 255, .16); padding: 16px 0; }
-  .mf-facts__row:last-child { border-bottom: 1px solid rgba(255, 255, 255, .16); }
-  .mf-facts .mf-facts__num { margin: 0; font-family: "DM Sans", "Helvetica Neue", Arial, sans-serif; font-weight: 600; font-size: clamp(34px, 3.6vw, 46px); letter-spacing: -.04em; line-height: 1; color: #ffffff; font-variant-numeric: tabular-nums; }
+  .mf-facts__row { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 16px; border-top: 1px solid var(--rule); padding: 16px 0; }
+  .mf-facts__row:last-child { border-bottom: 1px solid var(--rule); }
+  .mf-facts .mf-facts__num { margin: 0; font-family: "DM Sans", "Helvetica Neue", Arial, sans-serif; font-weight: 600; font-size: clamp(34px, 3.6vw, 46px); letter-spacing: -.04em; line-height: 1; color: var(--num); font-variant-numeric: tabular-nums; }
   /* Tight line height so two-line labels stay compact */
-  .mf-facts .mf-facts__lbl { margin: 6px 0 0; font-size: 14px; line-height: 1.3; color: #a9a7b4; max-width: 30ch; }
+  .mf-facts .mf-facts__lbl { margin: 6px 0 0; font-size: 14px; line-height: 1.3; color: var(--lbl); max-width: 30ch; }
 
   .mf-facts__viz { position: relative; width: 170px; height: 56px; flex: none; }
-  .mf-facts__viz i { position: absolute; border-radius: 50%; background: #96d1aa; transform: scale(0); transition: transform .45s cubic-bezier(.3, 1.6, .5, 1), background .4s, opacity .4s; }
-  .mf-facts__viz i.hot { background: #ffefae; }
-  .mf-facts__viz i.teal { background: #2fc2b6; }
-  .mf-facts__viz i.line { left: 6px; right: 6px; top: 27px; height: 1px; border-radius: 0; background: rgba(255, 255, 255, .18); transform: scaleX(0); transform-origin: left; transition: transform .9s ease; }
+  .mf-facts__viz i { position: absolute; border-radius: 50%; background: var(--dot); transform: scale(0); transition: transform .45s cubic-bezier(.3, 1.6, .5, 1), background .4s, opacity .4s; }
+  .mf-facts__viz i.hot { background: var(--hot); }
+  .mf-facts__viz i.teal { background: var(--dot2); }
+  .mf-facts__viz i.line { left: 6px; right: 6px; top: 27px; height: 1px; border-radius: 0; background: var(--track); transform: scaleX(0); transform-origin: left; transition: transform .9s ease; }
   .mf-facts--play .mf-facts__viz i { transform: scale(1); }
   .mf-facts--play .mf-facts__viz i.line { transform: scaleX(1); }
   .mf-facts__viz--team i { transition: transform .5s cubic-bezier(.3, 1.6, .5, 1), left .8s cubic-bezier(.6, 0, .2, 1), top .8s cubic-bezier(.6, 0, .2, 1), opacity .4s, background .4s; }
-  .mf-facts__viz--team em { position: absolute; font-style: normal; font-size: 9.5px; letter-spacing: .1em; text-transform: uppercase; color: #a9a7b4; white-space: nowrap; opacity: 0; transition: opacity .4s; }
+  .mf-facts__viz--team em { position: absolute; font-style: normal; font-size: 9.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--lbl); white-space: nowrap; opacity: 0; transition: opacity .4s; }
   .mf-facts--play .mf-facts__viz--team em { opacity: 1; }
   /* Narrow blocks: the animation moves under the text so the numbers stay on one line */
   .mf-facts .mf-facts__num { white-space: nowrap; }
   .mf-facts--narrow .mf-facts__row { grid-template-columns: minmax(0, 1fr); gap: 12px; }
   .mf-facts--narrow .mf-facts__lbl { max-width: none; }
+  .mf-facts--wide { grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: clamp(24px, 4vw, 56px); }
+  .mf-facts--wide .mf-facts__row { grid-template-columns: minmax(0, 1fr); align-content: start; gap: 18px; padding: 20px 0 22px; border-bottom: 1px solid var(--rule); }
   @media (prefers-reduced-motion: reduce) { .mf-facts__viz i, .mf-facts__viz--team em { transition: none; } }
 </style>
 <script>
@@ -98,7 +105,11 @@
     var timers = [], running = false, counted = false;
 
     // Size by the block's own width, not the screen
-    function fit() { root.classList.toggle("mf-facts--narrow", root.getBoundingClientRect().width < 440); }
+    function fit() {
+      var w = root.getBoundingClientRect().width;
+      root.classList.toggle("mf-facts--narrow", w < 440);
+      root.classList.toggle("mf-facts--wide", w >= 900);
+    }
     fit();
     if (window.ResizeObserver) new ResizeObserver(fit).observe(root); else window.addEventListener("resize", fit);
 
