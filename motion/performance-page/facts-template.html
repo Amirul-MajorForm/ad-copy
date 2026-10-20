@@ -1,0 +1,145 @@
+<!-- MajorForm performance page: About facts with looping dot animations.
+     Paste into a Squarespace Code block beside your About text, with Display Source turned off.
+     It fills only its block. Numbers count up once; the dot animations loop while on screen. -->
+<div class="mf-facts">
+  <div class="mf-facts__row">
+    <div><p class="mf-facts__num" data-count="10" data-suffix="+ years">10+ years</p><p class="mf-facts__lbl">of performance marketing experience</p></div>
+    <div class="mf-facts__viz" data-viz="years" aria-hidden="true"></div>
+  </div>
+  <div class="mf-facts__row">
+    <div><p class="mf-facts__num" data-count="30" data-suffix="+ brands">30+ brands</p><p class="mf-facts__lbl">leading and challenger brands we've worked with</p></div>
+    <div class="mf-facts__viz" data-viz="brands" aria-hidden="true"></div>
+  </div>
+  <div class="mf-facts__row">
+    <div><p class="mf-facts__num">One team</p><p class="mf-facts__lbl">strategy, creative, media, data</p></div>
+    <div class="mf-facts__viz mf-facts__viz--team" data-viz="team" aria-hidden="true"></div>
+  </div>
+</div>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,600&family=Space+Grotesk:wght@400;500&display=swap">
+<style>
+  .mf-facts { width: 100%; display: grid; color: #f3f2f7; font-family: "Space Grotesk", system-ui, sans-serif; }
+  .mf-facts *, .mf-facts *::before, .mf-facts *::after { box-sizing: border-box; }
+  .mf-facts__row { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 16px; border-top: 1px solid rgba(255, 255, 255, .16); padding: 16px 0; }
+  .mf-facts__row:last-child { border-bottom: 1px solid rgba(255, 255, 255, .16); }
+  .mf-facts .mf-facts__num { margin: 0; font-family: "DM Sans", "Helvetica Neue", Arial, sans-serif; font-weight: 600; font-size: clamp(34px, 3.6vw, 46px); letter-spacing: -.04em; line-height: 1; color: #ffffff; font-variant-numeric: tabular-nums; }
+  /* Tight line height so two-line labels stay compact */
+  .mf-facts .mf-facts__lbl { margin: 6px 0 0; font-size: 14px; line-height: 1.3; color: #a9a7b4; max-width: 30ch; }
+
+  .mf-facts__viz { position: relative; width: 170px; height: 56px; flex: none; }
+  .mf-facts__viz i { position: absolute; border-radius: 50%; background: #96d1aa; transform: scale(0); transition: transform .45s cubic-bezier(.3, 1.6, .5, 1), background .4s, opacity .4s; }
+  .mf-facts__viz i.hot { background: #ffefae; }
+  .mf-facts__viz i.teal { background: #2fc2b6; }
+  .mf-facts__viz i.line { left: 6px; right: 6px; top: 27px; height: 1px; border-radius: 0; background: rgba(255, 255, 255, .18); transform: scaleX(0); transform-origin: left; transition: transform .9s ease; }
+  .mf-facts--play .mf-facts__viz i { transform: scale(1); }
+  .mf-facts--play .mf-facts__viz i.line { transform: scaleX(1); }
+  .mf-facts__viz--team i { transition: transform .5s cubic-bezier(.3, 1.6, .5, 1), left .8s cubic-bezier(.6, 0, .2, 1), top .8s cubic-bezier(.6, 0, .2, 1), opacity .4s, background .4s; }
+  .mf-facts__viz--team em { position: absolute; font-style: normal; font-size: 9.5px; letter-spacing: .1em; text-transform: uppercase; color: #a9a7b4; white-space: nowrap; opacity: 0; transition: opacity .4s; }
+  .mf-facts--play .mf-facts__viz--team em { opacity: 1; }
+  /* Narrow blocks: the animation moves under the text so the numbers stay on one line */
+  .mf-facts .mf-facts__num { white-space: nowrap; }
+  .mf-facts--narrow .mf-facts__row { grid-template-columns: minmax(0, 1fr); gap: 12px; }
+  .mf-facts--narrow .mf-facts__lbl { max-width: none; }
+  @media (prefers-reduced-motion: reduce) { .mf-facts__viz i, .mf-facts__viz--team em { transition: none; } }
+</style>
+<script>
+(function () {
+  var reduced = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var HOLD = 3200; // ms the finished state stays before the dots replay
+
+  function dot(v, cls, css) { var i = document.createElement("i"); if (cls) i.className = cls; for (var k in css) i.style[k] = css[k]; v.appendChild(i); return i; }
+
+  function build(v) {
+    v.innerHTML = "";
+    var kind = v.getAttribute("data-viz");
+    if (kind === "years") {
+      dot(v, "line", {});
+      for (var k = 0; k < 10; k++) dot(v, k === 9 ? "hot" : "", { left: (3 + k * 15.5) + "px", top: "24px", width: "7px", height: "7px", transitionDelay: (0.25 + k * 0.11) + "s" });
+      dot(v, "hot", { left: "151px", top: "20px", width: "15px", height: "15px", transitionDelay: "1.45s" });
+    } else if (kind === "brands") {
+      for (var n = 0; n < 30; n++) {
+        var r = Math.floor(n / 10), c = n % 10;
+        dot(v, [4, 13, 22, 27].indexOf(n) >= 0 ? "teal" : (n === 29 ? "hot" : ""), { left: (6 + c * 16) + "px", top: (8 + r * 17) + "px", width: "8px", height: "8px", transitionDelay: (0.2 + n * 0.04) + "s" });
+      }
+    } else if (kind === "team") {
+      [[8, 2, "Strategy"], [118, 2, "Creative"], [8, 40, "Media"], [118, 40, "Data"]].forEach(function (p, i) {
+        dot(v, "teal", { left: p[0] + "px", top: (p[1] + 4) + "px", width: "9px", height: "9px", transitionDelay: (0.2 + i * 0.1) + "s" });
+        var t = document.createElement("em"); t.textContent = p[2]; t.style.left = (p[0] + 14) + "px"; t.style.top = (p[1] + 2) + "px"; v.appendChild(t);
+      });
+      dot(v, "hot", { left: "75px", top: "18px", width: "20px", height: "20px", transform: "scale(0)" });
+    }
+  }
+
+  function merge(v, timers) {
+    var dots = v.querySelectorAll("i"), labels = v.querySelectorAll("em");
+    timers.push(setTimeout(function () {
+      for (var i = 0; i < 4; i++) { dots[i].style.left = "80px"; dots[i].style.top = "23px"; dots[i].style.transitionDelay = (i * 0.06) + "s"; }
+      for (var j = 0; j < labels.length; j++) labels[j].style.opacity = "0";
+    }, 1100));
+    timers.push(setTimeout(function () {
+      for (var i = 0; i < 4; i++) dots[i].style.opacity = "0";
+      dots[4].style.transitionDelay = "0s"; dots[4].style.transform = "scale(1)";
+    }, 1900));
+  }
+
+  function countUp(el) {
+    var target = parseFloat(el.getAttribute("data-count")), suffix = el.getAttribute("data-suffix") || "", start = null;
+    function step(now) {
+      if (start === null) start = now;
+      var p = Math.min(1, (now - start) / 1300);
+      el.textContent = Math.round(target * (1 - Math.pow(1 - p, 3))) + suffix;
+      if (p < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+
+  document.querySelectorAll(".mf-facts:not([data-mf-init])").forEach(function (root) {
+    root.setAttribute("data-mf-init", "");
+    var vizzes = root.querySelectorAll(".mf-facts__viz"), team = root.querySelector('[data-viz="team"]');
+    var timers = [], running = false, counted = false;
+
+    // Size by the block's own width, not the screen
+    function fit() { root.classList.toggle("mf-facts--narrow", root.getBoundingClientRect().width < 440); }
+    fit();
+    if (window.ResizeObserver) new ResizeObserver(fit).observe(root); else window.addEventListener("resize", fit);
+
+    function clear() { timers.forEach(clearTimeout); timers = []; }
+    function play() {
+      clear();
+      root.classList.remove("mf-facts--play");
+      for (var i = 0; i < vizzes.length; i++) build(vizzes[i]);
+      void root.offsetWidth;
+      root.classList.add("mf-facts--play");
+      merge(team, timers);
+      timers.push(setTimeout(function () {
+        root.classList.remove("mf-facts--play");           // dots shrink away in the same stagger
+        var c = team.querySelector("i.hot:last-of-type"); if (c) c.style.transform = "scale(0)";
+        timers.push(setTimeout(function () { if (running) play(); }, 1500));
+      }, 2600 + HOLD));
+    }
+
+    if (reduced) {
+      // Finished state, no motion: everything shown, team already merged into one dot
+      for (var i = 0; i < vizzes.length; i++) build(vizzes[i]);
+      root.classList.add("mf-facts--play");
+      var d = team.querySelectorAll("i"), l = team.querySelectorAll("em");
+      for (var k = 0; k < 4; k++) d[k].style.opacity = "0";
+      for (var m = 0; m < l.length; m++) l[m].style.opacity = "0";
+      d[4].style.transform = "scale(1)";
+      return;
+    }
+
+    for (var j = 0; j < vizzes.length; j++) build(vizzes[j]);
+    if (!window.IntersectionObserver) { running = true; play(); return; }
+    new IntersectionObserver(function (entries) {
+      var on = entries[entries.length - 1].isIntersecting;
+      if (on && !running) {
+        running = true;
+        if (!counted) { counted = true; root.querySelectorAll("[data-count]").forEach(countUp); }
+        play();
+      } else if (!on && running) {
+        running = false; clear();
+      }
+    }, { threshold: 0.3 }).observe(root);
+  });
+})();
+</script>
