@@ -1,23 +1,28 @@
-"""Build the performance page Squarespace snippets.
+"""Build the performance page Squarespace pieces.
 
 Run: python3 build.py
-  hero-snippet.html     dot animation only (inlines ../pillar-dots/pillar-dots.js)
-  results-snippet.html  recent results strip
-  facts-snippet.html    About facts with looping dot animations
+  injection.html        paste once: Page Settings > Advanced > Page Header Code Injection
+  hero-block.html       code block in the hero (animation marker)
+  results-block.html    code block: results strip (content and styling)
+  facts-block.html      code block: About facts (content and styling)
+
+The code blocks contain no scripts, so Squarespace's editor shows them at their real height.
 """
 import os
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-script = open(os.path.join(HERE, "..", "pillar-dots", "pillar-dots.js")).read().strip()
 
-hero = open(os.path.join(HERE, "hero-template.html")).read().replace("/*PILLAR_DOTS*/", script)
-open(os.path.join(HERE, "hero-snippet.html"), "w").write(hero)
-print("wrote hero-snippet.html", len(hero), "bytes")
 
-facts = open(os.path.join(HERE, "facts-template.html")).read()
-open(os.path.join(HERE, "facts-snippet.html"), "w").write(facts)
-print("wrote facts-snippet.html", len(facts), "bytes")
+def read(*parts):
+    return open(os.path.join(HERE, *parts)).read().strip()
 
-results = open(os.path.join(HERE, "results-template.html")).read()
-open(os.path.join(HERE, "results-snippet.html"), "w").write(results)
-print("wrote results-snippet.html", len(results), "bytes")
+
+out = read("injection-template.html")
+out = out.replace("/*PILLAR_DOTS*/", read("..", "pillar-dots", "pillar-dots.js"))
+out = out.replace("/*MATCH_H2*/", read("match-h2.js"))
+out = out.replace("/*RESULTS*/", read("results.js"))
+out = out.replace("/*FACTS*/", read("facts.js"))
+open(os.path.join(HERE, "injection.html"), "w").write(out + "\n")
+print("wrote injection.html", len(out), "bytes")
+for name in ("hero-block.html", "results-block.html", "facts-block.html"):
+    print(name, len(read(name)), "bytes, scripts:", read(name).count("<script"))

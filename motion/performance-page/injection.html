@@ -1,8 +1,9 @@
-<!-- MajorForm performance page hero: dot animation only (Antwerp, about 30% faster).
-     Paste into a Squarespace Code block anywhere in the hero section, with Display Source turned off.
-     The animation fills the whole section behind your own headline, text and buttons. -->
-<div data-pillar-dots data-pillar="performance" data-palette="antwerp" data-fill="section" data-speed="1.3"></div>
+<!-- MajorForm performance page: code injection.
+     Paste into Page Settings > Advanced > Page Header Code Injection for the performance page only.
+     It runs the hero dots, the results entrance and count-up, the About facts animations, and sizes
+     the big numbers to match your H2 headings. The code blocks on the page hold only the content. -->
 <script>
+document.addEventListener("DOMContentLoaded", function () {
 /*!
  * MajorForm pillar dots
  * Hero motion for the service pages. Every page plays the same three beats:
@@ -403,4 +404,155 @@
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", mountAll);
   else mountAll();
 })();
+
+(function () {
+  // Match the big numbers to the site's own H2 size, which Squarespace scales with the screen.
+  function measure() {
+    var heads = document.querySelectorAll("h2"), size = null;
+    for (var i = 0; i < heads.length; i++) {
+      if (heads[i].closest(".mf-res, .mf-facts")) continue;
+      size = getComputedStyle(heads[i]).fontSize; break;
+    }
+    if (size) document.documentElement.style.setProperty("--mf-h2", size);
+  }
+  measure();
+  window.addEventListener("resize", measure);
+  window.addEventListener("load", measure);
+})();
+
+(function () {
+  var reduced = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  document.querySelectorAll(".mf-res:not([data-mf-init])").forEach(function (el) {
+    el.setAttribute("data-mf-init", "");
+
+    if (reduced || !window.IntersectionObserver) return;
+    var rect = el.getBoundingClientRect();
+    if (rect.top < window.innerHeight * 0.85) return; // already on screen at load: show as is
+
+    // Cards rise in one after another; numbers count up from zero to their real value.
+    el.classList.add("mf-res--pre");
+    var nums = Array.prototype.slice.call(el.querySelectorAll(".mf-res__num")).map(function (n) {
+      var m = n.textContent.match(/^(\D*)([\d.]+)(.*)$/);
+      return m ? { el: n, pre: m[1], val: parseFloat(m[2]), post: m[3], dec: (m[2].split(".")[1] || "").length, final: n.textContent } : null;
+    }).filter(Boolean);
+    nums.forEach(function (n) { n.el.textContent = n.pre + "0" + n.post; });
+
+    var io = new IntersectionObserver(function (entries) {
+      if (!entries[entries.length - 1].isIntersecting) return;
+      io.disconnect();
+      el.classList.add("mf-res--in");
+      requestAnimationFrame(function () { el.classList.remove("mf-res--pre"); });
+      nums.forEach(function (n, i) {
+        var start = null, delay = 180 + i * 120, dur = 1300;
+        function step(now) {
+          if (start === null) start = now;
+          var p = Math.min(1, Math.max(0, (now - start - delay) / dur));
+          var e = 1 - Math.pow(1 - p, 3);
+          n.el.textContent = p >= 1 ? n.final : n.pre + (n.val * e).toFixed(n.dec) + n.post;
+          if (p < 1) requestAnimationFrame(step);
+        }
+        requestAnimationFrame(step);
+      });
+    }, { threshold: 0.3 });
+    io.observe(el);
+  });
+})();
+
+(function () {
+  var reduced = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var HOLD = 3200; // ms the finished state stays before the dots replay
+
+  function dot(v, cls, css) { var i = document.createElement("i"); if (cls) i.className = cls; for (var k in css) i.style[k] = css[k]; v.appendChild(i); return i; }
+
+  function build(v) {
+    v.innerHTML = "";
+    var kind = v.getAttribute("data-viz");
+    if (kind === "years") {
+      dot(v, "line", {});
+      for (var k = 0; k < 10; k++) dot(v, k === 9 ? "hot" : "", { left: (3 + k * 15.5) + "px", top: "24px", width: "7px", height: "7px", transitionDelay: (0.25 + k * 0.11) + "s" });
+      dot(v, "hot", { left: "151px", top: "20px", width: "15px", height: "15px", transitionDelay: "1.45s" });
+    } else if (kind === "brands") {
+      for (var n = 0; n < 30; n++) {
+        var r = Math.floor(n / 10), c = n % 10;
+        dot(v, [4, 13, 22, 27].indexOf(n) >= 0 ? "teal" : (n === 29 ? "hot" : ""), { left: (6 + c * 16) + "px", top: (8 + r * 17) + "px", width: "8px", height: "8px", transitionDelay: (0.2 + n * 0.04) + "s" });
+      }
+    } else if (kind === "team") {
+      [[8, 2, "Strategy"], [118, 2, "Creative"], [8, 40, "Media"], [118, 40, "Data"]].forEach(function (p, i) {
+        dot(v, "teal", { left: p[0] + "px", top: (p[1] + 4) + "px", width: "9px", height: "9px", transitionDelay: (0.2 + i * 0.1) + "s" });
+        var t = document.createElement("em"); t.textContent = p[2]; t.style.left = (p[0] + 14) + "px"; t.style.top = (p[1] + 2) + "px"; v.appendChild(t);
+      });
+      dot(v, "hot", { left: "75px", top: "18px", width: "20px", height: "20px", transform: "scale(0)" });
+    }
+  }
+
+  function merge(v, timers) {
+    var dots = v.querySelectorAll("i"), labels = v.querySelectorAll("em");
+    timers.push(setTimeout(function () {
+      for (var i = 0; i < 4; i++) { dots[i].style.left = "80px"; dots[i].style.top = "23px"; dots[i].style.transitionDelay = (i * 0.06) + "s"; }
+      for (var j = 0; j < labels.length; j++) labels[j].style.opacity = "0";
+    }, 1100));
+    timers.push(setTimeout(function () {
+      for (var i = 0; i < 4; i++) dots[i].style.opacity = "0";
+      dots[4].style.transitionDelay = "0s"; dots[4].style.transform = "scale(1)";
+    }, 1900));
+  }
+
+  function countUp(el) {
+    var target = parseFloat(el.getAttribute("data-count")), suffix = el.getAttribute("data-suffix") || "", start = null;
+    function step(now) {
+      if (start === null) start = now;
+      var p = Math.min(1, (now - start) / 1300);
+      el.textContent = Math.round(target * (1 - Math.pow(1 - p, 3))) + suffix;
+      if (p < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+
+  document.querySelectorAll(".mf-facts:not([data-mf-init])").forEach(function (root) {
+    root.setAttribute("data-mf-init", "");
+    var vizzes = root.querySelectorAll(".mf-facts__viz"), team = root.querySelector('[data-viz="team"]');
+    var timers = [], running = false, counted = false;
+
+    function clear() { timers.forEach(clearTimeout); timers = []; }
+    function play() {
+      clear();
+      root.classList.remove("mf-facts--play");
+      for (var i = 0; i < vizzes.length; i++) build(vizzes[i]);
+      void root.offsetWidth;
+      root.classList.add("mf-facts--play");
+      merge(team, timers);
+      timers.push(setTimeout(function () {
+        root.classList.remove("mf-facts--play");           // dots shrink away in the same stagger
+        var c = team.querySelector("i.hot:last-of-type"); if (c) c.style.transform = "scale(0)";
+        timers.push(setTimeout(function () { if (running) play(); }, 1500));
+      }, 2600 + HOLD));
+    }
+
+    if (reduced) {
+      // Finished state, no motion: everything shown, team already merged into one dot
+      for (var i = 0; i < vizzes.length; i++) build(vizzes[i]);
+      root.classList.add("mf-facts--play");
+      var d = team.querySelectorAll("i"), l = team.querySelectorAll("em");
+      for (var k = 0; k < 4; k++) d[k].style.opacity = "0";
+      for (var m = 0; m < l.length; m++) l[m].style.opacity = "0";
+      d[4].style.transform = "scale(1)";
+      return;
+    }
+
+    for (var j = 0; j < vizzes.length; j++) build(vizzes[j]);
+    if (!window.IntersectionObserver) { running = true; play(); return; }
+    new IntersectionObserver(function (entries) {
+      var on = entries[entries.length - 1].isIntersecting;
+      if (on && !running) {
+        running = true;
+        if (!counted) { counted = true; root.querySelectorAll("[data-count]").forEach(countUp); }
+        play();
+      } else if (!on && running) {
+        running = false; clear();
+      }
+    }, { threshold: 0.3 }).observe(root);
+  });
+})();
+});
 </script>

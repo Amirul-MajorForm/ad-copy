@@ -1,9 +1,8 @@
-<!-- MajorForm performance page: recent results strip.
+<!-- MajorForm performance page: results strip (content and styling only).
      Paste into a Squarespace Code block, with Display Source turned off. It fills only its block.
-     Tip: set the section background to #04202c (Antwerp navy) so the strip blends with the hero.
-     Each card fills with its own colour on hover; the cards rise in and the numbers count up
-     when the strip scrolls into view. -->
-<section class="mf-res" id="results" aria-labelledby="mf-res-title">
+     The animations come from the Performance page code injection (paste once in Page Settings).
+     data-theme="light" is for white sections; use "dark" on a dark section. -->
+<section class="mf-res" id="results" data-theme="light" aria-labelledby="mf-res-title">
   <h2 class="mf-res__title" id="mf-res-title">Performance marketing results</h2>
   <div class="mf-res__grid">
     <a class="mf-res__card" style="--mf-hover:#ffefae" href="https://www.majorform.co/our-work/oatside-digital-marketing-majorform-2026">
@@ -27,33 +26,36 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,500;9..40,600&family=Space+Grotesk:wght@400;500&display=swap">
 <style>
   /* Space Grotesk for all text, DM Sans for the numbers */
-  .mf-res { --mf-num: "DM Sans", "Helvetica Neue", Arial, sans-serif; --mf-ink: #04202c; width: 100%; display: grid; gap: 14px; color: #f3f2f7; font-family: "Space Grotesk", system-ui, sans-serif; }
+  .mf-res { --mf-num: "DM Sans", "Helvetica Neue", Arial, sans-serif; --mf-ink: #04202c; --mf-head: #a9b8c0; --mf-foot: rgba(243, 242, 247, .78); --mf-foot-link: #ffffff;
+    width: 100%; display: grid; gap: 12px; color: #f3f2f7; font-family: "Space Grotesk", system-ui, sans-serif; container-type: inline-size; }
+  /* Light theme: heading and closing line readable on a white section (cards stay navy) */
+  .mf-res[data-theme="light"] { --mf-head: #5d6270; --mf-foot: #1a1a1a; --mf-foot-link: #233551; }
   .mf-res .mf-res__title, .mf-res .mf-res__foot, .mf-res .mf-res__foot a { font-family: inherit; }
   .mf-res *, .mf-res *::before, .mf-res *::after { box-sizing: border-box; }
-  .mf-res .mf-res__title { margin: 0; font-size: 11px; font-weight: 500; letter-spacing: .16em; text-transform: uppercase; line-height: 1.4; color: #a9b8c0; }
+  .mf-res .mf-res__title { margin: 0; font-size: 11px; font-weight: 500; letter-spacing: .16em; text-transform: uppercase; line-height: 1.4; color: var(--mf-head); }
   .mf-res__grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
-  .mf-res--stack .mf-res__grid { grid-template-columns: minmax(0, 1fr); }
+  @container (max-width: 699px) { .mf-res__grid { grid-template-columns: minmax(0, 1fr); } }
 
-  .mf-res .mf-res__card { position: relative; overflow: hidden; isolation: isolate; display: grid; gap: 4px; align-content: start; grid-template-rows: auto 1fr auto; padding: 22px 24px; border-radius: 16px; background: #0a2b39; color: #f3f2f7; text-decoration: none; border: 1px solid rgba(255, 255, 255, .06); transition: transform .35s cubic-bezier(.2, .8, .2, 1), color .3s; }
+  .mf-res .mf-res__card { position: relative; overflow: hidden; isolation: isolate; display: grid; gap: 4px; align-content: start; grid-template-rows: auto 1fr auto; padding: 20px 22px; border-radius: 16px; background: #0a2b39; color: #f3f2f7; text-decoration: none; border: 1px solid rgba(255, 255, 255, .06); transition: transform .35s cubic-bezier(.2, .8, .2, 1), color .3s; }
   /* Hover colour floods up from the bottom of the card */
   .mf-res .mf-res__card::before { content: ""; position: absolute; inset: 0; z-index: -1; background: var(--mf-hover); transform: translateY(101%); transition: transform .45s cubic-bezier(.2, .8, .2, 1); }
   .mf-res .mf-res__card:hover, .mf-res .mf-res__card:focus-visible { transform: translateY(-4px); color: var(--mf-ink); }
   .mf-res .mf-res__card:hover::before, .mf-res .mf-res__card:focus-visible::before { transform: translateY(0); }
   .mf-res .mf-res__card:focus-visible { outline: 2px solid #ffffff; outline-offset: 3px; }
 
-  .mf-res__num { font-family: var(--mf-num); font-weight: 600; font-size: clamp(48px, 5vw, 68px); line-height: .95; margin-bottom: 6px; letter-spacing: -.04em; color: #ffffff; font-variant-numeric: tabular-nums; transition: color .3s; }
+  .mf-res__num { font-family: var(--mf-num); font-weight: 600; font-size: var(--mf-h2, clamp(36px, 3.4vw, 48px)); line-height: 1; margin-bottom: 4px; letter-spacing: -.04em; color: #ffffff; font-variant-numeric: tabular-nums; transition: color .3s; }
   .mf-res__what { font-size: 15px; line-height: 1.3; color: rgba(243, 242, 247, .78); transition: color .3s; }
   /* Brand names shown in capitals; the HTML keeps normal spelling for search and screen readers */
   .mf-res__what b { color: #ffffff; font-weight: 500; text-transform: uppercase; letter-spacing: .06em; font-size: .92em; transition: color .3s; }
-  .mf-res__cta { margin-top: 12px; font-size: 14px; line-height: 1.3; font-weight: 500; color: #ffffff; justify-self: start; border-bottom: 1px solid rgba(255, 255, 255, .35); padding-bottom: 2px; transition: color .3s, border-color .3s; }
+  .mf-res__cta { margin-top: 10px; font-size: 14px; line-height: 1.3; font-weight: 500; color: #ffffff; justify-self: start; border-bottom: 1px solid rgba(255, 255, 255, .35); padding-bottom: 2px; transition: color .3s, border-color .3s; }
   .mf-res .mf-res__card:hover .mf-res__num, .mf-res .mf-res__card:hover .mf-res__what b, .mf-res .mf-res__card:hover .mf-res__cta,
   .mf-res .mf-res__card:focus-visible .mf-res__num, .mf-res .mf-res__card:focus-visible .mf-res__what b, .mf-res .mf-res__card:focus-visible .mf-res__cta { color: var(--mf-ink); }
   .mf-res .mf-res__card:hover .mf-res__what, .mf-res .mf-res__card:focus-visible .mf-res__what { color: rgba(4, 32, 44, .8); }
   .mf-res .mf-res__card:hover .mf-res__cta, .mf-res .mf-res__card:focus-visible .mf-res__cta { border-color: var(--mf-ink); }
 
-  .mf-res .mf-res__foot { margin: 4px 0 0; font-size: 15px; color: rgba(243, 242, 247, .78); }
-  .mf-res .mf-res__foot a { color: #ffffff; font-weight: 500; text-decoration: none; border-bottom: 1px solid rgba(255, 255, 255, .35); padding-bottom: 1px; margin-left: 4px; }
-  .mf-res .mf-res__foot a:hover { border-color: #ffffff; }
+  .mf-res .mf-res__foot { margin: 2px 0 0; font-size: 15px; color: var(--mf-foot); }
+  .mf-res .mf-res__foot a { color: var(--mf-foot-link); font-weight: 500; text-decoration: none; border-bottom: 1px solid currentColor; padding-bottom: 1px; margin-left: 4px; }
+  .mf-res .mf-res__foot a:hover { opacity: .75; }
 
   /* Entrance: only applied by the script, so the strip is always visible if scripts don't run */
   .mf-res--pre .mf-res__card { opacity: 0; transform: translateY(28px) scale(.98); }
@@ -68,48 +70,3 @@
     .mf-res .mf-res__card:hover, .mf-res .mf-res__card:focus-visible { transform: none; }
   }
 </style>
-<script>
-(function () {
-  var reduced = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-  document.querySelectorAll(".mf-res:not([data-mf-init])").forEach(function (el) {
-    el.setAttribute("data-mf-init", "");
-
-    // Three across when the block has room, stacked when narrow.
-    function fit() { el.classList.toggle("mf-res--stack", el.getBoundingClientRect().width < 700); }
-    fit();
-    if (window.ResizeObserver) new ResizeObserver(fit).observe(el); else window.addEventListener("resize", fit);
-
-    if (reduced || !window.IntersectionObserver) return;
-    var rect = el.getBoundingClientRect();
-    if (rect.top < window.innerHeight * 0.85) return; // already on screen at load: show as is
-
-    // Cards rise in one after another; numbers count up from zero to their real value.
-    el.classList.add("mf-res--pre");
-    var nums = Array.prototype.slice.call(el.querySelectorAll(".mf-res__num")).map(function (n) {
-      var m = n.textContent.match(/^(\D*)([\d.]+)(.*)$/);
-      return m ? { el: n, pre: m[1], val: parseFloat(m[2]), post: m[3], dec: (m[2].split(".")[1] || "").length, final: n.textContent } : null;
-    }).filter(Boolean);
-    nums.forEach(function (n) { n.el.textContent = n.pre + "0" + n.post; });
-
-    var io = new IntersectionObserver(function (entries) {
-      if (!entries[entries.length - 1].isIntersecting) return;
-      io.disconnect();
-      el.classList.add("mf-res--in");
-      requestAnimationFrame(function () { el.classList.remove("mf-res--pre"); });
-      nums.forEach(function (n, i) {
-        var start = null, delay = 180 + i * 120, dur = 1300;
-        function step(now) {
-          if (start === null) start = now;
-          var p = Math.min(1, Math.max(0, (now - start - delay) / dur));
-          var e = 1 - Math.pow(1 - p, 3);
-          n.el.textContent = p >= 1 ? n.final : n.pre + (n.val * e).toFixed(n.dec) + n.post;
-          if (p < 1) requestAnimationFrame(step);
-        }
-        requestAnimationFrame(step);
-      });
-    }, { threshold: 0.3 });
-    io.observe(el);
-  });
-})();
-</script>
