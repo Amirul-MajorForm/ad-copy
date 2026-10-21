@@ -8,6 +8,8 @@ Run: python3 build.py
   goal-brand.html, goal-performance.html, goal-commerce.html
                         one code block per goal card
   platforms-block.html  code block: platforms we manage, grouped by channel type
+  faq-block.html        code block: FAQs (heading, questions, contact link)
+  faq-schema.html       FAQPage schema matching the FAQ word for word
 
 The code blocks contain no scripts, so Squarespace's editor shows them at their real height.
 """
@@ -33,7 +35,10 @@ sys.path.insert(0, HERE)
 import goals  # noqa: E402
 import platforms  # noqa: E402
 open(os.path.join(HERE, "platforms-block.html"), "w").write(platforms.block_html())
+import faq  # noqa: E402
+open(os.path.join(HERE, "faq-block.html"), "w").write(faq.block_html())
+open(os.path.join(HERE, "faq-schema.html"), "w").write(faq.schema_html())
 for card in goals.CARDS:
     open(os.path.join(HERE, f"goal-{card['key']}.html"), "w").write(goals.card_html(card))
-for name in ("hero-block.html", "results-block.html", "facts-block.html", "goal-brand.html", "goal-performance.html", "goal-commerce.html", "platforms-block.html"):
+for name in ("hero-block.html", "results-block.html", "facts-block.html", "goal-brand.html", "goal-performance.html", "goal-commerce.html", "platforms-block.html", "faq-block.html"):
     print(name, len(read(name)), "bytes, scripts:", read(name).count("<script"))
