@@ -1,0 +1,62 @@
+<!-- MajorForm performance page: Platforms we manage.
+     Paste into its own Squarespace Code block under your "Platforms we manage" text, with Display
+     Source turned off. No scripts. Bold platforms become links once their page URL is added. -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500&display=swap">
+<style>
+  .mf-plat { --ink: #233551; --text: #3d4350; --muted: #6b7180; --rule: rgba(35, 53, 81, .16); --tint: #f4f6f8;
+    container-type: inline-size; font-family: "Space Grotesk", system-ui, sans-serif; color: var(--text); }
+  .mf-plat * { box-sizing: border-box; }
+  .mf-plat__grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 14px; }
+  @container (min-width: 520px) { .mf-plat__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @container (min-width: 900px) { .mf-plat__grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+  .mf-plat__group { background: var(--tint); border-radius: 16px; padding: 20px 20px 22px; }
+  .mf-plat__type { margin: 0 0 6px; font-size: 11px; font-weight: 500; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
+  .mf-plat ul { list-style: none; margin: 0; padding: 0; }
+  .mf-plat li { margin: 0; padding: 0; }
+  .mf-plat li::before, .mf-plat li::marker { content: none; }
+  .mf-plat__item { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--rule); color: var(--ink); text-decoration: none; background: none; }
+  .mf-plat__name { margin: 0; font-family: inherit; font-size: 18px; font-weight: 500; line-height: 1.15; letter-spacing: -.01em; color: inherit; text-transform: none; }
+  .mf-plat__item.is-page .mf-plat__name { font-weight: 600; }
+  .mf-plat__what { display: block; margin: 1px 0 0; font-size: 12.5px; line-height: 1.3; color: var(--muted); }
+  .mf-plat__arrow { font-size: 16px; opacity: .45; transition: transform .3s, opacity .3s; }
+  a.mf-plat__item:hover .mf-plat__arrow, a.mf-plat__item:focus-visible .mf-plat__arrow { opacity: 1; transform: translateX(4px); }
+  a.mf-plat__item:hover .mf-plat__name, a.mf-plat__item:focus-visible .mf-plat__name { text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; }
+  a.mf-plat__item:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; border-radius: 4px; }
+  @media (prefers-reduced-motion: reduce) { .mf-plat__arrow { transition: none; } }
+</style>
+<div class="mf-plat" data-theme="light">
+<div class="mf-plat__grid">
+  <div class="mf-plat__group">
+    <p class="mf-plat__type">Social</p>
+    <ul>
+      <li><div class="mf-plat__item is-page"><div><h3 class="mf-plat__name">Meta Ads</h3><span class="mf-plat__what">Facebook &amp; Instagram</span></div></div></li>
+      <li><div class="mf-plat__item is-page"><div><h3 class="mf-plat__name">TikTok Ads</h3><span class="mf-plat__what">In-feed, Spark Ads</span></div></div></li>
+      <li><div class="mf-plat__item"><div><h3 class="mf-plat__name">LinkedIn Ads</h3><span class="mf-plat__what">B2B and lead generation</span></div></div></li>
+    </ul>
+  </div>
+  <div class="mf-plat__group">
+    <p class="mf-plat__type">Search &amp; video</p>
+    <ul>
+      <li><div class="mf-plat__item is-page"><div><h3 class="mf-plat__name">Search Ads</h3><span class="mf-plat__what">Google Search, Performance Max</span></div></div></li>
+      <li><div class="mf-plat__item is-page"><div><h3 class="mf-plat__name">App Install Ads</h3><span class="mf-plat__what">Installs and in-app actions</span></div></div></li>
+      <li><div class="mf-plat__item"><div><h3 class="mf-plat__name">YouTube Ads</h3><span class="mf-plat__what">Video reach and action</span></div></div></li>
+    </ul>
+  </div>
+  <div class="mf-plat__group">
+    <p class="mf-plat__type">Commerce</p>
+    <ul>
+      <li><div class="mf-plat__item is-page"><div><h3 class="mf-plat__name">TikTok Shop Ads</h3><span class="mf-plat__what">Shop Ads and LIVE selling</span></div></div></li>
+      <li><div class="mf-plat__item is-page"><div><h3 class="mf-plat__name">Amazon Ads</h3><span class="mf-plat__what">Sponsored Products and Brands</span></div></div></li>
+      <li><div class="mf-plat__item is-page"><div><h3 class="mf-plat__name">Google Shopping</h3><span class="mf-plat__what">Product listing ads</span></div></div></li>
+    </ul>
+  </div>
+  <div class="mf-plat__group">
+    <p class="mf-plat__type">Programmatic</p>
+    <ul>
+      <li><div class="mf-plat__item"><div><h3 class="mf-plat__name">StackAdapt</h3><span class="mf-plat__what">Programmatic display and native</span></div></div></li>
+      <li><div class="mf-plat__item"><div><h3 class="mf-plat__name">Teads</h3><span class="mf-plat__what">Premium video and display</span></div></div></li>
+      <li><div class="mf-plat__item"><div><h3 class="mf-plat__name">Criteo</h3><span class="mf-plat__what">Retargeting and retail media</span></div></div></li>
+    </ul>
+  </div>
+</div>
+</div>
