@@ -1,5 +1,6 @@
 <!-- MajorForm Meta Ads page, slot 1: hero (H1, answer, proof numbers).
-     Paste into its own Squarespace Code block, with Display Source turned off. No scripts. -->
+     Paste into its own Squarespace Code block, with Display Source turned off. No scripts.
+     Set this section's background to your navy (#253551) so the block blends in. Its animation comes from the page header script. -->
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,600&family=Space+Grotesk:wght@400;500&display=swap">
 <style>
   .mfp { --ink: #233551; --deep: #04202c; --text: #3d4350; --muted: #6b7180; --rule: rgba(35, 53, 81, .16); --tint: #f4f6f8;
@@ -30,15 +31,34 @@
   .mfp--hero .mfp__answer { margin-top: 16px; max-width: 62ch; color: #1a1a1a; font-size: 17px; }
   .mfp--hero .mfp__ctas { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
   .mfp--hero .mfp__strip { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin-top: 36px; }
+  .mfp--hero .mfp__strip--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  @container (max-width: 479px) { .mfp--hero .mfp__strip--3 { gap: 6px; } .mfp--hero .mfp__strip--3 .mfp__stat { padding: 12px; } .mfp--hero .mfp__strip--3 .mfp__stat b { font-size: 24px; } .mfp--hero .mfp__strip--3 .mfp__stat span { font-size: 12px; } }
   .mfp--hero .mfp__stat { background: var(--deep); color: #f3f2f7; border-radius: 14px; padding: 16px 18px; display: grid; gap: 4px; align-content: start; }
   .mfp--hero .mfp__stat b { font-family: var(--num); font-weight: 600; font-size: clamp(28px, 3vw, 38px); line-height: 1; letter-spacing: -.04em; color: #fff; }
   .mfp--hero .mfp__stat span { font-size: 13.5px; line-height: 1.35; color: rgba(243, 242, 247, .78); }
+
+  .mfp[data-theme="dark"] { --ink: #ffffff; --text: rgba(243, 242, 247, .8); --muted: rgba(243, 242, 247, .6); --rule: rgba(255, 255, 255, .16);
+    --tint: rgba(255, 255, 255, .06); background: var(--mfp-bg, #253551); color: var(--text); }
+  .mfp[data-theme="dark"] .mfp__lede { color: rgba(243, 242, 247, .86); }
+
+  .mfp.mfp--hero[data-theme="dark"] { background: transparent; }
+  @container (min-width: 900px) { .mfp--hero .mfp__text { max-width: 54%; } .mfp--hero .mfp__strip { grid-template-columns: repeat(3, minmax(0, 1fr)); } }  /* beats the navy fill that other dark blocks on the page also declare */
+  .mfp--hero[data-theme="dark"] .mfp__crumbs a { color: #fff; border-color: rgba(255, 255, 255, .3); }
+  .mfp--hero[data-theme="dark"] .mfp__thesis { color: var(--acc); }
+  .mfp--hero[data-theme="dark"] .mfp__answer { color: rgba(243, 242, 247, .86); }
+  .mfp--hero[data-theme="dark"] .mfp__btn { background: var(--acc); border-color: var(--acc); color: var(--deep); }
+  .mfp--hero[data-theme="dark"] .mfp__btn:hover, .mfp--hero[data-theme="dark"] .mfp__btn:focus-visible { background: #fff; border-color: #fff; }
+  .mfp--hero[data-theme="dark"] .mfp__btn--ghost { background: none; color: #fff; border-color: rgba(255, 255, 255, .4); }
+  .mfp--hero[data-theme="dark"] .mfp__btn--ghost:hover { background: rgba(255, 255, 255, .1); color: #fff; }
+  .mfp--hero[data-theme="dark"] .mfp__strip { max-width: 640px; }
+  .mfp--hero[data-theme="dark"] .mfp__stat { background: rgba(4, 32, 44, .55); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .12); -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px); }
 </style>
-<section class="mfp mfp--hero" style="--acc:#ffefae" data-theme="light">
-<nav class="mfp__crumbs" aria-label="Breadcrumb"><a href="https://www.majorform.co/">Home</a><span aria-hidden="true">/</span><a href="https://www.majorform.co/performance-marketing-majorform-2026">Performance marketing</a><span aria-hidden="true">/</span><span aria-current="page">Meta Ads</span></nav>
+<div class="mfp mfp--hero" style="--acc:#ffefae;--mfp-bg:#253551" data-theme="dark">
+<div data-pillar-dots data-pillar="meta" data-palette="navy" data-fill="section" data-start="0.58" data-narrow-opacity="0.4"></div>
+<div class="mfp__text"><nav class="mfp__crumbs" aria-label="Breadcrumb"><a href="https://www.majorform.co/">Home</a><span aria-hidden="true">/</span><a href="https://www.majorform.co/performance-marketing-majorform-2026">Performance marketing</a><span aria-hidden="true">/</span><span aria-current="page">Meta Ads</span></nav>
 <h1 class="mfp__h1">Meta ads agency in Singapore</h1>
 <p class="mfp__thesis">On Meta today, the creative is the targeting. We make both.</p>
-<p class="mfp__answer">MajorForm plans, produces and optimises Meta ads across Facebook and Instagram for brands in Singapore and Southeast Asia. One team runs strategy, creative production, media buying and measurement, so every ad we make is built to be tested and tied to ROAS, cost per acquisition or brand lift.</p>
+<p class="mfp__answer">MajorForm plans, produces and optimises Meta ads across Facebook and Instagram for brands in Singapore and across Asia. One team runs strategy, creative production, media buying and measurement, so every ad we make is built to be tested and tied to ROAS, cost per acquisition or brand lift.</p>
 <div class="mfp__ctas"><a class="mfp__btn" href="https://www.majorform.co/contact">Talk to our strategists <span aria-hidden="true">&rarr;</span></a><a class="mfp__btn mfp__btn--ghost" href="#results">See Meta results</a></div>
-<div class="mfp__strip"><div class="mfp__stat"><b>+30%</b><span>ROAS year on year for Oatside</span></div><div class="mfp__stat"><b>6</b><span>Southeast Asian markets</span></div></div>
-</section>
+<div class="mfp__strip mfp__strip--3"><div class="mfp__stat"><b>$2M+</b><span>Meta ad spend managed</span></div><div class="mfp__stat"><b>10+</b><span>Asian markets</span></div><div class="mfp__stat"><b>500</b><span>Meta creatives produced</span></div></div></div>
+</div>

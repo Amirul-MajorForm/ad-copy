@@ -20,6 +20,14 @@ import template  # noqa: E402
 SHEETS = ["meta"]
 
 
+def band(d, n, h):
+    """Preview only: stand in for a Squarespace section, with a .section-background for the hero animation."""
+    if n not in d.get("dark", {}):
+        return f"<div>{h}</div>"
+    return (f"<section class='band' style='background:{d['dark'][n]}'><div class='section-background'></div>"
+            f"<div class='content'>{h}</div></section>")
+
+
 def build(key):
     d = importlib.import_module(key).PAGE
     out = os.path.join(HERE, key)
@@ -39,10 +47,10 @@ def build(key):
     open(os.path.join(out, "preview.html"), "w").write(
         f"<!doctype html><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><title>{d['name']} preview</title>"
         "<body style='margin:0;background:#fff'><main style='max-width:1180px;margin:0 auto;padding:24px clamp(16px,4vw,40px) 64px;display:grid;gap:72px'>"
-        + "".join(f"<div class='band' style='background:{d['dark'][n]}'>{h}</div>" if n in d.get("dark", {}) else f"<div>{h}</div>"
-                  for n, h in pblocks.items()) + "</main>"
-        "<style>body{overflow-x:hidden}.band{margin-inline:calc(50% - 50vw);padding:72px calc(50vw - 50%)}</style>"
-        + template.viz.MOTION_JS)
+        + "".join(band(d, n, h) for n, h in pblocks.items()) + "</main>"
+        "<style>body{overflow-x:hidden}.band{position:relative;margin-inline:calc(50% - 50vw);padding:72px calc(50vw - 50%)}"
+        ".section-background{position:absolute;inset:0}.band>.content{position:relative}main>:first-child.band{margin-top:-24px;padding-block:96px 88px}</style>"
+        + template.viz.MOTION_JS + (template.hero_engine() if d.get("hero_motion") else ""))
 
     print(f"{d['name']}: {len(blocks)} blocks, schema, page settings")
     visible = {n: re.sub(r"<(style|script)[^>]*>.*?</\1>|<!--.*?-->", "", h, flags=re.S) for n, h in blocks.items()}

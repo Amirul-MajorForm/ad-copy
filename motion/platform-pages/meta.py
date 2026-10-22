@@ -10,16 +10,19 @@ PAGE = {
     "short": "Meta",
     "accent": "#ffefae",
     # Slots placed on the site's navy sections (set those sections' background to this colour in Squarespace)
-    "dark": {"shift": "#253551", "problems": "#253551"},  # Social group colour, matching the platforms section on the performance page
+    "dark": {"hero": "#253551", "shift": "#253551", "problems": "#253551"},
+    # Hero animation behind the text: the same dot engine as the service pages, in its Meta mode
+    "hero_motion": {"mode": "meta", "palette": "navy", "start": 0.58, "narrow-opacity": 0.4},  # Social group colour, matching the platforms section on the performance page
     "slug": "meta-ads-agency-singapore",
     "title": "Meta Ads Agency Singapore | MajorForm",
-    "description": "MajorForm plans, produces and optimises Meta ads on Facebook and Instagram for brands in Singapore and Southeast Asia, with in-house creative and clear reports.",
+    "description": "MajorForm plans, produces and optimises Meta ads on Facebook and Instagram for brands in Singapore and across Asia, with in-house creative and clear reports.",
     "service_name": "Meta Ads Management",
     # Facts used on the page that you should confirm before it goes live
     "confirm": [
         "Oatside's +30% ROAS year on year came from Meta campaigns",
         "Process timings (audit week 1, testing weeks 2 to 4, scaling from month 2)",
-        "We run Meta in all six markets listed",
+        "Which 10+ markets to list in the schema (it names six Southeast Asian countries today)",
+        "$2M+ is Meta ad spend specifically, and 500 is Meta creatives specifically",
     ],
     "markets": ["Singapore", "Malaysia", "Indonesia", "Philippines", "Thailand", "Vietnam"],
 
@@ -27,13 +30,12 @@ PAGE = {
     "h1": "Meta ads agency in Singapore",
     "thesis": "On Meta today, the creative is the targeting. We make both.",
     "answer": ("MajorForm plans, produces and optimises Meta ads across Facebook and Instagram for brands in Singapore and "
-               "Southeast Asia. One team runs strategy, creative production, media buying and measurement, so every ad we make "
+               "across Asia. One team runs strategy, creative production, media buying and measurement, so every ad we make "
                "is built to be tested and tied to ROAS, cost per acquisition or brand lift."),
     "stats": [
-        ("+30%", "ROAS year on year for Oatside"),
-        (None, "ad variants we test each month"),
-        (None, "brands we run Meta ads for"),
-        ("6", "Southeast Asian markets"),
+        ("$2M+", "Meta ad spend managed"),
+        ("10+", "Asian markets"),
+        ("500", "Meta creatives produced"),
     ],
 
     # 2 What's changed

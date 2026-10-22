@@ -51,6 +51,8 @@ CSS = {
   .mfp--hero .mfp__answer { margin-top: 16px; max-width: 62ch; color: #1a1a1a; font-size: 17px; }
   .mfp--hero .mfp__ctas { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
   .mfp--hero .mfp__strip { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin-top: 36px; }
+  .mfp--hero .mfp__strip--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  @container (max-width: 479px) { .mfp--hero .mfp__strip--3 { gap: 6px; } .mfp--hero .mfp__strip--3 .mfp__stat { padding: 12px; } .mfp--hero .mfp__strip--3 .mfp__stat b { font-size: 24px; } .mfp--hero .mfp__strip--3 .mfp__stat span { font-size: 12px; } }
   .mfp--hero .mfp__stat { background: var(--deep); color: #f3f2f7; border-radius: 14px; padding: 16px 18px; display: grid; gap: 4px; align-content: start; }
   .mfp--hero .mfp__stat b { font-family: var(--num); font-weight: 600; font-size: clamp(28px, 3vw, 38px); line-height: 1; letter-spacing: -.04em; color: #fff; }
   .mfp--hero .mfp__stat span { font-size: 13.5px; line-height: 1.35; color: rgba(243, 242, 247, .78); }
@@ -183,12 +185,12 @@ def wrap(slot, d, inner, comment):
     head = (f"<!-- MajorForm {d['name']} page, slot {comment}.\n"
             f"     Paste into its own Squarespace Code block, with Display Source turned off. No scripts."
             + (f"\n     Set this section's background to your navy ({d['dark'][slot]}) so the block blends in." if dark else "")
-            + (" Its animation comes from the page header script." if slot in viz.CSS else "") + " -->")
+            + (" Its animation comes from the page header script." if slot in viz.CSS or (slot == "hero" and d.get("hero_motion")) else "") + " -->")
     css = BASE + CSS[slot] + (viz.DARK + DARK_CSS.get(slot, "") if dark else "") + viz.CSS.get(slot, "")
     style = f'--acc:{d["accent"]}' + (f';--mfp-bg:{d["dark"][slot]}' if dark else "")
     anim = " data-anim" if slot in viz.CSS else ""
-    return (f'{head}\n{FONT}\n<style>{css}</style>\n<section class="mfp mfp--{slot}" style="{style}" '
-            f'data-theme="{"dark" if dark else "light"}"{anim}>\n{inner}\n</section>\n')
+    return (f'{head}\n{FONT}\n<style>{css}</style>\n<div class="mfp mfp--{slot}" style="{style}" '
+            f'data-theme="{"dark" if dark else "light"}"{anim}>\n{inner}\n</div>\n')
 
 
 def head2(title, lede=None, tag="h2", anchor=None):
@@ -213,7 +215,12 @@ def hero(d, g):
              f'<div class="mfp__ctas"><a class="mfp__btn" href="{CONTACT}">Talk to our strategists <span aria-hidden="true">&rarr;</span></a>'
              f'<a class="mfp__btn mfp__btn--ghost" href="#results">See {e(d["short"])} results</a></div>')
     if stats:
-        inner += '\n<div class="mfp__strip">' + "".join(stats) + "</div>"
+        inner += f'\n<div class="mfp__strip{" mfp__strip--3" if len(stats) == 3 else ""}">' + "".join(stats) + "</div>"
+    m = d.get("hero_motion")
+    if m:  # the animation fills the Squarespace section behind the text (from the page header script)
+        inner = (f'<div data-pillar-dots data-pillar="{e(m["mode"])}" data-palette="{e(m["palette"])}" data-fill="section"'
+                 + "".join(f' data-{k}="{e(str(m[k]))}"' for k in ("speed", "start", "narrow-opacity") if m.get(k)) + "></div>\n"
+                 + f'<div class="mfp__text">{inner}</div>')
     return wrap("hero", d, inner, "1: hero (H1, answer, proof numbers)")
 
 
@@ -322,6 +329,19 @@ def related(d, g):
 
 # Extra rules when a slot sits on the navy background
 DARK_CSS = {
+    "hero": """
+  .mfp.mfp--hero[data-theme="dark"] { background: transparent; }
+  @container (min-width: 900px) { .mfp--hero .mfp__text { max-width: 54%; } .mfp--hero .mfp__strip { grid-template-columns: repeat(3, minmax(0, 1fr)); } }  /* beats the navy fill that other dark blocks on the page also declare */
+  .mfp--hero[data-theme="dark"] .mfp__crumbs a { color: #fff; border-color: rgba(255, 255, 255, .3); }
+  .mfp--hero[data-theme="dark"] .mfp__thesis { color: var(--acc); }
+  .mfp--hero[data-theme="dark"] .mfp__answer { color: rgba(243, 242, 247, .86); }
+  .mfp--hero[data-theme="dark"] .mfp__btn { background: var(--acc); border-color: var(--acc); color: var(--deep); }
+  .mfp--hero[data-theme="dark"] .mfp__btn:hover, .mfp--hero[data-theme="dark"] .mfp__btn:focus-visible { background: #fff; border-color: #fff; }
+  .mfp--hero[data-theme="dark"] .mfp__btn--ghost { background: none; color: #fff; border-color: rgba(255, 255, 255, .4); }
+  .mfp--hero[data-theme="dark"] .mfp__btn--ghost:hover { background: rgba(255, 255, 255, .1); color: #fff; }
+  .mfp--hero[data-theme="dark"] .mfp__strip { max-width: 640px; }
+  .mfp--hero[data-theme="dark"] .mfp__stat { background: rgba(4, 32, 44, .55); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .12); -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px); }
+""",
     "shift": """
   .mfp--shift[data-theme="dark"] .mfp__col { background: var(--tint); }
   .mfp--shift[data-theme="dark"] .mfp__col li { color: #f3f2f7; }
@@ -357,7 +377,13 @@ def schema(d):
             "     The schema is built from the same text as the page, so the FAQ answers match word for word.\n"
             "     The short script below plays the block animations once as they scroll into view. -->\n"
             '<script type="application/ld+json">\n' + json.dumps(data, indent=2, ensure_ascii=False) + "\n</script>\n"
-            + viz.MOTION_JS + "\n")
+            + viz.MOTION_JS + "\n" + (hero_engine() if d.get("hero_motion") else ""))
+
+
+def hero_engine():
+    import os
+    src = open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "pillar-dots", "pillar-dots.js")).read().strip()
+    return "<script>\n" + src + "\n</script>\n"
 
 
 def render(d, preview=False):
