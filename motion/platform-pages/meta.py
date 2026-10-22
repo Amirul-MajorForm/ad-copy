@@ -15,9 +15,9 @@ PAGE = {
     # Hero numbers as a colour plate from Wada combination 281 (no colour names shown on the page)
     "poster": [
         {"value": "$2M+", "label": "Meta ad spend managed", "bg": "#007190", "fg": "#ffffff"},
-        {"value": "10+", "label": "Asian markets", "bg": "#ffefae", "fg": "#233551"},
+        {"value": "10+", "label": "Markets in Asia", "bg": "#ffefae", "fg": "#233551"},
         {"value": "1 team", "label": "Strategy, creative, media and data", "bg": "#96d1aa", "fg": "#233551"},
-        {"value": "500", "label": "Meta creatives produced", "bg": "#00978d", "fg": "#04202c"},
+        {"value": "500", "label": "Meta creatives ran", "bg": "#00978d", "fg": "#04202c", "num": "#ffffff"},
     ],
     "logos": [("oatside", "Oatside"), ("yoga-movement", "Yoga Movement"), ("flexar", "Flexar"), ("strong-pilates", "Strong Pilates Singapore")],
     "logos_label": "Brands we work with",  # Social group colour, matching the platforms section on the performance page
@@ -30,7 +30,7 @@ PAGE = {
         "Oatside's +30% ROAS year on year came from Meta campaigns",
         "Process timings (audit week 1, testing weeks 2 to 4, scaling from month 2)",
         "Which 10+ markets to list in the schema (it names six Southeast Asian countries today)",
-        "$2M+ is Meta ad spend specifically, and 500 is Meta creatives specifically",
+        "$2M+ is Meta ad spend specifically, and 500 is Meta creatives run specifically",
     ],
     "markets": ["Singapore", "Malaysia", "Indonesia", "Philippines", "Thailand", "Vietnam"],
 

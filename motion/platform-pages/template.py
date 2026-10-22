@@ -46,7 +46,7 @@ CSS = {
     "hero": """
   .mfp--hero .mfp__crumbs { display: flex; flex-wrap: wrap; gap: 6px; font-size: 13px; color: var(--muted); }
   .mfp--hero .mfp__crumbs a { text-decoration: none; border-bottom: 1px solid var(--rule); color: var(--ink); }
-  .mfp--hero .mfp__h1 { margin-top: 14px; color: var(--ink); font-size: clamp(38px, 6vw, 68px); line-height: .98; letter-spacing: -.045em; text-transform: none; text-wrap: balance; }
+  .mfp--hero .mfp__h1 { margin-top: 14px; color: var(--ink); font-size: clamp(38px, 6vw, 68px); line-height: .9; letter-spacing: -.045em; text-transform: none; text-wrap: balance; }
   .mfp--hero .mfp__thesis { margin-top: 14px; color: var(--ink); font-size: clamp(19px, 2.1vw, 24px); font-weight: 500; line-height: 1.3; letter-spacing: -.01em; max-width: 34ch; }
   .mfp--hero .mfp__answer { margin-top: 16px; max-width: 62ch; color: #1a1a1a; font-size: 17px; }
   .mfp--hero .mfp__ctas { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
@@ -62,7 +62,7 @@ CSS = {
   .mfp--hero .mfp__poster { display: grid; gap: 18px; min-width: 0; }
   .mfp--hero .mfp__plates { display: grid; grid-template-columns: 1.15fr .85fr; grid-template-rows: 1.1fr .9fr; gap: 8px; aspect-ratio: 1 / .92; max-width: 100%; }
   .mfp--hero .mfp__plate { background: var(--bg); color: var(--fg); border-radius: 4px; padding: clamp(14px, 3cqi, 24px); display: grid; align-content: end; gap: 4px; min-width: 0; }
-  .mfp--hero .mfp__plate b { font-family: var(--num); font-weight: 600; font-size: clamp(36px, 7cqi, 80px); line-height: .9; letter-spacing: -.05em; }
+  .mfp--hero .mfp__plate b { color: var(--num-fg); font-family: var(--num); font-weight: 600; font-size: clamp(36px, 7cqi, 80px); line-height: .9; letter-spacing: -.05em; }
   .mfp--hero .mfp__plate span { font-size: 14.5px; line-height: 1.3; font-weight: 500; }
   .mfp--hero .mfp__logos { display: grid; gap: 8px; min-width: 0; }
   .mfp--hero .mfp__logos-label { font-size: 11px; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
@@ -257,7 +257,7 @@ def poster(d, g):
     for i, b in enumerate(d["poster"]):
         if not g.ok(b["value"], f"Poster: {b['label']}"):
             continue
-        cells.append(f'<div class="mfp__plate mfp__plate--{i + 1}" style="--bg:{b["bg"]};--fg:{b["fg"]}"><b>{e(b["value"])}</b><span>{e(b["label"])}</span></div>')
+        cells.append(f'<div class="mfp__plate mfp__plate--{i + 1}" style="--bg:{b["bg"]};--fg:{b["fg"]};--num-fg:{b.get("num", b["fg"])}"><b>{e(b["value"])}</b><span>{e(b["label"])}</span></div>')
     out = '<div class="mfp__poster"><div class="mfp__plates">' + "".join(cells) + "</div>"
     if d.get("logos"):
         names = d["logos"]
