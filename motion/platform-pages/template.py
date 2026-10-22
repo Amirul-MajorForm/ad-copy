@@ -56,6 +56,24 @@ CSS = {
   .mfp--hero .mfp__stat { background: var(--deep); color: #f3f2f7; border-radius: 14px; padding: 16px 18px; display: grid; gap: 4px; align-content: start; }
   .mfp--hero .mfp__stat b { font-family: var(--num); font-weight: 600; font-size: clamp(28px, 3vw, 38px); line-height: 1; letter-spacing: -.04em; color: #fff; }
   .mfp--hero .mfp__stat span { font-size: 13.5px; line-height: 1.35; color: rgba(243, 242, 247, .78); }
+  /* Poster layout: text left, colour plate right */
+  .mfp--hero .mfp__cols { display: grid; grid-template-columns: minmax(0, 1fr); gap: 36px 56px; align-items: center; }
+  @container (min-width: 900px) { .mfp--hero .mfp__cols { grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); } }
+  .mfp--hero .mfp__poster { display: grid; gap: 18px; min-width: 0; }
+  .mfp--hero .mfp__plates { display: grid; grid-template-columns: 1.15fr .85fr; grid-template-rows: 1.1fr .9fr; gap: 8px; aspect-ratio: 1 / .92; max-width: 100%; }
+  .mfp--hero .mfp__plate { background: var(--bg); color: var(--fg); border-radius: 4px; padding: clamp(14px, 3cqi, 24px); display: grid; align-content: end; gap: 4px; min-width: 0; }
+  .mfp--hero .mfp__plate b { font-family: var(--num); font-weight: 600; font-size: clamp(36px, 7cqi, 80px); line-height: .9; letter-spacing: -.05em; }
+  .mfp--hero .mfp__plate span { font-size: 14.5px; line-height: 1.3; font-weight: 500; }
+  .mfp--hero .mfp__logos { display: grid; gap: 8px; min-width: 0; }
+  .mfp--hero .mfp__logos-label { font-size: 11px; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+  .mfp--hero .mfp__marquee { overflow: hidden; -webkit-mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent); mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent); }
+  .mfp--hero .mfp__track { display: flex; width: max-content; animation: mfp-marquee 22s linear infinite; }
+  .mfp--hero .mfp__marquee:hover .mfp__track { animation-play-state: paused; }
+  .mfp--hero .mfp__run { display: flex; align-items: center; gap: 44px; padding-right: 44px; }
+  .mfp--hero .mfp__run img { display: block; height: 26px; width: auto; max-width: 140px; object-fit: contain; filter: brightness(0); opacity: .72; }
+  .mfp--hero .mfp__more { font-size: 15px; font-weight: 500; color: var(--ink); white-space: nowrap; }
+  @keyframes mfp-marquee { to { transform: translateX(-50%); } }
+  @media (prefers-reduced-motion: reduce) { .mfp--hero .mfp__track { animation: none; } .mfp--hero .mfp__run[aria-hidden] { display: none; } .mfp--hero .mfp__marquee { -webkit-mask-image: none; mask-image: none; } }
 """,
     "shift": """
   .mfp--shift .mfp__cols { display: grid; grid-template-columns: minmax(0, 1fr); gap: 10px; }
@@ -203,25 +221,51 @@ def head2(title, lede=None, tag="h2", anchor=None):
 
 def hero(d, g):
     stats = []
-    for value, label in d["stats"]:
+    for value, label in ([] if d.get("poster") else d["stats"]):
         if g.ok(value, f"Hero stat: {label}"):
             stats.append(f'<div class="mfp__stat"><b>{e(value)}</b><span>{e(label)}</span></div>')
         elif g.preview:
             stats.append(f'<div class="mfp__stat"><b>{g.ph("x")}</b><span>{e(label)}</span></div>')
     crumbs = (f'<nav class="mfp__crumbs" aria-label="Breadcrumb"><a href="{SITE}/">Home</a><span aria-hidden="true">/</span>'
-              f'<a href="{PERFORMANCE}">Performance marketing</a><span aria-hidden="true">/</span><span aria-current="page">{e(d["name"])}</span></nav>')
+              f'<a href="{PERFORMANCE}">Performance marketing</a><span aria-hidden="true">/</span><span aria-current="page">{e(d.get("crumb", d["name"]))}</span></nav>')
     inner = (f'{crumbs}\n<h1 class="mfp__h1">{e(d["h1"])}</h1>\n<p class="mfp__thesis">{e(d["thesis"])}</p>\n'
              f'<p class="mfp__answer">{e(d["answer"])}</p>\n'
              f'<div class="mfp__ctas"><a class="mfp__btn" href="{CONTACT}">Talk to our strategists <span aria-hidden="true">&rarr;</span></a>'
              f'<a class="mfp__btn mfp__btn--ghost" href="#results">See {e(d["short"])} results</a></div>')
     if stats:
         inner += f'\n<div class="mfp__strip{" mfp__strip--3" if len(stats) == 3 else ""}">' + "".join(stats) + "</div>"
+    if d.get("poster"):
+        inner = f'<div class="mfp__cols"><div class="mfp__text">{inner}</div>{poster(d, g)}</div>'
     m = d.get("hero_motion")
     if m:  # the animation fills the Squarespace section behind the text (from the page header script)
         inner = (f'<div data-pillar-dots data-pillar="{e(m["mode"])}" data-palette="{e(m["palette"])}" data-fill="section"'
                  + "".join(f' data-{k}="{e(str(m[k]))}"' for k in ("speed", "start", "narrow-opacity") if m.get(k)) + "></div>\n"
                  + f'<div class="mfp__text">{inner}</div>')
     return wrap("hero", d, inner, "1: hero (H1, answer, proof numbers)")
+
+
+def logo_src(key):
+    """White logo PNGs from the logo marquee, embedded so the block needs no uploads."""
+    import base64, os
+    path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "logo-marquee", "logos", key + ".png")
+    return "data:image/png;base64," + base64.b64encode(open(path, "rb").read()).decode()
+
+
+def poster(d, g):
+    """The numbers as a colour plate (a Wada combination), with a scrolling row of client logos under it."""
+    cells = []
+    for i, b in enumerate(d["poster"]):
+        if not g.ok(b["value"], f"Poster: {b['label']}"):
+            continue
+        cells.append(f'<div class="mfp__plate mfp__plate--{i + 1}" style="--bg:{b["bg"]};--fg:{b["fg"]}"><b>{e(b["value"])}</b><span>{e(b["label"])}</span></div>')
+    out = '<div class="mfp__poster"><div class="mfp__plates">' + "".join(cells) + "</div>"
+    if d.get("logos"):
+        names = d["logos"]
+        one = "".join(f'<img src="{logo_src(k)}" alt="{e(n)}" height="26">' for k, n in names) + f'<span class="mfp__more">{e(d.get("logos_more", "+ more"))}</span>'
+        # two identical runs make the loop seamless; the second is hidden from screen readers
+        out += (f'<div class="mfp__logos"><p class="mfp__logos-label">{e(d.get("logos_label", "Brands we work with"))}</p>'
+                f'<div class="mfp__marquee"><div class="mfp__track"><div class="mfp__run">{one}</div><div class="mfp__run" aria-hidden="true">{one}</div></div></div></div>')
+    return out + "</div>"
 
 
 def shift(d, g):
@@ -369,7 +413,7 @@ def schema(d):
         {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
             {"@type": "ListItem", "position": 1, "name": "Home", "item": SITE + "/"},
             {"@type": "ListItem", "position": 2, "name": "Performance marketing", "item": PERFORMANCE},
-            {"@type": "ListItem", "position": 3, "name": d["name"], "item": url}]},
+            {"@type": "ListItem", "position": 3, "name": d.get("crumb", d["name"]), "item": url}]},
         {"@context": "https://schema.org", "@type": "FAQPage", "@id": url + "/#faq", "mainEntity": [
             {"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in d["faqs"]]},
     ]

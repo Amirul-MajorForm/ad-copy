@@ -7,14 +7,23 @@ platform, rewrite those slots from scratch rather than editing names, so no Meta
 PAGE = {
     "key": "meta",
     "name": "Meta Ads",
+    "crumb": "Meta advertising",
     "short": "Meta",
     "accent": "#ffefae",
     # Slots placed on the site's navy sections (set those sections' background to this colour in Squarespace)
-    "dark": {"hero": "#253551", "shift": "#253551", "problems": "#253551"},
-    # Hero animation behind the text: the same dot engine as the service pages, in its Meta mode
-    "hero_motion": {"mode": "meta", "palette": "navy", "start": 0.58, "narrow-opacity": 0.4},  # Social group colour, matching the platforms section on the performance page
+    "dark": {"shift": "#253551", "problems": "#253551"},
+    # Hero numbers as a colour plate from Wada combination 281 (no colour names shown on the page)
+    "poster": [
+        {"value": "$2M+", "label": "Meta ad spend managed", "bg": "#007190", "fg": "#ffffff"},
+        {"value": "10+", "label": "Asian markets", "bg": "#ffefae", "fg": "#233551"},
+        {"value": "1 team", "label": "Strategy, creative, media and data", "bg": "#96d1aa", "fg": "#233551"},
+        {"value": "500", "label": "Meta creatives produced", "bg": "#00978d", "fg": "#04202c"},
+    ],
+    "logos": [("oatside", "Oatside"), ("yoga-movement", "Yoga Movement"), ("flexar", "Flexar")],
+    "logos_more": "+ more",
+    "logos_label": "Brands we work with",  # Social group colour, matching the platforms section on the performance page
     "slug": "meta-ads-agency-singapore",
-    "title": "Meta Ads Agency Singapore | MajorForm",
+    "title": "Meta Ads & Advertising Agency Singapore | MajorForm",
     "description": "MajorForm plans, produces and optimises Meta ads on Facebook and Instagram for brands in Singapore and across Asia, with in-house creative and clear reports.",
     "service_name": "Meta Ads Management",
     # Facts used on the page that you should confirm before it goes live
@@ -27,8 +36,8 @@ PAGE = {
     "markets": ["Singapore", "Malaysia", "Indonesia", "Philippines", "Thailand", "Vietnam"],
 
     # 1 Hero
-    "h1": "Meta ads agency in Singapore",
-    "thesis": "On Meta today, the creative is the targeting. We make both.",
+    "h1": "Meta ads people stop for, and buy from",
+    "thesis": "Creative, data and optimisation, working as one system.",
     "answer": ("MajorForm plans, produces and optimises Meta ads across Facebook and Instagram for brands in Singapore and "
                "across Asia. One team runs strategy, creative production, media buying and measurement, so every ad we make "
                "is built to be tested and tied to ROAS, cost per acquisition or brand lift."),
