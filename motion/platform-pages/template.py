@@ -60,10 +60,35 @@ CSS = {
   .mfp--hero .mfp__cols { display: grid; grid-template-columns: minmax(0, 1fr); gap: 36px 56px; align-items: center; }
   @container (min-width: 900px) { .mfp--hero .mfp__cols { grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); } }
   .mfp--hero .mfp__poster { display: grid; gap: 18px; min-width: 0; }
-  .mfp--hero .mfp__plates { display: grid; grid-template-columns: 1.15fr .85fr; grid-template-rows: 1.1fr .9fr; gap: 8px; aspect-ratio: 1 / .92; max-width: 100%; }
-  .mfp--hero .mfp__plate { background: var(--bg); color: var(--fg); border-radius: 4px; padding: clamp(14px, 3cqi, 24px); display: grid; align-content: end; gap: 4px; min-width: 0; }
-  .mfp--hero .mfp__plate b { color: var(--num-fg); font-family: var(--num); font-weight: 600; font-size: clamp(36px, 7cqi, 80px); line-height: .9; letter-spacing: -.05em; }
-  .mfp--hero .mfp__plate span { font-size: 14.5px; line-height: 1.3; font-weight: 500; }
+  /* One square, split Mondrian-style: big top left, small top right, tall right, wide bottom */
+  .mfp--hero .mfp__plates { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); grid-template-rows: repeat(6, minmax(0, 1fr)); gap: 8px;
+    aspect-ratio: 1 / 1; max-width: 100%; container-type: inline-size; }
+  .mfp--hero .mfp__plate { position: relative; overflow: hidden; isolation: isolate; background: var(--bg); color: var(--fg); border-radius: 4px;
+    padding: clamp(12px, 4cqi, 24px); display: grid; align-content: end; gap: 4px; min-width: 0; }
+  .mfp--hero .mfp__plate--1 { grid-area: 1 / 1 / 5 / 5; }
+  .mfp--hero .mfp__plate--2 { grid-area: 1 / 5 / 3 / 7; }
+  .mfp--hero .mfp__plate--3 { grid-area: 5 / 1 / 7 / 5; }
+  .mfp--hero .mfp__plate--4 { grid-area: 3 / 5 / 7 / 7; }
+  .mfp--hero .mfp__plate b { position: relative; color: var(--num-fg); font-family: var(--num); font-weight: 600; font-size: 12cqi; line-height: .9; letter-spacing: -.05em; }
+  .mfp--hero .mfp__plate--1 b { font-size: 21cqi; }
+  .mfp--hero .mfp__plate span { position: relative; font-size: clamp(12px, 2.6cqi, 15px); line-height: 1.3; font-weight: 500; }
+  /* Textures: quiet, slow, behind the numbers */
+  .mfp--hero .mfp__plate::before { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; }
+  .mfp--hero .mfp__tex--grain::before { background-image: radial-gradient(rgba(255, 255, 255, .2) 1.1px, transparent 1.6px); background-size: 12px 12px;
+    -webkit-mask-image: linear-gradient(200deg, #000, transparent 75%); mask-image: linear-gradient(200deg, #000, transparent 75%); animation: mfp-grain 28s linear infinite; }
+  @keyframes mfp-grain { to { background-position: 120px 60px; } }
+  @property --mfp-r { syntax: "<length>"; inherits: false; initial-value: 0px; }
+  .mfp--hero .mfp__tex--rings::before { background: repeating-radial-gradient(circle at 82% 18%, transparent 0 var(--mfp-r), rgba(35, 53, 81, .16) var(--mfp-r) calc(var(--mfp-r) + 1px), transparent calc(var(--mfp-r) + 1px) calc(var(--mfp-r) + 16px));
+    animation: mfp-rings 3.2s linear infinite; }
+  @keyframes mfp-rings { from { --mfp-r: 0px; } to { --mfp-r: 15px; } }
+  .mfp--hero .mfp__venn { position: absolute; right: -6%; top: 50%; width: 62%; height: auto; max-width: 100%; transform: translateY(-50%); z-index: -1; color: rgba(35, 53, 81, .28); animation: mfp-venn 40s linear infinite; }
+  @keyframes mfp-venn { from { transform: translateY(-50%) rotate(0); } to { transform: translateY(-50%) rotate(360deg); } }
+  .mfp--hero .mfp__tex--tiles::before { --tile: linear-gradient(#000 0 0); background: linear-gradient(115deg, rgba(255, 255, 255, .06) 30%, rgba(255, 255, 255, .5) 45%, rgba(255, 255, 255, .06) 60%) 0 0 / 300% 100%;
+    -webkit-mask: conic-gradient(#000 0 0) 0 0 / 0 0, repeating-linear-gradient(90deg, #000 0 10px, transparent 10px 15px), repeating-linear-gradient(0deg, #000 0 14px, transparent 14px 19px);
+    -webkit-mask-composite: source-in; mask: repeating-linear-gradient(90deg, #000 0 10px, transparent 10px 15px), repeating-linear-gradient(0deg, #000 0 14px, transparent 14px 19px);
+    mask-composite: intersect; opacity: .55; animation: mfp-sweep 6s ease-in-out infinite; }
+  @keyframes mfp-sweep { from { background-position: 100% 0; } to { background-position: 0 0; } }
+  @media (prefers-reduced-motion: reduce) { .mfp--hero .mfp__plate::before, .mfp--hero .mfp__venn { animation: none; } }
   .mfp--hero .mfp__logos { display: grid; gap: 8px; min-width: 0; }
   .mfp--hero .mfp__logos-label { font-size: 11px; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
   .mfp--hero .mfp__marquee { overflow: hidden; -webkit-mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent); mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent); }
@@ -251,13 +276,24 @@ def logo_src(key):
     return "data:image/png;base64," + base64.b64encode(open(path, "rb").read()).decode()
 
 
+# Inline art for textures that need shapes rather than a CSS pattern
+TEXTURE_ART = {
+    # four overlapping circles: strategy, creative, media and data, turning slowly as one
+    "venn": ('<svg class="mfp__venn" viewBox="0 0 100 100" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" stroke-width=".9">'
+             '<circle cx="38" cy="38" r="24"/><circle cx="62" cy="38" r="24"/><circle cx="38" cy="62" r="24"/><circle cx="62" cy="62" r="24"/></g></svg>'),
+}
+
+
 def poster(d, g):
     """The numbers as a colour plate (a Wada combination), with a scrolling row of client logos under it."""
     cells = []
     for i, b in enumerate(d["poster"]):
         if not g.ok(b["value"], f"Poster: {b['label']}"):
             continue
-        cells.append(f'<div class="mfp__plate mfp__plate--{i + 1}" style="--bg:{b["bg"]};--fg:{b["fg"]};--num-fg:{b.get("num", b["fg"])}"><b>{e(b["value"])}</b><span>{e(b["label"])}</span></div>')
+        tex = b.get("texture", "")
+        art = TEXTURE_ART.get(tex, "")
+        cells.append(f'<div class="mfp__plate mfp__plate--{i + 1}{" mfp__tex--" + tex if tex else ""}" style="--bg:{b["bg"]};--fg:{b["fg"]};--num-fg:{b.get("num", b["fg"])}">'
+                     f'{art}<b>{e(b["value"])}</b><span>{e(b["label"])}</span></div>')
     out = '<div class="mfp__poster"><div class="mfp__plates">' + "".join(cells) + "</div>"
     if d.get("logos"):
         names = d["logos"]
