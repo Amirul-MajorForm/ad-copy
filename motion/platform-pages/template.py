@@ -88,14 +88,14 @@ CSS = {
   .mfp--hero .mfp__tex--rings::before { background: repeating-radial-gradient(circle at 82% 18%, transparent 0 var(--mfp-r), var(--tex) var(--mfp-r) calc(var(--mfp-r) + 1px), transparent calc(var(--mfp-r) + 1px) calc(var(--mfp-r) + 16px));
     animation: mfp-rings 3.2s linear infinite; }
   @keyframes mfp-rings { from { --mfp-r: 0px; } to { --mfp-r: 15px; } }
-  /* the team: two sets of fine diagonal lines drifting in opposite directions, weaving together */
-  .mfp--hero .mfp__tex--weave::before { background:
-      repeating-linear-gradient(45deg, var(--tex) 0 1px, transparent 1px 14px),
-      repeating-linear-gradient(-45deg, var(--tex) 0 1px, transparent 1px 14px);
-    background-size: 19.8px 19.8px, 19.8px 19.8px;
-    -webkit-mask-image: linear-gradient(15deg, transparent 30%, #000 85%); mask-image: linear-gradient(15deg, transparent 30%, #000 85%);
-    animation: mfp-weave 14s linear infinite; }
-  @keyframes mfp-weave { to { background-position: 99px 0, -99px 0; } }
+  /* the team: four dashed streams flowing the same way at slightly different speeds */
+  .mfp--hero .mfp__tex--streams::before {
+    background-image: repeating-linear-gradient(90deg, var(--tex) 0 10px, transparent 10px 22px), repeating-linear-gradient(90deg, var(--tex) 0 10px, transparent 10px 22px),
+      repeating-linear-gradient(90deg, var(--tex) 0 10px, transparent 10px 22px), repeating-linear-gradient(90deg, var(--tex) 0 10px, transparent 10px 22px);
+    background-repeat: repeat-x; background-size: 22px 2px; background-position: 0 14%, 0 26%, 0 38%, 0 50%;
+    -webkit-mask-image: linear-gradient(90deg, transparent 25%, #000 70%); mask-image: linear-gradient(90deg, transparent 25%, #000 70%);
+    animation: mfp-streams 6s linear infinite; }
+  @keyframes mfp-streams { to { background-position: 88px 14%, 132px 26%, 66px 38%, 110px 50%; } }
   .mfp--hero .mfp__tex--tiles::before { background: linear-gradient(115deg, transparent 30%, var(--tex) 45%, transparent 60%) 0 0 / 300% 100%, linear-gradient(var(--tex), var(--tex)) 0 0 / 100% 100%;
     -webkit-mask: repeating-linear-gradient(90deg, #000 0 10px, transparent 10px 15px), repeating-linear-gradient(0deg, #000 0 14px, transparent 14px 19px);
     -webkit-mask-composite: source-in; mask: repeating-linear-gradient(90deg, #000 0 10px, transparent 10px 15px), repeating-linear-gradient(0deg, #000 0 14px, transparent 14px 19px);

@@ -19,7 +19,7 @@ PAGE = {
          "hover": {"bg": "#ffefae", "fg": "#233551", "tex": "rgba(35, 53, 81, .2)"}},
         {"value": "10+", "label": "Markets in Asia", "bg": "#ffefae", "fg": "#233551", "texture": "rings", "tex": "rgba(35, 53, 81, .16)",
          "hover": {"bg": "#00978d", "fg": "#04202c", "num": "#ffffff", "tex": "rgba(255, 255, 255, .25)"}},
-        {"value": "1 team", "label": "Strategy, creative, media and data", "bg": "#96d1aa", "fg": "#233551", "texture": "weave", "tex": "rgba(35, 53, 81, .18)",
+        {"value": "1 team", "label": "Strategy, creative, media and data", "bg": "#96d1aa", "fg": "#233551", "texture": "streams", "tex": "rgba(35, 53, 81, .18)",
          "hover": {"bg": "#007190", "fg": "#ffffff", "tex": "rgba(255, 255, 255, .22)"}},
         {"value": "500", "label": "Meta creatives ran", "bg": "#00978d", "fg": "#04202c", "num": "#ffffff", "texture": "tiles", "tex": "rgba(255, 255, 255, .2)",
          "hover": {"bg": "#96d1aa", "fg": "#233551", "tex": "rgba(35, 53, 81, .16)"}},
