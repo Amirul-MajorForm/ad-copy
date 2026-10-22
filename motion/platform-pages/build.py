@@ -39,7 +39,10 @@ def build(key):
     open(os.path.join(out, "preview.html"), "w").write(
         f"<!doctype html><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><title>{d['name']} preview</title>"
         "<body style='margin:0;background:#fff'><main style='max-width:1180px;margin:0 auto;padding:24px clamp(16px,4vw,40px) 64px;display:grid;gap:72px'>"
-        + "".join(f"<div>{h}</div>" for h in pblocks.values()) + "</main>")
+        + "".join(f"<div class='band' style='background:{d['dark'][n]}'>{h}</div>" if n in d.get("dark", {}) else f"<div>{h}</div>"
+                  for n, h in pblocks.items()) + "</main>"
+        "<style>body{overflow-x:hidden}.band{margin-inline:calc(50% - 50vw);padding:72px calc(50vw - 50%)}</style>"
+        + template.viz.MOTION_JS)
 
     print(f"{d['name']}: {len(blocks)} blocks, schema, page settings")
     visible = {n: re.sub(r"<(style|script)[^>]*>.*?</\1>|<!--.*?-->", "", h, flags=re.S) for n, h in blocks.items()}

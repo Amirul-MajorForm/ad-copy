@@ -1,5 +1,6 @@
-<!-- Meta Ads page schema. Paste into Page Settings > Advanced > Page Header Code Injection.
-     Built from the same text as the page, so the FAQ answers match word for word. -->
+<!-- Meta Ads page header. Paste into Page Settings > Advanced > Page Header Code Injection.
+     The schema is built from the same text as the page, so the FAQ answers match word for word.
+     The short script below plays the block animations once as they scroll into view. -->
 <script type="application/ld+json">
 [
   {
@@ -121,4 +122,20 @@
     ]
   }
 ]
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  if ((window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches) || !window.IntersectionObserver) return;
+  document.querySelectorAll(".mfp[data-anim]").forEach(function (el) {
+    if (el.getBoundingClientRect().top < window.innerHeight * 0.8) return; // already on screen: leave at rest
+    el.classList.add("mfp-pre");
+    var io = new IntersectionObserver(function (entries) {
+      if (!entries[entries.length - 1].isIntersecting) return;
+      io.disconnect();
+      el.classList.add("mfp-in");
+      requestAnimationFrame(function () { requestAnimationFrame(function () { el.classList.remove("mfp-pre"); }); });
+    }, { threshold: 0.3 });
+    io.observe(el);
+  });
+});
 </script>

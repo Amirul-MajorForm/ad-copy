@@ -8,7 +8,9 @@ PAGE = {
     "key": "meta",
     "name": "Meta Ads",
     "short": "Meta",
-    "accent": "#ffefae",  # Social group colour, matching the platforms section on the performance page
+    "accent": "#ffefae",
+    # Slots placed on the site's navy sections (set those sections' background to this colour in Squarespace)
+    "dark": {"shift": "#253551", "problems": "#253551"},  # Social group colour, matching the platforms section on the performance page
     "slug": "meta-ads-agency-singapore",
     "title": "Meta Ads Agency Singapore | MajorForm",
     "description": "MajorForm plans, produces and optimises Meta ads on Facebook and Instagram for brands in Singapore and Southeast Asia, with in-house creative and clear reports.",
@@ -45,6 +47,7 @@ PAGE = {
 
     # 3 Problems and fixes
     "problems_title": "The Meta problems we fix",
+    "problem_viz": ["fatigue", "structure", "measurement"],
     "problems": [
         ("Creative fatigue", "Winning ads stop working within weeks, and costs creep up.",
          "A creative pipeline", "Our in-house production team makes new angles, hooks and formats every week, so a fresh ad is always ready to test."),

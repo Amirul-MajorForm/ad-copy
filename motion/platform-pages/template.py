@@ -10,6 +10,8 @@ by build.py as missing. preview=True shows those gaps as orange placeholders ins
 import json
 from html import escape
 
+import viz
+
 SITE = "https://www.majorform.co"
 CONTACT = SITE + "/contact"
 PERFORMANCE = SITE + "/performance-marketing-majorform-2026"
@@ -177,9 +179,16 @@ class Gaps:
 
 
 def wrap(slot, d, inner, comment):
+    dark = slot in d.get("dark", {})
     head = (f"<!-- MajorForm {d['name']} page, slot {comment}.\n"
-            f"     Paste into its own Squarespace Code block, with Display Source turned off. No scripts. -->")
-    return f'{head}\n{FONT}\n<style>{BASE}{CSS[slot]}</style>\n<section class="mfp mfp--{slot}" style="--acc:{d["accent"]}" data-theme="light">\n{inner}\n</section>\n'
+            f"     Paste into its own Squarespace Code block, with Display Source turned off. No scripts."
+            + (f"\n     Set this section's background to your navy ({d['dark'][slot]}) so the block blends in." if dark else "")
+            + (" Its animation comes from the page header script." if slot in viz.CSS else "") + " -->")
+    css = BASE + CSS[slot] + (viz.DARK + DARK_CSS.get(slot, "") if dark else "") + viz.CSS.get(slot, "")
+    style = f'--acc:{d["accent"]}' + (f';--mfp-bg:{d["dark"][slot]}' if dark else "")
+    anim = " data-anim" if slot in viz.CSS else ""
+    return (f'{head}\n{FONT}\n<style>{css}</style>\n<section class="mfp mfp--{slot}" style="{style}" '
+            f'data-theme="{"dark" if dark else "light"}"{anim}>\n{inner}\n</section>\n')
 
 
 def head2(title, lede=None, tag="h2", anchor=None):
@@ -210,18 +219,22 @@ def hero(d, g):
 
 def shift(d, g):
     s = d["shift"]
-    def col(title, items, cls):
-        return (f'<div class="mfp__col{cls}"><h3>{e(title)}</h3><ul>'
-                + "".join(f"<li><i aria-hidden=\"true\"></i>{e(x)}</li>" for x in items) + "</ul></div>")
-    inner = head2(s["title"], s["lede"]) + '\n<div class="mfp__body mfp__cols">' + col("What used to work", s["before"], "") + col("What works now", s["now"], " mfp__col--now") + "</div>"
+    def col(title, items, cls, art):
+        return (f'<div class="mfp__col{cls}">{art}<h3>{e(title)}</h3><ul>'
+                + "".join(f"<li><i aria-hidden=\"true\"></i><span>{e(x)}</span></li>" for x in items) + "</ul></div>")
+    inner = (head2(s["title"], s["lede"]) + '\n<div class="mfp__body mfp__cols">'
+             + col("What used to work", s["before"], "", viz.audience_before())
+             + col("What works now", s["now"], " mfp__col--now", viz.audience_now()) + "</div>")
     return wrap("shift", d, inner, "2: what's changed")
 
 
 def problems(d, g):
+    arts = d.get("problem_viz", [])
     pairs = "".join(
-        f'<div class="mfp__pair"><div class="mfp__prob"><span class="mfp__tag">The problem</span><h3>{e(p)}</h3><p>{e(pd)}</p></div>'
-        f'<div class="mfp__fix"><span class="mfp__tag">What we do</span><h3>{e(f)}</h3><p>{e(fd)}</p></div></div>'
-        for p, pd, f, fd in d["problems"])
+        f'<div class="mfp__pair" style="--p:{i}"><div class="mfp__prob"><span class="mfp__tag">The problem</span><h3>{e(p)}</h3><p>{e(pd)}</p></div>'
+        f'<div class="mfp__fix"><div><span class="mfp__tag">What we do</span><h3>{e(f)}</h3><p>{e(fd)}</p></div>'
+        + (viz.PROBLEM_VIZ[arts[i]]() if i < len(arts) else "") + "</div></div>"
+        for i, (p, pd, f, fd) in enumerate(d["problems"]))
     inner = head2(d["problems_title"]) + f'\n<div class="mfp__body mfp__pairs">{pairs}</div>'
     return wrap("problems", d, inner, "3: problems and fixes")
 
@@ -307,6 +320,22 @@ def related(d, g):
     return wrap("related", d, inner, "10: related platforms and closing call to action")
 
 
+# Extra rules when a slot sits on the navy background
+DARK_CSS = {
+    "shift": """
+  .mfp--shift[data-theme="dark"] .mfp__col { background: var(--tint); }
+  .mfp--shift[data-theme="dark"] .mfp__col li { color: #f3f2f7; }
+  .mfp--shift[data-theme="dark"] .mfp__col li i { background: rgba(255, 255, 255, .35); }
+  .mfp--shift[data-theme="dark"] .mfp__col--now { background: rgba(255, 239, 174, .08); box-shadow: inset 0 0 0 1px rgba(255, 239, 174, .45); }
+  .mfp--shift[data-theme="dark"] .mfp__col--now h3 { color: var(--acc); }
+  .mfp--shift[data-theme="dark"] .mfp__col--now li i { background: var(--acc); }
+""",
+    "problems": """
+  .mfp--problems[data-theme="dark"] .mfp__fix h3 { color: var(--acc); }
+""",
+}
+
+
 SLOTS = [("hero", hero), ("shift", shift), ("problems", problems), ("work", work), ("types", types),
          ("results", results), ("process", process), ("fit", fit), ("faq", faq), ("related", related)]
 
@@ -324,9 +353,11 @@ def schema(d):
         {"@context": "https://schema.org", "@type": "FAQPage", "@id": url + "/#faq", "mainEntity": [
             {"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in d["faqs"]]},
     ]
-    return (f"<!-- {d['name']} page schema. Paste into Page Settings > Advanced > Page Header Code Injection.\n"
-            "     Built from the same text as the page, so the FAQ answers match word for word. -->\n"
-            '<script type="application/ld+json">\n' + json.dumps(data, indent=2, ensure_ascii=False) + "\n</script>\n")
+    return (f"<!-- {d['name']} page header. Paste into Page Settings > Advanced > Page Header Code Injection.\n"
+            "     The schema is built from the same text as the page, so the FAQ answers match word for word.\n"
+            "     The short script below plays the block animations once as they scroll into view. -->\n"
+            '<script type="application/ld+json">\n' + json.dumps(data, indent=2, ensure_ascii=False) + "\n</script>\n"
+            + viz.MOTION_JS + "\n")
 
 
 def render(d, preview=False):
