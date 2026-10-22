@@ -1,0 +1,38 @@
+<!-- MajorForm Meta Ads page, slot 7: how we start.
+     Paste into its own Squarespace Code block, with Display Source turned off. No scripts. -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,600&family=Space+Grotesk:wght@400;500&display=swap">
+<style>
+  .mfp { --ink: #233551; --deep: #04202c; --text: #3d4350; --muted: #6b7180; --rule: rgba(35, 53, 81, .16); --tint: #f4f6f8;
+    --num: "DM Sans", "Helvetica Neue", Arial, sans-serif; --gap-ph: #c2410c;
+    container-type: inline-size; font-family: "Space Grotesk", system-ui, sans-serif; color: var(--text); font-size: 16px; line-height: 1.55; }
+  .mfp * { box-sizing: border-box; }
+  .mfp p, .mfp ul, .mfp ol, .mfp h1, .mfp h2, .mfp h3 { margin: 0; }
+  .mfp ul, .mfp ol { padding: 0; list-style: none; }
+  .mfp li { margin: 0; padding: 0; }
+  .mfp li::before, .mfp li::marker { content: none; }
+  .mfp .mfp__h2 { color: var(--ink); font-size: var(--mf-h2, clamp(26px, 3vw, 38px)); line-height: 1.08; letter-spacing: -.03em; text-transform: none; text-wrap: balance; }
+  .mfp .mfp__lede { margin-top: 10px; max-width: 62ch; color: #1a1a1a; }
+  .mfp .mfp__body { margin-top: 22px; }
+  .mfp a { color: inherit; }
+  .mfp .mfp__btn { display: inline-flex; align-items: center; gap: 10px; padding: 12px 20px; border-radius: 999px; background: var(--deep); color: #fff; font-size: 15px; font-weight: 500;
+    text-decoration: none; border: 1px solid var(--deep); transition: background .3s, color .3s, border-color .3s; }
+  .mfp .mfp__btn:hover, .mfp .mfp__btn:focus-visible { background: var(--acc); border-color: var(--acc); color: var(--deep); }
+  .mfp .mfp__btn--ghost { background: none; color: var(--ink); border-color: rgba(35, 53, 81, .3); }
+  .mfp a:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+  .mfp .mfp__gap { color: var(--gap-ph); }
+  .mfp b .mfp__gap, .mfp em .mfp__gap { font-size: inherit; color: #ffb38a; }
+  @media (prefers-reduced-motion: reduce) { .mfp * { transition: none !important; } }
+
+  .mfp--process .mfp__steps { display: grid; grid-template-columns: minmax(0, 1fr); gap: 16px; counter-reset: mfp-step; }
+  @container (min-width: 700px) { .mfp--process .mfp__steps { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+  .mfp--process .mfp__steps li { counter-increment: mfp-step; border-top: 2px solid var(--ink); padding-top: 14px; display: grid; gap: 6px; align-content: start; }
+  .mfp--process .mfp__steps li::before { content: "Step " counter(mfp-step); font-size: 11px; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+  .mfp--process h3 { color: var(--ink); font-size: 19px; letter-spacing: -.01em; text-transform: none; }
+  .mfp--process p { font-size: 15px; }
+  .mfp--process .mfp__when { font-size: 13px; color: var(--muted); }
+</style>
+<section class="mfp mfp--process" style="--acc:#ffefae" data-theme="light">
+<h2 class="mfp__h2">How we start</h2>
+<p class="mfp__lede">Most accounts are scaling by month two.</p>
+<ol class="mfp__body mfp__steps"><li><h3>Audit</h3><p>We review your account structure, tracking, creative and spend, and agree the one KPI that matters.</p><span class="mfp__when">Week 1</span></li><li><h3>Test</h3><p>We launch structured tests of creative angles, audiences and campaign types against that KPI.</p><span class="mfp__when">Weeks 2 to 4</span></li><li><h3>Scale</h3><p>We move budget to what wins, refresh creative before it tires, and report every week.</p><span class="mfp__when">Month 2 onwards</span></li></ol>
+</section>

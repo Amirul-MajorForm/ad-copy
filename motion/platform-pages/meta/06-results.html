@@ -1,0 +1,45 @@
+<!-- MajorForm Meta Ads page, slot 6: results.
+     Paste into its own Squarespace Code block, with Display Source turned off. No scripts. -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,600&family=Space+Grotesk:wght@400;500&display=swap">
+<style>
+  .mfp { --ink: #233551; --deep: #04202c; --text: #3d4350; --muted: #6b7180; --rule: rgba(35, 53, 81, .16); --tint: #f4f6f8;
+    --num: "DM Sans", "Helvetica Neue", Arial, sans-serif; --gap-ph: #c2410c;
+    container-type: inline-size; font-family: "Space Grotesk", system-ui, sans-serif; color: var(--text); font-size: 16px; line-height: 1.55; }
+  .mfp * { box-sizing: border-box; }
+  .mfp p, .mfp ul, .mfp ol, .mfp h1, .mfp h2, .mfp h3 { margin: 0; }
+  .mfp ul, .mfp ol { padding: 0; list-style: none; }
+  .mfp li { margin: 0; padding: 0; }
+  .mfp li::before, .mfp li::marker { content: none; }
+  .mfp .mfp__h2 { color: var(--ink); font-size: var(--mf-h2, clamp(26px, 3vw, 38px)); line-height: 1.08; letter-spacing: -.03em; text-transform: none; text-wrap: balance; }
+  .mfp .mfp__lede { margin-top: 10px; max-width: 62ch; color: #1a1a1a; }
+  .mfp .mfp__body { margin-top: 22px; }
+  .mfp a { color: inherit; }
+  .mfp .mfp__btn { display: inline-flex; align-items: center; gap: 10px; padding: 12px 20px; border-radius: 999px; background: var(--deep); color: #fff; font-size: 15px; font-weight: 500;
+    text-decoration: none; border: 1px solid var(--deep); transition: background .3s, color .3s, border-color .3s; }
+  .mfp .mfp__btn:hover, .mfp .mfp__btn:focus-visible { background: var(--acc); border-color: var(--acc); color: var(--deep); }
+  .mfp .mfp__btn--ghost { background: none; color: var(--ink); border-color: rgba(35, 53, 81, .3); }
+  .mfp a:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+  .mfp .mfp__gap { color: var(--gap-ph); }
+  .mfp b .mfp__gap, .mfp em .mfp__gap { font-size: inherit; color: #ffb38a; }
+  @media (prefers-reduced-motion: reduce) { .mfp * { transition: none !important; } }
+
+  .mfp--results .mfp__cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px; }
+  .mfp--results .mfp__card { position: relative; isolation: isolate; overflow: hidden; display: grid; gap: 6px; align-content: start; padding: 20px 22px; border-radius: 16px;
+    background: var(--deep); color: #f3f2f7; text-decoration: none; transition: transform .35s cubic-bezier(.2, .8, .2, 1), color .3s; }
+  .mfp--results .mfp__card em { font-style: normal; font-size: 11px; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; color: #96d1aa; transition: color .3s; }
+  .mfp--results .mfp__card b { font-family: var(--num); font-weight: 600; font-size: clamp(34px, 3.6vw, 46px); line-height: 1; letter-spacing: -.04em; color: #fff; transition: color .3s; }
+  .mfp--results .mfp__card span { font-size: 15px; line-height: 1.35; color: rgba(243, 242, 247, .8); transition: color .3s; }
+  .mfp--results .mfp__card u { margin-top: 8px; justify-self: start; text-decoration: none; font-size: 14px; font-weight: 500; border-bottom: 1px solid rgba(255, 255, 255, .35); }
+  .mfp--results a.mfp__card::before { content: ""; position: absolute; inset: 0; z-index: -1; background: var(--acc); transform: translateY(101%); transition: transform .45s cubic-bezier(.2, .8, .2, 1); }
+  .mfp--results a.mfp__card:hover, .mfp--results a.mfp__card:focus-visible { transform: translateY(-4px); color: var(--deep); }
+  .mfp--results a.mfp__card:hover::before, .mfp--results a.mfp__card:focus-visible::before { transform: translateY(0); }
+  .mfp--results a.mfp__card:hover *, .mfp--results a.mfp__card:focus-visible * { color: var(--deep); border-color: var(--deep); }
+  .mfp--results .mfp__quote { margin: 12px 0 0; padding: 20px 22px; border-radius: 16px; background: var(--tint); }
+  .mfp--results .mfp__quote p { color: var(--ink); font-size: 18px; line-height: 1.45; max-width: 60ch; }
+  .mfp--results .mfp__quote footer { margin-top: 10px; font-size: 13.5px; color: var(--muted); }
+</style>
+<section class="mfp mfp--results" style="--acc:#ffefae" data-theme="light">
+<h2 class="mfp__h2" id="results">Meta results</h2>
+<p class="mfp__lede">Numbers from Meta campaigns we run.</p>
+<div class="mfp__body"><div class="mfp__cards"><a class="mfp__card" href="https://www.majorform.co/our-work/oatside-digital-marketing-majorform-2026"><em>Oatside</em><b>+30%</b><span>Increase in ROAS year on year</span><u>Read the case study&nbsp;<span aria-hidden="true">&rarr;</span></u></a></div></div>
+</section>
