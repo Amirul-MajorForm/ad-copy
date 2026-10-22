@@ -261,7 +261,7 @@ def poster(d, g):
     out = '<div class="mfp__poster"><div class="mfp__plates">' + "".join(cells) + "</div>"
     if d.get("logos"):
         names = d["logos"]
-        one = "".join(f'<img src="{logo_src(k)}" alt="{e(n)}" height="26">' for k, n in names) + f'<span class="mfp__more">{e(d.get("logos_more", "+ more"))}</span>'
+        one = "".join(f'<img src="{logo_src(k)}" alt="{e(n)}" height="26">' for k, n in names) + (f'<span class="mfp__more">{e(d["logos_more"])}</span>' if d.get("logos_more") else "")
         # two identical runs make the loop seamless; the second is hidden from screen readers
         out += (f'<div class="mfp__logos"><p class="mfp__logos-label">{e(d.get("logos_label", "Brands we work with"))}</p>'
                 f'<div class="mfp__marquee"><div class="mfp__track"><div class="mfp__run">{one}</div><div class="mfp__run" aria-hidden="true">{one}</div></div></div></div>')

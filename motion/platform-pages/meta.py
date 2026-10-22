@@ -19,8 +19,7 @@ PAGE = {
         {"value": "1 team", "label": "Strategy, creative, media and data", "bg": "#96d1aa", "fg": "#233551"},
         {"value": "500", "label": "Meta creatives produced", "bg": "#00978d", "fg": "#04202c"},
     ],
-    "logos": [("oatside", "Oatside"), ("yoga-movement", "Yoga Movement"), ("flexar", "Flexar")],
-    "logos_more": "+ more",
+    "logos": [("oatside", "Oatside"), ("yoga-movement", "Yoga Movement"), ("flexar", "Flexar"), ("strong-pilates", "Strong Pilates Singapore")],
     "logos_label": "Brands we work with",  # Social group colour, matching the platforms section on the performance page
     "slug": "meta-ads-agency-singapore",
     "title": "Meta Ads & Advertising Agency Singapore | MajorForm",
@@ -36,7 +35,7 @@ PAGE = {
     "markets": ["Singapore", "Malaysia", "Indonesia", "Philippines", "Thailand", "Vietnam"],
 
     # 1 Hero
-    "h1": "Meta ads people stop for, and buy from",
+    "h1": "From Attention to Action. Powered by Meta.",
     "thesis": "Creative, data and optimisation, working as one system.",
     "answer": ("MajorForm plans, produces and optimises Meta ads across Facebook and Instagram for brands in Singapore and "
                "across Asia. One team runs strategy, creative production, media buying and measurement, so every ad we make "
