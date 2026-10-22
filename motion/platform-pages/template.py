@@ -101,6 +101,21 @@ CSS = {
     -webkit-mask-composite: source-in; mask: repeating-linear-gradient(90deg, #000 0 10px, transparent 10px 15px), repeating-linear-gradient(0deg, #000 0 14px, transparent 14px 19px);
     mask-composite: intersect; opacity: .4; animation: mfp-sweep 6s ease-in-out infinite; }
   @keyframes mfp-sweep { from { background-position: 100% 0, 0 0; } to { background-position: 0 0, 0 0; } }
+  /* No hover on phones: the four colours rotate around the blocks, each fading into the next, so all four always differ */
+  @property --tex { syntax: "<color>"; inherits: true; initial-value: transparent; }
+  @media (hover: none) and (prefers-reduced-motion: no-preference) {
+    .mfp--hero .mfp__plate { animation: mfp-rot-bg 18s ease-in-out infinite; }
+    .mfp--hero .mfp__plate b { animation: mfp-rot-num 18s ease-in-out infinite; }
+    .mfp--hero .mfp__plate span { animation: mfp-rot-fg 18s ease-in-out infinite; }
+    .mfp--hero .mfp__plate--2, .mfp--hero .mfp__plate--2 b, .mfp--hero .mfp__plate--2 span { animation-delay: -4.5s; }
+    .mfp--hero .mfp__plate--3, .mfp--hero .mfp__plate--3 b, .mfp--hero .mfp__plate--3 span { animation-delay: -9s; }
+    .mfp--hero .mfp__plate--4, .mfp--hero .mfp__plate--4 b, .mfp--hero .mfp__plate--4 span { animation-delay: -13.5s; }
+  }
+  @keyframes mfp-rot-bg {
+    0%, 19% { background-color: var(--s1-bg); --tex: var(--s1-tex); } 25%, 44% { background-color: var(--s2-bg); --tex: var(--s2-tex); }
+    50%, 69% { background-color: var(--s3-bg); --tex: var(--s3-tex); } 75%, 94% { background-color: var(--s4-bg); --tex: var(--s4-tex); } 100% { background-color: var(--s1-bg); --tex: var(--s1-tex); } }
+  @keyframes mfp-rot-num { 0%, 19% { color: var(--s1-num); } 25%, 44% { color: var(--s2-num); } 50%, 69% { color: var(--s3-num); } 75%, 94% { color: var(--s4-num); } 100% { color: var(--s1-num); } }
+  @keyframes mfp-rot-fg { 0%, 19% { color: var(--s1-fg); } 25%, 44% { color: var(--s2-fg); } 50%, 69% { color: var(--s3-fg); } 75%, 94% { color: var(--s4-fg); } 100% { color: var(--s1-fg); } }
   @media (prefers-reduced-motion: reduce) { .mfp--hero .mfp__plate::before { animation: none; } .mfp--hero .mfp__plate, .mfp--hero .mfp__plate::after { transition: none; } }
   .mfp--hero .mfp__logos { display: grid; gap: 8px; min-width: 0; }
   .mfp--hero .mfp__logos-label { font-size: 11px; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
@@ -309,7 +324,9 @@ def poster(d, g):
         art = TEXTURE_ART.get(tex, "")
         cells.append(f'<div class="mfp__plate mfp__plate--{i + 1}{" mfp__tex--" + tex if tex else ""}" style="{plate_vars(b)}">'
                      f'{art}<b>{e(b["value"])}</b><span>{e(b["label"])}</span></div>')
-    out = '<div class="mfp__poster"><div class="mfp__plates">' + "".join(cells) + "</div>"
+    states = ";".join(f'--s{i + 1}-bg:{b["bg"]};--s{i + 1}-fg:{b["fg"]};--s{i + 1}-num:{b.get("num", b["fg"])};--s{i + 1}-tex:{b.get("tex", "rgba(255, 255, 255, .2)")}'
+                      for i, b in enumerate(d["poster"][:4]))
+    out = f'<div class="mfp__poster"><div class="mfp__plates" style="{states}">' + "".join(cells) + "</div>"
     if d.get("logos"):
         names = d["logos"]
         one = "".join(f'<img src="{logo_src(k)}" alt="{e(n)}" height="26">' for k, n in names) + (f'<span class="mfp__more">{e(d["logos_more"])}</span>' if d.get("logos_more") else "")
