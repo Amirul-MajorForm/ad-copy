@@ -14,11 +14,17 @@ PAGE = {
     "dark": {"shift": "#253551", "problems": "#253551"},
     # Hero numbers as a colour plate from Wada combination 281 (no colour names shown on the page)
     "poster": [
-        {"value": "$2M+", "label": "Meta ad spend managed", "bg": "#007190", "fg": "#ffffff", "texture": "grain"},
-        {"value": "10+", "label": "Markets in Asia", "bg": "#ffefae", "fg": "#233551", "texture": "rings"},
-        {"value": "1 team", "label": "Strategy, creative, media and data", "bg": "#96d1aa", "fg": "#233551", "texture": "venn"},
-        {"value": "500", "label": "Meta creatives ran", "bg": "#00978d", "fg": "#04202c", "num": "#ffffff", "texture": "tiles"},
+        # tex is the texture colour; hover swaps to another colour from the same Wada combination
+        {"value": "$2M+", "label": "Meta ad spend managed", "bg": "#007190", "fg": "#ffffff", "texture": "grain", "tex": "rgba(255, 255, 255, .22)",
+         "hover": {"bg": "#ffefae", "fg": "#233551", "tex": "rgba(35, 53, 81, .2)"}},
+        {"value": "10+", "label": "Markets in Asia", "bg": "#ffefae", "fg": "#233551", "texture": "rings", "tex": "rgba(35, 53, 81, .16)",
+         "hover": {"bg": "#00978d", "fg": "#04202c", "num": "#ffffff", "tex": "rgba(255, 255, 255, .25)"}},
+        {"value": "1 team", "label": "Strategy, creative, media and data", "bg": "#96d1aa", "fg": "#233551", "texture": "weave", "tex": "rgba(35, 53, 81, .18)",
+         "hover": {"bg": "#007190", "fg": "#ffffff", "tex": "rgba(255, 255, 255, .22)"}},
+        {"value": "500", "label": "Meta creatives ran", "bg": "#00978d", "fg": "#04202c", "num": "#ffffff", "texture": "tiles", "tex": "rgba(255, 255, 255, .2)",
+         "hover": {"bg": "#96d1aa", "fg": "#233551", "tex": "rgba(35, 53, 81, .16)"}},
     ],
+
     "logos": [("oatside", "Oatside"), ("yoga-movement", "Yoga Movement"), ("flexar", "Flexar"), ("strong-pilates", "Strong Pilates Singapore")],
     "logos_label": "Brands we work with",  # Social group colour, matching the platforms section on the performance page
     "slug": "meta-ads-agency-singapore",

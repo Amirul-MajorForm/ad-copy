@@ -69,26 +69,39 @@ CSS = {
   .mfp--hero .mfp__plate--2 { grid-area: 1 / 5 / 3 / 7; }
   .mfp--hero .mfp__plate--3 { grid-area: 5 / 1 / 7 / 5; }
   .mfp--hero .mfp__plate--4 { grid-area: 3 / 5 / 7 / 7; }
-  .mfp--hero .mfp__plate b { position: relative; color: var(--num-fg); font-family: var(--num); font-weight: 600; font-size: 12cqi; line-height: .9; letter-spacing: -.05em; }
+  .mfp--hero .mfp__plate b { position: relative; color: var(--num-fg); font-family: var(--num); font-weight: 600; font-size: 12cqi; line-height: .9; letter-spacing: -.05em; transition: color .35s; }
   .mfp--hero .mfp__plate--1 b { font-size: 21cqi; }
-  .mfp--hero .mfp__plate span { position: relative; font-size: clamp(12px, 2.6cqi, 15px); line-height: 1.3; font-weight: 500; }
-  /* Textures: quiet, slow, behind the numbers */
+  .mfp--hero .mfp__plate span { position: relative; font-size: clamp(12px, 2.6cqi, 15px); line-height: 1.3; font-weight: 500; transition: color .35s; }
+  /* Hover: another colour from the same Wada combination floods up from the bottom, as on the results cards */
+  .mfp--hero .mfp__plate { --tex: var(--tex0); transition: transform .35s cubic-bezier(.2, .8, .2, 1); }
+  .mfp--hero .mfp__plate::after { content: ""; position: absolute; inset: 0; z-index: -2; background: var(--h-bg); transform: translateY(101%); transition: transform .5s cubic-bezier(.2, .8, .2, 1); }
+  .mfp--hero .mfp__plate:hover { transform: translateY(-3px); --tex: var(--h-tex); }
+  .mfp--hero .mfp__plate:hover::after { transform: translateY(0); }
+  .mfp--hero .mfp__plate:hover b { color: var(--h-num); }
+  .mfp--hero .mfp__plate:hover span { color: var(--h-fg); }
+  /* Textures: quiet, slow, behind the numbers, drawn in --tex so they follow the hover colour */
   .mfp--hero .mfp__plate::before { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; }
-  .mfp--hero .mfp__tex--grain::before { background-image: radial-gradient(rgba(255, 255, 255, .2) 1.1px, transparent 1.6px); background-size: 12px 12px;
+  .mfp--hero .mfp__tex--grain::before { background-image: radial-gradient(var(--tex) 1.1px, transparent 1.6px); background-size: 12px 12px;
     -webkit-mask-image: linear-gradient(200deg, #000, transparent 75%); mask-image: linear-gradient(200deg, #000, transparent 75%); animation: mfp-grain 28s linear infinite; }
   @keyframes mfp-grain { to { background-position: 120px 60px; } }
   @property --mfp-r { syntax: "<length>"; inherits: false; initial-value: 0px; }
-  .mfp--hero .mfp__tex--rings::before { background: repeating-radial-gradient(circle at 82% 18%, transparent 0 var(--mfp-r), rgba(35, 53, 81, .16) var(--mfp-r) calc(var(--mfp-r) + 1px), transparent calc(var(--mfp-r) + 1px) calc(var(--mfp-r) + 16px));
+  .mfp--hero .mfp__tex--rings::before { background: repeating-radial-gradient(circle at 82% 18%, transparent 0 var(--mfp-r), var(--tex) var(--mfp-r) calc(var(--mfp-r) + 1px), transparent calc(var(--mfp-r) + 1px) calc(var(--mfp-r) + 16px));
     animation: mfp-rings 3.2s linear infinite; }
   @keyframes mfp-rings { from { --mfp-r: 0px; } to { --mfp-r: 15px; } }
-  .mfp--hero .mfp__venn { position: absolute; right: -6%; top: 50%; width: 62%; height: auto; max-width: 100%; transform: translateY(-50%); z-index: -1; color: rgba(35, 53, 81, .28); animation: mfp-venn 40s linear infinite; }
-  @keyframes mfp-venn { from { transform: translateY(-50%) rotate(0); } to { transform: translateY(-50%) rotate(360deg); } }
-  .mfp--hero .mfp__tex--tiles::before { --tile: linear-gradient(#000 0 0); background: linear-gradient(115deg, rgba(255, 255, 255, .06) 30%, rgba(255, 255, 255, .5) 45%, rgba(255, 255, 255, .06) 60%) 0 0 / 300% 100%;
-    -webkit-mask: conic-gradient(#000 0 0) 0 0 / 0 0, repeating-linear-gradient(90deg, #000 0 10px, transparent 10px 15px), repeating-linear-gradient(0deg, #000 0 14px, transparent 14px 19px);
+  /* the team: two sets of fine diagonal lines drifting in opposite directions, weaving together */
+  .mfp--hero .mfp__tex--weave::before { background:
+      repeating-linear-gradient(45deg, var(--tex) 0 1px, transparent 1px 14px),
+      repeating-linear-gradient(-45deg, var(--tex) 0 1px, transparent 1px 14px);
+    background-size: 19.8px 19.8px, 19.8px 19.8px;
+    -webkit-mask-image: linear-gradient(15deg, transparent 30%, #000 85%); mask-image: linear-gradient(15deg, transparent 30%, #000 85%);
+    animation: mfp-weave 14s linear infinite; }
+  @keyframes mfp-weave { to { background-position: 99px 0, -99px 0; } }
+  .mfp--hero .mfp__tex--tiles::before { background: linear-gradient(115deg, transparent 30%, var(--tex) 45%, transparent 60%) 0 0 / 300% 100%, linear-gradient(var(--tex), var(--tex)) 0 0 / 100% 100%;
+    -webkit-mask: repeating-linear-gradient(90deg, #000 0 10px, transparent 10px 15px), repeating-linear-gradient(0deg, #000 0 14px, transparent 14px 19px);
     -webkit-mask-composite: source-in; mask: repeating-linear-gradient(90deg, #000 0 10px, transparent 10px 15px), repeating-linear-gradient(0deg, #000 0 14px, transparent 14px 19px);
-    mask-composite: intersect; opacity: .55; animation: mfp-sweep 6s ease-in-out infinite; }
-  @keyframes mfp-sweep { from { background-position: 100% 0; } to { background-position: 0 0; } }
-  @media (prefers-reduced-motion: reduce) { .mfp--hero .mfp__plate::before, .mfp--hero .mfp__venn { animation: none; } }
+    mask-composite: intersect; opacity: .4; animation: mfp-sweep 6s ease-in-out infinite; }
+  @keyframes mfp-sweep { from { background-position: 100% 0, 0 0; } to { background-position: 0 0, 0 0; } }
+  @media (prefers-reduced-motion: reduce) { .mfp--hero .mfp__plate::before { animation: none; } .mfp--hero .mfp__plate, .mfp--hero .mfp__plate::after { transition: none; } }
   .mfp--hero .mfp__logos { display: grid; gap: 8px; min-width: 0; }
   .mfp--hero .mfp__logos-label { font-size: 11px; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
   .mfp--hero .mfp__marquee { overflow: hidden; -webkit-mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent); mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent); }
@@ -276,12 +289,14 @@ def logo_src(key):
     return "data:image/png;base64," + base64.b64encode(open(path, "rb").read()).decode()
 
 
-# Inline art for textures that need shapes rather than a CSS pattern
-TEXTURE_ART = {
-    # four overlapping circles: strategy, creative, media and data, turning slowly as one
-    "venn": ('<svg class="mfp__venn" viewBox="0 0 100 100" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" stroke-width=".9">'
-             '<circle cx="38" cy="38" r="24"/><circle cx="62" cy="38" r="24"/><circle cx="38" cy="62" r="24"/><circle cx="62" cy="62" r="24"/></g></svg>'),
-}
+TEXTURE_ART = {}
+
+
+def plate_vars(b):
+    h = b.get("hover", {})
+    v = {"bg": b["bg"], "fg": b["fg"], "num-fg": b.get("num", b["fg"]), "tex0": b.get("tex", "rgba(255, 255, 255, .2)"),
+         "h-bg": h.get("bg", b["bg"]), "h-fg": h.get("fg", b["fg"]), "h-num": h.get("num", h.get("fg", b["fg"])), "h-tex": h.get("tex", b.get("tex", "rgba(255, 255, 255, .2)"))}
+    return ";".join(f"--{k}:{x}" for k, x in v.items())
 
 
 def poster(d, g):
@@ -292,7 +307,7 @@ def poster(d, g):
             continue
         tex = b.get("texture", "")
         art = TEXTURE_ART.get(tex, "")
-        cells.append(f'<div class="mfp__plate mfp__plate--{i + 1}{" mfp__tex--" + tex if tex else ""}" style="--bg:{b["bg"]};--fg:{b["fg"]};--num-fg:{b.get("num", b["fg"])}">'
+        cells.append(f'<div class="mfp__plate mfp__plate--{i + 1}{" mfp__tex--" + tex if tex else ""}" style="{plate_vars(b)}">'
                      f'{art}<b>{e(b["value"])}</b><span>{e(b["label"])}</span></div>')
     out = '<div class="mfp__poster"><div class="mfp__plates">' + "".join(cells) + "</div>"
     if d.get("logos"):
