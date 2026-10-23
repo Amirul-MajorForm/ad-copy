@@ -151,9 +151,15 @@ document.addEventListener("DOMContentLoaded", function () {
     var h = pin.offsetHeight;
     if (clipped || h > window.innerHeight * 0.88) {
       var io = new IntersectionObserver(function (en) {
-        en.forEach(function (x) { if (x.isIntersecting) { var i = [].indexOf.call(steps, x.target); for (var k = 0; k <= i; k++) steps[k].classList.add("is-on"); if (i > 0) steps[i - 1].classList.add("is-done"); io.unobserve(x.target); } });
+        // steps light up as they enter, and reset once they drop below the screen, so scrolling back down plays it again
+        en.forEach(function (x) {
+          var i = [].indexOf.call(steps, x.target);
+          if (x.isIntersecting) { for (var k = 0; k <= i; k++) steps[k].classList.add("is-on"); if (i > 0) steps[i - 1].classList.add("is-done"); }
+          else if (i > 0 && x.boundingClientRect.top > 0) { for (var k = i; k < steps.length; k++) steps[k].classList.remove("is-on", "is-done"); steps[i - 1].classList.remove("is-done"); }
+        });
       }, { rootMargin: "0px 0px -20% 0px" });
-      steps.forEach(function (s) { io.observe(s); }); return;
+      steps.forEach(function (s) { io.observe(s); });
+      window.addEventListener("scroll", function () { if (el.getBoundingClientRect().top > window.innerHeight) show(1); }, { passive: true }); return;
     }
     el.setAttribute("data-pinned", ""); el.style.setProperty("--pin-h", h + "px");
     var extra = window.innerHeight * 0.45 * (steps.length - 1);
