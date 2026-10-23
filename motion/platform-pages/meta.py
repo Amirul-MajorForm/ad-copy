@@ -35,7 +35,6 @@ PAGE = {
     "service_name": "Meta Ads Management",
     # Facts used on the page that you should confirm before it goes live
     "confirm": [
-        "Oatside's +30% ROAS year on year came from Meta campaigns",
         "Process timings (audit week 1, testing weeks 2 to 4, scaling from month 2)",
         "Which 10+ markets to list in the schema (it names six Southeast Asian countries today)",
         "$2M+ is Meta ad spend specifically, and 500 is Meta creatives run specifically",
@@ -130,14 +129,18 @@ PAGE = {
     "types_lede": "We pick the campaign type from your goal, then judge it against one number.",
     "types": [],
 
-    # 6 Results: Meta results only, with brand names
-    "results_title": "Meta results",
-    "results_lede": "Numbers from Meta campaigns we run.",
+    # 4 Results: the first is the featured case; the rest sit beside it once confirmed
+    "results_label": "Results",
+    "results_title": "What this looks like in practice",
+    "results_lede": "Results from Meta campaigns we run, for brands across Asia.",
     "results": [
         {"brand": "Oatside", "value": "+30%", "label": "Increase in ROAS year on year",
-         "url": "https://www.majorform.co/our-work/oatside-digital-marketing-majorform-2026"},
-        {"brand": None, "value": None, "label": "[result on Meta]", "url": None},
-        {"brand": None, "value": None, "label": "[result on Meta]", "url": None},
+         "url": "https://www.majorform.co/our-work/oatside-digital-marketing-majorform-2026",
+         "image": "oatside-barista.webp", "image_alt": "Oatside Barista Blend oat milk", "image_bg": "#f3d23c",
+         "story": [("Challenge", "Looking to scale CPAS ads across Southeast Asia efficiently."),
+                   ("What we did", "Deployed a geo-targeted approach to streamline spend and focus on Shopee audiences.")]},
+        {"brand": None, "value": None, "label": "result on Meta", "url": None, "bg": "#ffefae"},
+        {"brand": None, "value": None, "label": "result on Meta", "url": None, "bg": "#96d1aa"},
     ],
     "quote": {"text": None, "who": None},
 

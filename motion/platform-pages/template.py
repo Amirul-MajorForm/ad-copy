@@ -205,20 +205,32 @@ CSS = {
   .mfp--types .mfp__close b { font-weight: 500; }
 """,
     "results": """
-  .mfp--results .mfp__cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px; }
-  .mfp--results .mfp__card { position: relative; isolation: isolate; overflow: hidden; display: grid; gap: 6px; align-content: start; padding: 20px 22px; border-radius: 16px;
-    background: var(--deep); color: #f3f2f7; text-decoration: none; transition: transform .35s cubic-bezier(.2, .8, .2, 1), color .3s; }
-  .mfp--results .mfp__card em { font-style: normal; font-size: 11px; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; color: #96d1aa; transition: color .3s; }
-  .mfp--results .mfp__card b { font-family: var(--num); font-weight: 600; font-size: clamp(34px, 3.6vw, 46px); line-height: 1; letter-spacing: -.04em; color: #fff; transition: color .3s; }
-  .mfp--results .mfp__card span { font-size: 15px; line-height: 1.35; color: rgba(243, 242, 247, .8); transition: color .3s; }
-  .mfp--results .mfp__card u { margin-top: 8px; justify-self: start; text-decoration: none; font-size: 14px; font-weight: 500; border-bottom: 1px solid rgba(255, 255, 255, .35); }
-  .mfp--results a.mfp__card::before { content: ""; position: absolute; inset: 0; z-index: -1; background: var(--acc); transform: translateY(101%); transition: transform .45s cubic-bezier(.2, .8, .2, 1); }
-  .mfp--results a.mfp__card:hover, .mfp--results a.mfp__card:focus-visible { transform: translateY(-4px); color: var(--deep); }
-  .mfp--results a.mfp__card:hover::before, .mfp--results a.mfp__card:focus-visible::before { transform: translateY(0); }
-  .mfp--results a.mfp__card:hover *, .mfp--results a.mfp__card:focus-visible * { color: var(--deep); border-color: var(--deep); }
-  .mfp--results .mfp__quote { margin: 12px 0 0; padding: 20px 22px; border-radius: 16px; background: var(--tint); }
-  .mfp--results .mfp__quote p { color: var(--ink); font-size: 18px; line-height: 1.45; max-width: 60ch; }
-  .mfp--results .mfp__quote footer { margin-top: 10px; font-size: 13.5px; color: var(--muted); }
+  .mfp--results .mfp__label { margin-bottom: 10px; font-size: 11px; font-weight: 500; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
+  .mfp--results .mfp__top { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px 56px; align-items: end; }
+  @container (min-width: 860px) { .mfp--results .mfp__top { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
+  .mfp--results .mfp__top .mfp__lede { margin-top: 0; line-height: 1.45; }
+  .mfp--results .mfp__body { margin-top: 28px; }
+  .mfp--results .mfp__rgrid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; }
+  @container (min-width: 900px) { .mfp--results .mfp__rgrid { grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr); } .mfp--results .mfp__rgrid--solo { grid-template-columns: minmax(0, 1fr); } }
+  .mfp--results .mfp__feat { border-radius: 18px; overflow: hidden; display: grid; grid-template-columns: minmax(0, 1fr); background: var(--deep); color: #f3f2f7; text-decoration: none;
+    transition: transform .35s cubic-bezier(.2, .8, .2, 1), box-shadow .35s; }
+  @container (min-width: 640px) { .mfp--results .mfp__feat { grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); } }
+  a.mfp__feat:hover, a.mfp__feat:focus-visible { transform: translateY(-4px); box-shadow: 0 18px 36px -16px rgba(4, 32, 44, .5); }
+  .mfp--results .mfp__fimg { background: var(--fbg); display: grid; place-items: center; min-height: 260px; padding: 20px; }
+  .mfp--results .mfp__fimg img { display: block; width: auto; max-width: 92%; height: auto; max-height: 340px; object-fit: contain; }
+  .mfp--results .mfp__fbody { padding: 26px; display: grid; gap: 10px; align-content: start; }
+  .mfp--results .mfp__ftag { font-size: 11px; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; color: #96d1aa; }
+  .mfp--results .mfp__fnum { font-family: var(--num); font-weight: 600; font-size: clamp(52px, 7cqi, 76px); line-height: .95; letter-spacing: -.045em; color: #fff; }
+  .mfp--results .mfp__flabel { font-size: 16px; }
+  .mfp--results .mfp__fbody dl { margin: 6px 0 0; display: grid; gap: 10px; }
+  .mfp--results .mfp__fbody dt { font-size: 11px; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; color: rgba(243, 242, 247, .6); }
+  .mfp--results .mfp__fbody dd { margin: 3px 0 0; font-size: 15px; line-height: 1.42; }
+  .mfp--results .mfp__fbody u { text-decoration: none; justify-self: start; font-weight: 500; border-bottom: 1px solid rgba(255, 255, 255, .45); margin-top: 6px; color: #fff; }
+  .mfp--results .mfp__side { display: grid; gap: 12px; }
+  .mfp--results .mfp__mini { border-radius: 18px; padding: 22px; background: var(--mb); color: var(--ink); display: grid; gap: 4px; align-content: end; min-height: 160px; }
+  .mfp--results .mfp__mini em { font-style: normal; font-size: 11px; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; opacity: .75; }
+  .mfp--results .mfp__mini b { font-family: var(--num); font-weight: 600; font-size: clamp(40px, 5cqi, 56px); line-height: .95; letter-spacing: -.045em; }
+  @media (prefers-reduced-motion: reduce) { a.mfp__feat { transition: none; } a.mfp__feat:hover { transform: none; } }
 """,
     "process": """
   .mfp--process .mfp__steps { display: grid; grid-template-columns: minmax(0, 1fr); gap: 16px; counter-reset: mfp-step; }
@@ -431,27 +443,41 @@ def types(d, g):
     return wrap("types", d, inner, "campaign types across the funnel")
 
 
+def asset_src(name):
+    """Images in assets/ are embedded, so the block needs no uploads."""
+    import base64, mimetypes, os
+    path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "assets", name)
+    kind = mimetypes.guess_type(path)[0] or "image/png"
+    return f"data:{kind};base64," + base64.b64encode(open(path, "rb").read()).decode()
+
+
 def results(d, g):
-    cards = []
-    for r in d["results"]:
-        if g.ok(r["value"], f"Result: {r['brand'] or 'a brand'} on {d['short']}") and r["brand"]:
-            body = f'<em>{e(r["brand"])}</em><b>{e(r["value"])}</b><span>{e(r["label"])}</span>'
-            if r.get("url"):
-                cards.append(f'<a class="mfp__card" href="{e(r["url"])}">{body}<u>Read the case study&nbsp;<span aria-hidden="true">&rarr;</span></u></a>')
-            else:
-                cards.append(f'<div class="mfp__card">{body}</div>')
-        elif g.preview:
-            cards.append(f'<div class="mfp__card"><em>{g.ph("brand")}</em><b>{g.ph("x")}</b><span>{e(r["label"])}</span></div>')
-    q = d["quote"]
-    quote = ""
-    if g.ok(q["text"], "Client quote about working with you on " + d["short"]):
-        quote = f'<blockquote class="mfp__quote"><p>{e(q["text"])}</p><footer>{e(q["who"])}</footer></blockquote>'
-    elif g.preview:
-        quote = f'<blockquote class="mfp__quote"><p>{g.ph("one line from a client about working with MajorForm on " + d["short"])}</p><footer>{g.ph("name, role, brand")}</footer></blockquote>'
-    if not cards and not quote:
+    rs = d["results"]
+    lead, rest = rs[0], rs[1:]
+    if not g.ok(lead["value"], f"Result: {lead['brand'] or 'a brand'} on {d['short']}"):
         return None
-    inner = head2(d["results_title"], d["results_lede"], anchor="results") + '\n<div class="mfp__body"><div class="mfp__cards">' + "".join(cards) + "</div>" + quote + "</div>"
-    return wrap("results", d, inner, "6: results")
+    # the featured case: product on its colour, the number, challenge and approach, link to the case study
+    img = (f'<div class="mfp__fimg" style="--fbg:{lead.get("image_bg", "#f3d23c")}"><img src="{asset_src(lead["image"])}" alt="{e(lead["image_alt"])}" loading="lazy"></div>'
+           if lead.get("image") else "")
+    facts = "".join(f'<div><dt>{e(k)}</dt><dd>{e(v)}</dd></div>' for k, v in lead.get("story", []))
+    feat_body = (f'<div class="mfp__fbody"><span class="mfp__ftag">{e(lead["brand"])} &middot; {e(d["short"])}</span>'
+                 f'<b class="mfp__fnum">{e(lead["value"])}</b><span class="mfp__flabel">{e(lead["label"])}</span>'
+                 + (f"<dl>{facts}</dl>" if facts else "")
+                 + (f'<u>Read the case study&nbsp;<span aria-hidden="true">&rarr;</span></u>' if lead.get("url") else "") + "</div>")
+    tag = "a" if lead.get("url") else "div"
+    href = f' href="{e(lead["url"])}"' if lead.get("url") else ""
+    feat = f'<{tag} class="mfp__feat"{href}>{img}{feat_body}</{tag}>'
+    minis = []
+    for r in rest:
+        if g.ok(r["value"], f"Result: {r['brand'] or 'a brand'} on {d['short']}") and r["brand"]:
+            minis.append(f'<div class="mfp__mini" style="--mb:{r.get("bg", "#ffefae")}"><em>{e(r["brand"])}</em><b>{e(r["value"])}</b><span>{e(r["label"])}</span></div>')
+        elif g.preview:
+            minis.append(f'<div class="mfp__mini" style="--mb:{r.get("bg", "#ffefae")}"><em>{g.ph("brand")}</em><b>{g.ph("x")}</b><span>{g.ph(r["label"])}</span></div>')
+    side = f'<div class="mfp__side">{"".join(minis)}</div>' if minis else ""
+    inner = (f'<p class="mfp__label">{e(d["results_label"])}</p>'
+             f'<div class="mfp__top">{head2(d["results_title"], anchor="results")}<p class="mfp__lede">{e(d["results_lede"])}</p></div>'
+             f'\n<div class="mfp__body mfp__rgrid{" mfp__rgrid--solo" if not minis else ""}">{feat}{side}</div>')
+    return wrap("results", d, inner, "results")
 
 
 def process(d, g):
