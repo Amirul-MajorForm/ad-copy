@@ -128,7 +128,7 @@ CSS = {
   .mfp--shift .mfp__we span { font-size: 11px; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; opacity: .75; }
   .mfp--shift .mfp__we p { font-size: 15px; line-height: 1.42; font-weight: 500; }
   .mfp--shift .mfp__step:not(:last-child)::after { content: "\\2193"; position: absolute; left: 50%; bottom: -11px; transform: translate(-50%, 50%); z-index: 1;
-    width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; font-size: 13px; background: var(--mfp-bg, #fff); color: var(--ink); box-shadow: 0 0 0 1px rgba(35, 53, 81, .3); }
+    width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; font-size: 13px; background: #ffffff; color: #00978d; font-weight: 600; box-shadow: 0 2px 6px rgba(4, 32, 44, .25); }  /* white circle, Wada teal arrow */
   @container (min-width: 760px) { .mfp--shift .mfp__step:not(:last-child)::after { content: "\\2192"; left: auto; right: -6px; bottom: auto; top: 50%; transform: translate(50%, -50%); } }
   .mfp--shift .mfp__close { margin-top: 22px; font-size: 16px; color: var(--ink); }
   .mfp--shift .mfp__close b { font-weight: 500; color: var(--acc2, var(--ink)); }
@@ -199,7 +199,7 @@ CSS = {
   .mfp--types .mfp__pill:hover::after { transform: translateY(0); }
   @media (prefers-reduced-motion: reduce) { .mfp--types .mfp__stage, .mfp--types .mfp__pill, .mfp--types .mfp__pill::after { transition: none; } .mfp--types .mfp__stage:hover { transform: none; } }
   .mfp--types .mfp__stage:not(:last-child)::after { content: "\\2193"; position: absolute; left: 50%; bottom: -11px; transform: translate(-50%, 50%); z-index: 1;
-    width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; font-size: 13px; background: var(--mfp-bg, #fff); color: var(--ink); box-shadow: 0 0 0 1px rgba(35, 53, 81, .3); }
+    width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; font-size: 13px; background: #ffffff; color: #00978d; font-weight: 600; box-shadow: 0 2px 6px rgba(4, 32, 44, .25); }  /* white circle, Wada teal arrow */
   @container (min-width: 820px) { .mfp--types .mfp__stage:not(:last-child)::after { content: "\\2192"; left: auto; right: -6px; bottom: auto; top: 46px; transform: translate(50%, -50%); } }
   .mfp--types .mfp__close { margin-top: 22px; font-size: 16px; color: var(--ink); }
   .mfp--types .mfp__close b { font-weight: 500; }
@@ -509,14 +509,12 @@ DARK_CSS = {
     "shift": """
   .mfp--shift[data-theme="dark"] .mfp__label { color: #96d1aa; }
   .mfp--shift[data-theme="dark"] .mfp__step--meta { box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .28); }
-  .mfp--shift[data-theme="dark"] .mfp__step:not(:last-child)::after { color: #fff; box-shadow: 0 0 0 1px rgba(255, 255, 255, .3); }
   .mfp--shift[data-theme="dark"] .mfp__close { color: #fff; }
   .mfp--shift[data-theme="dark"] .mfp__close b { color: #96d1aa; }
 """,
     "types": """
   .mfp--types[data-theme="dark"] .mfp__label { color: #96d1aa; }
   .mfp--types[data-theme="dark"] .mfp__stage--line { box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .28); }
-  .mfp--types[data-theme="dark"] .mfp__stage:not(:last-child)::after { color: #fff; box-shadow: 0 0 0 1px rgba(255, 255, 255, .3); }
   .mfp--types[data-theme="dark"] .mfp__close { color: #fff; }
   .mfp--types[data-theme="dark"] .mfp__close b { color: #96d1aa; }
 """,
