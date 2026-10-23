@@ -9,7 +9,7 @@ from html import escape
 
 GROUPS = [
     ("Social", "#ffefae", [
-        ("Meta Ads", "Facebook &amp; Instagram", True, None),
+        ("Meta Ads", "Facebook &amp; Instagram", True, "https://majorform.co/meta-ads-agency-singapore"),
         ("TikTok Ads", "In-feed, Spark Ads", True, None),
         ("LinkedIn Ads", "B2B and lead generation", False, None),
     ]),
