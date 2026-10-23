@@ -101,35 +101,6 @@ DARK = """
 """
 
 CSS = {
-    "shift": f"""
-  .mfp--shift .mfp__viz {{ display: block; width: 100%; max-width: 360px; height: auto; margin: 2px 0 14px; }}
-  .mfp--shift .mfp__fence {{ fill: none; stroke: {LINE}; stroke-width: 1.2; stroke-dasharray: 1; stroke-dashoffset: 0; }}
-  .mfp--shift .mfp__people circle, .mfp--shift .mfp__creative {{ transform-box: fill-box; transform-origin: center; }}
-  .mfp--shift .mfp__links line {{ stroke-dasharray: 1; stroke-dashoffset: 0; }}
-  .mfp--shift .mfp__col li span {{ background: linear-gradient(currentColor, currentColor) 0 55% / 100% 1px no-repeat; }}
-  .mfp--shift .mfp__col--now li span {{ background: none; }}
-  .mfp--shift .mfp__col:not(.mfp__col--now) li {{ opacity: .72; }}
-  /* before scrolling in */
-  .mfp-pre.mfp--shift .mfp__fence {{ stroke-dashoffset: 1; }}
-  .mfp-pre.mfp--shift .mfp__col:not(.mfp__col--now) li span {{ background-size: 0% 1px; }}
-  .mfp-pre.mfp--shift .mfp__col:not(.mfp__col--now) li {{ opacity: 1; }}
-  .mfp-pre.mfp--shift .mfp__people circle {{ transform: translate(var(--dx), var(--dy)) scale(.6); opacity: .3; }}
-  .mfp-pre.mfp--shift .mfp__creative {{ transform: scale(0); }}
-  .mfp-pre.mfp--shift .mfp__links line {{ stroke-dashoffset: 1; }}
-  .mfp-pre.mfp--shift .mfp__col--now li {{ opacity: 0; transform: translateY(8px); }}
-  /* the sequence: fences draw, old ways get struck through, then the audience opens up and creative reaches it */
-  .mfp-in.mfp--shift .mfp__fence {{ transition: stroke-dashoffset .9s {EASE} calc(var(--i) * .12s); }}
-  .mfp-in.mfp--shift .mfp__col:not(.mfp__col--now) li span {{ transition: background-size .5s ease 1.1s; }}
-  .mfp-in.mfp--shift .mfp__col:not(.mfp__col--now) li:nth-child(2) span {{ transition-delay: 1.3s; }}
-  .mfp-in.mfp--shift .mfp__col:not(.mfp__col--now) li:nth-child(3) span {{ transition-delay: 1.5s; }}
-  .mfp-in.mfp--shift .mfp__col:not(.mfp__col--now) li {{ transition: opacity .5s ease 1.6s; }}
-  .mfp-in.mfp--shift .mfp__people circle {{ transition: transform 1.1s {EASE} calc(1.6s + var(--i) * 25ms), opacity .8s ease calc(1.6s + var(--i) * 25ms); }}
-  .mfp-in.mfp--shift .mfp__creative {{ transition: transform .5s {EASE} calc(2.2s + var(--i) * .1s); }}
-  .mfp-in.mfp--shift .mfp__links line {{ transition: stroke-dashoffset .6s ease calc(2.5s + var(--i) * 40ms); }}
-  .mfp-in.mfp--shift .mfp__col--now li {{ transition: opacity .5s ease 2.4s, transform .5s {EASE} 2.4s; }}
-  .mfp-in.mfp--shift .mfp__col--now li:nth-child(2) {{ transition-delay: 2.6s; }}
-  .mfp-in.mfp--shift .mfp__col--now li:nth-child(3) {{ transition-delay: 2.8s; }}
-""",
     "problems": f"""
   .mfp--problems .mfp__fix {{ display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; align-items: center; }}
   @container (min-width: 520px) {{ .mfp--problems .mfp__fix {{ grid-template-columns: minmax(0, 1fr) 150px; }} }}

@@ -108,15 +108,29 @@ CSS = {
   @media (prefers-reduced-motion: reduce) { .mfp--hero .mfp__track { animation: none; } .mfp--hero .mfp__run[aria-hidden] { display: none; } .mfp--hero .mfp__marquee { -webkit-mask-image: none; mask-image: none; } }
 """,
     "shift": """
-  .mfp--shift .mfp__cols { display: grid; grid-template-columns: minmax(0, 1fr); gap: 10px; }
-  @container (min-width: 640px) { .mfp--shift .mfp__cols { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-  .mfp--shift .mfp__col { border-radius: 16px; padding: 20px 22px; background: var(--tint); }
-  .mfp--shift .mfp__col--now { background: var(--acc); }
-  .mfp--shift .mfp__col h3 { color: var(--ink); font-size: 13px; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; }
-  .mfp--shift .mfp__col ul { margin-top: 12px; display: grid; gap: 8px; }
-  .mfp--shift .mfp__col li { display: flex; gap: 10px; align-items: baseline; color: #1a1a1a; }
-  .mfp--shift .mfp__col li i { flex: none; width: 7px; height: 7px; border-radius: 50%; background: rgba(35, 53, 81, .35); transform: translateY(-1px); }
-  .mfp--shift .mfp__col--now li i { background: var(--deep); }
+  .mfp--shift .mfp__label { margin-bottom: 10px; font-size: 11px; font-weight: 500; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
+  .mfp--shift .mfp__top { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px 56px; align-items: end; }
+  @container (min-width: 860px) { .mfp--shift .mfp__top { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
+  .mfp--shift .mfp__top .mfp__lede { margin-top: 0; }
+  .mfp--shift .mfp__body { margin-top: 30px; }
+  .mfp--shift .mfp__loop { display: grid; grid-template-columns: minmax(0, 1fr); gap: 22px; counter-reset: mfp-loop; }
+  @container (min-width: 760px) { .mfp--shift .mfp__loop { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; } }
+  .mfp--shift .mfp__step { counter-increment: mfp-loop; position: relative; border-radius: 16px; padding: 22px; display: grid; gap: 10px; align-content: start;
+    background: var(--sb); color: var(--sf); }
+  .mfp--shift .mfp__step::before { content: "0" counter(mfp-loop); font-family: var(--num); font-weight: 600; font-size: 13px; letter-spacing: .06em; }
+  .mfp--shift .mfp__step--meta { box-shadow: inset 0 0 0 1px rgba(35, 53, 81, .25); }
+  .mfp--shift .mfp__who { position: absolute; top: 20px; right: 20px; font-size: 10.5px; font-weight: 500; letter-spacing: .12em; text-transform: uppercase;
+    border-radius: 999px; padding: 3px 9px; background: rgba(35, 53, 81, .1); }
+  .mfp--shift .mfp__step h3 { color: inherit; font-size: 21px; line-height: 1.15; letter-spacing: -.015em; text-transform: none; }
+  .mfp--shift .mfp__changed { font-size: 15px; }
+  .mfp--shift .mfp__we { margin-top: 4px; padding-top: 12px; border-top: 1px solid currentColor; border-top-color: color-mix(in srgb, currentColor 22%, transparent); display: grid; gap: 4px; }
+  .mfp--shift .mfp__we span { font-size: 11px; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; opacity: .75; }
+  .mfp--shift .mfp__we p { font-size: 15px; font-weight: 500; }
+  .mfp--shift .mfp__step:not(:last-child)::after { content: "\\2193"; position: absolute; left: 50%; bottom: -11px; transform: translate(-50%, 50%); z-index: 1;
+    width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; font-size: 13px; background: var(--mfp-bg, #fff); color: var(--ink); box-shadow: 0 0 0 1px rgba(35, 53, 81, .3); }
+  @container (min-width: 760px) { .mfp--shift .mfp__step:not(:last-child)::after { content: "\\2192"; left: auto; right: -6px; bottom: auto; top: 50%; transform: translate(50%, -50%); } }
+  .mfp--shift .mfp__close { margin-top: 22px; font-size: 16px; color: var(--ink); }
+  .mfp--shift .mfp__close b { font-weight: 500; color: var(--acc2, var(--ink)); }
 """,
     "problems": """
   .mfp--problems .mfp__pairs { display: grid; gap: 10px; }
@@ -316,14 +330,19 @@ def poster(d, g):
 
 
 def shift(d, g):
+    """How the platform decides who sees an ad, as a three-step loop, with what changed and how we handle each step."""
     s = d["shift"]
-    def col(title, items, cls, art):
-        return (f'<div class="mfp__col{cls}">{art}<h3>{e(title)}</h3><ul>'
-                + "".join(f"<li><i aria-hidden=\"true\"></i><span>{e(x)}</span></li>" for x in items) + "</ul></div>")
-    inner = (head2(s["title"], s["lede"]) + '\n<div class="mfp__body mfp__cols">'
-             + col("What used to work", s["before"], "", viz.audience_before())
-             + col("What works now", s["now"], " mfp__col--now", viz.audience_now()) + "</div>")
-    return wrap("shift", d, inner, "2: what's changed")
+    steps = "".join(
+        f'<li class="mfp__step mfp__step--{st["who"]}" style="--sb:{st["bg"]};--sf:{st["fg"]}">'
+        f'<span class="mfp__who">{e(s["who"][st["who"]])}</span>'
+        f'<h3>{e(st["title"])}</h3><p class="mfp__changed">{e(st["changed"])}</p>'
+        f'<div class="mfp__we"><span>{e(s["we_label"])}</span><p>{e(st["we"])}</p></div></li>'
+        for st in s["steps"])
+    inner = (f'<p class="mfp__label">{e(s["label"])}</p>'
+             f'<div class="mfp__top">{head2(s["title"])}<p class="mfp__lede">{e(s["lede"])}</p></div>'
+             f'\n<ol class="mfp__body mfp__loop">{steps}</ol>'
+             f'\n<p class="mfp__close"><b>{e(s["close_lead"])}</b> {e(s["close"])}</p>')
+    return wrap("shift", d, inner, "2: how the platform has changed, and how we handle it")
 
 
 def problems(d, g):
@@ -434,12 +453,12 @@ DARK_CSS = {
   .mfp--hero[data-theme="dark"] .mfp__stat { background: rgba(4, 32, 44, .55); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .12); -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px); }
 """,
     "shift": """
-  .mfp--shift[data-theme="dark"] .mfp__col { background: var(--tint); }
-  .mfp--shift[data-theme="dark"] .mfp__col li { color: #f3f2f7; }
-  .mfp--shift[data-theme="dark"] .mfp__col li i { background: rgba(255, 255, 255, .35); }
-  .mfp--shift[data-theme="dark"] .mfp__col--now { background: rgba(255, 239, 174, .08); box-shadow: inset 0 0 0 1px rgba(255, 239, 174, .45); }
-  .mfp--shift[data-theme="dark"] .mfp__col--now h3 { color: var(--acc); }
-  .mfp--shift[data-theme="dark"] .mfp__col--now li i { background: var(--acc); }
+  .mfp--shift[data-theme="dark"] .mfp__label { color: #96d1aa; }
+  .mfp--shift[data-theme="dark"] .mfp__step--meta { box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .28); }
+  .mfp--shift[data-theme="dark"] .mfp__step--meta .mfp__who { background: rgba(255, 255, 255, .1); }
+  .mfp--shift[data-theme="dark"] .mfp__step:not(:last-child)::after { color: #fff; box-shadow: 0 0 0 1px rgba(255, 255, 255, .3); }
+  .mfp--shift[data-theme="dark"] .mfp__close { color: #fff; }
+  .mfp--shift[data-theme="dark"] .mfp__close b { color: #96d1aa; }
 """,
     "problems": """
   .mfp--problems[data-theme="dark"] .mfp__fix h3 { color: var(--acc); }

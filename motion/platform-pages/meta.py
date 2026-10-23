@@ -54,11 +54,25 @@ PAGE = {
 
     # 2 What's changed
     "shift": {
-        "title": "What's changed on Meta",
-        "lede": ("Meta's AI now decides who sees your ads, using broad audiences and systems like Andromeda. "
-                 "What it can't do is make better ads, so results depend on the range and quality of creative you give it."),
-        "before": ["Detailed interest and lookalike targeting", "Many small, tightly split ad sets", "One or two hero ads a month"],
-        "now": ["Broad audiences and Advantage+ campaigns", "Fewer, simpler campaigns that can learn", "A steady flow of distinct creative angles"],
+        "label": "What's changed on Meta",
+        "title": "How Meta decides who sees your ads",
+        "lede": ("Meta's AI now does the targeting. It reads every ad, matches it to the people most likely to act, and learns "
+                 "from what happens next. Each step has changed, and each one needs a different skill. Here's the loop, and how we handle it."),
+        "who": {"you": "You control this", "meta": "Meta controls this"},
+        "we_label": "How we handle it",
+        "steps": [
+            {"who": "you", "bg": "#ffefae", "fg": "#233551", "title": "You give Meta the ads",
+             "changed": "Meta can only find people for the ads it has, and Andromeda now rewards many genuinely different ads over one polished hero.",
+             "we": "Our in-house production team makes and tests new angles, hooks and formats continuously."},
+            {"who": "meta", "bg": "transparent", "fg": "rgba(243, 242, 247, .86)", "title": "Meta's AI matches them to people",
+             "changed": "Broad audiences and Advantage+ have replaced most manual targeting. The AI needs room and budget to learn.",
+             "we": "We build fewer, broader campaigns with clear testing rules, so the AI learns fast instead of stalling."},
+            {"who": "you", "bg": "#96d1aa", "fg": "#233551", "title": "Results teach it what works",
+             "changed": "Every purchase and lead Meta can see sharpens the next round. Since iOS privacy changes, it sees fewer of them unless tracking is set up properly.",
+             "we": "We set up Conversions API, GA4 and your sales data, and report on revenue, not just clicks."},
+        ],
+        "close_lead": "Two of the three steps are yours.",
+        "close": "One team of strategy, creative, media and data handles both, and sets up the third to work in your favour.",
     },
 
     # 3 Problems and fixes
