@@ -13,7 +13,7 @@ PAGE = {
     # Slots placed on the site's navy sections (set those sections' background to this colour in Squarespace)
     "dark": {"shift": "#253551"},
     # Page order. "problems" is left out: block 2 now covers the same ground, so results follow it directly.
-    "slots": ["hero", "shift", "results", "work", "types", "process", "fit", "faq", "related"],
+    "slots": ["hero", "shift", "types", "results", "work", "process", "fit", "faq", "related"],
     # Hero numbers as a colour plate from Wada combination 281 (no colour names shown on the page)
     "poster": [
         # tex is the texture colour; hover swaps to another colour from the same Wada combination
