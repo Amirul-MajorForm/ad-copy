@@ -69,8 +69,7 @@ CSS = {
   .mfp--hero .mfp__plate--2 { grid-area: 1 / 5 / 3 / 7; }
   .mfp--hero .mfp__plate--3 { grid-area: 5 / 1 / 7 / 5; }
   .mfp--hero .mfp__plate--4 { grid-area: 3 / 5 / 7 / 7; }
-  .mfp--hero .mfp__plate b { position: relative; color: var(--num-fg); font-family: var(--num); font-weight: 600; font-size: 12cqi; line-height: .9; letter-spacing: -.05em; transition: color .35s; }
-  .mfp--hero .mfp__plate--1 b { font-size: 21cqi; }
+  .mfp--hero .mfp__plate b { position: relative; color: var(--num-fg); font-family: var(--num); font-weight: 600; font-size: 11cqi; line-height: .9; letter-spacing: -.05em; transition: color .35s; }
   .mfp--hero .mfp__plate span { position: relative; font-size: clamp(12px, 2.6cqi, 15px); line-height: 1.3; font-weight: 500; transition: color .35s; }
   /* Hover: another colour from the same Wada combination floods up from the bottom, as on the results cards */
   .mfp--hero .mfp__plate { --tex: var(--tex0); transition: transform .35s cubic-bezier(.2, .8, .2, 1); }
@@ -79,28 +78,23 @@ CSS = {
   .mfp--hero .mfp__plate:hover::after { transform: translateY(0); }
   .mfp--hero .mfp__plate:hover b { color: var(--h-num); }
   .mfp--hero .mfp__plate:hover span { color: var(--h-fg); }
-  /* Textures: quiet, slow, behind the numbers, drawn in --tex so they follow the hover colour */
+  /* Textures: still and quiet, behind the numbers, drawn in --tex so they follow the hover colour */
   .mfp--hero .mfp__plate::before { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; }
   .mfp--hero .mfp__tex--grain::before { background-image: radial-gradient(var(--tex) 1.1px, transparent 1.6px); background-size: 12px 12px;
-    -webkit-mask-image: linear-gradient(200deg, #000, transparent 75%); mask-image: linear-gradient(200deg, #000, transparent 75%); animation: mfp-grain 28s linear infinite; }
-  @keyframes mfp-grain { to { background-position: 120px 60px; } }
-  @property --mfp-r { syntax: "<length>"; inherits: false; initial-value: 0px; }
-  .mfp--hero .mfp__tex--rings::before { background: repeating-radial-gradient(circle at 82% 18%, transparent 0 var(--mfp-r), var(--tex) var(--mfp-r) calc(var(--mfp-r) + 1px), transparent calc(var(--mfp-r) + 1px) calc(var(--mfp-r) + 16px));
-    animation: mfp-rings 3.2s linear infinite; }
-  @keyframes mfp-rings { from { --mfp-r: 0px; } to { --mfp-r: 15px; } }
+    -webkit-mask-image: linear-gradient(200deg, #000, transparent 75%); mask-image: linear-gradient(200deg, #000, transparent 75%); }
+  .mfp--hero .mfp__tex--rings::before { background: repeating-radial-gradient(circle at 82% 18%, transparent 0 0px, var(--tex) 0px 1px, transparent 1px 16px);
+    }
   /* the team: four dashed streams flowing the same way at slightly different speeds */
   .mfp--hero .mfp__tex--streams::before {
     background-image: repeating-linear-gradient(90deg, var(--tex) 0 10px, transparent 10px 22px), repeating-linear-gradient(90deg, var(--tex) 0 10px, transparent 10px 22px),
       repeating-linear-gradient(90deg, var(--tex) 0 10px, transparent 10px 22px), repeating-linear-gradient(90deg, var(--tex) 0 10px, transparent 10px 22px);
     background-repeat: repeat-x; background-size: 22px 2px; background-position: 0 14%, 0 26%, 0 38%, 0 50%;
     -webkit-mask-image: linear-gradient(90deg, transparent 25%, #000 70%); mask-image: linear-gradient(90deg, transparent 25%, #000 70%);
-    animation: mfp-streams 6s linear infinite; }
-  @keyframes mfp-streams { to { background-position: 88px 14%, 132px 26%, 66px 38%, 110px 50%; } }
+    }
   .mfp--hero .mfp__tex--tiles::before { background: linear-gradient(115deg, transparent 30%, var(--tex) 45%, transparent 60%) 0 0 / 300% 100%, linear-gradient(var(--tex), var(--tex)) 0 0 / 100% 100%;
     -webkit-mask: repeating-linear-gradient(90deg, #000 0 10px, transparent 10px 15px), repeating-linear-gradient(0deg, #000 0 14px, transparent 14px 19px);
     -webkit-mask-composite: source-in; mask: repeating-linear-gradient(90deg, #000 0 10px, transparent 10px 15px), repeating-linear-gradient(0deg, #000 0 14px, transparent 14px 19px);
-    mask-composite: intersect; opacity: .4; animation: mfp-sweep 6s ease-in-out infinite; }
-  @keyframes mfp-sweep { from { background-position: 100% 0, 0 0; } to { background-position: 0 0, 0 0; } }
+    mask-composite: intersect; opacity: .4; }
   /* No hover on phones: the four colours rotate around the blocks, each fading into the next, so all four always differ */
   @property --tex { syntax: "<color>"; inherits: true; initial-value: transparent; }
   @media (hover: none) and (prefers-reduced-motion: no-preference) {
@@ -116,7 +110,7 @@ CSS = {
     50%, 69% { background-color: var(--s3-bg); --tex: var(--s3-tex); } 75%, 94% { background-color: var(--s4-bg); --tex: var(--s4-tex); } 100% { background-color: var(--s1-bg); --tex: var(--s1-tex); } }
   @keyframes mfp-rot-num { 0%, 19% { color: var(--s1-num); } 25%, 44% { color: var(--s2-num); } 50%, 69% { color: var(--s3-num); } 75%, 94% { color: var(--s4-num); } 100% { color: var(--s1-num); } }
   @keyframes mfp-rot-fg { 0%, 19% { color: var(--s1-fg); } 25%, 44% { color: var(--s2-fg); } 50%, 69% { color: var(--s3-fg); } 75%, 94% { color: var(--s4-fg); } 100% { color: var(--s1-fg); } }
-  @media (prefers-reduced-motion: reduce) { .mfp--hero .mfp__plate::before { animation: none; } .mfp--hero .mfp__plate, .mfp--hero .mfp__plate::after { transition: none; } }
+  @media (prefers-reduced-motion: reduce) { .mfp--hero .mfp__plate, .mfp--hero .mfp__plate::after { transition: none; } }
   .mfp--hero .mfp__logos { display: grid; gap: 8px; min-width: 0; }
   .mfp--hero .mfp__logos-label { font-size: 11px; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
   .mfp--hero .mfp__marquee { overflow: hidden; -webkit-mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent); mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent); }
