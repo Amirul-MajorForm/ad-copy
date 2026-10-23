@@ -172,16 +172,32 @@ CSS = {
   .mfp--types .mfp__body { margin-top: 30px; }
   .mfp--types .mfp__funnel { display: grid; grid-template-columns: minmax(0, 1fr); gap: 22px; }
   @container (min-width: 820px) { .mfp--types .mfp__funnel { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; } }
-  .mfp--types .mfp__stage { position: relative; border-radius: 16px; padding: 22px; display: grid; gap: 10px; align-content: start; background: var(--sb); color: var(--sf); }
+  .mfp--types .mfp__stage { position: relative; border-radius: 16px; padding: 22px; display: grid; gap: 10px; align-content: start; background: var(--sb); color: var(--sf);
+    transition: transform .35s cubic-bezier(.2, .8, .2, 1), box-shadow .35s; }
+  /* Hover: the card lifts a little with a soft shadow */
+  .mfp--types .mfp__stage:hover { transform: translateY(-6px); box-shadow: 0 18px 36px -14px rgba(4, 32, 44, .55); }
+  .mfp--types .mfp__stage--line:hover { box-shadow: inset 0 0 0 1px rgba(35, 53, 81, .25), 0 18px 36px -14px rgba(4, 32, 44, .55); }
+  /* Side by side, each campaign sits in a shared row, so dividers line up across the cards */
+  @container (min-width: 820px) {
+    .mfp--types .mfp__funnel { grid-template-rows: auto auto repeat(var(--rows), auto) 1fr; row-gap: 0; }
+    .mfp--types .mfp__stage { grid-row: span calc(var(--rows) + 3); grid-template-rows: subgrid; row-gap: 0; }
+    .mfp--types .mfp__stage h3 { padding: 10px 0 12px; }
+    .mfp--types .mfp__funnel .mfp__camps { display: contents; } }
   .mfp--types .mfp__stage--line { box-shadow: inset 0 0 0 1px rgba(35, 53, 81, .25); }
   .mfp--types .mfp__step-n { font-family: var(--num); font-weight: 600; font-size: 13px; letter-spacing: .06em; }
   .mfp--types .mfp__stage h3 { color: inherit; font-size: 21px; line-height: 1.15; letter-spacing: -.015em; text-transform: none; }
   .mfp--types .mfp__camps { display: grid; }
-  .mfp--types .mfp__camps > li { padding: 12px 0; border-top: 1px solid color-mix(in srgb, currentColor 22%, transparent); display: grid; gap: 4px; }
+  .mfp--types .mfp__camps > li { align-content: start; padding: 12px 0; border-top: 1px solid color-mix(in srgb, currentColor 22%, transparent); display: grid; gap: 4px; }
   .mfp--types .mfp__camps b { font-weight: 500; font-size: 16px; line-height: 1.3; }
   .mfp--types .mfp__camps p { font-size: 14.5px; line-height: 1.42; opacity: .9; }
   .mfp--types .mfp__pills { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
-  .mfp--types .mfp__pill { font-size: 12px; font-weight: 500; line-height: 1.2; border-radius: 999px; padding: 4px 10px; box-shadow: inset 0 0 0 1px color-mix(in srgb, currentColor 45%, transparent); }
+  .mfp--types .mfp__pill { position: relative; overflow: hidden; isolation: isolate; font-size: 12px; font-weight: 500; line-height: 1.2; border-radius: 999px; padding: 4px 10px;
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, currentColor 45%, transparent); cursor: default; transition: color .3s, box-shadow .3s; }
+  /* Hover: another Wada colour floods up from the bottom, as on the hero tiles */
+  .mfp--types .mfp__pill::after { content: ""; position: absolute; inset: 0; z-index: -1; background: var(--pb); transform: translateY(101%); transition: transform .4s cubic-bezier(.2, .8, .2, 1); }
+  .mfp--types .mfp__pill:hover { color: var(--pf); box-shadow: inset 0 0 0 1px var(--pb); }
+  .mfp--types .mfp__pill:hover::after { transform: translateY(0); }
+  @media (prefers-reduced-motion: reduce) { .mfp--types .mfp__stage, .mfp--types .mfp__pill, .mfp--types .mfp__pill::after { transition: none; } .mfp--types .mfp__stage:hover { transform: none; } }
   .mfp--types .mfp__stage:not(:last-child)::after { content: "\\2193"; position: absolute; left: 50%; bottom: -11px; transform: translate(-50%, 50%); z-index: 1;
     width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; font-size: 13px; background: var(--mfp-bg, #fff); color: var(--ink); box-shadow: 0 0 0 1px rgba(35, 53, 81, .3); }
   @container (min-width: 820px) { .mfp--types .mfp__stage:not(:last-child)::after { content: "\\2192"; left: auto; right: -6px; bottom: auto; top: 46px; transform: translate(50%, -50%); } }
@@ -402,14 +418,15 @@ def types(d, g):
         inner = head2(d["types_title"], d["types_lede"]) + f'\n<ul class="mfp__body mfp__list">{items}</ul>'
         return wrap("types", d, inner, "campaign types")
     stages = "".join(
-        f'<li class="mfp__stage{" mfp__stage--line" if st["bg"] == "transparent" else ""}" style="--sb:{st["bg"]};--sf:{st["fg"]}">'
+        f'<li class="mfp__stage{" mfp__stage--line" if st["bg"] == "transparent" else ""}" style="--sb:{st["bg"]};--sf:{st["fg"]};'
+        f'--pb:{st.get("pill", {}).get("bg", "#253551")};--pf:{st.get("pill", {}).get("fg", "#ffffff")}">'
         f'<span class="mfp__step-n">{e(st["label"])}</span><h3>{e(st["title"])}</h3><ul class="mfp__camps">'
         + "".join(f'<li><b>{e(n)}</b><p>{e(x)}</p><span class="mfp__pills">'
                   + "".join(f'<span class="mfp__pill">{e(k)}</span>' for k in kpis) + "</span></li>" for n, x, kpis in st["items"])
         + "</ul></li>" for st in f["stages"])
     inner = (f'<p class="mfp__label">{e(f["label"])}</p>'
              f'<div class="mfp__top">{head2(f["title"])}<p class="mfp__lede">{e(f["lede"])}</p></div>'
-             f'\n<ol class="mfp__body mfp__funnel">{stages}</ol>'
+             f'\n<ol class="mfp__body mfp__funnel" style="--rows:{max(len(st["items"]) for st in f["stages"])}">{stages}</ol>'
              f'\n<p class="mfp__close"><b>{e(f["close_lead"])}</b> {e(f["close"])}</p>')
     return wrap("types", d, inner, "campaign types across the funnel")
 

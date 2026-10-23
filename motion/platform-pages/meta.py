@@ -106,16 +106,16 @@ PAGE = {
         "title": "Meta campaigns across the whole funnel",
         "lede": "Most accounts need a campaign at each stage. We set the mix by your goal and budget, then judge each campaign on its own numbers.",
         "stages": [
-            {"label": "Stage 1", "title": "Get seen", "bg": "#ffefae", "fg": "#233551", "items": [
+            {"label": "Stage 1", "title": "Get seen", "bg": "#ffefae", "fg": "#233551", "pill": {"bg": "#007190", "fg": "#ffffff"}, "items": [
                 ("Reach", "Shows your ads to as many of the right people as possible, with frequency control.", ["CPM", "Ad recall"]),
                 ("Video views", "Builds an engaged audience from people who watch your videos, ready to retarget.", ["Cost per ThruPlay", "View rate"]),
             ]},
-            {"label": "Stage 2", "title": "Build interest", "bg": "transparent", "fg": "rgba(243, 242, 247, .9)", "items": [
+            {"label": "Stage 2", "title": "Build interest", "bg": "transparent", "fg": "rgba(243, 242, 247, .9)", "pill": {"bg": "#ffefae", "fg": "#233551"}, "items": [
                 ("Traffic", "Sends the right people to your site, app or landing page.", ["CPC", "Landing page views"]),
                 ("Lead campaigns", "Instant forms or your own site, for services, education and property.", ["CPL"]),
                 ("Messaging", "Starts conversations in WhatsApp, Messenger and Instagram.", ["Cost per conversation"]),
             ]},
-            {"label": "Stage 3", "title": "Make the sale", "bg": "#96d1aa", "fg": "#233551", "items": [
+            {"label": "Stage 3", "title": "Make the sale", "bg": "#96d1aa", "fg": "#233551", "pill": {"bg": "#00978d", "fg": "#ffffff"}, "items": [
                 ("Advantage+ sales", "Formerly Advantage+ Shopping. Finds buyers at scale from your catalogue.", ["ROAS"]),
                 ("Manual sales", "Tighter control of audiences, placements and offers.", ["CPA"]),
                 ("Catalogue retargeting", "Brings back people who viewed your products but didn't buy.", ["ROAS"]),
