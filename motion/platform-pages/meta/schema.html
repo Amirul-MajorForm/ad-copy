@@ -136,6 +136,35 @@ document.addEventListener("DOMContentLoaded", function () {
   probe.remove();
   }
   if ((window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches) || !window.IntersectionObserver) return;
+
+  // Process timeline: hold the section in place while steps 2, 3 and 4 appear with scroll.
+  // Falls back to revealing steps as they come into view if a parent clips overflow or the steps don't fit on screen.
+  document.querySelectorAll(".mfp--process").forEach(function (el) {
+    var steps = el.querySelectorAll(".mfp__pstep"), pin = el.querySelector(".mfp__pin");
+    if (!steps.length || !pin) return;
+    function show(n) { for (var i = 0; i < steps.length; i++) { steps[i].classList.toggle("is-on", i < n); steps[i].classList.toggle("is-done", i < n - 1); } }
+    el.setAttribute("data-stage", ""); show(1);
+    var clipped = false;
+    for (var p = el.parentElement; p && p !== document.body; p = p.parentElement) {
+      var o = getComputedStyle(p); if (/(hidden|auto|scroll|clip)/.test(o.overflow + o.overflowY)) { clipped = true; break; }
+    }
+    var h = pin.offsetHeight;
+    if (clipped || h > window.innerHeight * 0.88) {
+      var io = new IntersectionObserver(function (en) {
+        en.forEach(function (x) { if (x.isIntersecting) { var i = [].indexOf.call(steps, x.target); for (var k = 0; k <= i; k++) steps[k].classList.add("is-on"); if (i > 0) steps[i - 1].classList.add("is-done"); io.unobserve(x.target); } });
+      }, { rootMargin: "0px 0px -20% 0px" });
+      steps.forEach(function (s) { io.observe(s); }); return;
+    }
+    el.setAttribute("data-pinned", ""); el.style.setProperty("--pin-h", h + "px");
+    var extra = window.innerHeight * 0.45 * (steps.length - 1);
+    el.style.height = (h + extra) + "px";
+    function onScroll() {
+      var r = el.getBoundingClientRect(), span = el.offsetHeight - h, top = Math.max(24, window.innerHeight / 2 - h / 2);
+      var prog = Math.min(1, Math.max(0, (top - r.top) / span));
+      show(Math.min(steps.length, 1 + Math.floor(prog * steps.length + 0.15)));
+    }
+    window.addEventListener("scroll", onScroll, { passive: true }); window.addEventListener("resize", onScroll); onScroll();
+  });
   document.querySelectorAll(".mfp[data-anim]").forEach(function (el) {
     if (el.getBoundingClientRect().top < window.innerHeight * 0.8) return; // already on screen: leave at rest
     el.classList.add("mfp-pre");

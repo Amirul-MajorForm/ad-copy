@@ -242,13 +242,45 @@ CSS = {
     .mfp--results .mfp__fbase, .mfp--results .mfp__layer { animation: none; } }
 """,
     "process": """
-  .mfp--process .mfp__steps { display: grid; grid-template-columns: minmax(0, 1fr); gap: 16px; counter-reset: mfp-step; }
-  @container (min-width: 700px) { .mfp--process .mfp__steps { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
-  .mfp--process .mfp__steps li { counter-increment: mfp-step; border-top: 2px solid var(--ink); padding-top: 14px; display: grid; gap: 6px; align-content: start; }
-  .mfp--process .mfp__steps li::before { content: "Step " counter(mfp-step); font-size: 11px; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
-  .mfp--process h3 { color: var(--ink); font-size: 19px; letter-spacing: -.01em; text-transform: none; }
-  .mfp--process p { font-size: 15px; }
-  .mfp--process .mfp__when { font-size: 13px; color: var(--muted); }
+  .mfp--process .mfp__label { margin-bottom: 10px; font-size: 11px; font-weight: 500; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
+  .mfp--process .mfp__top { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px 56px; align-items: end; }
+  @container (min-width: 860px) { .mfp--process .mfp__top { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
+  .mfp--process .mfp__top .mfp__lede { margin-top: 0; line-height: 1.4; }
+  .mfp--process .mfp__body { margin-top: 30px; }
+  .mfp--process .mfp__line { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0; }
+  @container (min-width: 900px) { .mfp--process .mfp__line { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; } }
+  .mfp--process .mfp__pstep { position: relative; padding: 0 0 24px 42px; display: grid; gap: 6px; align-content: start;
+    transition: opacity .6s ease, transform .6s cubic-bezier(.2, .8, .2, 1); }
+  .mfp--process .mfp__dot { position: absolute; left: 0; top: 0; z-index: 1; width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center;
+    font-family: var(--num); font-weight: 600; font-size: 13px; background: var(--c); color: var(--ct); }
+  /* the connector: a faint track, filled in the next step's colour as it appears */
+  .mfp--process .mfp__pstep::before, .mfp--process .mfp__pstep::after { content: ""; position: absolute; left: 13px; top: 28px; bottom: 0; width: 2px; }
+  .mfp--process .mfp__pstep::before { background: var(--rule); }
+  .mfp--process .mfp__pstep::after { background: var(--c); transform-origin: top; transition: transform .7s cubic-bezier(.2, .8, .2, 1); }
+  .mfp--process .mfp__pstep:last-child::before, .mfp--process .mfp__pstep:last-child::after { display: none; }
+  @container (min-width: 900px) {
+    .mfp--process .mfp__pstep { padding: 44px 0 0; }
+    .mfp--process .mfp__pstep::before, .mfp--process .mfp__pstep::after { left: 36px; right: -16px; top: 13px; bottom: auto; width: auto; height: 2px; }
+    .mfp--process .mfp__pstep::after { transform-origin: left; } }
+  .mfp--process .mfp__when { font-family: var(--num); font-weight: 600; font-size: 13px; letter-spacing: .02em; color: var(--muted); }
+  .mfp--process .mfp__pstep h3 { color: var(--ink); font-size: 21px; line-height: 1.15; letter-spacing: -.015em; text-transform: none; }
+  .mfp--process .mfp__pstep p { font-size: 15px; line-height: 1.38; }
+  .mfp--process .mfp__gets { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+  /* pills flood with the step's Wada colour on hover, as elsewhere on the page */
+  .mfp--process .mfp__get { position: relative; overflow: hidden; isolation: isolate; font-size: 12px; font-weight: 500; line-height: 1.2; border-radius: 999px; padding: 4px 10px;
+    background: var(--tint); color: var(--ink); cursor: default; transition: color .3s; }
+  .mfp--process .mfp__get::after { content: ""; position: absolute; inset: 0; z-index: -1; background: var(--c); transform: translateY(110%); transition: transform .4s cubic-bezier(.2, .8, .2, 1); }
+  .mfp--process .mfp__get:hover { color: var(--ct); }
+  .mfp--process .mfp__get:hover::after { transform: translateY(0); }
+  /* scroll reveal: only applied once the page script has set it up, so the block is complete without it */
+  .mfp--process[data-stage] .mfp__pstep { opacity: .14; transform: translateY(14px); }
+  .mfp--process[data-stage] .mfp__pstep::after { transform: scaleY(0); }
+  @container (min-width: 900px) { .mfp--process[data-stage] .mfp__pstep::after { transform: scaleX(0); } }
+  .mfp--process[data-stage] .mfp__pstep.is-on { opacity: 1; transform: none; }
+  .mfp--process[data-stage] .mfp__pstep.is-done::after { transform: none; }
+  .mfp--process[data-pinned] { position: relative; }
+  .mfp--process[data-pinned] .mfp__pin { position: sticky; top: max(24px, calc(50vh - var(--pin-h, 300px) / 2)); }
+  @media (prefers-reduced-motion: reduce) { .mfp--process .mfp__pstep, .mfp--process .mfp__pstep::after, .mfp--process .mfp__get, .mfp--process .mfp__get::after { transition: none; } }
 """,
     "fit": """
   .mfp--fit .mfp__cells { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px; }
@@ -495,9 +527,16 @@ def results(d, g):
 
 
 def process(d, g):
-    steps = "".join(f'<li><h3>{e(t)}</h3><p>{e(p)}</p><span class="mfp__when">{e(w)}</span></li>' for t, p, w in d["process"])
-    inner = head2("How we start", d["process_lede"]) + f'\n<ol class="mfp__body mfp__steps">{steps}</ol>'
-    return wrap("process", d, inner, "7: how we start")
+    p = d["process"]
+    steps = "".join(
+        f'<li class="mfp__pstep" style="--c:{s["c"]};--ct:{s.get("ct", "#233551")}"><span class="mfp__dot" aria-hidden="true">{i + 1}</span>'
+        f'<span class="mfp__when">{e(s["when"])}</span><h3>{e(s["title"])}</h3><p>{e(s["text"])}</p>'
+        f'<div class="mfp__gets">' + "".join(f'<span class="mfp__get">{e(x)}</span>' for x in s["gets"]) + "</div></li>"
+        for i, s in enumerate(p["steps"]))
+    inner = (f'<div class="mfp__pin"><p class="mfp__label">{e(p["label"])}</p>'
+             f'<div class="mfp__top">{head2(p["title"])}<p class="mfp__lede">{e(p["lede"])}</p></div>'
+             f'\n<ol class="mfp__body mfp__line">{steps}</ol></div>')
+    return wrap("process", d, inner, "how we work, as a timeline revealed on scroll")
 
 
 def fit(d, g):

@@ -346,7 +346,7 @@
 <p class="mfp__lede">Made by our in-house production team for Facebook and Instagram placements, and tested in-market.</p>
 <div class="mfp__body mfp__grid"><figure><div class="mfp__shot mfp__shot--empty">[Reels hook test image]</div><figcaption><b>Reels hook test</b><span>Oatside</span></figcaption></figure><figure><div class="mfp__shot mfp__shot--empty">[UGC review image]</div><figcaption><b>UGC review</b><span>[brand]: what it tested</span></figcaption></figure><figure><div class="mfp__shot mfp__shot--empty">[Static offer image]</div><figcaption><b>Static offer</b><span>[brand]: what it tested</span></figcaption></figure><figure><div class="mfp__shot mfp__shot--empty">[Carousel image]</div><figcaption><b>Carousel</b><span>[brand]: what it tested</span></figcaption></figure><figure><div class="mfp__shot mfp__shot--empty">[Founder story image]</div><figcaption><b>Founder story</b><span>[brand]: what it tested</span></figcaption></figure><figure><div class="mfp__shot mfp__shot--empty">[Catalogue ad image]</div><figcaption><b>Catalogue ad</b><span>[brand]: what it tested</span></figcaption></figure></div>
 </div>
-</div><div><!-- MajorForm Meta Ads page: how we start.
+</div><div><!-- MajorForm Meta Ads page: how we work, as a timeline revealed on scroll.
      Paste into its own Squarespace Code block, with Display Source turned off. No scripts. -->
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,600&family=Space+Grotesk:wght@400;500&display=swap">
 <style>
@@ -372,18 +372,49 @@
   .mfp b .mfp__gap, .mfp em .mfp__gap { font-size: inherit; color: #ffb38a; }
   @media (prefers-reduced-motion: reduce) { .mfp * { transition: none !important; } }
 
-  .mfp--process .mfp__steps { display: grid; grid-template-columns: minmax(0, 1fr); gap: 16px; counter-reset: mfp-step; }
-  @container (min-width: 700px) { .mfp--process .mfp__steps { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
-  .mfp--process .mfp__steps li { counter-increment: mfp-step; border-top: 2px solid var(--ink); padding-top: 14px; display: grid; gap: 6px; align-content: start; }
-  .mfp--process .mfp__steps li::before { content: "Step " counter(mfp-step); font-size: 11px; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
-  .mfp--process h3 { color: var(--ink); font-size: 19px; letter-spacing: -.01em; text-transform: none; }
-  .mfp--process p { font-size: 15px; }
-  .mfp--process .mfp__when { font-size: 13px; color: var(--muted); }
+  .mfp--process .mfp__label { margin-bottom: 10px; font-size: 11px; font-weight: 500; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
+  .mfp--process .mfp__top { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px 56px; align-items: end; }
+  @container (min-width: 860px) { .mfp--process .mfp__top { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
+  .mfp--process .mfp__top .mfp__lede { margin-top: 0; line-height: 1.4; }
+  .mfp--process .mfp__body { margin-top: 30px; }
+  .mfp--process .mfp__line { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0; }
+  @container (min-width: 900px) { .mfp--process .mfp__line { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; } }
+  .mfp--process .mfp__pstep { position: relative; padding: 0 0 24px 42px; display: grid; gap: 6px; align-content: start;
+    transition: opacity .6s ease, transform .6s cubic-bezier(.2, .8, .2, 1); }
+  .mfp--process .mfp__dot { position: absolute; left: 0; top: 0; z-index: 1; width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center;
+    font-family: var(--num); font-weight: 600; font-size: 13px; background: var(--c); color: var(--ct); }
+  /* the connector: a faint track, filled in the next step's colour as it appears */
+  .mfp--process .mfp__pstep::before, .mfp--process .mfp__pstep::after { content: ""; position: absolute; left: 13px; top: 28px; bottom: 0; width: 2px; }
+  .mfp--process .mfp__pstep::before { background: var(--rule); }
+  .mfp--process .mfp__pstep::after { background: var(--c); transform-origin: top; transition: transform .7s cubic-bezier(.2, .8, .2, 1); }
+  .mfp--process .mfp__pstep:last-child::before, .mfp--process .mfp__pstep:last-child::after { display: none; }
+  @container (min-width: 900px) {
+    .mfp--process .mfp__pstep { padding: 44px 0 0; }
+    .mfp--process .mfp__pstep::before, .mfp--process .mfp__pstep::after { left: 36px; right: -16px; top: 13px; bottom: auto; width: auto; height: 2px; }
+    .mfp--process .mfp__pstep::after { transform-origin: left; } }
+  .mfp--process .mfp__when { font-family: var(--num); font-weight: 600; font-size: 13px; letter-spacing: .02em; color: var(--muted); }
+  .mfp--process .mfp__pstep h3 { color: var(--ink); font-size: 21px; line-height: 1.15; letter-spacing: -.015em; text-transform: none; }
+  .mfp--process .mfp__pstep p { font-size: 15px; line-height: 1.38; }
+  .mfp--process .mfp__gets { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+  /* pills flood with the step's Wada colour on hover, as elsewhere on the page */
+  .mfp--process .mfp__get { position: relative; overflow: hidden; isolation: isolate; font-size: 12px; font-weight: 500; line-height: 1.2; border-radius: 999px; padding: 4px 10px;
+    background: var(--tint); color: var(--ink); cursor: default; transition: color .3s; }
+  .mfp--process .mfp__get::after { content: ""; position: absolute; inset: 0; z-index: -1; background: var(--c); transform: translateY(110%); transition: transform .4s cubic-bezier(.2, .8, .2, 1); }
+  .mfp--process .mfp__get:hover { color: var(--ct); }
+  .mfp--process .mfp__get:hover::after { transform: translateY(0); }
+  /* scroll reveal: only applied once the page script has set it up, so the block is complete without it */
+  .mfp--process[data-stage] .mfp__pstep { opacity: .14; transform: translateY(14px); }
+  .mfp--process[data-stage] .mfp__pstep::after { transform: scaleY(0); }
+  @container (min-width: 900px) { .mfp--process[data-stage] .mfp__pstep::after { transform: scaleX(0); } }
+  .mfp--process[data-stage] .mfp__pstep.is-on { opacity: 1; transform: none; }
+  .mfp--process[data-stage] .mfp__pstep.is-done::after { transform: none; }
+  .mfp--process[data-pinned] { position: relative; }
+  .mfp--process[data-pinned] .mfp__pin { position: sticky; top: max(24px, calc(50vh - var(--pin-h, 300px) / 2)); }
+  @media (prefers-reduced-motion: reduce) { .mfp--process .mfp__pstep, .mfp--process .mfp__pstep::after, .mfp--process .mfp__get, .mfp--process .mfp__get::after { transition: none; } }
 </style>
 <div class="mfp mfp--process" style="--acc:#ffefae" data-theme="light">
-<h2 class="mfp__h2">How we start</h2>
-<p class="mfp__lede">Most accounts are scaling by month two.</p>
-<ol class="mfp__body mfp__steps"><li><h3>Audit</h3><p>We review your account structure, tracking, creative and spend, and agree the one KPI that matters.</p><span class="mfp__when">Week 1</span></li><li><h3>Test</h3><p>We launch structured tests of creative angles, audiences and campaign types against that KPI.</p><span class="mfp__when">Weeks 2 to 4</span></li><li><h3>Scale</h3><p>We move budget to what wins, refresh creative before it tires, and report every week.</p><span class="mfp__when">Month 2 onwards</span></li></ol>
+<div class="mfp__pin"><p class="mfp__label">How we work</p><div class="mfp__top"><h2 class="mfp__h2">From Research to Scale</h2><p class="mfp__lede">A clear plan from day one, so you always know what&#x27;s happening and what you&#x27;ll get next.</p></div>
+<ol class="mfp__body mfp__line"><li class="mfp__pstep" style="--c:#ffefae;--ct:#233551"><span class="mfp__dot" aria-hidden="true">1</span><span class="mfp__when">Week 1</span><h3>Research</h3><p>We study your market, audience and competitors, audit your account and tracking, and agree the one number that matters.</p><div class="mfp__gets"><span class="mfp__get">Audit report</span><span class="mfp__get">Target KPI</span></div></li><li class="mfp__pstep" style="--c:#96d1aa;--ct:#233551"><span class="mfp__dot" aria-hidden="true">2</span><span class="mfp__when">Week 2</span><h3>Plan</h3><p>We map the campaigns across the funnel and brief the first round of creative.</p><div class="mfp__gets"><span class="mfp__get">Media plan</span><span class="mfp__get">Creative brief</span></div></li><li class="mfp__pstep" style="--c:#00978d;--ct:#ffffff"><span class="mfp__dot" aria-hidden="true">3</span><span class="mfp__when">Weeks 3 to 6</span><h3>Test</h3><p>We launch structured tests of angles, formats and campaign types against that number.</p><div class="mfp__gets"><span class="mfp__get">Test results</span><span class="mfp__get">Weekly report</span></div></li><li class="mfp__pstep" style="--c:#007190;--ct:#ffffff"><span class="mfp__dot" aria-hidden="true">4</span><span class="mfp__when">Month 2 onwards</span><h3>Scale</h3><p>We move budget to what wins and refresh creative before it tires, every month.</p><div class="mfp__gets"><span class="mfp__get">Monthly review</span><span class="mfp__get">New creative</span></div></li></ol></div>
 </div>
 </div><div><!-- MajorForm Meta Ads page: fit and terms.
      Paste into its own Squarespace Code block, with Display Source turned off. No scripts. -->
@@ -520,6 +551,35 @@ document.addEventListener("DOMContentLoaded", function () {
   probe.remove();
   }
   if ((window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches) || !window.IntersectionObserver) return;
+
+  // Process timeline: hold the section in place while steps 2, 3 and 4 appear with scroll.
+  // Falls back to revealing steps as they come into view if a parent clips overflow or the steps don't fit on screen.
+  document.querySelectorAll(".mfp--process").forEach(function (el) {
+    var steps = el.querySelectorAll(".mfp__pstep"), pin = el.querySelector(".mfp__pin");
+    if (!steps.length || !pin) return;
+    function show(n) { for (var i = 0; i < steps.length; i++) { steps[i].classList.toggle("is-on", i < n); steps[i].classList.toggle("is-done", i < n - 1); } }
+    el.setAttribute("data-stage", ""); show(1);
+    var clipped = false;
+    for (var p = el.parentElement; p && p !== document.body; p = p.parentElement) {
+      var o = getComputedStyle(p); if (/(hidden|auto|scroll|clip)/.test(o.overflow + o.overflowY)) { clipped = true; break; }
+    }
+    var h = pin.offsetHeight;
+    if (clipped || h > window.innerHeight * 0.88) {
+      var io = new IntersectionObserver(function (en) {
+        en.forEach(function (x) { if (x.isIntersecting) { var i = [].indexOf.call(steps, x.target); for (var k = 0; k <= i; k++) steps[k].classList.add("is-on"); if (i > 0) steps[i - 1].classList.add("is-done"); io.unobserve(x.target); } });
+      }, { rootMargin: "0px 0px -20% 0px" });
+      steps.forEach(function (s) { io.observe(s); }); return;
+    }
+    el.setAttribute("data-pinned", ""); el.style.setProperty("--pin-h", h + "px");
+    var extra = window.innerHeight * 0.45 * (steps.length - 1);
+    el.style.height = (h + extra) + "px";
+    function onScroll() {
+      var r = el.getBoundingClientRect(), span = el.offsetHeight - h, top = Math.max(24, window.innerHeight / 2 - h / 2);
+      var prog = Math.min(1, Math.max(0, (top - r.top) / span));
+      show(Math.min(steps.length, 1 + Math.floor(prog * steps.length + 0.15)));
+    }
+    window.addEventListener("scroll", onScroll, { passive: true }); window.addEventListener("resize", onScroll); onScroll();
+  });
   document.querySelectorAll(".mfp[data-anim]").forEach(function (el) {
     if (el.getBoundingClientRect().top < window.innerHeight * 0.8) return; // already on screen: leave at rest
     el.classList.add("mfp-pre");

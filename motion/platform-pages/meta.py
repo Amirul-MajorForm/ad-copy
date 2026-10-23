@@ -35,7 +35,7 @@ PAGE = {
     "service_name": "Meta Ads Management",
     # Facts used on the page that you should confirm before it goes live
     "confirm": [
-        "Process timings (audit week 1, testing weeks 2 to 4, scaling from month 2)",
+        "Process timings (research week 1, plan week 2, tests weeks 3 to 6, scaling from month 2) and weekly reporting",
         "Which 10+ markets to list in the schema (it names six Southeast Asian countries today)",
         "$2M+ is Meta ad spend specifically, and 500 is Meta creatives run specifically",
     ],
@@ -148,12 +148,22 @@ PAGE = {
     "quote": {"text": None, "who": None},
 
     # 7 Process (shared across platform pages)
-    "process_lede": "Most accounts are scaling by month two.",
-    "process": [
-        ("Audit", "We review your account structure, tracking, creative and spend, and agree the one KPI that matters.", "Week 1"),
-        ("Test", "We launch structured tests of creative angles, audiences and campaign types against that KPI.", "Weeks 2 to 4"),
-        ("Scale", "We move budget to what wins, refresh creative before it tires, and report every week.", "Month 2 onwards"),
-    ],
+    "process": {
+        "label": "How we work",
+        "title": "From Research to Scale",
+        "lede": "A clear plan from day one, so you always know what's happening and what you'll get next.",
+        "steps": [
+            {"c": "#ffefae", "when": "Week 1", "title": "Research",
+             "text": "We study your market, audience and competitors, audit your account and tracking, and agree the one number that matters.",
+             "gets": ["Audit report", "Target KPI"]},
+            {"c": "#96d1aa", "when": "Week 2", "title": "Plan",
+             "text": "We map the campaigns across the funnel and brief the first round of creative.", "gets": ["Media plan", "Creative brief"]},
+            {"c": "#00978d", "ct": "#ffffff", "when": "Weeks 3 to 6", "title": "Test",
+             "text": "We launch structured tests of angles, formats and campaign types against that number.", "gets": ["Test results", "Weekly report"]},
+            {"c": "#007190", "ct": "#ffffff", "when": "Month 2 onwards", "title": "Scale",
+             "text": "We move budget to what wins and refresh creative before it tires, every month.", "gets": ["Monthly review", "New creative"]},
+        ],
+    },
 
     # 8 Fit and terms
     "fit_title": "Is MajorForm right for you on Meta?",
