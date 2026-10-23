@@ -217,7 +217,15 @@ CSS = {
   @container (min-width: 640px) { .mfp--results .mfp__feat { grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); } }
   a.mfp__feat:hover, a.mfp__feat:focus-visible { transform: translateY(-4px); box-shadow: 0 18px 36px -16px rgba(4, 32, 44, .5); }
   .mfp--results .mfp__fimg { background: var(--fbg); display: grid; place-items: center; min-height: 260px; padding: 20px; }
-  .mfp--results .mfp__fimg img { display: block; width: auto; max-width: 92%; height: auto; max-height: 340px; object-fit: contain; }
+  .mfp--results .mfp__fart { position: relative; display: inline-block; line-height: 0; max-width: 92%; }
+  .mfp--results .mfp__fbase { display: block; width: auto; max-width: 100%; height: auto; max-height: 340px; animation: mfp-float 5s ease-in-out infinite alternate; }
+  .mfp--results .mfp__layer { position: absolute; height: auto; transform-origin: 50% 50%; transition: scale .35s cubic-bezier(.2, .8, .2, 1); }
+  .mfp--results .mfp__layer--wobble { animation: mfp-wobble 3.6s ease-in-out infinite alternate; }
+  .mfp--results .mfp__layer--wobble-r { animation: mfp-wobble-r 4.2s ease-in-out infinite alternate; }
+  a.mfp__feat:hover .mfp__layer, a.mfp__feat:focus-visible .mfp__layer { scale: 1.14; }
+  @keyframes mfp-float { from { transform: translateY(4px); } to { transform: translateY(-6px); } }
+  @keyframes mfp-wobble { from { transform: rotate(-9deg) translateY(2px); } to { transform: rotate(7deg) translateY(-6px); } }
+  @keyframes mfp-wobble-r { from { transform: rotate(8deg) translateY(-3px); } to { transform: rotate(-7deg) translateY(5px); } }
   .mfp--results .mfp__fbody { padding: 26px; display: grid; gap: 10px; align-content: start; }
   .mfp--results .mfp__ftag { font-size: 11px; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; color: #96d1aa; }
   .mfp--results .mfp__fnum { font-family: var(--num); font-weight: 600; font-size: clamp(52px, 7cqi, 76px); line-height: .95; letter-spacing: -.045em; color: #fff; }
@@ -230,7 +238,8 @@ CSS = {
   .mfp--results .mfp__mini { border-radius: 18px; padding: 22px; background: var(--mb); color: var(--ink); display: grid; gap: 4px; align-content: end; min-height: 160px; }
   .mfp--results .mfp__mini em { font-style: normal; font-size: 11px; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; opacity: .75; }
   .mfp--results .mfp__mini b { font-family: var(--num); font-weight: 600; font-size: clamp(40px, 5cqi, 56px); line-height: .95; letter-spacing: -.045em; }
-  @media (prefers-reduced-motion: reduce) { a.mfp__feat { transition: none; } a.mfp__feat:hover { transform: none; } }
+  @media (prefers-reduced-motion: reduce) { a.mfp__feat, .mfp--results .mfp__layer { transition: none; } a.mfp__feat:hover { transform: none; }
+    .mfp--results .mfp__fbase, .mfp--results .mfp__layer { animation: none; } }
 """,
     "process": """
   .mfp--process .mfp__steps { display: grid; grid-template-columns: minmax(0, 1fr); gap: 16px; counter-reset: mfp-step; }
@@ -457,7 +466,12 @@ def results(d, g):
     if not g.ok(lead["value"], f"Result: {lead['brand'] or 'a brand'} on {d['short']}"):
         return None
     # the featured case: product on its colour, the number, challenge and approach, link to the case study
-    img = (f'<div class="mfp__fimg" style="--fbg:{lead.get("image_bg", "#f3d23c")}"><img src="{asset_src(lead["image"])}" alt="{e(lead["image_alt"])}" loading="lazy"></div>'
+    # product art: a base image plus optional layers (e.g. stickers) placed in % of it, each with its own gentle motion
+    layers = "".join(f'<img class="mfp__layer mfp__layer--{e(L.get("motion", "wobble"))}" src="{asset_src(L["src"])}" alt="" '
+                     f'style="left:{L["left"]}%;top:{L["top"]}%;width:{L["width"]}%;animation-delay:{L.get("delay", 0)}s">'
+                     for L in lead.get("layers", []))
+    img = (f'<div class="mfp__fimg" style="--fbg:{lead.get("image_bg", "#f3d23c")}"><div class="mfp__fart">'
+           f'<img class="mfp__fbase" src="{asset_src(lead["image"])}" alt="{e(lead["image_alt"])}" loading="lazy">{layers}</div></div>'
            if lead.get("image") else "")
     facts = "".join(f'<div><dt>{e(k)}</dt><dd>{e(v)}</dd></div>' for k, v in lead.get("story", []))
     feat_body = (f'<div class="mfp__fbody"><span class="mfp__ftag">{e(lead["brand"])} &middot; {e(d["short"])}</span>'

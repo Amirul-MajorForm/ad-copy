@@ -136,7 +136,10 @@ PAGE = {
     "results": [
         {"brand": "Oatside", "value": "+30%", "label": "Increase in ROAS year on year",
          "url": "https://www.majorform.co/our-work/oatside-digital-marketing-majorform-2026",
-         "image": "oatside-barista.webp", "image_alt": "Oatside Barista Blend oat milk", "image_bg": "#f3d23c",
+         "image": "oatside-barista-pack.webp", "image_alt": "Oatside Barista Blend oat milk", "image_bg": "#f3d23c",
+         # stickers cut from the same photo, layered back in place so they can move on their own
+         "layers": [{"src": "oatside-sticker-blue.webp", "left": 79.59, "top": 15.05, "width": 20.41, "motion": "wobble"},
+                    {"src": "oatside-sticker-green.webp", "left": 0.0, "top": 34.8, "width": 23.47, "motion": "wobble-r", "delay": -1.2}],
          "story": [("Challenge", "Looking to scale CPAS ads across Southeast Asia efficiently."),
                    ("What we did", "Deployed a geo-targeted approach to streamline spend and focus on Shopee audiences.")]},
         {"brand": None, "value": None, "label": "result on Meta", "url": None, "bg": "#ffefae"},
