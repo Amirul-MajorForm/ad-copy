@@ -1,4 +1,4 @@
-<!-- MajorForm Meta Ads page, slot 10: related platforms and closing call to action.
+<!-- MajorForm Meta Ads page: how we start.
      Paste into its own Squarespace Code block, with Display Source turned off. No scripts. -->
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,600&family=Space+Grotesk:wght@400;500&display=swap">
 <style>
@@ -24,17 +24,16 @@
   .mfp b .mfp__gap, .mfp em .mfp__gap { font-size: inherit; color: #ffb38a; }
   @media (prefers-reduced-motion: reduce) { .mfp * { transition: none !important; } }
 
-  .mfp--related .mfp__links { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px; }
-  .mfp--related .mfp__link { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 14px 16px; border-radius: 12px; background: var(--tint); color: var(--ink); font-weight: 500; text-decoration: none; }
-  .mfp--related .mfp__link--up { background: var(--deep); color: #fff; }
-  .mfp--related .mfp__go { flex: none; width: 28px; height: 28px; border-radius: 50%; border: 1px solid currentColor; display: grid; place-items: center; font-size: 13px; opacity: .6; transition: transform .3s, opacity .3s; }
-  .mfp--related a.mfp__link:hover .mfp__go, .mfp--related a.mfp__link:focus-visible .mfp__go { opacity: 1; transform: rotate(-45deg); }
-  .mfp--related span.mfp__link { color: var(--muted); font-weight: 400; }
-  .mfp--related .mfp__band { margin-top: 32px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 16px; padding: 28px clamp(20px, 4cqi, 40px); border-radius: 20px; background: var(--acc); }
-  .mfp--related .mfp__band .mfp__h2 { color: var(--deep); }
+  .mfp--process .mfp__steps { display: grid; grid-template-columns: minmax(0, 1fr); gap: 16px; counter-reset: mfp-step; }
+  @container (min-width: 700px) { .mfp--process .mfp__steps { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+  .mfp--process .mfp__steps li { counter-increment: mfp-step; border-top: 2px solid var(--ink); padding-top: 14px; display: grid; gap: 6px; align-content: start; }
+  .mfp--process .mfp__steps li::before { content: "Step " counter(mfp-step); font-size: 11px; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+  .mfp--process h3 { color: var(--ink); font-size: 19px; letter-spacing: -.01em; text-transform: none; }
+  .mfp--process p { font-size: 15px; }
+  .mfp--process .mfp__when { font-size: 13px; color: var(--muted); }
 </style>
-<div class="mfp mfp--related" style="--acc:#ffefae" data-theme="light">
-<h2 class="mfp__h2">Meta works best with</h2>
-<div class="mfp__body mfp__links"><a class="mfp__link mfp__link--up" href="https://www.majorform.co/performance-marketing-majorform-2026">Performance marketing <span class="mfp__go" aria-hidden="true">&uarr;</span></a><span class="mfp__link">TikTok Ads</span><span class="mfp__link">Search Ads</span><span class="mfp__link">TikTok Shop Ads</span><a class="mfp__link" href="https://www.majorform.co/social-media-management-singapore-2026">Social media content <span class="mfp__go" aria-hidden="true">&rarr;</span></a></div>
-<div class="mfp__band"><h2 class="mfp__h2">Ready to grow on Meta?</h2><a class="mfp__btn" href="https://www.majorform.co/contact">Talk to our strategists <span aria-hidden="true">&rarr;</span></a></div>
+<div class="mfp mfp--process" style="--acc:#ffefae" data-theme="light">
+<h2 class="mfp__h2">How we start</h2>
+<p class="mfp__lede">Most accounts are scaling by month two.</p>
+<ol class="mfp__body mfp__steps"><li><h3>Audit</h3><p>We review your account structure, tracking, creative and spend, and agree the one KPI that matters.</p><span class="mfp__when">Week 1</span></li><li><h3>Test</h3><p>We launch structured tests of creative angles, audiences and campaign types against that KPI.</p><span class="mfp__when">Weeks 2 to 4</span></li><li><h3>Scale</h3><p>We move budget to what wins, refresh creative before it tires, and report every week.</p><span class="mfp__when">Month 2 onwards</span></li></ol>
 </div>

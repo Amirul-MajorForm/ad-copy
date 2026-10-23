@@ -36,9 +36,8 @@ def build(key):
         if re.match(r"\d\d-.*\.html$", f):
             os.remove(os.path.join(out, f))
     blocks, missing = template.render(d)
-    order = [n for n, _ in template.SLOTS]
-    for name, html in blocks.items():
-        open(os.path.join(out, f"{order.index(name) + 1:02d}-{name}.html"), "w").write(html)
+    for i, (name, html) in enumerate(blocks.items()):  # numbered by position on the page
+        open(os.path.join(out, f"{i + 1:02d}-{name}.html"), "w").write(html)
     open(os.path.join(out, "schema.html"), "w").write(template.schema(d))
     open(os.path.join(out, "page-settings.txt"), "w").write(
         f"URL slug:        /{d['slug']}\nSEO title:       {d['title']}\nSEO description: {d['description']}\n"

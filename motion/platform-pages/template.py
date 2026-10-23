@@ -8,6 +8,7 @@ Any value left as None in a sheet is not published: the item is dropped from the
 by build.py as missing. preview=True shows those gaps as orange placeholders instead, for review only.
 """
 import json
+import re
 from html import escape
 
 import viz
@@ -246,7 +247,7 @@ class Gaps:
 
 def wrap(slot, d, inner, comment):
     dark = slot in d.get("dark", {})
-    head = (f"<!-- MajorForm {d['name']} page, slot {comment}.\n"
+    head = (f"<!-- MajorForm {d['name']} page: {re.sub(r'^[0-9]+: ', '', comment)}.\n"
             f"     Paste into its own Squarespace Code block, with Display Source turned off. No scripts."
             + (f"\n     Set this section's background to your navy ({d['dark'][slot]}) so the block blends in." if dark else "")
             + (" Its animation comes from the page header script." if slot in viz.CSS or (slot == "hero" and d.get("hero_motion")) else "") + " -->")
@@ -497,9 +498,9 @@ def hero_engine():
 def render(d, preview=False):
     """Returns ({slot: html}, missing). Slots with nothing confirmed to show are left out."""
     g = Gaps(preview)
-    blocks = {}
-    for name, fn in SLOTS:
-        html = fn(d, g)
+    blocks, fns = {}, dict(SLOTS)
+    for name in d.get("slots", [n for n, _ in SLOTS]):  # a sheet can drop or reorder slots
+        html = fns[name](d, g)
         if html:
             blocks[name] = html
     return blocks, g.missing

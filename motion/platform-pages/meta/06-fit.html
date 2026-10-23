@@ -1,4 +1,4 @@
-<!-- MajorForm Meta Ads page, slot 7: how we start.
+<!-- MajorForm Meta Ads page: fit and terms.
      Paste into its own Squarespace Code block, with Display Source turned off. No scripts. -->
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,600&family=Space+Grotesk:wght@400;500&display=swap">
 <style>
@@ -24,16 +24,12 @@
   .mfp b .mfp__gap, .mfp em .mfp__gap { font-size: inherit; color: #ffb38a; }
   @media (prefers-reduced-motion: reduce) { .mfp * { transition: none !important; } }
 
-  .mfp--process .mfp__steps { display: grid; grid-template-columns: minmax(0, 1fr); gap: 16px; counter-reset: mfp-step; }
-  @container (min-width: 700px) { .mfp--process .mfp__steps { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
-  .mfp--process .mfp__steps li { counter-increment: mfp-step; border-top: 2px solid var(--ink); padding-top: 14px; display: grid; gap: 6px; align-content: start; }
-  .mfp--process .mfp__steps li::before { content: "Step " counter(mfp-step); font-size: 11px; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
-  .mfp--process h3 { color: var(--ink); font-size: 19px; letter-spacing: -.01em; text-transform: none; }
-  .mfp--process p { font-size: 15px; }
-  .mfp--process .mfp__when { font-size: 13px; color: var(--muted); }
+  .mfp--fit .mfp__cells { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px; }
+  .mfp--fit .mfp__cell { background: var(--tint); border-radius: 16px; padding: 18px 20px; display: grid; gap: 6px; align-content: start; }
+  .mfp--fit h3 { color: var(--ink); font-size: 13px; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; }
+  .mfp--fit p { font-size: 15.5px; color: #1a1a1a; }
 </style>
-<div class="mfp mfp--process" style="--acc:#ffefae" data-theme="light">
-<h2 class="mfp__h2">How we start</h2>
-<p class="mfp__lede">Most accounts are scaling by month two.</p>
-<ol class="mfp__body mfp__steps"><li><h3>Audit</h3><p>We review your account structure, tracking, creative and spend, and agree the one KPI that matters.</p><span class="mfp__when">Week 1</span></li><li><h3>Test</h3><p>We launch structured tests of creative angles, audiences and campaign types against that KPI.</p><span class="mfp__when">Weeks 2 to 4</span></li><li><h3>Scale</h3><p>We move budget to what wins, refresh creative before it tires, and report every week.</p><span class="mfp__when">Month 2 onwards</span></li></ol>
+<div class="mfp mfp--fit" style="--acc:#ffefae" data-theme="light">
+<h2 class="mfp__h2">Is MajorForm right for you on Meta?</h2>
+<div class="mfp__body mfp__cells"><div class="mfp__cell"><h3>Good fit</h3><p>Fast-growing startups, DTC brands and regional businesses that want to scale profitably on Meta.</p></div><div class="mfp__cell"><h3>How we charge</h3><p>A monthly retainer, not a commission on your ad spend.</p></div></div>
 </div>
