@@ -164,6 +164,30 @@ CSS = {
   .mfp--types p { font-size: 15px; }
   .mfp--types .mfp__kpi { font-size: 13px; color: var(--muted); }
 """,
+    "types_funnel": """
+  .mfp--types .mfp__label { margin-bottom: 10px; font-size: 11px; font-weight: 500; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
+  .mfp--types .mfp__top { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px 56px; align-items: end; }
+  @container (min-width: 860px) { .mfp--types .mfp__top { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
+  .mfp--types .mfp__top .mfp__lede { margin-top: 0; line-height: 1.45; }
+  .mfp--types .mfp__body { margin-top: 30px; }
+  .mfp--types .mfp__funnel { display: grid; grid-template-columns: minmax(0, 1fr); gap: 22px; }
+  @container (min-width: 820px) { .mfp--types .mfp__funnel { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; } }
+  .mfp--types .mfp__stage { position: relative; border-radius: 16px; padding: 22px; display: grid; gap: 10px; align-content: start; background: var(--sb); color: var(--sf); }
+  .mfp--types .mfp__stage--line { box-shadow: inset 0 0 0 1px rgba(35, 53, 81, .25); }
+  .mfp--types .mfp__step-n { font-family: var(--num); font-weight: 600; font-size: 13px; letter-spacing: .06em; }
+  .mfp--types .mfp__stage h3 { color: inherit; font-size: 21px; line-height: 1.15; letter-spacing: -.015em; text-transform: none; }
+  .mfp--types .mfp__camps { display: grid; }
+  .mfp--types .mfp__camps > li { padding: 12px 0; border-top: 1px solid color-mix(in srgb, currentColor 22%, transparent); display: grid; gap: 4px; }
+  .mfp--types .mfp__camps b { font-weight: 500; font-size: 16px; line-height: 1.3; }
+  .mfp--types .mfp__camps p { font-size: 14.5px; line-height: 1.42; opacity: .9; }
+  .mfp--types .mfp__pills { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+  .mfp--types .mfp__pill { font-size: 12px; font-weight: 500; line-height: 1.2; border-radius: 999px; padding: 4px 10px; box-shadow: inset 0 0 0 1px color-mix(in srgb, currentColor 45%, transparent); }
+  .mfp--types .mfp__stage:not(:last-child)::after { content: "\\2193"; position: absolute; left: 50%; bottom: -11px; transform: translate(-50%, 50%); z-index: 1;
+    width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; font-size: 13px; background: var(--mfp-bg, #fff); color: var(--ink); box-shadow: 0 0 0 1px rgba(35, 53, 81, .3); }
+  @container (min-width: 820px) { .mfp--types .mfp__stage:not(:last-child)::after { content: "\\2192"; left: auto; right: -6px; bottom: auto; top: 46px; transform: translate(50%, -50%); } }
+  .mfp--types .mfp__close { margin-top: 22px; font-size: 16px; color: var(--ink); }
+  .mfp--types .mfp__close b { font-weight: 500; }
+""",
     "results": """
   .mfp--results .mfp__cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px; }
   .mfp--results .mfp__card { position: relative; isolation: isolate; overflow: hidden; display: grid; gap: 6px; align-content: start; padding: 20px 22px; border-radius: 16px;
@@ -251,7 +275,7 @@ def wrap(slot, d, inner, comment):
             f"     Paste into its own Squarespace Code block, with Display Source turned off. No scripts."
             + (f"\n     Set this section's background to your navy ({d['dark'][slot]}) so the block blends in." if dark else "")
             + (" Its animation comes from the page header script." if slot in viz.CSS or (slot == "hero" and d.get("hero_motion")) else "") + " -->")
-    css = BASE + CSS[slot] + (viz.DARK + DARK_CSS.get(slot, "") if dark else "") + viz.CSS.get(slot, "")
+    css = BASE + CSS["types_funnel" if slot == "types" and d.get("funnel") else slot] + (viz.DARK + DARK_CSS.get(slot, "") if dark else "") + viz.CSS.get(slot, "")
     style = f'--acc:{d["accent"]}' + (f';--mfp-bg:{d["dark"][slot]}' if dark else "")
     anim = " data-anim" if slot in viz.CSS else ""
     return (f'{head}\n{FONT}\n<style>{css}</style>\n<div class="mfp mfp--{slot}" style="{style}" '
@@ -372,9 +396,22 @@ def work(d, g):
 
 
 def types(d, g):
-    items = "".join(f'<li class="mfp__type"><h3>{e(n)}</h3><p>{e(t)}</p><span class="mfp__kpi">{e(k)}</span></li>' for n, t, k in d["types"])
-    inner = head2(d["types_title"], d["types_lede"]) + f'\n<ul class="mfp__body mfp__list">{items}</ul>'
-    return wrap("types", d, inner, "5: campaign types")
+    f = d.get("funnel")
+    if not f:  # simple list, for sheets without a funnel
+        items = "".join(f'<li class="mfp__type"><h3>{e(n)}</h3><p>{e(x)}</p><span class="mfp__kpi">{e(k)}</span></li>' for n, x, k in d["types"])
+        inner = head2(d["types_title"], d["types_lede"]) + f'\n<ul class="mfp__body mfp__list">{items}</ul>'
+        return wrap("types", d, inner, "campaign types")
+    stages = "".join(
+        f'<li class="mfp__stage{" mfp__stage--line" if st["bg"] == "transparent" else ""}" style="--sb:{st["bg"]};--sf:{st["fg"]}">'
+        f'<span class="mfp__step-n">{e(st["label"])}</span><h3>{e(st["title"])}</h3><ul class="mfp__camps">'
+        + "".join(f'<li><b>{e(n)}</b><p>{e(x)}</p><span class="mfp__pills">'
+                  + "".join(f'<span class="mfp__pill">{e(k)}</span>' for k in kpis) + "</span></li>" for n, x, kpis in st["items"])
+        + "</ul></li>" for st in f["stages"])
+    inner = (f'<p class="mfp__label">{e(f["label"])}</p>'
+             f'<div class="mfp__top">{head2(f["title"])}<p class="mfp__lede">{e(f["lede"])}</p></div>'
+             f'\n<ol class="mfp__body mfp__funnel">{stages}</ol>'
+             f'\n<p class="mfp__close"><b>{e(f["close_lead"])}</b> {e(f["close"])}</p>')
+    return wrap("types", d, inner, "campaign types across the funnel")
 
 
 def results(d, g):
@@ -458,6 +495,13 @@ DARK_CSS = {
   .mfp--shift[data-theme="dark"] .mfp__step:not(:last-child)::after { color: #fff; box-shadow: 0 0 0 1px rgba(255, 255, 255, .3); }
   .mfp--shift[data-theme="dark"] .mfp__close { color: #fff; }
   .mfp--shift[data-theme="dark"] .mfp__close b { color: #96d1aa; }
+""",
+    "types": """
+  .mfp--types[data-theme="dark"] .mfp__label { color: #96d1aa; }
+  .mfp--types[data-theme="dark"] .mfp__stage--line { box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .28); }
+  .mfp--types[data-theme="dark"] .mfp__stage:not(:last-child)::after { color: #fff; box-shadow: 0 0 0 1px rgba(255, 255, 255, .3); }
+  .mfp--types[data-theme="dark"] .mfp__close { color: #fff; }
+  .mfp--types[data-theme="dark"] .mfp__close b { color: #96d1aa; }
 """,
     "problems": """
   .mfp--problems[data-theme="dark"] .mfp__fix h3 { color: var(--acc); }

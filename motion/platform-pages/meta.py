@@ -11,7 +11,7 @@ PAGE = {
     "short": "Meta",
     "accent": "#ffefae",
     # Slots placed on the site's navy sections (set those sections' background to this colour in Squarespace)
-    "dark": {"shift": "#253551"},
+    "dark": {"shift": "#253551", "types": "#253551"},
     # Page order. "problems" is left out: block 2 now covers the same ground, so results follow it directly.
     "slots": ["hero", "shift", "types", "results", "work", "process", "fit", "faq", "related"],
     # Hero numbers as a colour plate from Wada combination 281 (no colour names shown on the page)
@@ -100,17 +100,35 @@ PAGE = {
         {"src": None, "alt": "", "title": "Catalogue ad", "note": "[brand]: what it tested"},
     ],
 
-    # 5 Campaign types
+    # 3 Campaign types, across the funnel (each campaign carries its own KPI pills)
+    "funnel": {
+        "label": "Campaign types",
+        "title": "Meta campaigns across the whole funnel",
+        "lede": "Most accounts need a campaign at each stage. We set the mix by your goal and budget, then judge each campaign on its own numbers.",
+        "stages": [
+            {"label": "Stage 1", "title": "Get seen", "bg": "#ffefae", "fg": "#233551", "items": [
+                ("Reach", "Shows your ads to as many of the right people as possible, with frequency control.", ["CPM", "Ad recall"]),
+                ("Video views", "Builds an engaged audience from people who watch your videos, ready to retarget.", ["Cost per ThruPlay", "View rate"]),
+            ]},
+            {"label": "Stage 2", "title": "Build interest", "bg": "transparent", "fg": "rgba(243, 242, 247, .9)", "items": [
+                ("Traffic", "Sends the right people to your site, app or landing page.", ["CPC", "Landing page views"]),
+                ("Lead campaigns", "Instant forms or your own site, for services, education and property.", ["CPL"]),
+                ("Messaging", "Starts conversations in WhatsApp, Messenger and Instagram.", ["Cost per conversation"]),
+            ]},
+            {"label": "Stage 3", "title": "Make the sale", "bg": "#96d1aa", "fg": "#233551", "items": [
+                ("Advantage+ sales", "Formerly Advantage+ Shopping. Finds buyers at scale from your catalogue.", ["ROAS"]),
+                ("Manual sales", "Tighter control of audiences, placements and offers.", ["CPA"]),
+                ("Catalogue retargeting", "Brings back people who viewed your products but didn't buy.", ["ROAS"]),
+                ("Collaborative Sales Ads (CPAS)", "Runs your ads with retail partners like Shopee or Lazada, sending shoppers straight to your products on their store.", ["ROAS", "Retailer sales"]),
+            ]},
+        ],
+        "close_lead": "One plan, three stages.",
+        "close": "Budget moves to whichever stage is holding growth back.",
+    },
+    # Plain list, used only if "funnel" is removed
     "types_title": "Meta campaign types we run",
     "types_lede": "We pick the campaign type from your goal, then judge it against one number.",
-    "types": [
-        ("Advantage+ sales", "Formerly Advantage+ Shopping. For ecommerce brands with a product catalogue.", "Optimised for ROAS"),
-        ("Manual sales campaigns", "For tighter control of audiences, placements and offers.", "Optimised for CPA"),
-        ("Lead campaigns", "Instant forms and site leads for services, education and property.", "Optimised for CPL"),
-        ("Catalogue retargeting", "Shows people the products they viewed but didn't buy.", "Optimised for ROAS"),
-        ("Engagement and messaging", "Conversations in Messenger, WhatsApp and Instagram DMs.", "Optimised for cost per conversation"),
-        ("Awareness and reach", "For launches and new markets, with frequency control.", "Optimised for CPM and ad recall"),
-    ],
+    "types": [],
 
     # 6 Results: Meta results only, with brand names
     "results_title": "Meta results",
