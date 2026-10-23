@@ -55,10 +55,9 @@ PAGE = {
     # 2 What's changed
     "shift": {
         "label": "What's changed on Meta",
-        "title": "How Meta decides who sees your ads",
+        "title": "Meta has changed. Here's how we work with it.",
         "lede": ("Meta's AI now does the targeting. It reads every ad, matches it to the people most likely to act, and learns "
-                 "from what happens next. Each step has changed, and each one needs a different skill. Here's the loop, and how we handle it."),
-        "who": {"you": "You control this", "meta": "Meta controls this"},
+                 "from what happens next. Each of those steps needs a different skill, so here's how we handle each one."),
         "we_label": "How we handle it",
         "steps": [
             {"who": "you", "bg": "#ffefae", "fg": "#233551", "title": "Creative that feeds the algorithm",
@@ -71,8 +70,8 @@ PAGE = {
              "changed": "Meta learns from the results it can see, and its own reports don't always match what reaches your bottom line.",
              "we": "We agree the outcomes that matter to you, like revenue, ROAS or cost per customer, and report against them, not clicks or reach."},
         ],
-        "close_lead": "Two of the three steps are yours.",
-        "close": "One team of strategy, creative, media and data handles both, and sets up the third to work in your favour.",
+        "close_lead": "One team, all three steps.",
+        "close": "Strategy, creative, media and data, working together on your account.",
     },
 
     # 3 Problems and fixes

@@ -28,7 +28,8 @@ BASE = """
   .mfp ul, .mfp ol { padding: 0; list-style: none; }
   .mfp li { margin: 0; padding: 0; }
   .mfp li::before, .mfp li::marker { content: none; }
-  .mfp .mfp__h2 { color: var(--ink); font-size: var(--mf-h2, clamp(26px, 3vw, 38px)); line-height: 1.08; letter-spacing: -.03em; text-transform: none; text-wrap: balance; }
+  .mfp .mfp__h2 { color: var(--ink); font-family: var(--mf-h2-font, "DM Sans", "Helvetica Neue", Arial, sans-serif); font-weight: var(--mf-h2-weight, 600);
+    font-size: var(--mf-h2, clamp(28px, 3.2vw, 40px)); line-height: 1.08; letter-spacing: var(--mf-h2-ls, -.03em); text-transform: none; text-wrap: balance; }
   .mfp .mfp__lede { margin-top: 10px; max-width: 62ch; color: #1a1a1a; }
   .mfp .mfp__body { margin-top: 22px; }
   .mfp a { color: inherit; }
@@ -111,21 +112,20 @@ CSS = {
   .mfp--shift .mfp__label { margin-bottom: 10px; font-size: 11px; font-weight: 500; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
   .mfp--shift .mfp__top { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px 56px; align-items: end; }
   @container (min-width: 860px) { .mfp--shift .mfp__top { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
-  .mfp--shift .mfp__top .mfp__lede { margin-top: 0; }
+  .mfp--shift .mfp__top .mfp__lede { margin-top: 0; line-height: 1.45; }
   .mfp--shift .mfp__body { margin-top: 30px; }
   .mfp--shift .mfp__loop { display: grid; grid-template-columns: minmax(0, 1fr); gap: 22px; counter-reset: mfp-loop; }
-  @container (min-width: 760px) { .mfp--shift .mfp__loop { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; } }
+  @container (min-width: 760px) { .mfp--shift .mfp__loop { grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-rows: auto auto 1fr auto; column-gap: 12px; row-gap: 0; }
+    .mfp--shift .mfp__step { grid-row: span 4; grid-template-rows: subgrid; row-gap: 10px; } }
   .mfp--shift .mfp__step { counter-increment: mfp-loop; position: relative; border-radius: 16px; padding: 22px; display: grid; gap: 10px; align-content: start;
     background: var(--sb); color: var(--sf); }
   .mfp--shift .mfp__step::before { content: "0" counter(mfp-loop); font-family: var(--num); font-weight: 600; font-size: 13px; letter-spacing: .06em; }
   .mfp--shift .mfp__step--meta { box-shadow: inset 0 0 0 1px rgba(35, 53, 81, .25); }
-  .mfp--shift .mfp__who { position: absolute; top: 20px; right: 20px; font-size: 10.5px; font-weight: 500; letter-spacing: .12em; text-transform: uppercase;
-    border-radius: 999px; padding: 3px 9px; background: rgba(35, 53, 81, .1); }
   .mfp--shift .mfp__step h3 { color: inherit; font-size: 21px; line-height: 1.15; letter-spacing: -.015em; text-transform: none; }
-  .mfp--shift .mfp__changed { font-size: 15px; }
-  .mfp--shift .mfp__we { margin-top: 4px; padding-top: 12px; border-top: 1px solid currentColor; border-top-color: color-mix(in srgb, currentColor 22%, transparent); display: grid; gap: 4px; }
+  .mfp--shift .mfp__changed { font-size: 15px; line-height: 1.42; }
+  .mfp--shift .mfp__we { align-self: start; margin-top: 4px; padding-top: 12px; border-top: 1px solid currentColor; border-top-color: color-mix(in srgb, currentColor 22%, transparent); display: grid; gap: 4px; }
   .mfp--shift .mfp__we span { font-size: 11px; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; opacity: .75; }
-  .mfp--shift .mfp__we p { font-size: 15px; font-weight: 500; }
+  .mfp--shift .mfp__we p { font-size: 15px; line-height: 1.42; font-weight: 500; }
   .mfp--shift .mfp__step:not(:last-child)::after { content: "\\2193"; position: absolute; left: 50%; bottom: -11px; transform: translate(-50%, 50%); z-index: 1;
     width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; font-size: 13px; background: var(--mfp-bg, #fff); color: var(--ink); box-shadow: 0 0 0 1px rgba(35, 53, 81, .3); }
   @container (min-width: 760px) { .mfp--shift .mfp__step:not(:last-child)::after { content: "\\2192"; left: auto; right: -6px; bottom: auto; top: 50%; transform: translate(50%, -50%); } }
@@ -334,7 +334,6 @@ def shift(d, g):
     s = d["shift"]
     steps = "".join(
         f'<li class="mfp__step mfp__step--{st["who"]}" style="--sb:{st["bg"]};--sf:{st["fg"]}">'
-        f'<span class="mfp__who">{e(s["who"][st["who"]])}</span>'
         f'<h3>{e(st["title"])}</h3><p class="mfp__changed">{e(st["changed"])}</p>'
         f'<div class="mfp__we"><span>{e(s["we_label"])}</span><p>{e(st["we"])}</p></div></li>'
         for st in s["steps"])
@@ -455,7 +454,6 @@ DARK_CSS = {
     "shift": """
   .mfp--shift[data-theme="dark"] .mfp__label { color: #96d1aa; }
   .mfp--shift[data-theme="dark"] .mfp__step--meta { box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .28); }
-  .mfp--shift[data-theme="dark"] .mfp__step--meta .mfp__who { background: rgba(255, 255, 255, .1); }
   .mfp--shift[data-theme="dark"] .mfp__step:not(:last-child)::after { color: #fff; box-shadow: 0 0 0 1px rgba(255, 255, 255, .3); }
   .mfp--shift[data-theme="dark"] .mfp__close { color: #fff; }
   .mfp--shift[data-theme="dark"] .mfp__close b { color: #96d1aa; }

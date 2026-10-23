@@ -10,7 +10,8 @@
   .mfp ul, .mfp ol { padding: 0; list-style: none; }
   .mfp li { margin: 0; padding: 0; }
   .mfp li::before, .mfp li::marker { content: none; }
-  .mfp .mfp__h2 { color: var(--ink); font-size: var(--mf-h2, clamp(26px, 3vw, 38px)); line-height: 1.08; letter-spacing: -.03em; text-transform: none; text-wrap: balance; }
+  .mfp .mfp__h2 { color: var(--ink); font-family: var(--mf-h2-font, "DM Sans", "Helvetica Neue", Arial, sans-serif); font-weight: var(--mf-h2-weight, 600);
+    font-size: var(--mf-h2, clamp(28px, 3.2vw, 40px)); line-height: 1.08; letter-spacing: var(--mf-h2-ls, -.03em); text-transform: none; text-wrap: balance; }
   .mfp .mfp__lede { margin-top: 10px; max-width: 62ch; color: #1a1a1a; }
   .mfp .mfp__body { margin-top: 22px; }
   .mfp a { color: inherit; }
@@ -106,7 +107,8 @@
   .mfp ul, .mfp ol { padding: 0; list-style: none; }
   .mfp li { margin: 0; padding: 0; }
   .mfp li::before, .mfp li::marker { content: none; }
-  .mfp .mfp__h2 { color: var(--ink); font-size: var(--mf-h2, clamp(26px, 3vw, 38px)); line-height: 1.08; letter-spacing: -.03em; text-transform: none; text-wrap: balance; }
+  .mfp .mfp__h2 { color: var(--ink); font-family: var(--mf-h2-font, "DM Sans", "Helvetica Neue", Arial, sans-serif); font-weight: var(--mf-h2-weight, 600);
+    font-size: var(--mf-h2, clamp(28px, 3.2vw, 40px)); line-height: 1.08; letter-spacing: var(--mf-h2-ls, -.03em); text-transform: none; text-wrap: balance; }
   .mfp .mfp__lede { margin-top: 10px; max-width: 62ch; color: #1a1a1a; }
   .mfp .mfp__body { margin-top: 22px; }
   .mfp a { color: inherit; }
@@ -122,21 +124,20 @@
   .mfp--shift .mfp__label { margin-bottom: 10px; font-size: 11px; font-weight: 500; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
   .mfp--shift .mfp__top { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px 56px; align-items: end; }
   @container (min-width: 860px) { .mfp--shift .mfp__top { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
-  .mfp--shift .mfp__top .mfp__lede { margin-top: 0; }
+  .mfp--shift .mfp__top .mfp__lede { margin-top: 0; line-height: 1.45; }
   .mfp--shift .mfp__body { margin-top: 30px; }
   .mfp--shift .mfp__loop { display: grid; grid-template-columns: minmax(0, 1fr); gap: 22px; counter-reset: mfp-loop; }
-  @container (min-width: 760px) { .mfp--shift .mfp__loop { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; } }
+  @container (min-width: 760px) { .mfp--shift .mfp__loop { grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-rows: auto auto 1fr auto; column-gap: 12px; row-gap: 0; }
+    .mfp--shift .mfp__step { grid-row: span 4; grid-template-rows: subgrid; row-gap: 10px; } }
   .mfp--shift .mfp__step { counter-increment: mfp-loop; position: relative; border-radius: 16px; padding: 22px; display: grid; gap: 10px; align-content: start;
     background: var(--sb); color: var(--sf); }
   .mfp--shift .mfp__step::before { content: "0" counter(mfp-loop); font-family: var(--num); font-weight: 600; font-size: 13px; letter-spacing: .06em; }
   .mfp--shift .mfp__step--meta { box-shadow: inset 0 0 0 1px rgba(35, 53, 81, .25); }
-  .mfp--shift .mfp__who { position: absolute; top: 20px; right: 20px; font-size: 10.5px; font-weight: 500; letter-spacing: .12em; text-transform: uppercase;
-    border-radius: 999px; padding: 3px 9px; background: rgba(35, 53, 81, .1); }
   .mfp--shift .mfp__step h3 { color: inherit; font-size: 21px; line-height: 1.15; letter-spacing: -.015em; text-transform: none; }
-  .mfp--shift .mfp__changed { font-size: 15px; }
-  .mfp--shift .mfp__we { margin-top: 4px; padding-top: 12px; border-top: 1px solid currentColor; border-top-color: color-mix(in srgb, currentColor 22%, transparent); display: grid; gap: 4px; }
+  .mfp--shift .mfp__changed { font-size: 15px; line-height: 1.42; }
+  .mfp--shift .mfp__we { align-self: start; margin-top: 4px; padding-top: 12px; border-top: 1px solid currentColor; border-top-color: color-mix(in srgb, currentColor 22%, transparent); display: grid; gap: 4px; }
   .mfp--shift .mfp__we span { font-size: 11px; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; opacity: .75; }
-  .mfp--shift .mfp__we p { font-size: 15px; font-weight: 500; }
+  .mfp--shift .mfp__we p { font-size: 15px; line-height: 1.42; font-weight: 500; }
   .mfp--shift .mfp__step:not(:last-child)::after { content: "\2193"; position: absolute; left: 50%; bottom: -11px; transform: translate(-50%, 50%); z-index: 1;
     width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; font-size: 13px; background: var(--mfp-bg, #fff); color: var(--ink); box-shadow: 0 0 0 1px rgba(35, 53, 81, .3); }
   @container (min-width: 760px) { .mfp--shift .mfp__step:not(:last-child)::after { content: "\2192"; left: auto; right: -6px; bottom: auto; top: 50%; transform: translate(50%, -50%); } }
@@ -149,15 +150,14 @@
 
   .mfp--shift[data-theme="dark"] .mfp__label { color: #96d1aa; }
   .mfp--shift[data-theme="dark"] .mfp__step--meta { box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .28); }
-  .mfp--shift[data-theme="dark"] .mfp__step--meta .mfp__who { background: rgba(255, 255, 255, .1); }
   .mfp--shift[data-theme="dark"] .mfp__step:not(:last-child)::after { color: #fff; box-shadow: 0 0 0 1px rgba(255, 255, 255, .3); }
   .mfp--shift[data-theme="dark"] .mfp__close { color: #fff; }
   .mfp--shift[data-theme="dark"] .mfp__close b { color: #96d1aa; }
 </style>
 <div class="mfp mfp--shift" style="--acc:#ffefae;--mfp-bg:#253551" data-theme="dark">
-<p class="mfp__label">What&#x27;s changed on Meta</p><div class="mfp__top"><h2 class="mfp__h2">How Meta decides who sees your ads</h2><p class="mfp__lede">Meta&#x27;s AI now does the targeting. It reads every ad, matches it to the people most likely to act, and learns from what happens next. Each step has changed, and each one needs a different skill. Here&#x27;s the loop, and how we handle it.</p></div>
-<ol class="mfp__body mfp__loop"><li class="mfp__step mfp__step--you" style="--sb:#ffefae;--sf:#233551"><span class="mfp__who">You control this</span><h3>Creative that feeds the algorithm</h3><p class="mfp__changed">Meta can only find the right people through the ads it&#x27;s given, and Andromeda now rewards many genuinely different ads over one polished hero.</p><div class="mfp__we"><span>How we handle it</span><p>Our in-house production team makes and tests new angles, hooks and formats continuously.</p></div></li><li class="mfp__step mfp__step--meta" style="--sb:transparent;--sf:rgba(243, 242, 247, .86)"><span class="mfp__who">Meta controls this</span><h3>Meta&#x27;s AI finds the audience</h3><p class="mfp__changed">Broad audiences and Advantage+ have replaced most manual targeting. The AI needs room and budget to learn.</p><div class="mfp__we"><span>How we handle it</span><p>We build fewer, broader campaigns with clear testing rules, so the AI learns fast instead of stalling.</p></div></li><li class="mfp__step mfp__step--you" style="--sb:#96d1aa;--sf:#233551"><span class="mfp__who">You control this</span><h3>Measured on business outcomes</h3><p class="mfp__changed">Meta learns from the results it can see, and its own reports don&#x27;t always match what reaches your bottom line.</p><div class="mfp__we"><span>How we handle it</span><p>We agree the outcomes that matter to you, like revenue, ROAS or cost per customer, and report against them, not clicks or reach.</p></div></li></ol>
-<p class="mfp__close"><b>Two of the three steps are yours.</b> One team of strategy, creative, media and data handles both, and sets up the third to work in your favour.</p>
+<p class="mfp__label">What&#x27;s changed on Meta</p><div class="mfp__top"><h2 class="mfp__h2">Meta has changed. Here&#x27;s how we work with it.</h2><p class="mfp__lede">Meta&#x27;s AI now does the targeting. It reads every ad, matches it to the people most likely to act, and learns from what happens next. Each of those steps needs a different skill, so here&#x27;s how we handle each one.</p></div>
+<ol class="mfp__body mfp__loop"><li class="mfp__step mfp__step--you" style="--sb:#ffefae;--sf:#233551"><h3>Creative that feeds the algorithm</h3><p class="mfp__changed">Meta can only find the right people through the ads it&#x27;s given, and Andromeda now rewards many genuinely different ads over one polished hero.</p><div class="mfp__we"><span>How we handle it</span><p>Our in-house production team makes and tests new angles, hooks and formats continuously.</p></div></li><li class="mfp__step mfp__step--meta" style="--sb:transparent;--sf:rgba(243, 242, 247, .86)"><h3>Meta&#x27;s AI finds the audience</h3><p class="mfp__changed">Broad audiences and Advantage+ have replaced most manual targeting. The AI needs room and budget to learn.</p><div class="mfp__we"><span>How we handle it</span><p>We build fewer, broader campaigns with clear testing rules, so the AI learns fast instead of stalling.</p></div></li><li class="mfp__step mfp__step--you" style="--sb:#96d1aa;--sf:#233551"><h3>Measured on business outcomes</h3><p class="mfp__changed">Meta learns from the results it can see, and its own reports don&#x27;t always match what reaches your bottom line.</p><div class="mfp__we"><span>How we handle it</span><p>We agree the outcomes that matter to you, like revenue, ROAS or cost per customer, and report against them, not clicks or reach.</p></div></li></ol>
+<p class="mfp__close"><b>One team, all three steps.</b> Strategy, creative, media and data, working together on your account.</p>
 </div>
 </div></section><section class='band' style='background:#253551'><div class='section-background'></div><div class='content'><!-- MajorForm Meta Ads page, slot 3: problems and fixes.
      Paste into its own Squarespace Code block, with Display Source turned off. No scripts.
@@ -172,7 +172,8 @@
   .mfp ul, .mfp ol { padding: 0; list-style: none; }
   .mfp li { margin: 0; padding: 0; }
   .mfp li::before, .mfp li::marker { content: none; }
-  .mfp .mfp__h2 { color: var(--ink); font-size: var(--mf-h2, clamp(26px, 3vw, 38px)); line-height: 1.08; letter-spacing: -.03em; text-transform: none; text-wrap: balance; }
+  .mfp .mfp__h2 { color: var(--ink); font-family: var(--mf-h2-font, "DM Sans", "Helvetica Neue", Arial, sans-serif); font-weight: var(--mf-h2-weight, 600);
+    font-size: var(--mf-h2, clamp(28px, 3.2vw, 40px)); line-height: 1.08; letter-spacing: var(--mf-h2-ls, -.03em); text-transform: none; text-wrap: balance; }
   .mfp .mfp__lede { margin-top: 10px; max-width: 62ch; color: #1a1a1a; }
   .mfp .mfp__body { margin-top: 22px; }
   .mfp a { color: inherit; }
@@ -236,7 +237,8 @@
   .mfp ul, .mfp ol { padding: 0; list-style: none; }
   .mfp li { margin: 0; padding: 0; }
   .mfp li::before, .mfp li::marker { content: none; }
-  .mfp .mfp__h2 { color: var(--ink); font-size: var(--mf-h2, clamp(26px, 3vw, 38px)); line-height: 1.08; letter-spacing: -.03em; text-transform: none; text-wrap: balance; }
+  .mfp .mfp__h2 { color: var(--ink); font-family: var(--mf-h2-font, "DM Sans", "Helvetica Neue", Arial, sans-serif); font-weight: var(--mf-h2-weight, 600);
+    font-size: var(--mf-h2, clamp(28px, 3.2vw, 40px)); line-height: 1.08; letter-spacing: var(--mf-h2-ls, -.03em); text-transform: none; text-wrap: balance; }
   .mfp .mfp__lede { margin-top: 10px; max-width: 62ch; color: #1a1a1a; }
   .mfp .mfp__body { margin-top: 22px; }
   .mfp a { color: inherit; }
@@ -277,7 +279,8 @@
   .mfp ul, .mfp ol { padding: 0; list-style: none; }
   .mfp li { margin: 0; padding: 0; }
   .mfp li::before, .mfp li::marker { content: none; }
-  .mfp .mfp__h2 { color: var(--ink); font-size: var(--mf-h2, clamp(26px, 3vw, 38px)); line-height: 1.08; letter-spacing: -.03em; text-transform: none; text-wrap: balance; }
+  .mfp .mfp__h2 { color: var(--ink); font-family: var(--mf-h2-font, "DM Sans", "Helvetica Neue", Arial, sans-serif); font-weight: var(--mf-h2-weight, 600);
+    font-size: var(--mf-h2, clamp(28px, 3.2vw, 40px)); line-height: 1.08; letter-spacing: var(--mf-h2-ls, -.03em); text-transform: none; text-wrap: balance; }
   .mfp .mfp__lede { margin-top: 10px; max-width: 62ch; color: #1a1a1a; }
   .mfp .mfp__body { margin-top: 22px; }
   .mfp a { color: inherit; }
@@ -315,7 +318,8 @@
   .mfp ul, .mfp ol { padding: 0; list-style: none; }
   .mfp li { margin: 0; padding: 0; }
   .mfp li::before, .mfp li::marker { content: none; }
-  .mfp .mfp__h2 { color: var(--ink); font-size: var(--mf-h2, clamp(26px, 3vw, 38px)); line-height: 1.08; letter-spacing: -.03em; text-transform: none; text-wrap: balance; }
+  .mfp .mfp__h2 { color: var(--ink); font-family: var(--mf-h2-font, "DM Sans", "Helvetica Neue", Arial, sans-serif); font-weight: var(--mf-h2-weight, 600);
+    font-size: var(--mf-h2, clamp(28px, 3.2vw, 40px)); line-height: 1.08; letter-spacing: var(--mf-h2-ls, -.03em); text-transform: none; text-wrap: balance; }
   .mfp .mfp__lede { margin-top: 10px; max-width: 62ch; color: #1a1a1a; }
   .mfp .mfp__body { margin-top: 22px; }
   .mfp a { color: inherit; }
@@ -360,7 +364,8 @@
   .mfp ul, .mfp ol { padding: 0; list-style: none; }
   .mfp li { margin: 0; padding: 0; }
   .mfp li::before, .mfp li::marker { content: none; }
-  .mfp .mfp__h2 { color: var(--ink); font-size: var(--mf-h2, clamp(26px, 3vw, 38px)); line-height: 1.08; letter-spacing: -.03em; text-transform: none; text-wrap: balance; }
+  .mfp .mfp__h2 { color: var(--ink); font-family: var(--mf-h2-font, "DM Sans", "Helvetica Neue", Arial, sans-serif); font-weight: var(--mf-h2-weight, 600);
+    font-size: var(--mf-h2, clamp(28px, 3.2vw, 40px)); line-height: 1.08; letter-spacing: var(--mf-h2-ls, -.03em); text-transform: none; text-wrap: balance; }
   .mfp .mfp__lede { margin-top: 10px; max-width: 62ch; color: #1a1a1a; }
   .mfp .mfp__body { margin-top: 22px; }
   .mfp a { color: inherit; }
@@ -398,7 +403,8 @@
   .mfp ul, .mfp ol { padding: 0; list-style: none; }
   .mfp li { margin: 0; padding: 0; }
   .mfp li::before, .mfp li::marker { content: none; }
-  .mfp .mfp__h2 { color: var(--ink); font-size: var(--mf-h2, clamp(26px, 3vw, 38px)); line-height: 1.08; letter-spacing: -.03em; text-transform: none; text-wrap: balance; }
+  .mfp .mfp__h2 { color: var(--ink); font-family: var(--mf-h2-font, "DM Sans", "Helvetica Neue", Arial, sans-serif); font-weight: var(--mf-h2-weight, 600);
+    font-size: var(--mf-h2, clamp(28px, 3.2vw, 40px)); line-height: 1.08; letter-spacing: var(--mf-h2-ls, -.03em); text-transform: none; text-wrap: balance; }
   .mfp .mfp__lede { margin-top: 10px; max-width: 62ch; color: #1a1a1a; }
   .mfp .mfp__body { margin-top: 22px; }
   .mfp a { color: inherit; }
@@ -432,7 +438,8 @@
   .mfp ul, .mfp ol { padding: 0; list-style: none; }
   .mfp li { margin: 0; padding: 0; }
   .mfp li::before, .mfp li::marker { content: none; }
-  .mfp .mfp__h2 { color: var(--ink); font-size: var(--mf-h2, clamp(26px, 3vw, 38px)); line-height: 1.08; letter-spacing: -.03em; text-transform: none; text-wrap: balance; }
+  .mfp .mfp__h2 { color: var(--ink); font-family: var(--mf-h2-font, "DM Sans", "Helvetica Neue", Arial, sans-serif); font-weight: var(--mf-h2-weight, 600);
+    font-size: var(--mf-h2, clamp(28px, 3.2vw, 40px)); line-height: 1.08; letter-spacing: var(--mf-h2-ls, -.03em); text-transform: none; text-wrap: balance; }
   .mfp .mfp__lede { margin-top: 10px; max-width: 62ch; color: #1a1a1a; }
   .mfp .mfp__body { margin-top: 22px; }
   .mfp a { color: inherit; }
@@ -478,7 +485,8 @@
   .mfp ul, .mfp ol { padding: 0; list-style: none; }
   .mfp li { margin: 0; padding: 0; }
   .mfp li::before, .mfp li::marker { content: none; }
-  .mfp .mfp__h2 { color: var(--ink); font-size: var(--mf-h2, clamp(26px, 3vw, 38px)); line-height: 1.08; letter-spacing: -.03em; text-transform: none; text-wrap: balance; }
+  .mfp .mfp__h2 { color: var(--ink); font-family: var(--mf-h2-font, "DM Sans", "Helvetica Neue", Arial, sans-serif); font-weight: var(--mf-h2-weight, 600);
+    font-size: var(--mf-h2, clamp(28px, 3.2vw, 40px)); line-height: 1.08; letter-spacing: var(--mf-h2-ls, -.03em); text-transform: none; text-wrap: balance; }
   .mfp .mfp__lede { margin-top: 10px; max-width: 62ch; color: #1a1a1a; }
   .mfp .mfp__body { margin-top: 22px; }
   .mfp a { color: inherit; }
@@ -507,6 +515,16 @@
 </div>
 </div></main><style>body{overflow-x:hidden}.band{position:relative;margin-inline:calc(50% - 50vw);padding:72px calc(50vw - 50%)}.section-background{position:absolute;inset:0}.band>.content{position:relative}main>:first-child.band{margin-top:-24px;padding-block:96px 88px}</style><script>
 document.addEventListener("DOMContentLoaded", function () {
+  // Match block headings to the site's own H2: measure a hidden H2 styled like a Squarespace text block
+  var host = document.querySelector(".sqs-block-content"), probe = document.createElement("div");
+  if (host) {
+  probe.className = "sqs-html-content"; probe.style.cssText = "position:absolute;visibility:hidden;left:-9999px";
+  probe.innerHTML = "<h2>Ag</h2>"; host.appendChild(probe);
+  var cs = getComputedStyle(probe.firstChild), root = document.documentElement.style;
+  root.setProperty("--mf-h2", cs.fontSize); root.setProperty("--mf-h2-font", cs.fontFamily);
+  root.setProperty("--mf-h2-weight", cs.fontWeight); root.setProperty("--mf-h2-ls", cs.letterSpacing === "normal" ? "0" : cs.letterSpacing);
+  probe.remove();
+  }
   if ((window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches) || !window.IntersectionObserver) return;
   document.querySelectorAll(".mfp[data-anim]").forEach(function (el) {
     if (el.getBoundingClientRect().top < window.innerHeight * 0.8) return; // already on screen: leave at rest

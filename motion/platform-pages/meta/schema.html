@@ -125,6 +125,16 @@
 </script>
 <script>
 document.addEventListener("DOMContentLoaded", function () {
+  // Match block headings to the site's own H2: measure a hidden H2 styled like a Squarespace text block
+  var host = document.querySelector(".sqs-block-content"), probe = document.createElement("div");
+  if (host) {
+  probe.className = "sqs-html-content"; probe.style.cssText = "position:absolute;visibility:hidden;left:-9999px";
+  probe.innerHTML = "<h2>Ag</h2>"; host.appendChild(probe);
+  var cs = getComputedStyle(probe.firstChild), root = document.documentElement.style;
+  root.setProperty("--mf-h2", cs.fontSize); root.setProperty("--mf-h2-font", cs.fontFamily);
+  root.setProperty("--mf-h2-weight", cs.fontWeight); root.setProperty("--mf-h2-ls", cs.letterSpacing === "normal" ? "0" : cs.letterSpacing);
+  probe.remove();
+  }
   if ((window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches) || !window.IntersectionObserver) return;
   document.querySelectorAll(".mfp[data-anim]").forEach(function (el) {
     if (el.getBoundingClientRect().top < window.innerHeight * 0.8) return; // already on screen: leave at rest
