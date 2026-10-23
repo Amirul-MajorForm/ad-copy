@@ -78,23 +78,8 @@ CSS = {
   .mfp--hero .mfp__plate:hover::after { transform: translateY(0); }
   .mfp--hero .mfp__plate:hover b { color: var(--h-num); }
   .mfp--hero .mfp__plate:hover span { color: var(--h-fg); }
-  /* Textures: still and quiet, behind the numbers, drawn in --tex so they follow the hover colour */
+  /* Optional textures (none used on the Meta page): a sheet can add "texture" to a block */
   .mfp--hero .mfp__plate::before { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; }
-  .mfp--hero .mfp__tex--grain::before { background-image: radial-gradient(var(--tex) 1.1px, transparent 1.6px); background-size: 12px 12px;
-    -webkit-mask-image: linear-gradient(200deg, #000, transparent 75%); mask-image: linear-gradient(200deg, #000, transparent 75%); }
-  .mfp--hero .mfp__tex--rings::before { background: repeating-radial-gradient(circle at 82% 18%, transparent 0 0px, var(--tex) 0px 1px, transparent 1px 16px);
-    }
-  /* the team: four dashed streams flowing the same way at slightly different speeds */
-  .mfp--hero .mfp__tex--streams::before {
-    background-image: repeating-linear-gradient(90deg, var(--tex) 0 10px, transparent 10px 22px), repeating-linear-gradient(90deg, var(--tex) 0 10px, transparent 10px 22px),
-      repeating-linear-gradient(90deg, var(--tex) 0 10px, transparent 10px 22px), repeating-linear-gradient(90deg, var(--tex) 0 10px, transparent 10px 22px);
-    background-repeat: repeat-x; background-size: 22px 2px; background-position: 0 14%, 0 26%, 0 38%, 0 50%;
-    -webkit-mask-image: linear-gradient(90deg, transparent 25%, #000 70%); mask-image: linear-gradient(90deg, transparent 25%, #000 70%);
-    }
-  .mfp--hero .mfp__tex--tiles::before { background: linear-gradient(115deg, transparent 30%, var(--tex) 45%, transparent 60%) 0 0 / 300% 100%, linear-gradient(var(--tex), var(--tex)) 0 0 / 100% 100%;
-    -webkit-mask: repeating-linear-gradient(90deg, #000 0 10px, transparent 10px 15px), repeating-linear-gradient(0deg, #000 0 14px, transparent 14px 19px);
-    -webkit-mask-composite: source-in; mask: repeating-linear-gradient(90deg, #000 0 10px, transparent 10px 15px), repeating-linear-gradient(0deg, #000 0 14px, transparent 14px 19px);
-    mask-composite: intersect; opacity: .4; }
   /* No hover on phones: the four colours rotate around the blocks, each fading into the next, so all four always differ */
   @property --tex { syntax: "<color>"; inherits: true; initial-value: transparent; }
   @media (hover: none) and (prefers-reduced-motion: no-preference) {
