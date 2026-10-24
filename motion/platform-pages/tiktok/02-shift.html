@@ -1,0 +1,64 @@
+<!-- MajorForm TikTok Ads page: how the platform has changed, and how we handle it.
+     Paste into its own Squarespace Code block, with Display Source turned off. No scripts.
+     Set this section's background to your navy (#253551) so the block blends in. -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,600&family=Space+Grotesk:wght@400;500&display=swap">
+<style>
+  .mfp { --ink: #233551; --deep: #04202c; --text: #3d4350; --muted: #6b7180; --rule: rgba(35, 53, 81, .16); --tint: #f4f6f8;
+    --num: "DM Sans", "Helvetica Neue", Arial, sans-serif; --gap-ph: #c2410c;
+    container-type: inline-size; font-family: "Space Grotesk", system-ui, sans-serif; color: var(--text); font-size: 16px; line-height: 1.55; }
+  .mfp * { box-sizing: border-box; }
+  .mfp p, .mfp ul, .mfp ol, .mfp h1, .mfp h2, .mfp h3 { margin: 0; }
+  .mfp ul, .mfp ol { padding: 0; list-style: none; }
+  .mfp li { margin: 0; padding: 0; }
+  .mfp li::before, .mfp li::marker { content: none; }
+  .mfp .mfp__h2 { color: var(--ink); font-family: var(--mf-h2-font, "DM Sans", "Helvetica Neue", Arial, sans-serif); font-weight: var(--mf-h2-weight, 600);
+    font-size: var(--mf-h2, clamp(28px, 3.2vw, 40px)); line-height: 1.08; letter-spacing: var(--mf-h2-ls, -.03em); text-transform: none; text-wrap: balance; }
+  .mfp .mfp__lede { margin-top: 10px; max-width: 62ch; color: #1a1a1a; }
+  .mfp .mfp__body { margin-top: 22px; }
+  .mfp a { color: inherit; }
+  .mfp .mfp__btn { display: inline-flex; align-items: center; gap: 10px; padding: 12px 20px; border-radius: 999px; background: var(--deep); color: #fff; font-size: 15px; font-weight: 500;
+    text-decoration: none; border: 1px solid var(--deep); transition: background .3s, color .3s, border-color .3s; }
+  .mfp .mfp__btn:hover, .mfp .mfp__btn:focus-visible { background: var(--acc); border-color: var(--acc); color: var(--deep); }
+  .mfp .mfp__btn--ghost { background: none; color: var(--ink); border-color: rgba(35, 53, 81, .3); }
+  .mfp a:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+  .mfp .mfp__gap { color: var(--gap-ph); }
+  .mfp b .mfp__gap, .mfp em .mfp__gap { font-size: inherit; color: #ffb38a; }
+  @media (prefers-reduced-motion: reduce) { .mfp * { transition: none !important; } }
+
+  .mfp--shift .mfp__label { margin-bottom: 10px; font-size: 11px; font-weight: 500; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
+  .mfp--shift .mfp__top { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px 56px; align-items: end; }
+  @container (min-width: 860px) { .mfp--shift .mfp__top { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
+  .mfp--shift .mfp__top .mfp__lede { margin-top: 0; line-height: 1.45; }
+  .mfp--shift .mfp__body { margin-top: 30px; }
+  .mfp--shift .mfp__loop { display: grid; grid-template-columns: minmax(0, 1fr); gap: 22px; counter-reset: mfp-loop; }
+  @container (min-width: 760px) { .mfp--shift .mfp__loop { grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-rows: auto auto 1fr auto; column-gap: 12px; row-gap: 0; }
+    .mfp--shift .mfp__step { grid-row: span 4; grid-template-rows: subgrid; row-gap: 10px; } }
+  .mfp--shift .mfp__step { counter-increment: mfp-loop; position: relative; border-radius: 16px; padding: 22px; display: grid; gap: 10px; align-content: start;
+    background: var(--sb); color: var(--sf); }
+  .mfp--shift .mfp__step::before { content: "0" counter(mfp-loop); font-family: var(--num); font-weight: 600; font-size: 13px; letter-spacing: .06em; }
+  .mfp--shift .mfp__step--meta { box-shadow: inset 0 0 0 1px rgba(35, 53, 81, .25); }
+  .mfp--shift .mfp__step h3 { color: inherit; font-size: 21px; line-height: 1.15; letter-spacing: -.015em; text-transform: none; }
+  .mfp--shift .mfp__changed { font-size: 15px; line-height: 1.42; }
+  .mfp--shift .mfp__we { align-self: start; margin-top: 4px; padding-top: 12px; border-top: 1px solid currentColor; border-top-color: color-mix(in srgb, currentColor 22%, transparent); display: grid; gap: 4px; }
+  .mfp--shift .mfp__we span { font-size: 11px; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; opacity: .75; }
+  .mfp--shift .mfp__we p { font-size: 15px; line-height: 1.42; font-weight: 500; }
+  .mfp--shift .mfp__step:not(:last-child)::after { content: "\2193"; position: absolute; left: 50%; bottom: -11px; transform: translate(-50%, 50%); z-index: 1;
+    width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; font-size: 13px; background: #ffffff; color: #00978d; font-weight: 600; box-shadow: 0 2px 6px rgba(4, 32, 44, .25); }  /* white circle, Wada teal arrow */
+  @container (min-width: 760px) { .mfp--shift .mfp__step:not(:last-child)::after { content: "\2192"; left: auto; right: -6px; bottom: auto; top: 50%; transform: translate(50%, -50%); } }
+  .mfp--shift .mfp__close { margin-top: 22px; font-size: 16px; color: var(--ink); }
+  .mfp--shift .mfp__close b { font-weight: 500; color: var(--acc2, var(--ink)); }
+
+  .mfp[data-theme="dark"] { --ink: #ffffff; --text: rgba(243, 242, 247, .8); --muted: rgba(243, 242, 247, .6); --rule: rgba(255, 255, 255, .16);
+    --tint: rgba(255, 255, 255, .06); background: var(--mfp-bg, #253551); color: var(--text); }
+  .mfp[data-theme="dark"] .mfp__lede { color: rgba(243, 242, 247, .86); }
+
+  .mfp--shift[data-theme="dark"] .mfp__label { color: #96d1aa; }
+  .mfp--shift[data-theme="dark"] .mfp__step--meta { box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .28); }
+  .mfp--shift[data-theme="dark"] .mfp__close { color: #fff; }
+  .mfp--shift[data-theme="dark"] .mfp__close b { color: #96d1aa; }
+</style>
+<div class="mfp mfp--shift" style="--acc:#ffefae;--mfp-bg:#253551" data-theme="dark">
+<p class="mfp__label">What&#x27;s changed on TikTok</p><div class="mfp__top"><h2 class="mfp__h2">TikTok has changed. Here&#x27;s how we work with it.</h2><p class="mfp__lede">TikTok shows each video to people based on what they watch, not who they follow. It tries every ad on a small audience, then scales what holds attention. Each of those steps needs a different skill, so here&#x27;s how we handle each one.</p></div>
+<ol class="mfp__body mfp__loop"><li class="mfp__step mfp__step--you" style="--sb:#ffefae;--sf:#233551"><h3>Creative made for the feed</h3><p class="mfp__changed">Ads that look like ads get scrolled past. TikTok rewards videos that feel native and hook people in the first few seconds, and tires of them quickly.</p><div class="mfp__we"><span>How we handle it</span><p>Our in-house production team makes native, sound-on videos and tests new hooks and formats continuously.</p></div></li><li class="mfp__step mfp__step--meta" style="--sb:transparent;--sf:rgba(243, 242, 247, .86)"><h3>TikTok&#x27;s algorithm finds the audience</h3><p class="mfp__changed">Broad targeting and Smart+ campaigns now find buyers better than narrow interests, as long as the algorithm has room and budget to learn.</p><div class="mfp__we"><span>How we handle it</span><p>We build simple, broad campaigns with clear testing rules, and boost the best organic and creator posts as Spark Ads.</p></div></li><li class="mfp__step mfp__step--you" style="--sb:#96d1aa;--sf:#233551"><h3>Measured on business outcomes</h3><p class="mfp__changed">Many people see a TikTok ad, then search or buy later somewhere else, so last-click reports undercount what TikTok drives.</p><div class="mfp__we"><span>How we handle it</span><p>We set up the TikTok Pixel and Events API, and judge results on revenue, ROAS or cost per customer, not views.</p></div></li></ol>
+<p class="mfp__close"><b>One team, all three steps.</b> Strategy, creative, media and data, working together on your account.</p>
+</div>

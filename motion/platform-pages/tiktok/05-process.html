@@ -1,0 +1,70 @@
+<!-- MajorForm TikTok Ads page: how we work, as a timeline revealed on scroll.
+     Paste into its own Squarespace Code block, with Display Source turned off. No scripts. -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,600&family=Space+Grotesk:wght@400;500&display=swap">
+<style>
+  .mfp { --ink: #233551; --deep: #04202c; --text: #3d4350; --muted: #6b7180; --rule: rgba(35, 53, 81, .16); --tint: #f4f6f8;
+    --num: "DM Sans", "Helvetica Neue", Arial, sans-serif; --gap-ph: #c2410c;
+    container-type: inline-size; font-family: "Space Grotesk", system-ui, sans-serif; color: var(--text); font-size: 16px; line-height: 1.55; }
+  .mfp * { box-sizing: border-box; }
+  .mfp p, .mfp ul, .mfp ol, .mfp h1, .mfp h2, .mfp h3 { margin: 0; }
+  .mfp ul, .mfp ol { padding: 0; list-style: none; }
+  .mfp li { margin: 0; padding: 0; }
+  .mfp li::before, .mfp li::marker { content: none; }
+  .mfp .mfp__h2 { color: var(--ink); font-family: var(--mf-h2-font, "DM Sans", "Helvetica Neue", Arial, sans-serif); font-weight: var(--mf-h2-weight, 600);
+    font-size: var(--mf-h2, clamp(28px, 3.2vw, 40px)); line-height: 1.08; letter-spacing: var(--mf-h2-ls, -.03em); text-transform: none; text-wrap: balance; }
+  .mfp .mfp__lede { margin-top: 10px; max-width: 62ch; color: #1a1a1a; }
+  .mfp .mfp__body { margin-top: 22px; }
+  .mfp a { color: inherit; }
+  .mfp .mfp__btn { display: inline-flex; align-items: center; gap: 10px; padding: 12px 20px; border-radius: 999px; background: var(--deep); color: #fff; font-size: 15px; font-weight: 500;
+    text-decoration: none; border: 1px solid var(--deep); transition: background .3s, color .3s, border-color .3s; }
+  .mfp .mfp__btn:hover, .mfp .mfp__btn:focus-visible { background: var(--acc); border-color: var(--acc); color: var(--deep); }
+  .mfp .mfp__btn--ghost { background: none; color: var(--ink); border-color: rgba(35, 53, 81, .3); }
+  .mfp a:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+  .mfp .mfp__gap { color: var(--gap-ph); }
+  .mfp b .mfp__gap, .mfp em .mfp__gap { font-size: inherit; color: #ffb38a; }
+  @media (prefers-reduced-motion: reduce) { .mfp * { transition: none !important; } }
+
+  .mfp--process .mfp__label { margin-bottom: 10px; font-size: 11px; font-weight: 500; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
+  .mfp--process .mfp__top { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px 56px; align-items: end; }
+  @container (min-width: 860px) { .mfp--process .mfp__top { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
+  .mfp--process .mfp__top .mfp__lede { margin-top: 0; line-height: 1.4; }
+  .mfp--process .mfp__body { margin-top: 30px; }
+  .mfp--process .mfp__line { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0; }
+  @container (min-width: 900px) { .mfp--process .mfp__line { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; } }
+  .mfp--process .mfp__pstep { position: relative; padding: 0 0 24px 42px; display: grid; gap: 6px; align-content: start;
+    transition: opacity .6s ease, transform .6s cubic-bezier(.2, .8, .2, 1); }
+  .mfp--process .mfp__dot { position: absolute; left: 0; top: 0; z-index: 1; width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center;
+    font-family: var(--num); font-weight: 600; font-size: 13px; background: var(--c); color: var(--ct); }
+  /* the connector: a faint track, filled in the next step's colour as it appears */
+  .mfp--process .mfp__pstep::before, .mfp--process .mfp__pstep::after { content: ""; position: absolute; left: 13px; top: 28px; bottom: 0; width: 2px; }
+  .mfp--process .mfp__pstep::before { background: var(--rule); }
+  .mfp--process .mfp__pstep::after { background: var(--c); transform-origin: top; transition: transform .7s cubic-bezier(.2, .8, .2, 1); }
+  .mfp--process .mfp__pstep:last-child::before, .mfp--process .mfp__pstep:last-child::after { display: none; }
+  @container (min-width: 900px) {
+    .mfp--process .mfp__pstep { padding: 44px 0 0; }
+    .mfp--process .mfp__pstep::before, .mfp--process .mfp__pstep::after { left: 36px; right: -16px; top: 13px; bottom: auto; width: auto; height: 2px; }
+    .mfp--process .mfp__pstep::after { transform-origin: left; } }
+  .mfp--process .mfp__when { font-family: var(--num); font-weight: 600; font-size: 13px; letter-spacing: .02em; color: var(--muted); }
+  .mfp--process .mfp__pstep h3 { color: var(--ink); font-size: 21px; line-height: 1.15; letter-spacing: -.015em; text-transform: none; }
+  .mfp--process .mfp__pstep p { font-size: 15px; line-height: 1.38; }
+  .mfp--process .mfp__gets { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+  /* pills flood with the step's Wada colour on hover, as elsewhere on the page */
+  .mfp--process .mfp__get { position: relative; overflow: hidden; isolation: isolate; font-size: 12px; font-weight: 500; line-height: 1.2; border-radius: 999px; padding: 4px 10px;
+    background: var(--tint); color: var(--ink); cursor: default; transition: color .3s; }
+  .mfp--process .mfp__get::after { content: ""; position: absolute; inset: 0; z-index: -1; background: var(--c); transform: translateY(110%); transition: transform .4s cubic-bezier(.2, .8, .2, 1); }
+  .mfp--process .mfp__get:hover { color: var(--ct); }
+  .mfp--process .mfp__get:hover::after { transform: translateY(0); }
+  /* scroll reveal: only applied once the page script has set it up, so the block is complete without it */
+  .mfp--process[data-stage] .mfp__pstep { opacity: .14; transform: translateY(14px); }
+  .mfp--process[data-stage] .mfp__pstep::after { transform: scaleY(0); }
+  @container (min-width: 900px) { .mfp--process[data-stage] .mfp__pstep::after { transform: scaleX(0); } }
+  .mfp--process[data-stage] .mfp__pstep.is-on { opacity: 1; transform: none; }
+  .mfp--process[data-stage] .mfp__pstep.is-done::after { transform: none; }
+  .mfp--process[data-pinned] { position: relative; }
+  .mfp--process[data-pinned] .mfp__pin { position: sticky; top: max(24px, calc(50vh - var(--pin-h, 300px) / 2)); }
+  @media (prefers-reduced-motion: reduce) { .mfp--process .mfp__pstep, .mfp--process .mfp__pstep::after, .mfp--process .mfp__get, .mfp--process .mfp__get::after { transition: none; } }
+</style>
+<div class="mfp mfp--process" style="--acc:#ffefae" data-theme="light">
+<div class="mfp__pin"><p class="mfp__label">How we work</p><div class="mfp__top"><h2 class="mfp__h2">From Research to Scale</h2><p class="mfp__lede">A clear plan from day one, so you always know what&#x27;s happening and what you&#x27;ll get next.</p></div>
+<ol class="mfp__body mfp__line"><li class="mfp__pstep" style="--c:#ffefae;--ct:#233551"><span class="mfp__dot" aria-hidden="true">1</span><span class="mfp__when">Week 1</span><h3>Research</h3><p>We study your market, audience and competitors, audit your account and tracking, and agree the one number that matters.</p><div class="mfp__gets"><span class="mfp__get">Audit report</span><span class="mfp__get">Target KPI</span></div></li><li class="mfp__pstep" style="--c:#96d1aa;--ct:#233551"><span class="mfp__dot" aria-hidden="true">2</span><span class="mfp__when">Week 2</span><h3>Plan</h3><p>We map the campaigns across the funnel and brief the first round of creative.</p><div class="mfp__gets"><span class="mfp__get">Media plan</span><span class="mfp__get">Creative brief</span></div></li><li class="mfp__pstep" style="--c:#00978d;--ct:#ffffff"><span class="mfp__dot" aria-hidden="true">3</span><span class="mfp__when">Weeks 3 to 6</span><h3>Test</h3><p>We launch structured tests of angles, formats and campaign types against that number.</p><div class="mfp__gets"><span class="mfp__get">Test results</span><span class="mfp__get">Weekly report</span></div></li><li class="mfp__pstep" style="--c:#007190;--ct:#ffffff"><span class="mfp__dot" aria-hidden="true">4</span><span class="mfp__when">Month 2 onwards</span><h3>Scale</h3><p>We move budget to what wins and refresh creative before it tires, every month.</p><div class="mfp__gets"><span class="mfp__get">Monthly review</span><span class="mfp__get">New creative</span></div></li></ol></div>
+</div>

@@ -219,6 +219,8 @@ CSS = {
   .mfp--results .mfp__fimg { background: var(--fbg); display: grid; place-items: center; min-height: 260px; padding: 20px; }
   .mfp--results .mfp__fart { position: relative; display: inline-block; line-height: 0; max-width: 92%; }
   .mfp--results .mfp__fbase { display: block; width: auto; max-width: 100%; height: auto; max-height: 340px; animation: mfp-float 5s ease-in-out infinite alternate; }
+  .mfp--results .mfp__fimg--logo .mfp__fart { width: min(64%, 300px); }
+  .mfp--results .mfp__fimg--logo .mfp__fbase { width: 100%; max-height: 120px; object-fit: contain; }
   .mfp--results .mfp__layer { position: absolute; height: auto; transform-origin: 50% 50%; transition: scale .35s cubic-bezier(.2, .8, .2, 1); }
   .mfp--results .mfp__layer--wobble { animation: mfp-wobble 3.6s ease-in-out infinite alternate; }
   .mfp--results .mfp__layer--wobble-r { animation: mfp-wobble-r 4.2s ease-in-out infinite alternate; }
@@ -504,8 +506,13 @@ def results(d, g):
                      for L in lead.get("layers", []))
     img = (f'<div class="mfp__fimg" style="--fbg:{lead.get("image_bg", "#f3d23c")}"><div class="mfp__fart">'
            f'<img class="mfp__fbase" src="{asset_src(lead["image"])}" alt="{e(lead["image_alt"])}" loading="lazy">{layers}</div></div>'
-           if lead.get("image") else "")
-    facts = "".join(f'<div><dt>{e(k)}</dt><dd>{e(v)}</dd></div>' for k, v in lead.get("story", []))
+           if lead.get("image") else
+           # no product photo yet: the brand's logo on its colour, with the same gentle float
+           f'<div class="mfp__fimg mfp__fimg--logo" style="--fbg:{lead.get("image_bg", "#00978d")}"><div class="mfp__fart">'
+           f'<img class="mfp__fbase" src="{logo_src(lead["logo"])}" alt="{e(lead["brand"])}" loading="lazy"></div></div>'
+           if lead.get("logo") else "")
+    facts = "".join(f'<div><dt>{e(k)}</dt><dd>{e(v)}</dd></div>' for k, v in lead.get("story", [])
+                    if g.ok(v, f"Result story: {k} ({lead['brand']})"))
     feat_body = (f'<div class="mfp__fbody"><span class="mfp__ftag">{e(lead["brand"])} &middot; {e(d["short"])}</span>'
                  f'<b class="mfp__fnum">{e(lead["value"])}</b><span class="mfp__flabel">{e(lead["label"])}</span>'
                  + (f"<dl>{facts}</dl>" if facts else "")

@@ -1,0 +1,186 @@
+<!-- TikTok Ads page header. Paste into Page Settings > Advanced > Page Header Code Injection.
+     The schema is built from the same text as the page, so the FAQ answers match word for word.
+     The short script below plays the block animations once as they scroll into view. -->
+<script type="application/ld+json">
+[
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "@id": "https://www.majorform.co/tiktok-ads-agency-singapore/#service",
+    "name": "TikTok Ads Management",
+    "serviceType": "TikTok Ads Management",
+    "description": "MajorForm plans, produces and optimises TikTok ads for brands in Singapore and across Asia, from in-feed and Spark Ads to TikTok Shop and LIVE. One team runs strategy, creative production, media buying and measurement, so every video we make is built to be tested and tied to sales, cost per acquisition or reach.",
+    "url": "https://www.majorform.co/tiktok-ads-agency-singapore",
+    "provider": {
+      "@id": "https://www.majorform.co/#organization"
+    },
+    "areaServed": [
+      {
+        "@type": "Country",
+        "name": "Singapore"
+      },
+      {
+        "@type": "Country",
+        "name": "Malaysia"
+      },
+      {
+        "@type": "Country",
+        "name": "Indonesia"
+      },
+      {
+        "@type": "Country",
+        "name": "Philippines"
+      },
+      {
+        "@type": "Country",
+        "name": "Thailand"
+      },
+      {
+        "@type": "Country",
+        "name": "Vietnam"
+      }
+    ],
+    "category": "Performance Marketing"
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://www.majorform.co/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Performance marketing",
+        "item": "https://www.majorform.co/performance-marketing-majorform-2026"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "TikTok advertising",
+        "item": "https://www.majorform.co/tiktok-ads-agency-singapore"
+      }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "@id": "https://www.majorform.co/tiktok-ads-agency-singapore/#faq",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How much does it cost to run TikTok ads in Singapore?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "It depends on your goal and market. TikTok sets minimum daily budgets, and its algorithm needs enough conversions to learn, so we size the test budget around that, agree it with you before launch, then scale what works. Our fee is a monthly retainer, not a commission on spend."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How long before TikTok ads show results?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Most campaigns leave TikTok's learning phase within the first week or two. Clients typically see clear improvements in CPA or ROAS within 30 to 60 days, once creative testing has found winners."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What are Spark Ads?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Spark Ads run real TikTok posts, from your account or a creator's, as ads. The likes, comments and follows stay on the original post, and because they look like normal content, people are more likely to watch them."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Do you run TikTok Shop and LIVE campaigns?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. We run GMV Max campaigns for TikTok Shop and promote LIVE sessions to drive shop sales. Our TikTok livestreaming work with Blackmores delivered a 4X ecommerce ROI."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Do you make the TikTok creative in-house?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. Our production team makes native, sound-on videos for TikTok, from hooks and product demos to UGC-style ads, and we read results by creative, not just by campaign, so every round of videos learns from the last."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "TikTok or Meta: which should I start with?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Start where your customers already spend time and where you can keep making video. TikTok suits brands that can feed it native, creator-led video; Meta suits most brands first because of its reach and retargeting. Many clients run both."
+        }
+      }
+    ]
+  }
+]
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  // Match block headings to the site's own H2: measure a hidden H2 styled like a Squarespace text block
+  var host = document.querySelector(".sqs-block-content"), probe = document.createElement("div");
+  if (host) {
+  probe.className = "sqs-html-content"; probe.style.cssText = "position:absolute;visibility:hidden;left:-9999px";
+  probe.innerHTML = "<h2>Ag</h2>"; host.appendChild(probe);
+  var cs = getComputedStyle(probe.firstChild), root = document.documentElement.style;
+  root.setProperty("--mf-h2", cs.fontSize); root.setProperty("--mf-h2-font", cs.fontFamily);
+  root.setProperty("--mf-h2-weight", cs.fontWeight); root.setProperty("--mf-h2-ls", cs.letterSpacing === "normal" ? "0" : cs.letterSpacing);
+  probe.remove();
+  }
+  if ((window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches) || !window.IntersectionObserver) return;
+
+  // Process timeline: hold the section in place while steps 2, 3 and 4 appear with scroll.
+  // Falls back to revealing steps as they come into view if a parent clips overflow or the steps don't fit on screen.
+  document.querySelectorAll(".mfp--process").forEach(function (el) {
+    var steps = el.querySelectorAll(".mfp__pstep"), pin = el.querySelector(".mfp__pin");
+    if (!steps.length || !pin) return;
+    function show(n) { for (var i = 0; i < steps.length; i++) { steps[i].classList.toggle("is-on", i < n); steps[i].classList.toggle("is-done", i < n - 1); } }
+    el.setAttribute("data-stage", ""); show(1);
+    var clipped = false;
+    for (var p = el.parentElement; p && p !== document.body; p = p.parentElement) {
+      var o = getComputedStyle(p); if (/(hidden|auto|scroll|clip)/.test(o.overflow + o.overflowY)) { clipped = true; break; }
+    }
+    var h = pin.offsetHeight;
+    if (clipped || h > window.innerHeight * 0.88) {
+      var io = new IntersectionObserver(function (en) {
+        // steps light up as they enter, and reset once they drop below the screen, so scrolling back down plays it again
+        en.forEach(function (x) {
+          var i = [].indexOf.call(steps, x.target);
+          if (x.isIntersecting) { for (var k = 0; k <= i; k++) steps[k].classList.add("is-on"); if (i > 0) steps[i - 1].classList.add("is-done"); }
+          else if (i > 0 && x.boundingClientRect.top > 0) { for (var k = i; k < steps.length; k++) steps[k].classList.remove("is-on", "is-done"); steps[i - 1].classList.remove("is-done"); }
+        });
+      }, { rootMargin: "0px 0px -20% 0px" });
+      steps.forEach(function (s) { io.observe(s); });
+      window.addEventListener("scroll", function () { if (el.getBoundingClientRect().top > window.innerHeight) show(1); }, { passive: true }); return;
+    }
+    el.setAttribute("data-pinned", ""); el.style.setProperty("--pin-h", h + "px");
+    var extra = window.innerHeight * 0.45 * (steps.length - 1);
+    el.style.height = (h + extra) + "px";
+    function onScroll() {
+      var r = el.getBoundingClientRect(), span = el.offsetHeight - h, top = Math.max(24, window.innerHeight / 2 - h / 2);
+      var prog = Math.min(1, Math.max(0, (top - r.top) / span));
+      show(Math.min(steps.length, 1 + Math.floor(prog * steps.length + 0.15)));
+    }
+    window.addEventListener("scroll", onScroll, { passive: true }); window.addEventListener("resize", onScroll); onScroll();
+  });
+  document.querySelectorAll(".mfp[data-anim]").forEach(function (el) {
+    if (el.getBoundingClientRect().top < window.innerHeight * 0.8) return; // already on screen: leave at rest
+    el.classList.add("mfp-pre");
+    var io = new IntersectionObserver(function (entries) {
+      if (!entries[entries.length - 1].isIntersecting) return;
+      io.disconnect();
+      el.classList.add("mfp-in");
+      requestAnimationFrame(function () { requestAnimationFrame(function () { el.classList.remove("mfp-pre"); }); });
+    }, { threshold: 0.3 });
+    io.observe(el);
+  });
+});
+</script>
