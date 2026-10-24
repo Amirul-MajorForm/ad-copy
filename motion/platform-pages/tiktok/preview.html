@@ -466,7 +466,7 @@
 <h2 class="mfp__h2">Is MajorForm right for you on TikTok?</h2>
 <div class="mfp__body mfp__cells"><div class="mfp__cell"><h3>Good fit</h3><p>Fast-growing startups, DTC brands and regional businesses ready to grow sales with video on TikTok.</p></div><div class="mfp__cell"><h3>How we charge</h3><p>A monthly retainer, not a commission on your ad spend.</p></div><div class="mfp__cell"><h3>Starting ad spend</h3><p><span class="mfp__gap">[your answer]</span></p></div><div class="mfp__cell"><h3>Your accounts</h3><p><span class="mfp__gap">[your answer]</span></p></div></div>
 </div>
-</div><div><!-- MajorForm TikTok Ads page: FAQs (schema is in schema.html).
+</div><div><!-- MajorForm TikTok Ads page: FAQs beside a navy panel (schema is in schema.html).
      Paste into its own Squarespace Code block, with Display Source turned off. No scripts. -->
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,600&family=Space+Grotesk:wght@400;500&display=swap">
 <style>
@@ -492,26 +492,52 @@
   .mfp b .mfp__gap, .mfp em .mfp__gap { font-size: inherit; color: #ffb38a; }
   @media (prefers-reduced-motion: reduce) { .mfp * { transition: none !important; } }
 
+  .mfp--faq .mfp__fwrap { display: grid; grid-template-columns: minmax(0, 1fr); gap: 20px 48px; }
+  @container (min-width: 820px) { .mfp--faq .mfp__fwrap { grid-template-columns: minmax(0, 1fr) minmax(0, 1.75fr); align-items: start; } }
+  /* Navy panel with a small four-colour Wada tile in the corner */
+  .mfp--faq .mfp__panel { position: relative; overflow: hidden; background: #253551; border-radius: 20px; padding: 30px 28px; color: rgba(255, 255, 255, .78); }
+  .mfp--faq .mfp__panel::before { content: ""; position: absolute; right: -40px; top: -40px; width: 150px; height: 150px; border-radius: 24px; background:
+    linear-gradient(var(--t1) 0 0) 0 0 / 50% 50% no-repeat, linear-gradient(var(--t2) 0 0) 100% 0 / 50% 50% no-repeat,
+    linear-gradient(var(--t3) 0 0) 0 100% / 50% 50% no-repeat, linear-gradient(var(--t4) 0 0) 100% 100% / 50% 50% no-repeat; }
+  .mfp--faq .mfp__panel .mfp__h2 { position: relative; margin: 0 0 10px; padding-top: 70px; max-width: 12ch; color: #fff; }
+  .mfp--faq .mfp__intro { margin: 0 0 20px; font-size: 15px; line-height: 1.45; max-width: 36ch; }
+  .mfp.mfp--faq .mfp__btn--panel { background: var(--acc); border-color: var(--acc); color: var(--deep); }
+  .mfp.mfp--faq .mfp__btn--panel:hover, .mfp.mfp--faq .mfp__btn--panel:focus-visible { background: #fff; border-color: #fff; color: var(--deep); }
+  /* Questions: a Wada colour floods up behind the row on hover; the open question's number becomes a Wada dot */
   .mfp--faq .mfp__list { border-top: 1px solid var(--rule); }
   .mfp--faq details { border-bottom: 1px solid var(--rule); }
-  .mfp--faq summary { list-style: none; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 18px 2px; }
+  .mfp--faq summary { position: relative; isolation: isolate; overflow: hidden; list-style: none; cursor: pointer; display: grid; grid-template-columns: 2.6em minmax(0, 1fr) auto;
+    align-items: center; gap: 4px 12px; padding: 18px 10px; border-radius: 10px; }
   .mfp--faq summary::-webkit-details-marker { display: none; }
   .mfp--faq summary::marker { content: none; }
-  .mfp--faq h3 { color: var(--ink); font-family: inherit; font-size: 18px; font-weight: 500; line-height: 1.3; letter-spacing: -.01em; text-transform: none; }
-  .mfp--faq .mfp__icon { position: relative; flex: none; width: 30px; height: 30px; border-radius: 50%; border: 1px solid rgba(35, 53, 81, .35); transition: background .3s, border-color .3s, transform .35s cubic-bezier(.2, .8, .2, 1); }
-  .mfp--faq .mfp__icon::before, .mfp--faq .mfp__icon::after { content: ""; position: absolute; left: 50%; top: 50%; width: 11px; height: 1.5px; margin: -.75px 0 0 -5.5px; background: var(--ink); }
+  .mfp--faq summary::after { content: ""; position: absolute; inset: 0; z-index: -1; background: var(--w); opacity: .55; transform: translateY(102%); transition: transform .4s cubic-bezier(.2, .8, .2, 1); }
+  .mfp--faq summary:hover::after { transform: none; }
+  .mfp--faq summary:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+  .mfp--faq .mfp__num { justify-self: start; display: grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; font-family: var(--num);
+    font-weight: 600; font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; transition: background .3s, color .3s; }
+  .mfp--faq details[open] .mfp__num { background: var(--w); color: var(--ink); }
+  .mfp--faq h3 { margin: 0; color: var(--ink); font-family: inherit; font-size: 18px; font-weight: 500; line-height: 1.3; letter-spacing: -.01em; text-transform: none; }
+  .mfp--faq .mfp__icon { position: relative; width: 30px; height: 30px; border-radius: 50%; border: 1px solid rgba(35, 53, 81, .35); background: #fff;
+    transition: transform .35s cubic-bezier(.2, .8, .2, 1), background .3s, border-color .3s; }
+  .mfp--faq .mfp__icon::before, .mfp--faq .mfp__icon::after { content: ""; position: absolute; left: 50%; top: 50%; width: 11px; height: 1.5px; margin: -.75px 0 0 -5.5px; background: var(--ink); border-radius: 1px; }
   .mfp--faq .mfp__icon::after { transform: rotate(90deg); }
   .mfp--faq details[open] .mfp__icon { transform: rotate(45deg); background: var(--deep); border-color: var(--deep); }
   .mfp--faq details[open] .mfp__icon::before, .mfp--faq details[open] .mfp__icon::after { background: #fff; }
-  .mfp--faq summary:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; border-radius: 6px; }
-  .mfp--faq .mfp__a { padding: 0 48px 20px 2px; max-width: 72ch; font-size: 15.5px; }
+  .mfp--faq .mfp__a { margin: 0; padding: 0 52px 22px calc(2.6em + 22px); font-size: 15px; line-height: 1.5; max-width: 72ch; }
   .mfp--faq { interpolate-size: allow-keywords; }
   .mfp--faq details::details-content { height: 0; overflow: hidden; transition: height .4s cubic-bezier(.2, .8, .2, 1), content-visibility .4s allow-discrete; }
   .mfp--faq details[open]::details-content { height: auto; }
+  @container (max-width: 519px) { .mfp--faq summary { grid-template-columns: minmax(0, 1fr) auto; } .mfp--faq .mfp__num { display: none; } .mfp--faq .mfp__a { padding: 0 10px 20px; } .mfp--faq h3 { font-size: 17px; } }
+  @media (prefers-reduced-motion: reduce) { .mfp--faq summary::after, .mfp--faq .mfp__num, .mfp--faq .mfp__icon, .mfp--faq details::details-content { transition: none; } }
 </style>
 <div class="mfp mfp--faq" style="--acc:#f8b6ba;--mf-arrow:#dd4027;--mf-hi:#f8b6ba" data-theme="light">
-<h2 class="mfp__h2">TikTok Ads FAQs</h2>
-<div class="mfp__body mfp__list"><details open><summary><h3>How much does it cost to run TikTok ads in Singapore?</h3><span class="mfp__icon" aria-hidden="true"></span></summary><p class="mfp__a">It depends on your goal and market. TikTok sets minimum daily budgets, and its algorithm needs enough conversions to learn, so we size the test budget around that, agree it with you before launch, then scale what works. Our fee is a monthly retainer, not a commission on spend.</p></details><details><summary><h3>How long before TikTok ads show results?</h3><span class="mfp__icon" aria-hidden="true"></span></summary><p class="mfp__a">Most campaigns leave TikTok&#x27;s learning phase within the first week or two. Clients typically see clear improvements in CPA or ROAS within 30 to 60 days, once creative testing has found winners.</p></details><details><summary><h3>What are Spark Ads?</h3><span class="mfp__icon" aria-hidden="true"></span></summary><p class="mfp__a">Spark Ads run real TikTok posts, from your account or a creator&#x27;s, as ads. The likes, comments and follows stay on the original post, and because they look like normal content, people are more likely to watch them.</p></details><details><summary><h3>Do you run TikTok Shop and LIVE campaigns?</h3><span class="mfp__icon" aria-hidden="true"></span></summary><p class="mfp__a">Yes. We run GMV Max campaigns for TikTok Shop and promote LIVE sessions to drive shop sales. Our TikTok livestreaming work with Blackmores delivered a 4X ecommerce ROI.</p></details><details><summary><h3>Do you make the TikTok creative in-house?</h3><span class="mfp__icon" aria-hidden="true"></span></summary><p class="mfp__a">Yes. Our production team makes native, sound-on videos for TikTok, from hooks and product demos to UGC-style ads, and we read results by creative, not just by campaign, so every round of videos learns from the last.</p></details><details><summary><h3>TikTok or Meta: which should I start with?</h3><span class="mfp__icon" aria-hidden="true"></span></summary><p class="mfp__a">Start where your customers already spend time and where you can keep making video. TikTok suits brands that can feed it native, creator-led video; Meta suits most brands first because of its reach and retargeting. Many clients run both.</p></details></div>
+<div class="mfp__fwrap"><div class="mfp__panel" style="--t1:#f8b6ba;--t2:#b7c2a9;--t3:#dd4027;--t4:#0093a5"><h2 class="mfp__h2">Questions brands ask about TikTok advertising</h2><p class="mfp__intro">What brands usually ask us before we start running TikTok ads together.</p><a class="mfp__btn mfp__btn--panel" href="https://www.majorform.co/contact">Talk to our strategists <span aria-hidden="true">&rarr;</span></a></div>
+<div class="mfp__list"><details style="--w:#f8b6ba" open><summary><span class="mfp__num" aria-hidden="true">01</span><h3>How much does it cost to run TikTok ads in Singapore?</h3><span class="mfp__icon" aria-hidden="true"></span></summary><p class="mfp__a">It depends on your goal and market. TikTok sets minimum daily budgets, and its algorithm needs enough conversions to learn, so we size the test budget around that, agree it with you before launch, then scale what works. Our fee is a monthly retainer, not a commission on spend.</p></details>
+<details style="--w:#b7c2a9"><summary><span class="mfp__num" aria-hidden="true">02</span><h3>How long before TikTok ads show results?</h3><span class="mfp__icon" aria-hidden="true"></span></summary><p class="mfp__a">Most campaigns leave TikTok&#x27;s learning phase within the first week or two. Clients typically see clear improvements in CPA or ROAS within 30 to 60 days, once creative testing has found winners.</p></details>
+<details style="--w:#0093a5"><summary><span class="mfp__num" aria-hidden="true">03</span><h3>What are Spark Ads?</h3><span class="mfp__icon" aria-hidden="true"></span></summary><p class="mfp__a">Spark Ads run real TikTok posts, from your account or a creator&#x27;s, as ads. The likes, comments and follows stay on the original post, and because they look like normal content, people are more likely to watch them.</p></details>
+<details style="--w:#f8b6ba"><summary><span class="mfp__num" aria-hidden="true">04</span><h3>Do you run TikTok Shop and LIVE campaigns?</h3><span class="mfp__icon" aria-hidden="true"></span></summary><p class="mfp__a">Yes. We run GMV Max campaigns for TikTok Shop and promote LIVE sessions to drive shop sales. Our TikTok livestreaming work with Blackmores delivered a 4X ecommerce ROI.</p></details>
+<details style="--w:#b7c2a9"><summary><span class="mfp__num" aria-hidden="true">05</span><h3>Do you make the TikTok creative in-house?</h3><span class="mfp__icon" aria-hidden="true"></span></summary><p class="mfp__a">Yes. Our production team makes native, sound-on videos for TikTok, from hooks and product demos to UGC-style ads, and we read results by creative, not just by campaign, so every round of videos learns from the last.</p></details>
+<details style="--w:#0093a5"><summary><span class="mfp__num" aria-hidden="true">06</span><h3>TikTok or Meta: which should I start with?</h3><span class="mfp__icon" aria-hidden="true"></span></summary><p class="mfp__a">Start where your customers already spend time and where you can keep making video. TikTok suits brands that can feed it native, creator-led video; Meta suits most brands first because of its reach and retargeting. Many clients run both.</p></details></div></div>
 </div>
 </div><div><!-- MajorForm TikTok Ads page: related platforms and closing call to action.
      Paste into its own Squarespace Code block, with Display Source turned off. No scripts. -->

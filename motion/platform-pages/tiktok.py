@@ -165,6 +165,13 @@ PAGE = {
         ("Your accounts", None),
     ],
 
+    # FAQ in the performance page's style: navy panel with a Wada 264 tile, questions that flood with colour on hover
+    "faq_panel": {
+        "title": "Questions brands ask about TikTok advertising",
+        "intro": "What brands usually ask us before we start running TikTok ads together.",
+        "tile": ["#f8b6ba", "#b7c2a9", "#dd4027", "#0093a5"],
+        "floods": ["#f8b6ba", "#b7c2a9", "#0093a5"],
+    },
     # 8 FAQs (also written into the FAQPage schema)
     "faqs": [
         ("How much does it cost to run TikTok ads in Singapore?",

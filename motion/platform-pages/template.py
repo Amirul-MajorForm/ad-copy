@@ -321,6 +321,45 @@ CSS = {
   .mfp--faq details::details-content { height: 0; overflow: hidden; transition: height .4s cubic-bezier(.2, .8, .2, 1), content-visibility .4s allow-discrete; }
   .mfp--faq details[open]::details-content { height: auto; }
 """,
+    "faq_panel": """
+  .mfp--faq .mfp__fwrap { display: grid; grid-template-columns: minmax(0, 1fr); gap: 20px 48px; }
+  @container (min-width: 820px) { .mfp--faq .mfp__fwrap { grid-template-columns: minmax(0, 1fr) minmax(0, 1.75fr); align-items: start; } }
+  /* Navy panel with a small four-colour Wada tile in the corner */
+  .mfp--faq .mfp__panel { position: relative; overflow: hidden; background: #253551; border-radius: 20px; padding: 30px 28px; color: rgba(255, 255, 255, .78); }
+  .mfp--faq .mfp__panel::before { content: ""; position: absolute; right: -40px; top: -40px; width: 150px; height: 150px; border-radius: 24px; background:
+    linear-gradient(var(--t1) 0 0) 0 0 / 50% 50% no-repeat, linear-gradient(var(--t2) 0 0) 100% 0 / 50% 50% no-repeat,
+    linear-gradient(var(--t3) 0 0) 0 100% / 50% 50% no-repeat, linear-gradient(var(--t4) 0 0) 100% 100% / 50% 50% no-repeat; }
+  .mfp--faq .mfp__panel .mfp__h2 { position: relative; margin: 0 0 10px; padding-top: 70px; max-width: 12ch; color: #fff; }
+  .mfp--faq .mfp__intro { margin: 0 0 20px; font-size: 15px; line-height: 1.45; max-width: 36ch; }
+  .mfp.mfp--faq .mfp__btn--panel { background: var(--acc); border-color: var(--acc); color: var(--deep); }
+  .mfp.mfp--faq .mfp__btn--panel:hover, .mfp.mfp--faq .mfp__btn--panel:focus-visible { background: #fff; border-color: #fff; color: var(--deep); }
+  /* Questions: a Wada colour floods up behind the row on hover; the open question's number becomes a Wada dot */
+  .mfp--faq .mfp__list { border-top: 1px solid var(--rule); }
+  .mfp--faq details { border-bottom: 1px solid var(--rule); }
+  .mfp--faq summary { position: relative; isolation: isolate; overflow: hidden; list-style: none; cursor: pointer; display: grid; grid-template-columns: 2.6em minmax(0, 1fr) auto;
+    align-items: center; gap: 4px 12px; padding: 18px 10px; border-radius: 10px; }
+  .mfp--faq summary::-webkit-details-marker { display: none; }
+  .mfp--faq summary::marker { content: none; }
+  .mfp--faq summary::after { content: ""; position: absolute; inset: 0; z-index: -1; background: var(--w); opacity: .55; transform: translateY(102%); transition: transform .4s cubic-bezier(.2, .8, .2, 1); }
+  .mfp--faq summary:hover::after { transform: none; }
+  .mfp--faq summary:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+  .mfp--faq .mfp__num { justify-self: start; display: grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; font-family: var(--num);
+    font-weight: 600; font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; transition: background .3s, color .3s; }
+  .mfp--faq details[open] .mfp__num { background: var(--w); color: var(--ink); }
+  .mfp--faq h3 { margin: 0; color: var(--ink); font-family: inherit; font-size: 18px; font-weight: 500; line-height: 1.3; letter-spacing: -.01em; text-transform: none; }
+  .mfp--faq .mfp__icon { position: relative; width: 30px; height: 30px; border-radius: 50%; border: 1px solid rgba(35, 53, 81, .35); background: #fff;
+    transition: transform .35s cubic-bezier(.2, .8, .2, 1), background .3s, border-color .3s; }
+  .mfp--faq .mfp__icon::before, .mfp--faq .mfp__icon::after { content: ""; position: absolute; left: 50%; top: 50%; width: 11px; height: 1.5px; margin: -.75px 0 0 -5.5px; background: var(--ink); border-radius: 1px; }
+  .mfp--faq .mfp__icon::after { transform: rotate(90deg); }
+  .mfp--faq details[open] .mfp__icon { transform: rotate(45deg); background: var(--deep); border-color: var(--deep); }
+  .mfp--faq details[open] .mfp__icon::before, .mfp--faq details[open] .mfp__icon::after { background: #fff; }
+  .mfp--faq .mfp__a { margin: 0; padding: 0 52px 22px calc(2.6em + 22px); font-size: 15px; line-height: 1.5; max-width: 72ch; }
+  .mfp--faq { interpolate-size: allow-keywords; }
+  .mfp--faq details::details-content { height: 0; overflow: hidden; transition: height .4s cubic-bezier(.2, .8, .2, 1), content-visibility .4s allow-discrete; }
+  .mfp--faq details[open]::details-content { height: auto; }
+  @container (max-width: 519px) { .mfp--faq summary { grid-template-columns: minmax(0, 1fr) auto; } .mfp--faq .mfp__num { display: none; } .mfp--faq .mfp__a { padding: 0 10px 20px; } .mfp--faq h3 { font-size: 17px; } }
+  @media (prefers-reduced-motion: reduce) { .mfp--faq summary::after, .mfp--faq .mfp__num, .mfp--faq .mfp__icon, .mfp--faq details::details-content { transition: none; } }
+""",
     "related": """
   .mfp--related .mfp__links { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px; }
   .mfp--related .mfp__link { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 14px 16px; border-radius: 12px; background: var(--tint); color: var(--ink); font-weight: 500; text-decoration: none; }
@@ -359,7 +398,8 @@ def wrap(slot, d, inner, comment):
             f"     Paste into its own Squarespace Code block, with Display Source turned off. No scripts."
             + (f"\n     Set this section's background to your navy ({d['dark'][slot]}) so the block blends in." if dark else "")
             + (" Its animation comes from the page header script." if slot in viz.CSS or (slot == "hero" and d.get("hero_motion")) else "") + " -->")
-    css = BASE + CSS["types_funnel" if slot == "types" and d.get("funnel") else slot] + (viz.DARK + DARK_CSS.get(slot, "") if dark else "") + viz.CSS.get(slot, "")
+    key = "types_funnel" if slot == "types" and d.get("funnel") else "faq_panel" if slot == "faq" and d.get("faq_panel") else slot
+    css = BASE + CSS[key] + (viz.DARK + DARK_CSS.get(slot, "") if dark else "") + viz.CSS.get(slot, "")
     style = (f'--acc:{d["accent"]}' + (f';--mfp-bg:{d["dark"][slot]}' if dark else "")
              # a page on another Wada combination sets its own arrow and highlight colours; the Meta page keeps the defaults
              + (f';--mf-arrow:{d["arrow"]}' if d.get("arrow") else "") + (f';--mf-hi:{d["hi"]}' if d.get("hi") else ""))
@@ -576,11 +616,28 @@ def fit(d, g):
 
 
 def faq(d, g):
+    if d.get("faq_panel"):
+        return faq_panel(d, g)
     items = "".join(
         f'<details{" open" if i == 0 else ""}><summary><h3>{e(q)}</h3><span class="mfp__icon" aria-hidden="true"></span></summary><p class="mfp__a">{e(a)}</p></details>'
         for i, (q, a) in enumerate(d["faqs"]))
     inner = head2(f'{d["name"]} FAQs') + f'\n<div class="mfp__body mfp__list">{items}</div>'
     return wrap("faq", d, inner, "9: FAQs (schema is in schema.html)")
+
+
+def faq_panel(d, g):
+    """The FAQ in the performance page's style: a navy panel with a Wada tile beside numbered questions that flood with colour on hover."""
+    p = d["faq_panel"]
+    floods = p["floods"]
+    items = "\n".join(
+        f'<details style="--w:{floods[i % len(floods)]}"{" open" if i == 0 else ""}><summary><span class="mfp__num" aria-hidden="true">{i + 1:02d}</span>'
+        f'<h3>{e(q)}</h3><span class="mfp__icon" aria-hidden="true"></span></summary><p class="mfp__a">{e(a)}</p></details>'
+        for i, (q, a) in enumerate(d["faqs"]))
+    t = p["tile"]
+    inner = (f'<div class="mfp__fwrap"><div class="mfp__panel" style="--t1:{t[0]};--t2:{t[1]};--t3:{t[2]};--t4:{t[3]}">{head2(p["title"])}'
+             f'<p class="mfp__intro">{e(p["intro"])}</p><a class="mfp__btn mfp__btn--panel" href="{CONTACT}">Talk to our strategists <span aria-hidden="true">&rarr;</span></a></div>'
+             f'\n<div class="mfp__list">{items}</div></div>')
+    return wrap("faq", d, inner, "FAQs beside a navy panel (schema is in schema.html)")
 
 
 def related(d, g):
