@@ -116,9 +116,9 @@ PAGE = {
          "layers": [{"src": "blackmores-omega-mini.webp", "left": 17, "top": 26, "width": 29, "motion": "bob-r", "delay": -1.6},
                     {"src": "blackmores-fish-oil.webp", "left": 40, "top": 3, "width": 39, "motion": "bob", "z": 2}],
          # short TikTok callouts that pop up one after another around the products (left/top in % of the image)
-         "callouts": [{"text": "GMV Max", "left": 2, "top": 12, "bg": "#dd4027", "fg": "#ffffff"},
-                      {"text": "TikTok Shop", "left": 70, "top": 44, "bg": "#0093a5", "fg": "#ffffff"},
-                      {"text": "LIVE selling", "left": 4, "top": 80, "bg": "#ffffff", "fg": "#233551"}],
+         "callouts": [{"text": "GMV Max", "left": 9, "top": 21, "bg": "#dd4027", "fg": "#ffffff"},
+                      {"text": "ROI optimisation", "left": 60, "top": 66, "bg": "#0093a5", "fg": "#ffffff"},
+                      {"text": "Creative Scaling", "left": 4, "top": 80, "bg": "#ffffff", "fg": "#233551"}],
          "story": [("Challenge", None), ("What we did", None)]},
         {"brand": None, "value": None, "label": "result on TikTok", "url": None, "bg": "#b7c2a9"},
         {"brand": None, "value": None, "label": "result on TikTok", "url": None, "bg": "#f8b6ba"},
