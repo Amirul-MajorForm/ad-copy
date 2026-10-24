@@ -128,7 +128,7 @@ CSS = {
   .mfp--shift .mfp__we span { font-size: 11px; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; opacity: .75; }
   .mfp--shift .mfp__we p { font-size: 15px; line-height: 1.42; font-weight: 500; }
   .mfp--shift .mfp__step:not(:last-child)::after { content: "\\2193"; position: absolute; left: 50%; bottom: -11px; transform: translate(-50%, 50%); z-index: 1;
-    width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; font-size: 13px; background: #ffffff; color: #00978d; font-weight: 600; box-shadow: 0 2px 6px rgba(4, 32, 44, .25); }  /* white circle, Wada teal arrow */
+    width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; font-size: 13px; background: #ffffff; color: var(--mf-arrow, #00978d); font-weight: 600; box-shadow: 0 2px 6px rgba(4, 32, 44, .25); }  /* white circle, Wada teal arrow */
   @container (min-width: 760px) { .mfp--shift .mfp__step:not(:last-child)::after { content: "\\2192"; left: auto; right: -6px; bottom: auto; top: 50%; transform: translate(50%, -50%); } }
   .mfp--shift .mfp__close { margin-top: 22px; font-size: 16px; color: var(--ink); }
   .mfp--shift .mfp__close b { font-weight: 500; color: var(--acc2, var(--ink)); }
@@ -199,7 +199,7 @@ CSS = {
   .mfp--types .mfp__pill:hover::after { transform: translateY(0); }
   @media (prefers-reduced-motion: reduce) { .mfp--types .mfp__stage, .mfp--types .mfp__pill, .mfp--types .mfp__pill::after { transition: none; } .mfp--types .mfp__stage:hover { transform: none; } }
   .mfp--types .mfp__stage:not(:last-child)::after { content: "\\2193"; position: absolute; left: 50%; bottom: -11px; transform: translate(-50%, 50%); z-index: 1;
-    width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; font-size: 13px; background: #ffffff; color: #00978d; font-weight: 600; box-shadow: 0 2px 6px rgba(4, 32, 44, .25); }  /* white circle, Wada teal arrow */
+    width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; font-size: 13px; background: #ffffff; color: var(--mf-arrow, #00978d); font-weight: 600; box-shadow: 0 2px 6px rgba(4, 32, 44, .25); }  /* white circle, Wada teal arrow */
   @container (min-width: 820px) { .mfp--types .mfp__stage:not(:last-child)::after { content: "\\2192"; left: auto; right: -6px; bottom: auto; top: 46px; transform: translate(50%, -50%); } }
   .mfp--types .mfp__close { margin-top: 22px; font-size: 16px; color: var(--ink); }
   .mfp--types .mfp__close b { font-weight: 500; }
@@ -236,7 +236,7 @@ CSS = {
   @keyframes mfp-bob-r { from { transform: translateY(-6px) rotate(2deg); } to { transform: translateY(7px) rotate(-1.5deg); } }
   @keyframes mfp-wobble-r { from { transform: rotate(8deg) translateY(-3px); } to { transform: rotate(-7deg) translateY(5px); } }
   .mfp--results .mfp__fbody { padding: 26px; display: grid; gap: 10px; align-content: start; }
-  .mfp--results .mfp__ftag { font-size: 11px; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; color: #96d1aa; }
+  .mfp--results .mfp__ftag { font-size: 11px; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; color: var(--mf-hi, #96d1aa); }
   .mfp--results .mfp__fnum { font-family: var(--num); font-weight: 600; font-size: clamp(52px, 7cqi, 76px); line-height: .95; letter-spacing: -.045em; color: #fff; }
   .mfp--results .mfp__flabel { font-size: 16px; }
   .mfp--results .mfp__fbody dl { margin: 6px 0 0; display: grid; gap: 10px; }
@@ -354,7 +354,9 @@ def wrap(slot, d, inner, comment):
             + (f"\n     Set this section's background to your navy ({d['dark'][slot]}) so the block blends in." if dark else "")
             + (" Its animation comes from the page header script." if slot in viz.CSS or (slot == "hero" and d.get("hero_motion")) else "") + " -->")
     css = BASE + CSS["types_funnel" if slot == "types" and d.get("funnel") else slot] + (viz.DARK + DARK_CSS.get(slot, "") if dark else "") + viz.CSS.get(slot, "")
-    style = f'--acc:{d["accent"]}' + (f';--mfp-bg:{d["dark"][slot]}' if dark else "")
+    style = (f'--acc:{d["accent"]}' + (f';--mfp-bg:{d["dark"][slot]}' if dark else "")
+             # a page on another Wada combination sets its own arrow and highlight colours; the Meta page keeps the defaults
+             + (f';--mf-arrow:{d["arrow"]}' if d.get("arrow") else "") + (f';--mf-hi:{d["hi"]}' if d.get("hi") else ""))
     anim = " data-anim" if slot in viz.CSS else ""
     return (f'{head}\n{FONT}\n<style>{css}</style>\n<div class="mfp mfp--{slot}" style="{style}" '
             f'data-theme="{"dark" if dark else "light"}"{anim}>\n{inner}\n</div>\n')
@@ -600,16 +602,16 @@ DARK_CSS = {
   .mfp--hero[data-theme="dark"] .mfp__stat { background: rgba(4, 32, 44, .55); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .12); -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px); }
 """,
     "shift": """
-  .mfp--shift[data-theme="dark"] .mfp__label { color: #96d1aa; }
+  .mfp--shift[data-theme="dark"] .mfp__label { color: var(--mf-hi, #96d1aa); }
   .mfp--shift[data-theme="dark"] .mfp__step--meta { box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .28); }
   .mfp--shift[data-theme="dark"] .mfp__close { color: #fff; }
-  .mfp--shift[data-theme="dark"] .mfp__close b { color: #96d1aa; }
+  .mfp--shift[data-theme="dark"] .mfp__close b { color: var(--mf-hi, #96d1aa); }
 """,
     "types": """
-  .mfp--types[data-theme="dark"] .mfp__label { color: #96d1aa; }
+  .mfp--types[data-theme="dark"] .mfp__label { color: var(--mf-hi, #96d1aa); }
   .mfp--types[data-theme="dark"] .mfp__stage--line { box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .28); }
   .mfp--types[data-theme="dark"] .mfp__close { color: #fff; }
-  .mfp--types[data-theme="dark"] .mfp__close b { color: #96d1aa; }
+  .mfp--types[data-theme="dark"] .mfp__close b { color: var(--mf-hi, #96d1aa); }
 """,
     "problems": """
   .mfp--problems[data-theme="dark"] .mfp__fix h3 { color: var(--acc); }

@@ -139,7 +139,7 @@
   .mfp--shift .mfp__we span { font-size: 11px; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; opacity: .75; }
   .mfp--shift .mfp__we p { font-size: 15px; line-height: 1.42; font-weight: 500; }
   .mfp--shift .mfp__step:not(:last-child)::after { content: "\2193"; position: absolute; left: 50%; bottom: -11px; transform: translate(-50%, 50%); z-index: 1;
-    width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; font-size: 13px; background: #ffffff; color: #00978d; font-weight: 600; box-shadow: 0 2px 6px rgba(4, 32, 44, .25); }  /* white circle, Wada teal arrow */
+    width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; font-size: 13px; background: #ffffff; color: var(--mf-arrow, #00978d); font-weight: 600; box-shadow: 0 2px 6px rgba(4, 32, 44, .25); }  /* white circle, Wada teal arrow */
   @container (min-width: 760px) { .mfp--shift .mfp__step:not(:last-child)::after { content: "\2192"; left: auto; right: -6px; bottom: auto; top: 50%; transform: translate(50%, -50%); } }
   .mfp--shift .mfp__close { margin-top: 22px; font-size: 16px; color: var(--ink); }
   .mfp--shift .mfp__close b { font-weight: 500; color: var(--acc2, var(--ink)); }
@@ -148,10 +148,10 @@
     --tint: rgba(255, 255, 255, .06); background: var(--mfp-bg, #253551); color: var(--text); }
   .mfp[data-theme="dark"] .mfp__lede { color: rgba(243, 242, 247, .86); }
 
-  .mfp--shift[data-theme="dark"] .mfp__label { color: #96d1aa; }
+  .mfp--shift[data-theme="dark"] .mfp__label { color: var(--mf-hi, #96d1aa); }
   .mfp--shift[data-theme="dark"] .mfp__step--meta { box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .28); }
   .mfp--shift[data-theme="dark"] .mfp__close { color: #fff; }
-  .mfp--shift[data-theme="dark"] .mfp__close b { color: #96d1aa; }
+  .mfp--shift[data-theme="dark"] .mfp__close b { color: var(--mf-hi, #96d1aa); }
 </style>
 <div class="mfp mfp--shift" style="--acc:#ffefae;--mfp-bg:#253551" data-theme="dark">
 <p class="mfp__label">What&#x27;s changed on Meta</p><div class="mfp__top"><h2 class="mfp__h2">Meta has changed. Here&#x27;s how we work with it.</h2><p class="mfp__lede">Meta&#x27;s AI now does the targeting. It reads every ad, matches it to the people most likely to act, and learns from what happens next. Each of those steps needs a different skill, so here&#x27;s how we handle each one.</p></div>
@@ -219,7 +219,7 @@
   .mfp--types .mfp__pill:hover::after { transform: translateY(0); }
   @media (prefers-reduced-motion: reduce) { .mfp--types .mfp__stage, .mfp--types .mfp__pill, .mfp--types .mfp__pill::after { transition: none; } .mfp--types .mfp__stage:hover { transform: none; } }
   .mfp--types .mfp__stage:not(:last-child)::after { content: "\2193"; position: absolute; left: 50%; bottom: -11px; transform: translate(-50%, 50%); z-index: 1;
-    width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; font-size: 13px; background: #ffffff; color: #00978d; font-weight: 600; box-shadow: 0 2px 6px rgba(4, 32, 44, .25); }  /* white circle, Wada teal arrow */
+    width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; font-size: 13px; background: #ffffff; color: var(--mf-arrow, #00978d); font-weight: 600; box-shadow: 0 2px 6px rgba(4, 32, 44, .25); }  /* white circle, Wada teal arrow */
   @container (min-width: 820px) { .mfp--types .mfp__stage:not(:last-child)::after { content: "\2192"; left: auto; right: -6px; bottom: auto; top: 46px; transform: translate(50%, -50%); } }
   .mfp--types .mfp__close { margin-top: 22px; font-size: 16px; color: var(--ink); }
   .mfp--types .mfp__close b { font-weight: 500; }
@@ -228,10 +228,10 @@
     --tint: rgba(255, 255, 255, .06); background: var(--mfp-bg, #253551); color: var(--text); }
   .mfp[data-theme="dark"] .mfp__lede { color: rgba(243, 242, 247, .86); }
 
-  .mfp--types[data-theme="dark"] .mfp__label { color: #96d1aa; }
+  .mfp--types[data-theme="dark"] .mfp__label { color: var(--mf-hi, #96d1aa); }
   .mfp--types[data-theme="dark"] .mfp__stage--line { box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .28); }
   .mfp--types[data-theme="dark"] .mfp__close { color: #fff; }
-  .mfp--types[data-theme="dark"] .mfp__close b { color: #96d1aa; }
+  .mfp--types[data-theme="dark"] .mfp__close b { color: var(--mf-hi, #96d1aa); }
 </style>
 <div class="mfp mfp--types" style="--acc:#ffefae;--mfp-bg:#253551" data-theme="dark">
 <p class="mfp__label">Campaign types</p><div class="mfp__top"><h2 class="mfp__h2">Meta campaigns across the whole funnel</h2><p class="mfp__lede">Most accounts need a campaign at each stage. We set the mix by your goal and budget, then judge each campaign on its own numbers.</p></div>
@@ -295,7 +295,7 @@
   @keyframes mfp-bob-r { from { transform: translateY(-6px) rotate(2deg); } to { transform: translateY(7px) rotate(-1.5deg); } }
   @keyframes mfp-wobble-r { from { transform: rotate(8deg) translateY(-3px); } to { transform: rotate(-7deg) translateY(5px); } }
   .mfp--results .mfp__fbody { padding: 26px; display: grid; gap: 10px; align-content: start; }
-  .mfp--results .mfp__ftag { font-size: 11px; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; color: #96d1aa; }
+  .mfp--results .mfp__ftag { font-size: 11px; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; color: var(--mf-hi, #96d1aa); }
   .mfp--results .mfp__fnum { font-family: var(--num); font-weight: 600; font-size: clamp(52px, 7cqi, 76px); line-height: .95; letter-spacing: -.045em; color: #fff; }
   .mfp--results .mfp__flabel { font-size: 16px; }
   .mfp--results .mfp__fbody dl { margin: 6px 0 0; display: grid; gap: 10px; }

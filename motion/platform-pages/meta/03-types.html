@@ -59,7 +59,7 @@
   .mfp--types .mfp__pill:hover::after { transform: translateY(0); }
   @media (prefers-reduced-motion: reduce) { .mfp--types .mfp__stage, .mfp--types .mfp__pill, .mfp--types .mfp__pill::after { transition: none; } .mfp--types .mfp__stage:hover { transform: none; } }
   .mfp--types .mfp__stage:not(:last-child)::after { content: "\2193"; position: absolute; left: 50%; bottom: -11px; transform: translate(-50%, 50%); z-index: 1;
-    width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; font-size: 13px; background: #ffffff; color: #00978d; font-weight: 600; box-shadow: 0 2px 6px rgba(4, 32, 44, .25); }  /* white circle, Wada teal arrow */
+    width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; font-size: 13px; background: #ffffff; color: var(--mf-arrow, #00978d); font-weight: 600; box-shadow: 0 2px 6px rgba(4, 32, 44, .25); }  /* white circle, Wada teal arrow */
   @container (min-width: 820px) { .mfp--types .mfp__stage:not(:last-child)::after { content: "\2192"; left: auto; right: -6px; bottom: auto; top: 46px; transform: translate(50%, -50%); } }
   .mfp--types .mfp__close { margin-top: 22px; font-size: 16px; color: var(--ink); }
   .mfp--types .mfp__close b { font-weight: 500; }
@@ -68,10 +68,10 @@
     --tint: rgba(255, 255, 255, .06); background: var(--mfp-bg, #253551); color: var(--text); }
   .mfp[data-theme="dark"] .mfp__lede { color: rgba(243, 242, 247, .86); }
 
-  .mfp--types[data-theme="dark"] .mfp__label { color: #96d1aa; }
+  .mfp--types[data-theme="dark"] .mfp__label { color: var(--mf-hi, #96d1aa); }
   .mfp--types[data-theme="dark"] .mfp__stage--line { box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .28); }
   .mfp--types[data-theme="dark"] .mfp__close { color: #fff; }
-  .mfp--types[data-theme="dark"] .mfp__close b { color: #96d1aa; }
+  .mfp--types[data-theme="dark"] .mfp__close b { color: var(--mf-hi, #96d1aa); }
 </style>
 <div class="mfp mfp--types" style="--acc:#ffefae;--mfp-bg:#253551" data-theme="dark">
 <p class="mfp__label">Campaign types</p><div class="mfp__top"><h2 class="mfp__h2">Meta campaigns across the whole funnel</h2><p class="mfp__lede">Most accounts need a campaign at each stage. We set the mix by your goal and budget, then judge each campaign on its own numbers.</p></div>
