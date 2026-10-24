@@ -29,6 +29,20 @@ CASES = [
      "art": {"base": "blackmores-stage.png", "alt": "Blackmores Fish Oil 1000 and Omega Mini", "width": "min(100%, 400px)", "ratio": "7 / 5", "stage": True,
              "layers": [("blackmores-omega-mini.webp", 14, 26, 30, "bob2", -1.6, 1), ("blackmores-fish-oil.webp", 40, 3, 40, "bob", 0, 2)]},
      "callouts": [("GMV Max", 6, 20, "#dd4027", "#ffffff"), ("ROI optimisation", 58, 66, "#0093a5", "#ffffff"), ("Creative Scaling", 2, 82, "#ffffff", "#233551")]},
+    {"key": "yoga-movement", "brand": "Yoga Movement", "kicker": "Yoga Movement · Paid media", "bg": "#96d1aa",
+     "title": "Driving Sign-Ups with Yoga Movement",
+     "text": "Our work with MoveRepeat aims to drive a cohesive paid media strategy to increase sign-ups and support their aggressive growth plans.",
+     "tags": [("Lead generation", "#96d1aa"), ("Performance marketing", "#ffefae")],
+     "url": "https://www.majorform.co/our-work/yogamovement-digital-marketing-majorform-2026",
+     "art": {"base": "yoga-movement-pose.webp", "alt": "Yoga Movement instructor in a kneeling pose", "width": "min(92%, 330px)", "ratio": None, "layers": []},
+     "callouts": [("Sign-up campaigns", -2, 12, "#04202c", "#ffffff"), ("Paid media strategy", 50, 44, "#007190", "#ffffff"), ("+20% better CPA", -4, 70, "#ffffff", "#233551")]},
+    {"key": "generation-clean", "brand": "TheGenerationClean", "kicker": "TheGenerationClean · ATTITUDE", "bg": "#78cdd0", "flip": True,
+     "title": "Brand Film for TheGenerationClean",
+     "text": "To support their commercial launch of ATTITUDE products in Singapore, we created a series of brand films and shorts to showcase their household range.",
+     "tags": [("Videography", "#78cdd0"), ("Storyboarding", "#f37f94")],
+     "url": None,  # add the case study link when it is live; the button stays hidden until then
+     "art": {"base": "attitude-duo.webp", "alt": "ATTITUDE laundry stain remover and baby leaves laundry detergent", "width": "min(64%, 215px)", "ratio": None, "layers": []},
+     "callouts": [("Brand films", -16, 12, "#04202c", "#ffffff"), ("Shorts", 78, 46, "#f37f94", "#233551"), ("Singapore launch", -24, 88, "#ffffff", "#233551")]},
 ]
 
 
@@ -131,7 +145,7 @@ def card(c):
       <h3 class="mf-case__title">{e(c["title"])}</h3>
       <p class="mf-case__text">{e(c["text"])}</p>
       <div class="mf-case__tags">{tags}</div>
-      <a class="mf-case__more" href="{e(c["url"])}">Read the case study <span aria-hidden="true">&rarr;</span></a>
+      {f'<a class="mf-case__more" href="{e(c["url"])}">Read the case study <span aria-hidden="true">&rarr;</span></a>' if c.get("url") else ""}
     </div>
   </div>
 </article>
