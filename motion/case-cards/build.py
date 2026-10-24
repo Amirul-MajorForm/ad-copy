@@ -34,15 +34,16 @@ CASES = [
      "text": "Our work with MoveRepeat aims to drive a cohesive paid media strategy to increase sign-ups and support their aggressive growth plans.",
      "tags": [("Lead generation", "#96d1aa"), ("Performance marketing", "#ffefae")],
      "url": "https://www.majorform.co/our-work/yogamovement-digital-marketing-majorform-2026",
-     "art": {"base": "yoga-movement-pose.webp", "alt": "Yoga Movement instructor in a kneeling pose", "width": "min(92%, 330px)", "ratio": None, "layers": []},
-     "callouts": [("Sign-up campaigns", -2, 12, "#04202c", "#ffffff"), ("Paid media strategy", 50, 44, "#007190", "#ffffff"), ("+20% better CPA", -4, 70, "#ffffff", "#233551")]},
-    {"key": "generation-clean", "brand": "TheGenerationClean", "kicker": "TheGenerationClean · ATTITUDE", "bg": "#78cdd0", "flip": True,
-     "title": "Brand Film for TheGenerationClean",
+     # the campaign photo as is, filling the panel, with callouts placed over it (left/top in % of the panel)
+     "photo": {"src": "yoga-movement-photo.webp", "alt": "Yoga Movement instructor in a kneeling pose", "pos": "62% 50%"},
+     "callouts": [("Sign-up campaigns", 6, 12, "#04202c", "#ffffff"), ("Paid media strategy", "r3", 40, "#007190", "#ffffff"), ("+20% better CPA", 54, 84, "#ffffff", "#233551")]},
+    {"key": "generation-clean", "brand": "The Generation Clean", "kicker": "The Generation Clean · ATTITUDE", "bg": "#78cdd0", "flip": True,
+     "title": "Brand Film for The Generation Clean",
      "text": "To support their commercial launch of ATTITUDE products in Singapore, we created a series of brand films and shorts to showcase their household range.",
      "tags": [("Videography", "#78cdd0"), ("Storyboarding", "#f37f94")],
      "url": None,  # add the case study link when it is live; the button stays hidden until then
-     "art": {"base": "attitude-duo.webp", "alt": "ATTITUDE laundry stain remover and baby leaves laundry detergent", "width": "min(64%, 215px)", "ratio": None, "layers": []},
-     "callouts": [("Brand films", -16, 12, "#04202c", "#ffffff"), ("Shorts", 78, 46, "#f37f94", "#233551"), ("Singapore launch", -24, 88, "#ffffff", "#233551")]},
+     "art": {"base": "attitude-shampoo.webp", "alt": "ATTITUDE baby leaves shampoo and body wash", "width": "min(36%, 112px)", "ratio": None, "layers": []},
+     "callouts": [("Brand films", -70, 14, "#04202c", "#ffffff"), ("Shorts", -64, 50, "#f37f94", "#233551"), ("Singapore launch", 58, 90, "#ffffff", "#233551")]},
 ]
 
 
@@ -61,6 +62,9 @@ STYLE = """<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family
   @container (min-width: 760px) { .mf-case__card { grid-template-columns: minmax(0, .78fr) minmax(0, 1.22fr); } .mf-case--flip .mf-case__card { grid-template-columns: minmax(0, 1.22fr) minmax(0, .78fr); } .mf-case--flip .mf-case__stage { order: 2; } }
   /* product stage: the products float on the brand colour, callouts pop up in turn */
   .mf-case__stage { background: var(--bg); display: grid; place-items: center; min-height: 260px; padding: 26px 24px; }
+  .mf-case__stage--photo { position: relative; overflow: hidden; padding: 0; min-height: 300px; background: #d9dfe2; }
+  .mf-case__photo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform .8s cubic-bezier(.2, .8, .2, 1); }
+  .mf-case__card:hover .mf-case__photo { transform: scale(1.04); }
   .mf-case__art { position: relative; line-height: 0; }
   .mf-case__base { display: block; width: 100%; height: auto; animation: mf-case-float 5s ease-in-out infinite alternate; }
   .mf-case__art--stage .mf-case__base { opacity: 0; animation: none; }
@@ -99,7 +103,7 @@ STYLE = """<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family
   @keyframes mf-case-pop { 0% { opacity: 0; transform: translateY(8px) scale(.6); } 7% { opacity: 1; transform: translateY(-2px) scale(1.06); } 10% { transform: none; }
     62% { opacity: 1; transform: none; } 70%, 100% { opacity: 0; transform: translateY(-6px) scale(.94); } }
   @media (prefers-reduced-motion: reduce) {
-    .mf-case__card, .mf-case__layer, .mf-case__tag, .mf-case__tag::after, .mf-case__more { transition: none; }
+    .mf-case__card, .mf-case__layer, .mf-case__photo, .mf-case__tag, .mf-case__tag::after, .mf-case__more { transition: none; }
     .mf-case__card:hover { transform: none; }
     .mf-case__base, .mf-case__layer { animation: none; } .mf-case__co { animation: none; opacity: 1; }
   }
@@ -124,13 +128,34 @@ SCRIPT = """<script>
 </script>"""
 
 
+def callouts(c):
+    # a left value like "r3" pins the callout 3% from the right edge instead, so long callouts never run off narrow panels
+    return "".join(f'<span class="mf-case__co" aria-hidden="true" style="{"right:" + l[1:] if isinstance(l, str) else "left:" + str(l)}%;top:{t}%;--cb:{b};--cf:{fg};animation-delay:{i * 1.3}s">{e(x)}</span>'
+                   for i, (x, l, t, b, fg) in enumerate(c["callouts"]))
+
+
+def card_photo(c):
+    """A card whose panel is a campaign photo as is, with the callouts placed over it."""
+    ph = c["photo"]
+    stage = (f'<div class="mf-case__stage mf-case__stage--photo"><img class="mf-case__photo" src="{src(ph["src"])}" alt="{e(ph["alt"])}" '
+             f'style="object-position:{ph.get("pos", "50% 50%")}" loading="lazy">{callouts(c)}</div>')
+    return wrap_card(c, stage)
+
+
 def card(c):
+    if c.get("photo"):
+        return card_photo(c)
     a = c["art"]
     layers = "".join(f'<img class="mf-case__layer mf-case__layer--{m}" src="{src(f)}" alt="" style="left:{l}%;top:{t}%;width:{w}%;animation-delay:{d}s;z-index:{z}">'
                      for f, l, t, w, m, d, z in a["layers"])
-    cos = "".join(f'<span class="mf-case__co" aria-hidden="true" style="left:{l}%;top:{t}%;--cb:{b};--cf:{fg};animation-delay:{i * 1.3}s">{e(x)}</span>'
-                  for i, (x, l, t, b, fg) in enumerate(c["callouts"]))
+    cos = callouts(c)
     art_style = f'width:{a["width"]}' + (f';aspect-ratio:{a["ratio"]}' if a.get("ratio") else "")
+    stage = (f'<div class="mf-case__stage" style="--bg:{c["bg"]}"><div class="mf-case__art{" mf-case__art--stage" if a.get("stage") else ""}" style="{art_style}">'
+             f'<img class="mf-case__base" src="{src(a["base"])}" alt="{e(a["alt"])}" loading="lazy">{layers}{cos}</div></div>')
+    return wrap_card(c, stage)
+
+
+def wrap_card(c, stage):
     tags = "".join(f'<span class="mf-case__tag" style="--c:{col}">{e(t)}</span>' for t, col in c["tags"])
     return f"""<!-- MajorForm homepage case study card: {c["brand"]}.
      Paste into its own Squarespace Code block under your "Explore our work" heading, with Display Source turned off.
@@ -138,8 +163,7 @@ def card(c):
 {STYLE}
 <article class="mf-case{" mf-case--flip" if c.get("flip") else ""}">
   <div class="mf-case__card">
-    <div class="mf-case__stage" style="--bg:{c["bg"]}"><div class="mf-case__art{" mf-case__art--stage" if a.get("stage") else ""}" style="{art_style}">
-      <img class="mf-case__base" src="{src(a["base"])}" alt="{e(a["alt"])}" loading="lazy">{layers}{cos}</div></div>
+    {stage}
     <div class="mf-case__body">
       <p class="mf-case__kick">{e(c["kicker"])}</p>
       <h3 class="mf-case__title">{e(c["title"])}</h3>
