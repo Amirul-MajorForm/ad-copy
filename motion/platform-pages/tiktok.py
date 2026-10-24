@@ -112,9 +112,9 @@ PAGE = {
          "url": "https://www.majorform.co/our-work/blackmores-tiktok-livestreaming-majorform-2026",
          # three products staged on an empty canvas: Fish Oil in front, the others behind, each floating on its own rhythm
          "image": "blackmores-stage.png", "stage": True, "image_bg": "#f8b6ba",
-         "image_alt": "Blackmores Fish Oil 1000, Omega Mini and Hair & Scalp Ultra",
+         "image_alt": "Blackmores Fish Oil 1000, Omega Mini and Power Up",
          "layers": [{"src": "blackmores-omega-mini.webp", "left": 6, "top": 24, "width": 28, "motion": "bob-r", "delay": -1.6},
-                    {"src": "blackmores-hair-scalp.webp", "left": 66, "top": 24, "width": 28, "motion": "bob-r", "delay": -3.1},
+                    {"src": "blackmores-power-up.webp", "left": 66, "top": 24, "width": 28, "motion": "bob-r", "delay": -3.1},
                     {"src": "blackmores-fish-oil.webp", "left": 30, "top": 2, "width": 40, "motion": "bob", "z": 2}],
          "story": [("Challenge", None), ("What we did", None)]},
         {"brand": None, "value": None, "label": "result on TikTok", "url": None, "bg": "#b7c2a9"},
