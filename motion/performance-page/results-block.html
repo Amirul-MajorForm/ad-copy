@@ -3,7 +3,7 @@
      The animations come from the Performance page code injection (paste once in Page Settings).
      data-theme="light" is for white sections; use "dark" on a dark section. -->
 <section class="mf-res" id="results" data-theme="light" aria-labelledby="mf-res-title">
-  <h2 class="mf-res__title" id="mf-res-title">Performance marketing results</h2>
+  <h2 class="mf-res__title" id="mf-res-title">What performance marketing has done for our clients</h2>
   <div class="mf-res__grid">
     <a class="mf-res__card" style="--mf-hover:#ffefae" href="https://www.majorform.co/our-work/oatside-digital-marketing-majorform-2026">
       <span class="mf-res__num">+30%</span>
@@ -17,11 +17,11 @@
       <span class="mf-res__num">4X</span>
       <span class="mf-res__what">Ecommerce ROI for <b>Blackmores</b></span>
     </a>
-    <div class="mf-res__card">
+    <div class="mf-res__card" style="--mf-hover:#96d1aa">
       <span class="mf-res__num">8K</span>
       <span class="mf-res__what">App downloads for a <b>mobility brand</b></span>
     </div>
-    <div class="mf-res__card">
+    <div class="mf-res__card" style="--mf-hover:#ffefae">
       <span class="mf-res__num">&minus;30%</span>
       <span class="mf-res__what">Lower cost per lead for a <b>tuition brand</b></span>
     </div>
@@ -30,13 +30,14 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,500;9..40,600&family=Space+Grotesk:wght@400;500&display=swap">
 <style>
   /* Space Grotesk for all text, DM Sans for the numbers */
-  .mf-res { --mf-num: "DM Sans", "Helvetica Neue", Arial, sans-serif; --mf-ink: #04202c; --mf-head: #a9b8c0;
+  .mf-res { --mf-num: "DM Sans", "Helvetica Neue", Arial, sans-serif; --mf-ink: #04202c; --mf-head: #ffffff;
     width: 100%; display: grid; gap: 12px; color: #f3f2f7; font-family: "Space Grotesk", system-ui, sans-serif; container-type: inline-size; }
   /* Light theme: heading readable on a white section (cards stay navy) */
-  .mf-res[data-theme="light"] { --mf-head: #5d6270; }
-  .mf-res .mf-res__title { font-family: inherit; }
+  .mf-res[data-theme="light"] { --mf-head: #233551; }
   .mf-res *, .mf-res *::before, .mf-res *::after { box-sizing: border-box; }
-  .mf-res .mf-res__title { margin: 0; font-size: 11px; font-weight: 500; letter-spacing: .16em; text-transform: uppercase; line-height: 1.4; color: var(--mf-head); }
+  /* Section heading at the site's H2 size and font (measured by the page code injection) */
+  .mf-res .mf-res__title { margin: 0 0 8px; font-family: var(--mf-h2-font, "DM Sans", "Helvetica Neue", Arial, sans-serif); font-weight: var(--mf-h2-weight, 600);
+    font-size: var(--mf-h2, clamp(28px, 3.2vw, 40px)); line-height: 1.08; letter-spacing: var(--mf-h2-ls, -.03em); text-transform: none; text-wrap: balance; color: var(--mf-head); }
   /* Five across on desktop, then 3 + 2 (bottom two share the row), then pairs (last card full width), then one column */
   .mf-res__grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; }
   @container (max-width: 999px) { .mf-res__grid { grid-template-columns: repeat(6, minmax(0, 1fr)); } .mf-res__card { grid-column: span 2; } .mf-res__card:nth-child(n+4) { grid-column: span 3; } }
@@ -44,19 +45,19 @@
   @container (max-width: 439px) { .mf-res__grid { grid-template-columns: minmax(0, 1fr); } .mf-res__card:last-child { grid-column: auto; } }
 
   .mf-res .mf-res__card { position: relative; overflow: hidden; isolation: isolate; display: grid; gap: 4px; align-content: start; grid-template-rows: auto 1fr; padding: 20px; border-radius: 16px; background: #0a2b39; color: #f3f2f7; text-decoration: none; border: 1px solid rgba(255, 255, 255, .06); transition: transform .35s cubic-bezier(.2, .8, .2, 1), color .3s; }
-  /* Hover colour floods up from the bottom of the card */
-  .mf-res a.mf-res__card::before { content: ""; position: absolute; inset: 0; z-index: -1; background: var(--mf-hover); transform: translateY(101%); transition: transform .45s cubic-bezier(.2, .8, .2, 1); }
-  .mf-res a.mf-res__card:hover, .mf-res a.mf-res__card:focus-visible { transform: translateY(-4px); color: var(--mf-ink); }
-  .mf-res a.mf-res__card:hover::before, .mf-res a.mf-res__card:focus-visible::before { transform: translateY(0); }
+  /* Hover colour floods up from the bottom of every card; linked cards also open the case study */
+  .mf-res .mf-res__card::before { content: ""; position: absolute; inset: 0; z-index: -1; background: var(--mf-hover); transform: translateY(101%); transition: transform .45s cubic-bezier(.2, .8, .2, 1); }
+  .mf-res .mf-res__card:hover, .mf-res a.mf-res__card:focus-visible { transform: translateY(-4px); color: var(--mf-ink); }
+  .mf-res .mf-res__card:hover::before, .mf-res a.mf-res__card:focus-visible::before { transform: translateY(0); }
   .mf-res a.mf-res__card:focus-visible { outline: 2px solid #ffffff; outline-offset: 3px; }
 
   .mf-res__num { font-family: var(--mf-num); font-weight: 600; font-size: var(--mf-h2, clamp(36px, 3.4vw, 48px)); line-height: 1; margin-bottom: 4px; letter-spacing: -.04em; color: #ffffff; font-variant-numeric: tabular-nums; transition: color .3s; }
   .mf-res__what { font-size: 15px; line-height: 1.3; color: rgba(243, 242, 247, .78); transition: color .3s; }
   /* Brand names shown in capitals; the HTML keeps normal spelling for search and screen readers */
   .mf-res__what b { color: #ffffff; font-weight: 500; text-transform: uppercase; letter-spacing: .06em; font-size: .92em; transition: color .3s; }
-  .mf-res a.mf-res__card:hover .mf-res__num, .mf-res a.mf-res__card:hover .mf-res__what b,
+  .mf-res .mf-res__card:hover .mf-res__num, .mf-res .mf-res__card:hover .mf-res__what b,
   .mf-res a.mf-res__card:focus-visible .mf-res__num, .mf-res a.mf-res__card:focus-visible .mf-res__what b { color: var(--mf-ink); }
-  .mf-res a.mf-res__card:hover .mf-res__what, .mf-res a.mf-res__card:focus-visible .mf-res__what { color: rgba(4, 32, 44, .8); }
+  .mf-res .mf-res__card:hover .mf-res__what, .mf-res a.mf-res__card:focus-visible .mf-res__what { color: rgba(4, 32, 44, .8); }
 
 
   /* Entrance: only applied by the script, so the strip is always visible if scripts don't run */
@@ -69,6 +70,6 @@
 
   @media (prefers-reduced-motion: reduce) {
     .mf-res .mf-res__card, .mf-res .mf-res__card::before, .mf-res__num, .mf-res__what { transition: none; }
-    .mf-res a.mf-res__card:hover, .mf-res a.mf-res__card:focus-visible { transform: none; }
+    .mf-res .mf-res__card:hover, .mf-res a.mf-res__card:focus-visible { transform: none; }
   }
 </style>
