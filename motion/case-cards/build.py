@@ -42,7 +42,7 @@ CASES = [
      "title": "Brand Film for The Generation Clean",
      "text": "To support their commercial launch of ATTITUDE products in Singapore, we created a series of brand films and shorts to showcase their household range.",
      "tags": [("Videography", "#78cdd0"), ("Storyboarding", "#f37f94")],
-     "url": None,  # add the case study link when it is live; the button stays hidden until then
+     "url": "https://www.majorform.co/our-work/the-generation-clean-attitude-social-media-video-majorform-2026",
      "art": {"base": "attitude-shampoo.webp", "alt": "ATTITUDE baby leaves shampoo and body wash", "width": "min(36%, 112px)", "ratio": None, "layers": []},
      "callouts": [("Brand films", -70, 14, "#04202c", "#ffffff"), ("Shorts", -64, 50, "#f37f94", "#233551"), ("Singapore launch", 58, 90, "#ffffff", "#233551")]},
 ]
