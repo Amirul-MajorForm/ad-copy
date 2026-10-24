@@ -55,7 +55,8 @@ STYLE = """<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family
     container-type: inline-size; font-family: "Space Grotesk", system-ui, sans-serif; color: var(--text); }
   .mf-faq * { box-sizing: border-box; }
   .mf-faq__wrap { display: grid; grid-template-columns: minmax(0, 1fr); gap: 20px 48px; }
-  @container (min-width: 820px) { .mf-faq__wrap { grid-template-columns: minmax(0, 1fr) minmax(0, 1.75fr); } .mf-faq__panel { position: sticky; top: 100px; align-self: start; } }
+  /* Panel and questions both start at the top of the block */
+  @container (min-width: 820px) { .mf-faq__wrap { grid-template-columns: minmax(0, 1fr) minmax(0, 1.75fr); align-items: start; } }
 
   /* Navy panel with a small four-colour Wada tile in the corner */
   .mf-faq__panel { position: relative; overflow: hidden; background: var(--navy); border-radius: 20px; padding: 30px 28px; color: rgba(255, 255, 255, .78); }
