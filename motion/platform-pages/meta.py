@@ -207,4 +207,6 @@ PAGE = {
         ("Social media content", "https://www.majorform.co/social-media-management-singapore-2026"),
     ],
     "closing": "Ready to grow on Meta?",
+    "closing_sub": "Tell us your goal and we'll show you how we'd plan it.",
+    "related_floods": ["#ffefae", "#96d1aa", "#00978d"],  # pill hover colours in the closing block
 }

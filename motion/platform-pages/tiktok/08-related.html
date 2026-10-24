@@ -1,4 +1,4 @@
-<!-- MajorForm TikTok Ads page: related platforms and closing call to action.
+<!-- MajorForm TikTok Ads page: closing call to action, with related pages as pills.
      Paste into its own Squarespace Code block, with Display Source turned off. No scripts.
      Set this section's background to your navy (#2a2829) so the block blends in. -->
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,600&family=Space+Grotesk:wght@400;500&display=swap">
@@ -25,26 +25,32 @@
   .mfp b .mfp__gap, .mfp em .mfp__gap { font-size: inherit; color: #ffb38a; }
   @media (prefers-reduced-motion: reduce) { .mfp * { transition: none !important; } }
 
-  .mfp--related .mfp__links { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px; }
-  .mfp--related .mfp__link { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 14px 16px; border-radius: 12px; background: var(--tint); color: var(--ink); font-weight: 500; text-decoration: none; }
-  .mfp--related .mfp__link--up { background: var(--deep); color: #fff; }
-  .mfp--related .mfp__go { flex: none; width: 28px; height: 28px; border-radius: 50%; border: 1px solid currentColor; display: grid; place-items: center; font-size: 13px; opacity: .6; transition: transform .3s, opacity .3s; }
-  .mfp--related a.mfp__link:hover .mfp__go, .mfp--related a.mfp__link:focus-visible .mfp__go { opacity: 1; transform: rotate(-45deg); }
-  .mfp--related span.mfp__link { color: var(--muted); font-weight: 400; }
-  .mfp--related .mfp__band { margin-top: 32px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 16px; padding: 28px clamp(20px, 4cqi, 40px); border-radius: 20px; background: var(--acc); }
-  .mfp--related .mfp__band .mfp__h2 { color: var(--deep); }
+  .mfp--related .mfp__close-in { max-width: 1180px; margin: 0 auto; text-align: center; display: grid; justify-items: center; gap: 22px; }
+  .mfp--related .mfp__big { margin: 0; max-width: 14ch; font-family: var(--mf-h2-font, var(--num)); font-weight: var(--mf-h2-weight, 600); font-size: clamp(40px, 7cqi, 92px);
+    line-height: 1.02; letter-spacing: -.035em; color: var(--ink); text-transform: none; text-wrap: balance; }
+  .mfp--related .mfp__big em { font-style: normal; color: var(--acc); }
+  .mfp--related .mfp__sub { margin: -6px 0 6px; max-width: 46ch; font-size: 17px; line-height: 1.45; }
+  .mfp.mfp--related .mfp__btn--close { background: var(--acc); border-color: var(--acc); color: var(--deep); }
+  .mfp.mfp--related .mfp__btn--close:hover, .mfp.mfp--related .mfp__btn--close:focus-visible { background: #ffffff; border-color: #ffffff; color: var(--deep); }
+  .mfp--related .mfp__pills { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; width: min(100%, 940px); margin-top: 26px; padding-top: 26px; border-top: 1px solid var(--rule); }
+  .mfp--related .mfp__pills-label { width: 100%; margin: 0 0 4px; font-size: 11px; font-weight: 500; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
+  .mfp--related .mfp__pill { position: relative; overflow: hidden; isolation: isolate; display: inline-flex; align-items: center; padding: 9px 16px; border-radius: 999px;
+    border: 1px solid var(--rule); color: var(--ink); text-decoration: none; font-size: 15px; font-weight: 500; transition: color .3s, border-color .3s; }
+  .mfp--related .mfp__pill::after { content: ""; position: absolute; inset: 0; z-index: -1; background: var(--c); transform: translateY(102%); transition: transform .4s cubic-bezier(.2, .8, .2, 1); }
+  .mfp--related a.mfp__pill:hover, .mfp--related a.mfp__pill:focus-visible { color: var(--deep); border-color: var(--c); }
+  .mfp--related a.mfp__pill:hover::after, .mfp--related a.mfp__pill:focus-visible::after { transform: none; }
+  .mfp--related a.mfp__pill:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+  .mfp--related .mfp__pill--soon { color: var(--muted); border-style: dashed; font-weight: 400; }
+  @media (prefers-reduced-motion: reduce) { .mfp--related .mfp__pill, .mfp--related .mfp__pill::after { transition: none; } }
 
   .mfp[data-theme="dark"] { --ink: #ffffff; --text: rgba(243, 242, 247, .8); --muted: rgba(243, 242, 247, .6); --rule: rgba(255, 255, 255, .16);
     --tint: rgba(255, 255, 255, .06); background: var(--mfp-bg, #253551); color: var(--text); }
   .mfp[data-theme="dark"] .mfp__lede { color: rgba(243, 242, 247, .86); }
 
-  .mfp--related[data-theme="dark"] .mfp__link--up { background: #ffffff; color: #2a2829; }
-  .mfp--related[data-theme="dark"] a.mfp__link { transition: background .3s; }
-  .mfp--related[data-theme="dark"] a.mfp__link:not(.mfp__link--up):hover, .mfp--related[data-theme="dark"] a.mfp__link:not(.mfp__link--up):focus-visible { background: rgba(255, 255, 255, .12); }
-  .mfp--related[data-theme="dark"] span.mfp__link { color: rgba(243, 242, 247, .5); }
+  .mfp--related[data-theme="dark"] .mfp__pill { border-color: rgba(255, 255, 255, .28); }
+  .mfp--related[data-theme="dark"] .mfp__pill--soon { color: rgba(243, 242, 247, .4); }
 </style>
 <div class="mfp mfp--related" style="--acc:#f8b6ba;--mfp-bg:#2a2829;--mf-arrow:#dd4027;--mf-hi:#f8b6ba" data-theme="dark">
-<h2 class="mfp__h2">TikTok works best with</h2>
-<div class="mfp__body mfp__links"><a class="mfp__link mfp__link--up" href="https://www.majorform.co/performance-marketing-majorform-singapore">Performance marketing <span class="mfp__go" aria-hidden="true">&uarr;</span></a><a class="mfp__link" href="https://majorform.co/meta-ads-agency-singapore">Meta Ads <span class="mfp__go" aria-hidden="true">&rarr;</span></a><span class="mfp__link">TikTok Shop Ads</span><span class="mfp__link">Search Ads</span><a class="mfp__link" href="https://www.majorform.co/social-media-management-singapore-2026">Social media content <span class="mfp__go" aria-hidden="true">&rarr;</span></a></div>
-<div class="mfp__band"><h2 class="mfp__h2">Ready to grow on TikTok?</h2><a class="mfp__btn" href="https://www.majorform.co/contact">Talk to our strategists <span aria-hidden="true">&rarr;</span></a></div>
+<div class="mfp__close-in"><h2 class="mfp__big">Ready to grow on <em>TikTok?</em></h2><p class="mfp__sub">Tell us your goal and we&#x27;ll show you how we&#x27;d plan it.</p><a class="mfp__btn mfp__btn--close" href="https://www.majorform.co/contact">Talk to our strategists <span aria-hidden="true">&rarr;</span></a>
+<div class="mfp__pills"><p class="mfp__pills-label">TikTok works best with</p><a class="mfp__pill" href="https://www.majorform.co/performance-marketing-majorform-singapore" style="--c:#f8b6ba">Performance marketing</a><a class="mfp__pill" href="https://majorform.co/meta-ads-agency-singapore" style="--c:#b7c2a9">Meta Ads</a><a class="mfp__pill" href="https://www.majorform.co/social-media-management-singapore-2026" style="--c:#0093a5">Social media content</a><span class="mfp__pill mfp__pill--soon">TikTok Shop Ads</span><span class="mfp__pill mfp__pill--soon">Search Ads</span></div></div>
 </div>

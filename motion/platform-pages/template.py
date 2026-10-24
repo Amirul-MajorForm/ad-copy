@@ -361,14 +361,23 @@ CSS = {
   @media (prefers-reduced-motion: reduce) { .mfp--faq summary::after, .mfp--faq .mfp__num, .mfp--faq .mfp__icon, .mfp--faq details::details-content { transition: none; } }
 """,
     "related": """
-  .mfp--related .mfp__links { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px; }
-  .mfp--related .mfp__link { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 14px 16px; border-radius: 12px; background: var(--tint); color: var(--ink); font-weight: 500; text-decoration: none; }
-  .mfp--related .mfp__link--up { background: var(--deep); color: #fff; }
-  .mfp--related .mfp__go { flex: none; width: 28px; height: 28px; border-radius: 50%; border: 1px solid currentColor; display: grid; place-items: center; font-size: 13px; opacity: .6; transition: transform .3s, opacity .3s; }
-  .mfp--related a.mfp__link:hover .mfp__go, .mfp--related a.mfp__link:focus-visible .mfp__go { opacity: 1; transform: rotate(-45deg); }
-  .mfp--related span.mfp__link { color: var(--muted); font-weight: 400; }
-  .mfp--related .mfp__band { margin-top: 32px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 16px; padding: 28px clamp(20px, 4cqi, 40px); border-radius: 20px; background: var(--acc); }
-  .mfp--related .mfp__band .mfp__h2 { color: var(--deep); }
+  .mfp--related .mfp__close-in { max-width: 1180px; margin: 0 auto; text-align: center; display: grid; justify-items: center; gap: 22px; }
+  .mfp--related .mfp__big { margin: 0; max-width: 14ch; font-family: var(--mf-h2-font, var(--num)); font-weight: var(--mf-h2-weight, 600); font-size: clamp(40px, 7cqi, 92px);
+    line-height: 1.02; letter-spacing: -.035em; color: var(--ink); text-transform: none; text-wrap: balance; }
+  .mfp--related .mfp__big em { font-style: normal; color: var(--acc); }
+  .mfp--related .mfp__sub { margin: -6px 0 6px; max-width: 46ch; font-size: 17px; line-height: 1.45; }
+  .mfp.mfp--related .mfp__btn--close { background: var(--acc); border-color: var(--acc); color: var(--deep); }
+  .mfp.mfp--related .mfp__btn--close:hover, .mfp.mfp--related .mfp__btn--close:focus-visible { background: #ffffff; border-color: #ffffff; color: var(--deep); }
+  .mfp--related .mfp__pills { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; width: min(100%, 940px); margin-top: 26px; padding-top: 26px; border-top: 1px solid var(--rule); }
+  .mfp--related .mfp__pills-label { width: 100%; margin: 0 0 4px; font-size: 11px; font-weight: 500; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
+  .mfp--related .mfp__pill { position: relative; overflow: hidden; isolation: isolate; display: inline-flex; align-items: center; padding: 9px 16px; border-radius: 999px;
+    border: 1px solid var(--rule); color: var(--ink); text-decoration: none; font-size: 15px; font-weight: 500; transition: color .3s, border-color .3s; }
+  .mfp--related .mfp__pill::after { content: ""; position: absolute; inset: 0; z-index: -1; background: var(--c); transform: translateY(102%); transition: transform .4s cubic-bezier(.2, .8, .2, 1); }
+  .mfp--related a.mfp__pill:hover, .mfp--related a.mfp__pill:focus-visible { color: var(--deep); border-color: var(--c); }
+  .mfp--related a.mfp__pill:hover::after, .mfp--related a.mfp__pill:focus-visible::after { transform: none; }
+  .mfp--related a.mfp__pill:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+  .mfp--related .mfp__pill--soon { color: var(--muted); border-style: dashed; font-weight: 400; }
+  @media (prefers-reduced-motion: reduce) { .mfp--related .mfp__pill, .mfp--related .mfp__pill::after { transition: none; } }
 """,
 }
 
@@ -643,24 +652,28 @@ def faq_panel(d, g):
 
 
 def related(d, g):
-    links = [f'<a class="mfp__link mfp__link--up" href="{PERFORMANCE}">Performance marketing <span class="mfp__go" aria-hidden="true">&uarr;</span></a>']
-    for name, url in d["related"]:
+    """Closing block: one big centred line and button, with the related pages as pills that flood with Wada colour on hover."""
+    floods = d.get("related_floods", [d["accent"]])
+    pills = [f'<a class="mfp__pill" href="{PERFORMANCE}" style="--c:{floods[0]}">Performance marketing</a>']
+    # live pages first, pages still to come at the end
+    for i, (name, url) in enumerate(sorted(d["related"], key=lambda r: r[1] is None)):
         if url:
-            links.append(f'<a class="mfp__link" href="{e(url)}">{e(name)} <span class="mfp__go" aria-hidden="true">&rarr;</span></a>')
+            pills.append(f'<a class="mfp__pill" href="{e(url)}" style="--c:{floods[(i + 1) % len(floods)]}">{e(name)}</a>')
         else:
-            links.append(f'<span class="mfp__link">{e(name)}</span>')
-    inner = (head2(f'{d["short"]} works best with') + '\n<div class="mfp__body mfp__links">' + "".join(links) + "</div>"
-             f'\n<div class="mfp__band"><h2 class="mfp__h2">{e(d["closing"])}</h2><a class="mfp__btn" href="{CONTACT}">Talk to our strategists <span aria-hidden="true">&rarr;</span></a></div>')
-    return wrap("related", d, inner, "10: related platforms and closing call to action")
+            pills.append(f'<span class="mfp__pill mfp__pill--soon">{e(name)}</span>')
+    lead, _, last = d["closing"].rpartition(" ")
+    inner = (f'<div class="mfp__close-in"><h2 class="mfp__big">{e(lead)} <em>{e(last)}</em></h2>'
+             + (f'<p class="mfp__sub">{e(d["closing_sub"])}</p>' if d.get("closing_sub") else "")
+             + f'<a class="mfp__btn mfp__btn--close" href="{CONTACT}">Talk to our strategists <span aria-hidden="true">&rarr;</span></a>'
+             f'\n<div class="mfp__pills"><p class="mfp__pills-label">{e(d["short"])} works best with</p>' + "".join(pills) + "</div></div>")
+    return wrap("related", d, inner, "10: closing call to action, with related pages as pills")
 
 
 # Extra rules when a slot sits on a dark background (the navy sections, or the footer grey black for the closing block)
 DARK_CSS = {
     "related": """
-  .mfp--related[data-theme="dark"] .mfp__link--up { background: #ffffff; color: #2a2829; }
-  .mfp--related[data-theme="dark"] a.mfp__link { transition: background .3s; }
-  .mfp--related[data-theme="dark"] a.mfp__link:not(.mfp__link--up):hover, .mfp--related[data-theme="dark"] a.mfp__link:not(.mfp__link--up):focus-visible { background: rgba(255, 255, 255, .12); }
-  .mfp--related[data-theme="dark"] span.mfp__link { color: rgba(243, 242, 247, .5); }
+  .mfp--related[data-theme="dark"] .mfp__pill { border-color: rgba(255, 255, 255, .28); }
+  .mfp--related[data-theme="dark"] .mfp__pill--soon { color: rgba(243, 242, 247, .4); }
 """,
     "hero": """
   .mfp.mfp--hero[data-theme="dark"] { background: transparent; }
