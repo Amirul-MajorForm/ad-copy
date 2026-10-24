@@ -111,7 +111,7 @@ CSS = {
 """,
     "shift": """
   .mfp--shift .mfp__label { margin-bottom: 10px; font-size: 11px; font-weight: 500; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
-  .mfp--shift .mfp__top { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px 56px; align-items: end; }
+  .mfp--shift .mfp__top { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px 56px; align-items: start; }
   @container (min-width: 860px) { .mfp--shift .mfp__top { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
   .mfp--shift .mfp__top .mfp__lede { margin-top: 0; line-height: 1.45; }
   .mfp--shift .mfp__body { margin-top: 30px; }
@@ -166,7 +166,7 @@ CSS = {
 """,
     "types_funnel": """
   .mfp--types .mfp__label { margin-bottom: 10px; font-size: 11px; font-weight: 500; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
-  .mfp--types .mfp__top { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px 56px; align-items: end; }
+  .mfp--types .mfp__top { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px 56px; align-items: start; }
   @container (min-width: 860px) { .mfp--types .mfp__top { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
   .mfp--types .mfp__top .mfp__lede { margin-top: 0; line-height: 1.45; }
   .mfp--types .mfp__body { margin-top: 30px; }
@@ -206,7 +206,7 @@ CSS = {
 """,
     "results": """
   .mfp--results .mfp__label { margin-bottom: 10px; font-size: 11px; font-weight: 500; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
-  .mfp--results .mfp__top { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px 56px; align-items: end; }
+  .mfp--results .mfp__top { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px 56px; align-items: start; }
   @container (min-width: 860px) { .mfp--results .mfp__top { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
   .mfp--results .mfp__top .mfp__lede { margin-top: 0; line-height: 1.45; }
   .mfp--results .mfp__body { margin-top: 28px; }
@@ -258,7 +258,7 @@ CSS = {
 """,
     "process": """
   .mfp--process .mfp__label { margin-bottom: 10px; font-size: 11px; font-weight: 500; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
-  .mfp--process .mfp__top { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px 56px; align-items: end; }
+  .mfp--process .mfp__top { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px 56px; align-items: start; }
   @container (min-width: 860px) { .mfp--process .mfp__top { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
   .mfp--process .mfp__top .mfp__lede { margin-top: 0; line-height: 1.4; }
   .mfp--process .mfp__body { margin-top: 30px; }
@@ -473,7 +473,9 @@ def poster(d, g):
     out = f'<div class="mfp__poster"><div class="mfp__plates" style="{states}">' + "".join(cells) + "</div>"
     if d.get("logos"):
         names = d["logos"]
-        one = "".join(f'<img src="{logo_src(k)}" alt="{e(n)}" height="26">' for k, n in names) + (f'<span class="mfp__more">{e(d["logos_more"])}</span>' if d.get("logos_more") else "")
+        # with only a few logos, repeat them so one run is wider than the row and the loop has no gap (repeats are silent to screen readers)
+        reps = 1 if len(names) >= 4 else -(-6 // len(names))
+        one = "".join(f'<img src="{logo_src(k)}" alt="{e(n) if r == 0 else ""}" height="26">' for r in range(reps) for k, n in names) + (f'<span class="mfp__more">{e(d["logos_more"])}</span>' if d.get("logos_more") else "")
         # two identical runs make the loop seamless; the second is hidden from screen readers
         out += (f'<div class="mfp__logos"><p class="mfp__logos-label">{e(d.get("logos_label", "Brands we work with"))}</p>'
                 f'<div class="mfp__marquee"><div class="mfp__track"><div class="mfp__run">{one}</div><div class="mfp__run" aria-hidden="true">{one}</div></div></div></div>')

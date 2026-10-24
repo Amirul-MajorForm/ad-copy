@@ -21,10 +21,10 @@ PAGE = {
         {"value": "$2M+", "label": "Ad spend managed", "bg": "#0093a5", "fg": "#ffffff", "hover": {"bg": "#f8b6ba", "fg": "#233551"}},
         {"value": "10+", "label": "Markets in Asia", "bg": "#f8b6ba", "fg": "#233551", "hover": {"bg": "#0093a5", "fg": "#ffffff"}},
         {"value": "1 team", "label": "Strategy, creative, media and data", "bg": "#dd4027", "fg": "#ffffff", "hover": {"bg": "#b7c2a9", "fg": "#233551"}},
-        {"value": "LIVE", "label": "TikTok Shop and livestream selling", "bg": "#b7c2a9", "fg": "#233551", "hover": {"bg": "#dd4027", "fg": "#ffffff"}},
+        {"value": "300+", "label": "Campaigns run since 2025", "bg": "#b7c2a9", "fg": "#233551", "hover": {"bg": "#dd4027", "fg": "#ffffff"}},
     ],
 
-    "logos": [("blackmores", "Blackmores"), ("the-ordinary", "The Ordinary"), ("dettol", "Dettol"), ("sunday", "Sunday"), ("urban-company", "Urban Company")],
+    "logos": [("oatside", "Oatside"), ("blackmores", "Blackmores"), ("flexar", "Flexar")],
     "logos_label": "Brands we work with",
     "slug": "tiktok-ads-agency-singapore",
     "title": "TikTok Ads & Advertising Agency Singapore | MajorForm",
@@ -32,7 +32,6 @@ PAGE = {
     "service_name": "TikTok Ads Management",
     "confirm": [
         "$2M+ ad spend managed: is it right to show across all platforms here? Send a TikTok-only figure if you'd rather",
-        "The five logos are brands from your homepage marquee; swap in the ones you run TikTok for",
         "Process timings (research week 1, plan week 2, tests weeks 3 to 6, scaling from month 2) and weekly reporting",
         "Which 10+ markets to list in the schema (it names six Southeast Asian countries today)",
     ],
@@ -47,7 +46,7 @@ PAGE = {
     "stats": [
         ("$2M+", "Ad spend managed"),
         ("10+", "Asian markets"),
-        ("LIVE", "TikTok Shop and livestream selling"),
+        ("300+", "Campaigns run since 2025"),
     ],
 
     # 2 How TikTok works, and how we handle each step
