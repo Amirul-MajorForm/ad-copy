@@ -228,6 +228,12 @@ CSS = {
   .mfp--results .mfp__layer--bob { animation: mfp-bob 4.4s ease-in-out infinite alternate; }
   .mfp--results .mfp__layer--bob-r { animation: mfp-bob-r 5s ease-in-out infinite alternate; }
   .mfp--results .mfp__fimg--stage .mfp__fart { max-width: 100%; }
+  .mfp--results .mfp__callout { position: absolute; z-index: 3; display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; line-height: 1;
+    font-size: 12px; font-weight: 500; letter-spacing: .01em; padding: 7px 12px; border-radius: 999px; background: var(--cb); color: var(--cf);
+    box-shadow: 0 8px 20px -10px rgba(4, 32, 44, .55); opacity: 0; animation: mfp-callout 7.8s cubic-bezier(.2, .8, .2, 1) infinite both; }
+  .mfp--results .mfp__callout::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; opacity: .75; }
+  @keyframes mfp-callout { 0% { opacity: 0; transform: translateY(8px) scale(.6); } 7% { opacity: 1; transform: translateY(-2px) scale(1.06); } 10% { transform: none; }
+    62% { opacity: 1; transform: none; } 70%, 100% { opacity: 0; transform: translateY(-6px) scale(.94); } }
   .mfp--results .mfp__fimg--stage .mfp__fbase { opacity: 0; animation: none; }
   a.mfp__feat:hover .mfp__layer, a.mfp__feat:focus-visible .mfp__layer { scale: 1.14; }
   @keyframes mfp-float { from { transform: translateY(4px); } to { transform: translateY(-6px); } }
@@ -248,7 +254,7 @@ CSS = {
   .mfp--results .mfp__mini em { font-style: normal; font-size: 11px; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; opacity: .75; }
   .mfp--results .mfp__mini b { font-family: var(--num); font-weight: 600; font-size: clamp(40px, 5cqi, 56px); line-height: .95; letter-spacing: -.045em; }
   @media (prefers-reduced-motion: reduce) { a.mfp__feat, .mfp--results .mfp__layer { transition: none; } a.mfp__feat:hover { transform: none; }
-    .mfp--results .mfp__fbase, .mfp--results .mfp__layer { animation: none; } }
+    .mfp--results .mfp__fbase, .mfp--results .mfp__layer { animation: none; } .mfp--results .mfp__callout { animation: none; opacity: 1; } }
 """,
     "process": """
   .mfp--process .mfp__label { margin-bottom: 10px; font-size: 11px; font-weight: 500; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
@@ -513,6 +519,9 @@ def results(d, g):
     layers = "".join(f'<img class="mfp__layer mfp__layer--{e(L.get("motion", "wobble"))}" src="{asset_src(L["src"])}" alt="" '
                      f'style="left:{L["left"]}%;top:{L["top"]}%;width:{L["width"]}%;animation-delay:{L.get("delay", 0)}s{";z-index:" + str(L["z"]) if "z" in L else ""}">'
                      for L in lead.get("layers", []))
+    # callout pills that pop up in turn around the product, then fade and repeat
+    layers += "".join(f'<span class="mfp__callout" aria-hidden="true" style="left:{c["left"]}%;top:{c["top"]}%;--cb:{c["bg"]};--cf:{c["fg"]};'
+                      f'animation-delay:{i * 1.3}s">{e(c["text"])}</span>' for i, c in enumerate(lead.get("callouts", [])))
     img = (f'<div class="mfp__fimg{" mfp__fimg--stage" if lead.get("stage") else ""}" style="--fbg:{lead.get("image_bg", "#f3d23c")}"><div class="mfp__fart">'
            f'<img class="mfp__fbase" src="{asset_src(lead["image"])}" alt="{e(lead["image_alt"])}" loading="lazy">{layers}</div></div>'
            if lead.get("image") else

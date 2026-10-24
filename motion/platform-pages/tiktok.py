@@ -112,10 +112,13 @@ PAGE = {
          "url": "https://www.majorform.co/our-work/blackmores-tiktok-livestreaming-majorform-2026",
          # three products staged on an empty canvas: Fish Oil in front, the others behind, each floating on its own rhythm
          "image": "blackmores-stage.png", "stage": True, "image_bg": "#f8b6ba",
-         "image_alt": "Blackmores Fish Oil 1000, Omega Mini and Power Up",
-         "layers": [{"src": "blackmores-omega-mini.webp", "left": 6, "top": 24, "width": 28, "motion": "bob-r", "delay": -1.6},
-                    {"src": "blackmores-power-up.webp", "left": 66, "top": 24, "width": 28, "motion": "bob-r", "delay": -3.1},
-                    {"src": "blackmores-fish-oil.webp", "left": 30, "top": 2, "width": 40, "motion": "bob", "z": 2}],
+         "image_alt": "Blackmores Fish Oil 1000 and Omega Mini",
+         "layers": [{"src": "blackmores-omega-mini.webp", "left": 17, "top": 26, "width": 29, "motion": "bob-r", "delay": -1.6},
+                    {"src": "blackmores-fish-oil.webp", "left": 40, "top": 3, "width": 39, "motion": "bob", "z": 2}],
+         # short TikTok callouts that pop up one after another around the products (left/top in % of the image)
+         "callouts": [{"text": "GMV Max", "left": 2, "top": 12, "bg": "#dd4027", "fg": "#ffffff"},
+                      {"text": "TikTok Shop", "left": 70, "top": 44, "bg": "#0093a5", "fg": "#ffffff"},
+                      {"text": "LIVE selling", "left": 4, "top": 80, "bg": "#ffffff", "fg": "#233551"}],
          "story": [("Challenge", None), ("What we did", None)]},
         {"brand": None, "value": None, "label": "result on TikTok", "url": None, "bg": "#b7c2a9"},
         {"brand": None, "value": None, "label": "result on TikTok", "url": None, "bg": "#f8b6ba"},
