@@ -2,7 +2,7 @@
 
 Run: python3 build.py   -> writes <key>-card.html for each case below.
 Each card shows the products floating on a brand colour with short callouts popping up in turn, beside the story,
-the headline result, service pills and a link to the case study. Product images are embedded, so nothing needs uploading.
+service pills and a link to the case study. Product images are embedded, so nothing needs uploading.
 The only script is a short one that matches the headline to the site's H2; without it the headline uses a close fallback.
 """
 import base64, os
@@ -15,20 +15,18 @@ CASES = [
     {"key": "oatside", "brand": "OATSIDE", "kicker": "OATSIDE · Meta and Shopee", "bg": "#f3d23c",
      "title": "Scaling across APAC with OATSIDE",
      "text": "As OATSIDE's digital marketing partner, we execute full funnel campaigns across APAC ranging from large scale product launches to e-commerce campaigns.",
-     "value": "+30%", "label": "Increase in ROAS year on year", "value_color": "#ffefae",
      "tags": [("Performance marketing", "#ffefae"), ("Media consultancy", "#96d1aa"), ("Livestreaming", "#2fc2b6")],
      "url": "https://www.majorform.co/our-work/oatside-digital-marketing-majorform-2026",
      # base image, then layers placed in % of it; "stage" means the base is an empty canvas and the layers are the products
-     "art": {"base": "oatside-barista-pack.webp", "alt": "OATSIDE Barista Blend oat milk", "width": "min(46%, 160px)", "ratio": None,
+     "art": {"base": "oatside-barista-pack.webp", "alt": "OATSIDE Barista Blend oat milk", "width": "min(78%, 230px)", "ratio": None,
              "layers": [("oatside-sticker-blue.webp", 79.59, 15.05, 20.41, "wob", 0, 1), ("oatside-sticker-green.webp", 0, 34.8, 23.47, "wobr", -1.2, 1)]},
      "callouts": [("CPAS ads", -14, 8, "#04202c", "#ffffff"), ("Geo-targeting", 64, 58, "#007190", "#ffffff"), ("Shopee audiences", -10, 84, "#ffffff", "#233551")]},
     {"key": "blackmores", "brand": "Blackmores", "kicker": "Blackmores · TikTok", "bg": "#f8b6ba", "flip": True,
      "title": "Driving ROI on TikTok Shop with Blackmores",
      "text": "Inefficient spend and creative fatigue were wasting budget. We scaled creative through affiliate content and focused our ROI approach on key SKUs.",
-     "value": "+30%", "label": "Increase in ROI from TikTok GMV Max", "value_color": "#f8b6ba",
      "tags": [("Performance marketing", "#f8b6ba"), ("Livestreaming", "#b7c2a9")],
      "url": "https://www.majorform.co/our-work/blackmores-tiktok-livestreaming-majorform-2026",
-     "art": {"base": "blackmores-stage.png", "alt": "Blackmores Fish Oil 1000 and Omega Mini", "width": "min(86%, 300px)", "ratio": "7 / 5", "stage": True,
+     "art": {"base": "blackmores-stage.png", "alt": "Blackmores Fish Oil 1000 and Omega Mini", "width": "min(100%, 400px)", "ratio": "7 / 5", "stage": True,
              "layers": [("blackmores-omega-mini.webp", 14, 26, 30, "bob2", -1.6, 1), ("blackmores-fish-oil.webp", 40, 3, 40, "bob", 0, 2)]},
      "callouts": [("GMV Max", 6, 20, "#dd4027", "#ffffff"), ("ROI optimisation", 58, 66, "#0093a5", "#ffffff"), ("Creative Scaling", 2, 82, "#ffffff", "#233551")]},
 ]
@@ -48,7 +46,7 @@ STYLE = """<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family
   .mf-case__card:hover { transform: translateY(-4px); box-shadow: 0 24px 50px -28px rgba(0, 0, 0, .8); }
   @container (min-width: 760px) { .mf-case__card { grid-template-columns: minmax(0, .78fr) minmax(0, 1.22fr); } .mf-case--flip .mf-case__card { grid-template-columns: minmax(0, 1.22fr) minmax(0, .78fr); } .mf-case--flip .mf-case__stage { order: 2; } }
   /* product stage: the products float on the brand colour, callouts pop up in turn */
-  .mf-case__stage { background: var(--bg); display: grid; place-items: center; min-height: 230px; padding: 20px 36px; }
+  .mf-case__stage { background: var(--bg); display: grid; place-items: center; min-height: 260px; padding: 26px 24px; }
   .mf-case__art { position: relative; line-height: 0; }
   .mf-case__base { display: block; width: 100%; height: auto; animation: mf-case-float 5s ease-in-out infinite alternate; }
   .mf-case__art--stage .mf-case__base { opacity: 0; animation: none; }
@@ -69,17 +67,13 @@ STYLE = """<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family
     font-family: var(--mf-h2-font, "DM Sans", "Helvetica Neue", Arial, sans-serif); font-weight: var(--mf-h2-weight, 600);
     font-size: var(--mf-h2, clamp(28px, 3.2vw, 40px)); letter-spacing: var(--mf-h2-ls, -.03em); }
   .mf-case__text { margin: 0; font-size: 15px; line-height: 1.4; max-width: 72ch; }
-  .mf-case__res { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; padding: 10px 0; border-block: 1px solid var(--line); }
-  .mf-case__res .mf-case__more { margin-left: auto; }
-  .mf-case__res b { font-family: "DM Sans", "Helvetica Neue", Arial, sans-serif; font-weight: 600; font-size: clamp(32px, 3.4cqi, 40px); line-height: 1; letter-spacing: -.045em; color: var(--rc); }
-  .mf-case__res > span { font-size: 14px; font-weight: 500; color: #ffffff; }
   .mf-case__tags { display: flex; flex-wrap: wrap; gap: 8px; }
   .mf-case__tag { position: relative; overflow: hidden; isolation: isolate; padding: 5px 12px; border-radius: 999px; border: 1px solid rgba(255, 255, 255, .35); color: #ffffff;
     font-size: 13px; font-weight: 500; line-height: 1.3; cursor: default; transition: color .3s, border-color .3s; }
   .mf-case__tag::after { content: ""; position: absolute; inset: 0; z-index: -1; background: var(--c); transform: translateY(102%); transition: transform .4s cubic-bezier(.2, .8, .2, 1); }
   .mf-case__tag:hover { color: var(--deep); border-color: var(--c); }
   .mf-case__tag:hover::after { transform: none; }
-  .mf-case .mf-case__more { display: inline-flex; align-items: center; gap: 10px; padding: 10px 18px; border-radius: 999px; background: #ffffff; color: var(--deep);
+  .mf-case .mf-case__more { justify-self: start; margin-top: 4px; display: inline-flex; align-items: center; gap: 10px; padding: 10px 18px; border-radius: 999px; background: #ffffff; color: var(--deep);
     font-size: 15px; font-weight: 500; text-decoration: none; transition: gap .3s; }
   .mf-case .mf-case__more:hover, .mf-case .mf-case__more:focus-visible { gap: 16px; }
   .mf-case .mf-case__more:focus-visible { outline: 2px solid #ffffff; outline-offset: 3px; }
@@ -136,9 +130,8 @@ def card(c):
       <p class="mf-case__kick">{e(c["kicker"])}</p>
       <h3 class="mf-case__title">{e(c["title"])}</h3>
       <p class="mf-case__text">{e(c["text"])}</p>
-      <div class="mf-case__res" style="--rc:{c["value_color"]}"><b>{e(c["value"])}</b><span>{e(c["label"])}</span>
-        <a class="mf-case__more" href="{e(c["url"])}">Read the case study <span aria-hidden="true">&rarr;</span></a></div>
       <div class="mf-case__tags">{tags}</div>
+      <a class="mf-case__more" href="{e(c["url"])}">Read the case study <span aria-hidden="true">&rarr;</span></a>
     </div>
   </div>
 </article>
