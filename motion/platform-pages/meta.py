@@ -11,7 +11,7 @@ PAGE = {
     "short": "Meta",
     "accent": "#ffefae",
     # Slots placed on the site's navy sections (set those sections' background to this colour in Squarespace)
-    "dark": {"shift": "#253551", "types": "#253551"},
+    "dark": {"shift": "#253551", "types": "#253551", "related": "#2a2829"},  # the closing block sits on the footer grey black
     # Page order. "problems" is left out: block 2 now covers the same ground, so results follow it directly.
     "slots": ["hero", "shift", "types", "results", "work", "process", "fit", "faq", "related"],
     # Hero numbers as a colour plate from Wada combination 281 (no colour names shown on the page)
@@ -201,7 +201,7 @@ PAGE = {
 
     # 10 Related and closing
     "related": [
-        ("TikTok Ads", None),
+        ("TikTok Ads", "https://majorform.co/tiktok-ads-agency-singapore"),
         ("Search Ads", None),
         ("TikTok Shop Ads", None),
         ("Social media content", "https://www.majorform.co/social-media-management-singapore-2026"),

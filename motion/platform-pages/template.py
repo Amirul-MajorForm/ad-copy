@@ -15,7 +15,7 @@ import viz
 
 SITE = "https://www.majorform.co"
 CONTACT = SITE + "/contact"
-PERFORMANCE = SITE + "/performance-marketing-majorform-2026"
+PERFORMANCE = SITE + "/performance-marketing-majorform-singapore"
 
 FONT = '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,600&family=Space+Grotesk:wght@400;500&display=swap">'
 
@@ -654,8 +654,14 @@ def related(d, g):
     return wrap("related", d, inner, "10: related platforms and closing call to action")
 
 
-# Extra rules when a slot sits on the navy background
+# Extra rules when a slot sits on a dark background (the navy sections, or the footer grey black for the closing block)
 DARK_CSS = {
+    "related": """
+  .mfp--related[data-theme="dark"] .mfp__link--up { background: #ffffff; color: #2a2829; }
+  .mfp--related[data-theme="dark"] a.mfp__link { transition: background .3s; }
+  .mfp--related[data-theme="dark"] a.mfp__link:not(.mfp__link--up):hover, .mfp--related[data-theme="dark"] a.mfp__link:not(.mfp__link--up):focus-visible { background: rgba(255, 255, 255, .12); }
+  .mfp--related[data-theme="dark"] span.mfp__link { color: rgba(243, 242, 247, .5); }
+""",
     "hero": """
   .mfp.mfp--hero[data-theme="dark"] { background: transparent; }
   @container (min-width: 900px) { .mfp--hero .mfp__text { max-width: 54%; } .mfp--hero .mfp__strip { grid-template-columns: repeat(3, minmax(0, 1fr)); } }  /* beats the navy fill that other dark blocks on the page also declare */

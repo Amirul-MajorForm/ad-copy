@@ -14,7 +14,7 @@ PAGE = {
     "arrow": "#dd4027",  # arrow on the white circles between cards
     "hi": "#f8b6ba",  # highlight text on the navy sections and the results tag
     # Slots placed on the site's navy sections (set those sections' background to this colour in Squarespace)
-    "dark": {"shift": "#253551", "types": "#253551"},
+    "dark": {"shift": "#253551", "types": "#253551", "related": "#2a2829"},  # the closing block sits on the footer grey black
     "slots": ["hero", "shift", "types", "results", "work", "process", "fit", "faq", "related"],
     # Hero numbers as a colour plate from Wada combination 264 (the Meta page uses 281)
     "poster": [
