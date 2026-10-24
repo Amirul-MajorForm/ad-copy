@@ -224,9 +224,16 @@ CSS = {
   .mfp--results .mfp__layer { position: absolute; height: auto; transform-origin: 50% 50%; transition: scale .35s cubic-bezier(.2, .8, .2, 1); }
   .mfp--results .mfp__layer--wobble { animation: mfp-wobble 3.6s ease-in-out infinite alternate; }
   .mfp--results .mfp__layer--wobble-r { animation: mfp-wobble-r 4.2s ease-in-out infinite alternate; }
+  /* bob: a gentler float with a slight tilt, for products that should stay upright */
+  .mfp--results .mfp__layer--bob { animation: mfp-bob 4.4s ease-in-out infinite alternate; }
+  .mfp--results .mfp__layer--bob-r { animation: mfp-bob-r 5s ease-in-out infinite alternate; }
+  .mfp--results .mfp__fimg--stage .mfp__fart { max-width: 100%; }
+  .mfp--results .mfp__fimg--stage .mfp__fbase { opacity: 0; animation: none; }
   a.mfp__feat:hover .mfp__layer, a.mfp__feat:focus-visible .mfp__layer { scale: 1.14; }
   @keyframes mfp-float { from { transform: translateY(4px); } to { transform: translateY(-6px); } }
   @keyframes mfp-wobble { from { transform: rotate(-9deg) translateY(2px); } to { transform: rotate(7deg) translateY(-6px); } }
+  @keyframes mfp-bob { from { transform: translateY(6px) rotate(-2deg); } to { transform: translateY(-8px) rotate(2deg); } }
+  @keyframes mfp-bob-r { from { transform: translateY(-6px) rotate(2deg); } to { transform: translateY(7px) rotate(-1.5deg); } }
   @keyframes mfp-wobble-r { from { transform: rotate(8deg) translateY(-3px); } to { transform: rotate(-7deg) translateY(5px); } }
   .mfp--results .mfp__fbody { padding: 26px; display: grid; gap: 10px; align-content: start; }
   .mfp--results .mfp__ftag { font-size: 11px; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; color: #96d1aa; }
@@ -502,9 +509,9 @@ def results(d, g):
     # the featured case: product on its colour, the number, challenge and approach, link to the case study
     # product art: a base image plus optional layers (e.g. stickers) placed in % of it, each with its own gentle motion
     layers = "".join(f'<img class="mfp__layer mfp__layer--{e(L.get("motion", "wobble"))}" src="{asset_src(L["src"])}" alt="" '
-                     f'style="left:{L["left"]}%;top:{L["top"]}%;width:{L["width"]}%;animation-delay:{L.get("delay", 0)}s">'
+                     f'style="left:{L["left"]}%;top:{L["top"]}%;width:{L["width"]}%;animation-delay:{L.get("delay", 0)}s{";z-index:" + str(L["z"]) if "z" in L else ""}">'
                      for L in lead.get("layers", []))
-    img = (f'<div class="mfp__fimg" style="--fbg:{lead.get("image_bg", "#f3d23c")}"><div class="mfp__fart">'
+    img = (f'<div class="mfp__fimg{" mfp__fimg--stage" if lead.get("stage") else ""}" style="--fbg:{lead.get("image_bg", "#f3d23c")}"><div class="mfp__fart">'
            f'<img class="mfp__fbase" src="{asset_src(lead["image"])}" alt="{e(lead["image_alt"])}" loading="lazy">{layers}</div></div>'
            if lead.get("image") else
            # no product photo yet: the brand's logo on its colour, with the same gentle float

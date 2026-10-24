@@ -283,9 +283,16 @@
   .mfp--results .mfp__layer { position: absolute; height: auto; transform-origin: 50% 50%; transition: scale .35s cubic-bezier(.2, .8, .2, 1); }
   .mfp--results .mfp__layer--wobble { animation: mfp-wobble 3.6s ease-in-out infinite alternate; }
   .mfp--results .mfp__layer--wobble-r { animation: mfp-wobble-r 4.2s ease-in-out infinite alternate; }
+  /* bob: a gentler float with a slight tilt, for products that should stay upright */
+  .mfp--results .mfp__layer--bob { animation: mfp-bob 4.4s ease-in-out infinite alternate; }
+  .mfp--results .mfp__layer--bob-r { animation: mfp-bob-r 5s ease-in-out infinite alternate; }
+  .mfp--results .mfp__fimg--stage .mfp__fart { max-width: 100%; }
+  .mfp--results .mfp__fimg--stage .mfp__fbase { opacity: 0; animation: none; }
   a.mfp__feat:hover .mfp__layer, a.mfp__feat:focus-visible .mfp__layer { scale: 1.14; }
   @keyframes mfp-float { from { transform: translateY(4px); } to { transform: translateY(-6px); } }
   @keyframes mfp-wobble { from { transform: rotate(-9deg) translateY(2px); } to { transform: rotate(7deg) translateY(-6px); } }
+  @keyframes mfp-bob { from { transform: translateY(6px) rotate(-2deg); } to { transform: translateY(-8px) rotate(2deg); } }
+  @keyframes mfp-bob-r { from { transform: translateY(-6px) rotate(2deg); } to { transform: translateY(7px) rotate(-1.5deg); } }
   @keyframes mfp-wobble-r { from { transform: rotate(8deg) translateY(-3px); } to { transform: rotate(-7deg) translateY(5px); } }
   .mfp--results .mfp__fbody { padding: 26px; display: grid; gap: 10px; align-content: start; }
   .mfp--results .mfp__ftag { font-size: 11px; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; color: #96d1aa; }
