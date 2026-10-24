@@ -51,24 +51,24 @@ PAGE = {
         ("LIVE", "TikTok Shop and livestream selling"),
     ],
 
-    # 2 What's changed
+    # 2 How TikTok works, and how we handle each step
     "shift": {
-        "label": "What's changed on TikTok",
-        "title": "TikTok has changed. Here's how we work with it.",
-        "lede": ("TikTok shows each video to people based on what they watch, not who they follow. It tries every ad on a "
-                 "small audience, then scales what holds attention. Each of those steps needs a different skill, so here's "
-                 "how we handle each one."),
+        "label": "How TikTok works",
+        "title": "How TikTok works, and how we work with it.",
+        "lede": ("TikTok shows each video to people based on what they watch, not who they follow. Doing well there takes "
+                 "three things: creative people stop for, room for the algorithm to find buyers, and results tied to sales. "
+                 "Here's how we handle each one."),
         "we_label": "How we handle it",
         "steps": [
             {"who": "you", "bg": "#ffefae", "fg": "#233551", "title": "Creative made for the feed",
-             "changed": "Ads that look like ads get scrolled past. TikTok rewards videos that feel native and hook people in the first few seconds, and tires of them quickly.",
+             "changed": "People scroll fast, and ads that look like ads get skipped. TikTok rewards videos that feel native and hook people in the first few seconds, and tires of them quickly.",
              "we": "Our in-house production team makes native, sound-on videos and tests new hooks and formats continuously."},
             {"who": "meta", "bg": "transparent", "fg": "rgba(243, 242, 247, .86)", "title": "TikTok's algorithm finds the audience",
-             "changed": "Broad targeting and Smart+ campaigns now find buyers better than narrow interests, as long as the algorithm has room and budget to learn.",
+             "changed": "TikTok tries each video on a small audience, then shows it to more people like the ones who watched. Broad targeting and Smart+ campaigns usually beat narrow interests, as long as the algorithm has room and budget to learn.",
              "we": "We build simple, broad campaigns with clear testing rules, and boost the best organic and creator posts as Spark Ads."},
             {"who": "you", "bg": "#96d1aa", "fg": "#233551", "title": "Measured on business outcomes",
              "changed": "Many people see a TikTok ad, then search or buy later somewhere else, so last-click reports undercount what TikTok drives.",
-             "we": "We set up the TikTok Pixel and Events API, and judge results on revenue, ROAS or cost per customer, not views."},
+             "we": "We set up TikTok tracking properly and judge results on revenue, ROAS or cost per customer, not views."},
         ],
         "close_lead": "One team, all three steps.",
         "close": "Strategy, creative, media and data, working together on your account.",
