@@ -3,7 +3,8 @@
 Run: python3 build.py   -> writes <key>-card.html for each case below.
 Each card shows the products floating on a brand colour with short callouts popping up in turn, beside the story,
 service pills and a link to the case study. Product images are embedded, so nothing needs uploading.
-The only script is a short one that matches the headline to the site's H2; without it the headline uses a close fallback.
+The cards have no scripts, so the Squarespace editor shows them at their true size. The headline matches the site's H2
+through homepage-header.html (paste once in the homepage's Page Header Code Injection); without it, a close fallback size is used.
 """
 import base64, os
 from html import escape as e
@@ -109,8 +110,10 @@ STYLE = """<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family
   }
 </style>"""
 
-# Match the headline to the site's H2: measure a hidden H2 styled like a Squarespace text block (runs once per page)
-SCRIPT = """<script>
+# Homepage header code: match the cards' headlines to the site's H2 by measuring a hidden H2 styled like a Squarespace text block
+SCRIPT = """<!-- MajorForm homepage header: matches the case study card headlines to your site's H2 size.
+     Paste once into the homepage's Page Settings > Advanced > Page Header Code Injection (below anything already there). -->
+<script>
 (function () {
   if (window.mfCaseH2) return; window.mfCaseH2 = true;
   function measure() {
@@ -159,7 +162,8 @@ def wrap_card(c, stage):
     tags = "".join(f'<span class="mf-case__tag" style="--c:{col}">{e(t)}</span>' for t, col in c["tags"])
     return f"""<!-- MajorForm homepage case study card: {c["brand"]}.
      Paste into its own Squarespace Code block under your "Explore our work" heading, with Display Source turned off.
-     Images are embedded, so nothing needs uploading. Add one block per case study; cards alternate sides. -->
+     No scripts, so the editor shows its true size. Images are embedded, so nothing needs uploading.
+     Add one block per case study; cards alternate sides. The headline matches your H2 via homepage-header.html. -->
 {STYLE}
 <article class="mf-case{" mf-case--flip" if c.get("flip") else ""}">
   <div class="mf-case__card">
@@ -173,10 +177,10 @@ def wrap_card(c, stage):
     </div>
   </div>
 </article>
-{SCRIPT}
 """
 
 
+open(os.path.join(HERE, "homepage-header.html"), "w").write(SCRIPT + "\n")
 for c in CASES:
     html = card(c)
     open(os.path.join(HERE, f'{c["key"]}-card.html'), "w").write(html)

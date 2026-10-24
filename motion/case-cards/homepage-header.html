@@ -1,0 +1,18 @@
+<!-- MajorForm homepage header: matches the case study card headlines to your site's H2 size.
+     Paste once into the homepage's Page Settings > Advanced > Page Header Code Injection (below anything already there). -->
+<script>
+(function () {
+  if (window.mfCaseH2) return; window.mfCaseH2 = true;
+  function measure() {
+    var host = document.querySelector(".sqs-block-content"); if (!host) return;
+    var probe = document.createElement("div"); probe.className = "sqs-html-content"; probe.style.cssText = "position:absolute;visibility:hidden;left:-9999px";
+    probe.innerHTML = "<h2>Ag</h2>"; host.appendChild(probe);
+    var cs = getComputedStyle(probe.firstChild), root = document.documentElement.style;
+    root.setProperty("--mf-h2", cs.fontSize); root.setProperty("--mf-h2-font", cs.fontFamily);
+    root.setProperty("--mf-h2-weight", cs.fontWeight); root.setProperty("--mf-h2-ls", cs.letterSpacing === "normal" ? "0" : cs.letterSpacing);
+    probe.remove();
+  }
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", measure); else measure();
+  window.addEventListener("resize", measure);
+})();
+</script>

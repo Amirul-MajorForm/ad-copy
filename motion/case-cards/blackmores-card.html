@@ -1,6 +1,7 @@
 <!-- MajorForm homepage case study card: Blackmores.
      Paste into its own Squarespace Code block under your "Explore our work" heading, with Display Source turned off.
-     Images are embedded, so nothing needs uploading. Add one block per case study; cards alternate sides. -->
+     No scripts, so the editor shows its true size. Images are embedded, so nothing needs uploading.
+     Add one block per case study; cards alternate sides. The headline matches your H2 via homepage-header.html. -->
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,500;9..40,600&family=Space+Grotesk:wght@400;500&display=swap">
 <style>
   .mf-case { --deep: #04202c; --line: rgba(255, 255, 255, .16); container-type: inline-size; font-family: "Space Grotesk", system-ui, sans-serif; color: rgba(243, 242, 247, .8); }
@@ -69,19 +70,3 @@
     </div>
   </div>
 </article>
-<script>
-(function () {
-  if (window.mfCaseH2) return; window.mfCaseH2 = true;
-  function measure() {
-    var host = document.querySelector(".sqs-block-content"); if (!host) return;
-    var probe = document.createElement("div"); probe.className = "sqs-html-content"; probe.style.cssText = "position:absolute;visibility:hidden;left:-9999px";
-    probe.innerHTML = "<h2>Ag</h2>"; host.appendChild(probe);
-    var cs = getComputedStyle(probe.firstChild), root = document.documentElement.style;
-    root.setProperty("--mf-h2", cs.fontSize); root.setProperty("--mf-h2-font", cs.fontFamily);
-    root.setProperty("--mf-h2-weight", cs.fontWeight); root.setProperty("--mf-h2-ls", cs.letterSpacing === "normal" ? "0" : cs.letterSpacing);
-    probe.remove();
-  }
-  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", measure); else measure();
-  window.addEventListener("resize", measure);
-})();
-</script>
