@@ -23,10 +23,12 @@ function sheetCsvUrl(url) {
   return `https://docs.google.com/spreadsheets/d/${id}/export?format=csv&gid=${gid}`;
 }
 
-// The same tab through Google's other CSV address, used if the export fails.
-function sheetGvizUrl(url) {
+// The same tab through Google's other CSV address, used if the export fails. With
+// a tab name, that tab of the sheet instead (e.g. "Product Tips").
+function sheetGvizUrl(url, tabName) {
   const id = sheetDocId(url);
   if (!id) return null;
+  if (tabName) return `https://docs.google.com/spreadsheets/d/${id}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(tabName)}`;
   const gid = (url.match(/[#&?]gid=(\d+)/) || [])[1] || '0';
   return `https://docs.google.com/spreadsheets/d/${id}/gviz/tq?tqx=out:csv&gid=${gid}`;
 }
@@ -211,4 +213,50 @@ function sheetSettings(parsed, now, templates) {
     }
   }
   return { sale, warnings, settings: { generalMessages: general.join('\n'), countdownMessages: countdown.join('\n') } };
+}
+
+// Lowercase letters and digits only, so "Wonder Shield" matches "Wondershield".
+function normalizeKey(text) {
+  return (text || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+}
+
+// Product tips tab: Keywords | Only during sale | Pin | Tip message.
+function parseTipsSheet(csvText) {
+  const rows = parseCsv(csvText).filter((r) => r.some((c) => c.trim()));
+  if (!rows.length) return { tips: [], problems: ['The tips sheet is empty.'] };
+  const header = rows[0].map((h) => h.trim().toLowerCase());
+  const col = (re) => header.findIndex((h) => re.test(h));
+  const C = { keywords: col(/keyword/), sale: col(/only during|sale/), pin: col(/^pin/), message: col(/message|tip/) };
+  if (C.keywords < 0 || C.message < 0) {
+    return {
+      tips: [],
+      problems: ['No "Product Tips" tab found. Add a tab named Product Tips whose first row is: Keywords, Only during sale, Pin, Tip message.']
+    };
+  }
+  const tips = [];
+  const problems = [];
+  rows.slice(1).forEach((r, i) => {
+    const line = i + 2;
+    const get = (c) => (c >= 0 ? (r[c] || '').trim() : '');
+    const keywords = get(C.keywords).split(',').map((k) => k.trim()).filter(Boolean);
+    const message = get(C.message);
+    if (!message && !keywords.length) return;
+    if (!keywords.length) return problems.push(`Tips row ${line}: add keywords from the product name.`);
+    if (!message) return problems.push(`Tips row ${line} (${keywords.join(', ')}): the tip message is empty.`);
+    if (message.length > MAX_CHARS) problems.push(`Tips row ${line} (${keywords.join(', ')}): ${message.length} characters, over ${MAX_CHARS}.`);
+    const bad = (message.match(/\{[^}]*\}/g) || []).filter((c) => !/^\{(product|price|lowprice)\}$/i.test(c));
+    if (bad.length) problems.push(`Tips row ${line}: ${bad.join(' ')} is not a known code. Use {product} {price} {lowprice}.`);
+    tips.push({ line, keywords, onlyDuring: get(C.sale), pin: /^(y|yes|true|1|✓|✔|x)$/i.test(get(C.pin)), message });
+  });
+  return { tips, problems };
+}
+
+// Tips usable now, as "keyword, keyword | message" lines. A tip with "Only during
+// sale" is used only while a sale whose name contains it is on.
+function tipsSettings(parsed, saleName) {
+  const sale = normalizeKey(saleName);
+  return parsed.tips
+    .filter((t) => !t.onlyDuring || (sale && sale.includes(normalizeKey(t.onlyDuring))))
+    .map((t) => `${t.keywords.join(', ')} | ${t.pin ? '[pin] ' : ''}${t.message}`)
+    .join('\n');
 }

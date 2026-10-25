@@ -5,6 +5,9 @@ const DEFAULT_SETTINGS = {
   // Google Sheet with the messages and sale periods. When set, its messages are used
   // instead of the boxes below (see sheet.js for the layout).
   sheetUrl: '',
+  // Tab of the sheet above with product tips (Keywords | Only during sale | Pin | Tip message).
+  // When it's read, it replaces the product tips below.
+  tipsTabName: 'Product Tips',
   retiredSheetUrls: [],
   intervalMinutes: 10,
   jitterMinutes: 1,

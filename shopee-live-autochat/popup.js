@@ -15,9 +15,11 @@ async function save() {
     values[f] = $(f).type === 'number' ? Number($(f).value) : $(f).value.trim();
   }
   // Keep following the built-in sheet link (so updates can change it) unless it was changed here.
-  if (values.sheetUrl === DEFAULT_SETTINGS.sheetUrl) {
-    delete values.sheetUrl;
-    await chrome.storage.local.remove('sheetUrl');
+  for (const key of ['sheetUrl']) {
+    if (values[key] === DEFAULT_SETTINGS[key]) {
+      delete values[key];
+      await chrome.storage.local.remove(key);
+    }
   }
   await chrome.storage.local.set(values);
 }
@@ -45,6 +47,7 @@ async function loadForm() {
   const s = res ? res.settings : { ...DEFAULT_SETTINGS, ...(await chrome.storage.local.get(FIELDS)) };
   for (const f of FIELDS) $(f).value = s[f];
   showSheet(res && res.sheet);
+  showTipsSheet(res && res.sheet && res.sheet.tips);
 }
 
 function ago(time) {
@@ -82,6 +85,29 @@ function showSheet(sheet) {
     const div = document.createElement('div');
     div.className = 'bad';
     div.textContent = w;
+    problems.appendChild(div);
+  }
+}
+
+function showTipsSheet(tips) {
+  const fromSheet = !!(tips && tips.active);
+  $('productTips').readOnly = fromSheet;
+  document.querySelectorAll('.from-tips').forEach((e) => (e.hidden = !fromSheet));
+  const status = $('tipsStatus');
+  const problems = $('tipsProblems');
+  problems.innerHTML = '';
+  if (!tips || !tips.url) {
+    status.textContent = '';
+    return;
+  }
+  status.textContent = fromSheet
+    ? `Product tips: ${tips.count} from the "${tips.tab}" tab · read ${ago(tips.fetchedAt)}`
+    : `Product tips: "${tips.tab}" tab not read yet, so the tips below are used.`;
+  for (const text of [tips.error && tips.error + (fromSheet ? ' Using the last copy read.' : ''), ...(tips.warnings || [])]) {
+    if (!text) continue;
+    const div = document.createElement('div');
+    div.className = 'bad';
+    div.textContent = text;
     problems.appendChild(div);
   }
 }
@@ -127,8 +153,8 @@ function showPreview() {
   previewSection('When a product is pinned', lines('productMessages').map((text) => ({ text })));
   previewSection(`Product tips, ${$('tipDelaySeconds').value}s later`, lines('productTips').map(split).map((t) => ({ prefix: `${t.prefix}: `, text: t.text })));
   previewSection('Countdown', lines('countdownMessages').map(split).map((t) => ({ prefix: `${t.prefix} min left: `, text: t.text })));
-  const problems = $('sheetProblems').textContent;
-  if (problems) previewSection('Problems to fix in the sheet', [...$('sheetProblems').children].map((d) => ({ text: d.textContent })));
+  const problems = [...$('sheetProblems').children, ...$('tipsProblems').children].map((d) => ({ text: d.textContent }));
+  if (problems.length) previewSection('Problems to fix in the sheets', problems);
 }
 
 $('previewBtn').onclick = async () => {

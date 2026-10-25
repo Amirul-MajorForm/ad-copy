@@ -45,6 +45,9 @@ dashboard). When nothing is showing, it uses your general messages instead.
   A template is skipped when a fact it uses is blank. Extra messages are added one per line.
 - Read on Start and every 10 minutes (or **Refresh**). If it can't be read, the last copy read is
   used; with no copy, the built-in messages. **Preview** lists everything that will be posted today.
+- Product tips come from the sheet's **Product Tips** tab (`tipsTabName`): `Keywords | Only during sale | Pin | Tip message`.
+  A tip matches when all its keywords are in the pinned product's name (ignoring spaces and capitals);
+  the most keywords wins, then the higher row. "Only during sale" limits a tip to sales whose name contains it.
 - `retiredSheetUrls` in a client's defaults: a saved link to one of these is replaced on update.
 - The sheet must be shared as "Anyone with the link: Viewer".
 

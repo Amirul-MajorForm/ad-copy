@@ -4,8 +4,8 @@ const ALARM = 'shopee-autochat-next';
 const SHEET_ALARM = 'shopee-autochat-sheet';
 const LIVE_URL = 'https://live.shopee.sg/pc/*';
 
-// Settings saved in the popup, with the messages replaced by the Google Sheet's
-// when a sheet link is set and the sheet has been read.
+// Settings saved in the popup, with messages replaced by the Google Sheets'
+// (sales sheet: general and countdown messages; tips sheet: product tips) once read.
 async function getSettings() {
   const stored = await chrome.storage.local.get(Object.keys(DEFAULT_SETTINGS));
   const s = { ...DEFAULT_SETTINGS, ...stored };
@@ -13,55 +13,101 @@ async function getSettings() {
   // Sheet messages replace the built-in ones; if the sheet gives none (e.g. no
   // everyday row), the built-in ones are kept.
   if (sheet) for (const [k, v] of Object.entries(sheet.settings)) if (v) s[k] = v;
+  const tips = await currentTips(s, sheet && sheet.sale ? sheet.sale.name : '');
+  if (tips) s.productTips = tips;
   return s;
 }
 
+async function cached(cacheKey, url, kind) {
+  if (!url) return null;
+  const { [cacheKey]: cache } = await chrome.storage.local.get(cacheKey);
+  return cache && cache.url === url && cache.parsed && cache.parsed[kind] ? cache : null;
+}
+
 async function currentSheet(s) {
-  if (!s.sheetUrl) return null;
-  const { sheetCache } = await chrome.storage.local.get('sheetCache');
-  if (!sheetCache || sheetCache.url !== s.sheetUrl || !sheetCache.parsed || !sheetCache.parsed.sales) return null;
-  return sheetSettings(sheetCache.parsed, Date.now(), templatesOf(s));
+  const cache = await cached('sheetCache', s.sheetUrl, 'sales');
+  return cache && sheetSettings(cache.parsed, Date.now(), templatesOf(s));
+}
+
+async function currentTips(s, saleName) {
+  const cache = await cached('tipsCache', s.sheetUrl, 'tips');
+  return cache && tipsSettings(cache.parsed, saleName);
 }
 
 function templatesOf(s) {
   return { general: s.generalTemplates, countdown: s.countdownTemplates };
 }
 
-// Read the sheet, unless it was read in the last few minutes. If it can't be
-// read, the last good copy keeps being used.
-async function refreshSheet({ force = false } = {}) {
-  const { sheetUrl = DEFAULT_SETTINGS.sheetUrl, sheetCache } = await chrome.storage.local.get(['sheetUrl', 'sheetCache']);
-  if (!sheetUrl) return sheetStatus();
-  const fresh = sheetCache && sheetCache.url === sheetUrl && sheetCache.parsed && sheetCache.parsed.sales && !sheetCache.error;
-  if (!force && fresh && Date.now() - sheetCache.fetchedAt < SHEET_REFRESH_MINUTES * 60000) return sheetStatus();
-
-  const keep = sheetCache && sheetCache.url === sheetUrl ? sheetCache : { url: sheetUrl };
-  // After a failed read, retry automatically at most once a minute (Refresh always retries).
-  if (!force && keep.error && Date.now() - keep.errorAt < 60000) return sheetStatus();
-  try {
-    const csvUrl = sheetCsvUrl(sheetUrl);
-    if (/\/d\/e\//.test(sheetUrl)) throw new Error('Use the normal sheet link (Share > Copy link), not the "Publish to web" link.');
-    if (!csvUrl) throw new Error("This doesn't look like a Google Sheet link.");
-    const text = await fetchSheetCsv(sheetUrl);
-    const parsed = parseSheet(text);
-    if (!parsed.sales.length && !parsed.everyday) throw new Error(parsed.problems[0] || 'No sales found in the sheet.');
-    await chrome.storage.local.set({ sheetCache: { url: sheetUrl, fetchedAt: Date.now(), parsed, error: null } });
-  } catch (e) {
-    if (!keep.error) await addLog({ ok: false, text: 'Google Sheet: ' + e.message });
-    await chrome.storage.local.set({ sheetCache: { ...keep, error: e.message, errorAt: Date.now() } });
+// The two sheets: which setting holds the link, where the copy is kept, and how to read it.
+const SHEETS = [
+  {
+    urlKey: 'sheetUrl',
+    cacheKey: 'sheetCache',
+    kind: 'sales',
+    label: 'Sales sheet',
+    parse: (text) => {
+      const parsed = parseSheet(text);
+      if (!parsed.sales.length && !parsed.everyday) throw new Error(parsed.problems[0] || 'No sales found in the sheet.');
+      return parsed;
+    }
+  },
+  {
+    // The "Product Tips" tab of the same sheet.
+    urlKey: 'sheetUrl',
+    tab: DEFAULT_SETTINGS.tipsTabName,
+    cacheKey: 'tipsCache',
+    kind: 'tips',
+    label: 'Product Tips tab',
+    parse: (text) => {
+      const parsed = parseTipsSheet(text);
+      if (!parsed.tips.length) throw new Error(parsed.problems[0] || 'No tips found in the sheet.');
+      return parsed;
+    }
   }
+];
+
+// Read the sheets, unless read in the last few minutes. If one can't be read,
+// its last good copy keeps being used.
+async function refreshSheet({ force = false } = {}) {
+  for (const sheet of SHEETS) await refreshOne(sheet, force);
   return sheetStatus();
+}
+
+async function refreshOne({ urlKey, tab, cacheKey, kind, label, parse }, force) {
+  const stored = await chrome.storage.local.get([urlKey, cacheKey]);
+  const url = stored[urlKey] === undefined ? DEFAULT_SETTINGS[urlKey] : stored[urlKey];
+  const cache = stored[cacheKey];
+  if (!url) return;
+  const keep = cache && cache.url === url ? cache : { url };
+  const fresh = keep.parsed && keep.parsed[kind] && !keep.error;
+  if (!force && fresh && Date.now() - keep.fetchedAt < SHEET_REFRESH_MINUTES * 60000) return;
+  // After a failed read, retry automatically at most once a minute (Refresh always retries).
+  if (!force && keep.error && Date.now() - keep.errorAt < 60000) return;
+  try {
+    if (/\/d\/e\//.test(url)) throw new Error('Use the normal sheet link (Share > Copy link), not the "Publish to web" link.');
+    if (!sheetCsvUrl(url)) throw new Error("This doesn't look like a Google Sheet link.");
+    const parsed = parse(await fetchSheetCsv(url, tab));
+    await chrome.storage.local.set({ [cacheKey]: { url, fetchedAt: Date.now(), parsed, error: null } });
+  } catch (e) {
+    if (!keep.error) await addLog({ ok: false, text: `${label}: ${e.message}` });
+    await chrome.storage.local.set({ [cacheKey]: { ...keep, error: e.message, errorAt: Date.now() } });
+  }
 }
 
 // Try the sheet's CSV without Chrome's Google sign-in first (a shared sheet needs
 // none, and a signed-in request can get an account page instead), then Google's
 // other CSV address, then with the sign-in. The error says what each attempt got.
-async function fetchSheetCsv(sheetUrl) {
-  const attempts = [
-    [sheetCsvUrl(sheetUrl), 'omit'],
-    [sheetGvizUrl(sheetUrl), 'omit'],
-    [sheetCsvUrl(sheetUrl), 'include']
-  ];
+async function fetchSheetCsv(sheetUrl, tab) {
+  const attempts = tab
+    ? [
+        [sheetGvizUrl(sheetUrl, tab), 'omit'],
+        [sheetGvizUrl(sheetUrl, tab), 'include']
+      ]
+    : [
+        [sheetCsvUrl(sheetUrl), 'omit'],
+        [sheetGvizUrl(sheetUrl), 'omit'],
+        [sheetCsvUrl(sheetUrl), 'include']
+      ];
   const got = [];
   for (const [url, credentials] of attempts) {
     try {
@@ -80,20 +126,34 @@ async function fetchSheetCsv(sheetUrl) {
   );
 }
 
-// What the popup shows about the sheet.
+// What the popup shows about the sheets.
 async function sheetStatus() {
-  const stored = await chrome.storage.local.get(['sheetUrl', 'sheetCache']);
-  const url = stored.sheetUrl === undefined ? DEFAULT_SETTINGS.sheetUrl : stored.sheetUrl;
-  if (!url) return { url: '' };
-  const cache = stored.sheetCache && stored.sheetCache.url === url ? stored.sheetCache : null;
-  const status = { url, fetchedAt: cache && cache.fetchedAt, error: cache && cache.error };
-  if (cache && cache.parsed && cache.parsed.sales) {
-    const s = { ...DEFAULT_SETTINGS, ...(await chrome.storage.local.get(Object.keys(DEFAULT_SETTINGS))) };
-    const sheet = sheetSettings(cache.parsed, Date.now(), templatesOf(s));
-    const sale = sheet.sale ? { name: sheet.sale.name, everyday: !sheet.sale.name && !sheet.sale.start } : null;
-    Object.assign(status, { active: true, sale, warnings: [...cache.parsed.problems, ...sheet.warnings] });
+  const s = { ...DEFAULT_SETTINGS, ...(await chrome.storage.local.get(Object.keys(DEFAULT_SETTINGS))) };
+  const { sheetCache, tipsCache } = await chrome.storage.local.get(['sheetCache', 'tipsCache']);
+
+  const sales = { url: s.sheetUrl || '' };
+  let saleName = '';
+  if (sales.url) {
+    const cache = sheetCache && sheetCache.url === sales.url ? sheetCache : null;
+    Object.assign(sales, { fetchedAt: cache && cache.fetchedAt, error: cache && cache.error });
+    if (cache && cache.parsed && cache.parsed.sales) {
+      const sheet = sheetSettings(cache.parsed, Date.now(), templatesOf(s));
+      const sale = sheet.sale ? { name: sheet.sale.name, everyday: !sheet.sale.start } : null;
+      saleName = sale ? sale.name : '';
+      Object.assign(sales, { active: true, sale, warnings: [...cache.parsed.problems, ...sheet.warnings] });
+    }
   }
-  return status;
+
+  const tips = { url: s.sheetUrl || '', tab: s.tipsTabName };
+  if (tips.url) {
+    const cache = tipsCache && tipsCache.url === tips.url ? tipsCache : null;
+    Object.assign(tips, { fetchedAt: cache && cache.fetchedAt, error: cache && cache.error });
+    if (cache && cache.parsed && cache.parsed.tips) {
+      const today = tipsSettings(cache.parsed, saleName).split('\n').filter(Boolean).length;
+      Object.assign(tips, { active: true, count: today, warnings: cache.parsed.problems });
+    }
+  }
+  return { ...sales, tips };
 }
 
 function parseLines(text) {
@@ -107,18 +167,24 @@ function parseLines(text) {
     });
 }
 
-// Product tips: "keyword | message" lines. The first keyword found in the
-// showing product's name picks the tip message for that product.
+// Product tips: "keyword, keyword | message" lines. A line matches when all its
+// keywords are in the pinned product's name (ignoring spaces, capitals and
+// punctuation). The line with the most keywords wins, so a product-specific tip
+// beats a range-wide one; on a tie, the higher line wins.
 function findTip(product, tipsText) {
   if (!product) return null;
-  const name = product.name.toLowerCase();
+  const name = normalizeKey(product.name);
+  let best = null;
   for (const line of (tipsText || '').split('\n')) {
     const m = line.match(/^\s*([^|]+?)\s*\|\s*(.+?)\s*$/);
-    if (m && name.includes(m[1].toLowerCase())) {
-      return { template: m[2].replace(/^\[pin\]\s*/i, ''), pin: /^\[pin\]/i.test(m[2]) };
+    if (!m) continue;
+    const keywords = m[1].split(',').map(normalizeKey).filter(Boolean);
+    if (!keywords.length || !keywords.every((k) => name.includes(k))) continue;
+    if (!best || keywords.length > best.score) {
+      best = { score: keywords.length, template: m[2].replace(/^\[pin\]\s*/i, ''), pin: /^\[pin\]/i.test(m[2]) };
     }
   }
-  return null;
+  return best && { template: best.template, pin: best.pin };
 }
 
 function fill(template, product) {

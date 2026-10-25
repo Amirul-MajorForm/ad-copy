@@ -6,6 +6,9 @@ const DEFAULT_SETTINGS = {
   // instead of the boxes below (see sheet.js for the layout).
   sheetUrl: 'https://docs.google.com/spreadsheets/d/1fFNZJTmtRWPHiuDYAXWD83tKJEZ9ll_uW2wn9T3JTVU/edit',
   // Earlier sheet links: if one is saved in Chrome, the link above replaces it on update.
+  // Tab of the sheet above with product tips (Keywords | Only during sale | Pin | Tip message).
+  // When it's read, it replaces the product tips below.
+  tipsTabName: 'Product Tips',
   retiredSheetUrls: ['https://docs.google.com/spreadsheets/d/1xSBTo-CfSvPyPBAJQG1Rca5Cbdzk_gsZq9a5eJtu3js/edit'],
   intervalMinutes: 10,
   jitterMinutes: 1,

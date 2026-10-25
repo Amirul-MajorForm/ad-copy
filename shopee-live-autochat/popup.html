@@ -53,7 +53,7 @@
     #preview li { margin-bottom: 3px; }
     #preview .pin { font-size: 10px; background: var(--navy); color: var(--white); border-radius: 3px; padding: 0 4px; margin-right: 4px; }
     #sheetStatus { margin-bottom: 4px; }
-    #sheetProblems div { font-size: 11px; margin-bottom: 3px; }
+    #sheetProblems div, #tipsProblems div { font-size: 11px; margin-bottom: 3px; }
     .tag { font: 500 10px 'Space Grotesk', sans-serif; background: var(--navy); color: var(--white); border-radius: 4px; padding: 1px 5px; }
     textarea[readonly] { background: var(--navy-soft); color: var(--muted); }
     footer { display: flex; align-items: center; justify-content: center; gap: 6px; padding: 10px 14px 12px;
@@ -82,13 +82,16 @@
   </div>
   <div id="preview" hidden></div>
 
-  <label>Google Sheet <span class="hint">sale dates and promo details come from this sheet</span></label>
+  <label>Google Sheet <span class="hint">sale dates, promo details and product tips come from this sheet</span></label>
   <div class="row">
     <input id="sheetUrl" type="text" placeholder="Paste the Google Sheet link" style="flex: 1; padding: 5px 6px">
     <button id="refreshSheet">Refresh</button>
   </div>
   <div id="sheetStatus" class="hint"></div>
   <div id="sheetProblems"></div>
+
+  <div id="tipsStatus" class="hint"></div>
+  <div id="tipsProblems"></div>
 
   <div class="row" style="margin-top: 10px">
     Every <input id="intervalMinutes" type="number" min="1"> min, give or take
@@ -100,7 +103,7 @@
     <span class="hint">(0 = never)</span>
   </div>
 
-  <label>Product tips <span class="hint">keyword | message. Sent after the product message when the pinned product's name contains the keyword</span></label>
+  <label>Product tips <span class="from-tips tag" hidden>from Google Sheet</span> <span class="hint">keywords | message. Sent after the product message to the pinned product whose name contains all the keywords; the most keywords wins</span></label>
   <div class="row">Send <input id="tipDelaySeconds" type="number" min="0"> seconds after the product message</div>
   <textarea id="productTips" placeholder="Luminoforce | 💡 SUBLIMIC Luminoforce is for coloured hair ✨"></textarea>
 
