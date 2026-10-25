@@ -82,7 +82,7 @@
   </div>
   <div id="preview" hidden></div>
 
-  <label>Google Sheet <span class="hint">messages and sale periods come from this sheet when set</span></label>
+  <label>Google Sheet <span class="hint">sale dates and promo details come from this sheet</span></label>
   <div class="row">
     <input id="sheetUrl" type="text" placeholder="Paste the Google Sheet link" style="flex: 1; padding: 5px 6px">
     <button id="refreshSheet">Refresh</button>
@@ -107,10 +107,12 @@
   <label>Product messages <span class="hint">used when a product is showing. {product} {price} {lowprice}</span></label>
   <textarea id="productMessages"></textarea>
 
-  <label>General messages <span class="from-sheet tag" hidden>from Google Sheet, today</span> <span class="hint">used when nothing is showing, and mixed in while a product is</span></label>
+  <label>General messages <span class="from-sheet tag" hidden>details from Google Sheet</span> <span class="hint">used when nothing is showing, and mixed in while a product is</span></label>
+  <div class="from-sheet hint" hidden>Wording is built into the extension. The sale name and promo details come from today's row in the Google Sheet; a blank cell skips its message. Extra messages from the sheet are added at the end.</div>
   <textarea id="generalMessages"></textarea>
 
-  <label>Countdown messages <span class="from-sheet tag" hidden>from Google Sheet, today</span> <span class="hint">minutes left | message</span></label>
+  <label>Countdown messages <span class="from-sheet tag" hidden>details from Google Sheet</span> <span class="hint">minutes left | message</span></label>
+  <div class="from-sheet hint" hidden>Wording is built in. The sale name and Spend &amp; Win details come from today's row in the sheet.</div>
   <div class="row">Live length <input id="liveDurationMinutes" type="number" min="1"> min</div>
   <textarea id="countdownMessages"></textarea>
   <div class="hint">One message per line. Start a message with [pin] to pin it. Max 150 characters each.</div>
