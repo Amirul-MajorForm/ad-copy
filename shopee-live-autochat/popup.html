@@ -46,6 +46,12 @@
     #log:empty { display: none; }
     #client { font-size: 12px; }
     .bad { color: var(--error); }
+    #preview { border: 1px solid var(--line); border-radius: 6px; padding: 8px 10px; margin-bottom: 10px; font-size: 12px; max-height: 320px; overflow-y: auto; }
+    #preview h2 { font: 600 12px 'DM Sans', sans-serif; margin: 8px 0 4px; }
+    #preview h2:first-child { margin-top: 0; }
+    #preview ol { margin: 0; padding-left: 18px; }
+    #preview li { margin-bottom: 3px; }
+    #preview .pin { font-size: 10px; background: var(--navy); color: var(--white); border-radius: 3px; padding: 0 4px; margin-right: 4px; }
     #sheetStatus { margin-bottom: 4px; }
     #sheetProblems div { font-size: 11px; margin-bottom: 3px; }
     .tag { font: 500 10px 'Space Grotesk', sans-serif; background: var(--navy); color: var(--white); border-radius: 4px; padding: 1px 5px; }
@@ -72,7 +78,9 @@
     <button id="toggle" class="primary">Start</button>
     <button id="sendNow">Send one now</button>
     <button id="save">Save</button>
+    <button id="previewBtn">Preview</button>
   </div>
+  <div id="preview" hidden></div>
 
   <label>Google Sheet <span class="hint">messages and sale periods come from this sheet when set</span></label>
   <div class="row">
@@ -92,17 +100,17 @@
     <span class="hint">(0 = never)</span>
   </div>
 
-  <label>Product tips <span class="from-sheet tag" hidden>from Google Sheet</span> <span class="hint">keyword | message. Sent after the product message when the pinned product's name contains the keyword</span></label>
+  <label>Product tips <span class="hint">keyword | message. Sent after the product message when the pinned product's name contains the keyword</span></label>
   <div class="row">Send <input id="tipDelaySeconds" type="number" min="0"> seconds after the product message</div>
   <textarea id="productTips" placeholder="Luminoforce | 💡 SUBLIMIC Luminoforce is for coloured hair ✨"></textarea>
 
-  <label>Product messages <span class="from-sheet tag" hidden>from Google Sheet</span> <span class="hint">used when a product is showing. {product} {price} {lowprice}</span></label>
+  <label>Product messages <span class="hint">used when a product is showing. {product} {price} {lowprice}</span></label>
   <textarea id="productMessages"></textarea>
 
-  <label>General messages <span class="from-sheet tag" hidden>from Google Sheet</span> <span class="hint">used when nothing is showing, and mixed in while a product is</span></label>
+  <label>General messages <span class="from-sheet tag" hidden>from Google Sheet, today</span> <span class="hint">used when nothing is showing, and mixed in while a product is</span></label>
   <textarea id="generalMessages"></textarea>
 
-  <label>Countdown messages <span class="from-sheet tag" hidden>from Google Sheet</span> <span class="hint">minutes left | message</span></label>
+  <label>Countdown messages <span class="from-sheet tag" hidden>from Google Sheet, today</span> <span class="hint">minutes left | message</span></label>
   <div class="row">Live length <input id="liveDurationMinutes" type="number" min="1"> min</div>
   <textarea id="countdownMessages"></textarea>
   <div class="hint">One message per line. Start a message with [pin] to pin it. Max 150 characters each.</div>

@@ -6,13 +6,18 @@ const clientMatch = chrome.runtime.getManifest().name.match(/\((.+)\)$/);
 $('client').textContent = clientMatch ? clientMatch[1] : '';
 
 // Message boxes that come from the Google Sheet while one is connected.
-const SHEET_FIELDS = ['productTips', 'productMessages', 'generalMessages', 'countdownMessages'];
+const SHEET_FIELDS = ['generalMessages', 'countdownMessages'];
 
 async function save() {
   const values = {};
   for (const f of FIELDS) {
     if ($(f).readOnly) continue;
     values[f] = $(f).type === 'number' ? Number($(f).value) : $(f).value.trim();
+  }
+  // Keep following the built-in sheet link (so updates can change it) unless it was changed here.
+  if (values.sheetUrl === DEFAULT_SETTINGS.sheetUrl) {
+    delete values.sheetUrl;
+    await chrome.storage.local.remove('sheetUrl');
   }
   await chrome.storage.local.set(values);
 }
@@ -60,7 +65,9 @@ function showSheet(sheet) {
     return;
   }
   if (fromSheet) {
-    const sale = sheet.sale.name ? `${sheet.sale.name} (${sheet.sale.set})` : 'No sale today (BAU)';
+    const sale = !sheet.sale
+      ? 'No sale on and no Everyday row: built-in messages used'
+      : sheet.sale.name || 'No sale on: Everyday row';
     status.textContent = `Messages from Google Sheet · ${sale} · read ${ago(sheet.fetchedAt)}`;
   } else {
     status.textContent = 'Sheet not read yet.';
@@ -78,6 +85,63 @@ function showSheet(sheet) {
     problems.appendChild(div);
   }
 }
+
+// Preview: everything that will be posted today, from the boxes as loaded.
+function previewSection(title, lines, note) {
+  const box = $('preview');
+  const h = document.createElement('h2');
+  h.textContent = title + (note ? ` (${note})` : '');
+  box.appendChild(h);
+  if (!lines.length) {
+    const p = document.createElement('div');
+    p.className = 'hint';
+    p.textContent = 'None';
+    box.appendChild(p);
+    return;
+  }
+  const ol = document.createElement('ol');
+  for (const line of lines) {
+    const li = document.createElement('li');
+    const pinned = /^\[pin\]/i.test(line.text);
+    if (pinned) {
+      const tag = document.createElement('span');
+      tag.className = 'pin';
+      tag.textContent = 'PIN';
+      li.appendChild(tag);
+    }
+    li.appendChild(document.createTextNode((line.prefix || '') + line.text.replace(/^\[pin\]\s*/i, '')));
+    ol.appendChild(li);
+  }
+  box.appendChild(ol);
+}
+
+function showPreview() {
+  const box = $('preview');
+  box.innerHTML = '';
+  const lines = (id) => $(id).value.split('\n').map((l) => l.trim()).filter(Boolean);
+  const split = (l) => {
+    const i = l.indexOf('|');
+    return { prefix: l.slice(0, i).trim(), text: l.slice(i + 1).trim() };
+  };
+  previewSection('General messages', lines('generalMessages').map((text) => ({ text })), `every ${$('intervalMinutes').value} min, in this order`);
+  previewSection('When a product is pinned', lines('productMessages').map((text) => ({ text })));
+  previewSection(`Product tips, ${$('tipDelaySeconds').value}s later`, lines('productTips').map(split).map((t) => ({ prefix: `${t.prefix}: `, text: t.text })));
+  previewSection('Countdown', lines('countdownMessages').map(split).map((t) => ({ prefix: `${t.prefix} min left: `, text: t.text })));
+  const problems = $('sheetProblems').textContent;
+  if (problems) previewSection('Problems to fix in the sheet', [...$('sheetProblems').children].map((d) => ({ text: d.textContent })));
+}
+
+$('previewBtn').onclick = async () => {
+  if (!$('preview').hidden) {
+    $('preview').hidden = true;
+    $('previewBtn').textContent = 'Preview';
+    return;
+  }
+  await loadForm();
+  showPreview();
+  $('preview').hidden = false;
+  $('previewBtn').textContent = 'Hide preview';
+};
 
 $('refreshSheet').onclick = async () => {
   await save();

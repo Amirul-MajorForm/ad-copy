@@ -5,10 +5,27 @@ const DEFAULT_SETTINGS = {
   // Google Sheet with the messages and sale periods. When set, its messages are used
   // instead of the boxes below (see sheet.js for the layout).
   sheetUrl: '',
+  retiredSheetUrls: [],
   intervalMinutes: 10,
   jitterMinutes: 1,
   // While a product is showing, every Nth timed message is a general one (0 = never).
   generalEvery: 3,
+  // Message templates used with the Google Sheet: {sale} is the sale name and
+  // {voucher} {winspend} {winprize} {gift} {gifttiers} {storewide} come from that
+  // sale's row. A template is skipped when a fact it uses is blank.
+  generalTemplates: [
+    "[pin] Welcome to our {sale} live! Tell us what you're looking for and we'll help ✨",
+    "[pin] LIVE-EXCLUSIVE: {voucher}. Claim it in the bag icon 🎟️",
+    "[pin] SPEND & WIN: Spend {winspend} during the live & comment your order ID to win {winprize}! 🎁",
+    "FREE GIFT: {gift} 🎁",
+    "MORE GIFTS: {gifttiers} 🎁",
+    "STOREWIDE VOUCHERS: {storewide} 🛍️"
+  ].join('\n'),
+  countdownTemplates: [
+    "60 | [pin] 1 hour left in our {sale} live! Live-exclusive deals end with the stream, grab them now ✨",
+    "30 | [pin] 30 minutes left! Add to cart now to enjoy our live-exclusive prices 🛒",
+    "10 | [pin] Final 10 minutes of our {sale} live! Live-exclusive vouchers end with the stream, check out now ✨"
+  ].join('\n'),
   // Countdown messages: "minutes left | message", based on the live timer and live length.
   liveDurationMinutes: 120,
   countdownMessages: [

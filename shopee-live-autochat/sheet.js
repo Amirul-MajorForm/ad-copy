@@ -1,12 +1,14 @@
-// Reads messages and sale periods from a Google Sheet (shared "Anyone with the
-// link"). Used by the background worker and the popup.
+// Reads the sales sheet: one row per sale with its dates and promo facts, plus
+// an "Everyday" row (no dates) for days without a sale. The extension builds the
+// messages from these facts using the templates in defaults.js, so the sheet
+// holds no message wording. Used by the background worker.
 //
-// Sheet layout (one tab, header row first):
-//   Promo set | Type | Sale name / Keyword / Minutes left | Starts | Ends | Pin | Message
-// Type "sale" rows define when a promo set is active; other types are messages.
+// Columns are found by their header, so their order doesn't matter:
+//   Sale name | Starts | Ends | Live vouchers | Spend & Win: min spend |
+//   Spend & Win: prize | Free gift | Gift tiers | Storewide vouchers | Extra messages
+// Any other column (e.g. Check) is ignored.
 
 const SHEET_REFRESH_MINUTES = 10;
-const KNOWN_CODES = ['product', 'price', 'lowprice', 'sale'];
 
 function sheetDocId(url) {
   const m = (url || '').match(/\/spreadsheets\/d\/([a-zA-Z0-9_-]{20,})/);
@@ -97,93 +99,108 @@ function parseSheetDate(text, endOfDay) {
   return isNaN(date) ? null : date.getTime();
 }
 
-const isYes = (v) => /^(y|yes|true|1|✓|✔|x)$/i.test((v || '').trim());
+// Fact columns: template code -> header text to look for.
+const FACT_COLUMNS = {
+  voucher: /live voucher/,
+  winspend: /win.*(min|spend)/,
+  winprize: /win.*prize/,
+  gift: /free gift/,
+  gifttiers: /gift tier/,
+  storewide: /storewide/
+};
 
-// Rows of the sheet -> { sales, messages, problems }.
+// Rows of the sheet -> { sales, everyday, problems }.
 function parseSheet(csvText) {
   const rows = parseCsv(csvText).filter((r) => r.some((c) => c.trim()));
-  if (!rows.length) return { sales: [], messages: [], problems: ['The sheet is empty.'] };
+  if (!rows.length) return { sales: [], everyday: null, problems: ['The sheet is empty.'] };
   const header = rows[0].map((h) => h.trim().toLowerCase());
-  const col = (re, fallback) => {
-    const i = header.findIndex((h) => re.test(h));
-    return i >= 0 ? i : fallback;
-  };
-  const C = {
-    set: col(/promo/, 0),
-    type: col(/^type/, 1),
-    key: col(/keyword|minutes|sale name/, 2),
-    start: col(/start/, 3),
-    end: col(/^end/, 4),
-    pin: col(/^pin/, 5),
-    message: col(/message/, 6)
-  };
+  const col = (re) => header.findIndex((h) => re.test(h));
+  const C = { name: col(/sale name|^sale$/), start: col(/start/), end: col(/^end/), extra: col(/extra/) };
+  if (C.name < 0 || C.start < 0 || C.end < 0) {
+    return { sales: [], everyday: null, problems: ['The first row must be the headers: Sale name, Starts, Ends, ...'] };
+  }
+  const factCols = Object.fromEntries(Object.entries(FACT_COLUMNS).map(([k, re]) => [k, col(re)]));
+
   const sales = [];
-  const messages = [];
+  let everyday = null;
   const problems = [];
   rows.slice(1).forEach((r, i) => {
     const line = i + 2;
-    const get = (k) => (r[C[k]] || '').trim();
-    const type = get('type').toLowerCase();
-    const set = get('set');
-    if (type === 'sale') {
-      const start = parseSheetDate(get('start'), false);
-      const end = parseSheetDate(get('end'), true);
-      if (!set || start == null || end == null) {
-        problems.push(`Row ${line}: sale "${get('key')}" needs a promo set, Starts and Ends (e.g. 2026-11-24 00:00).`);
-      } else {
-        sales.push({ name: get('key'), set, start, end });
-      }
+    const get = (c) => (c >= 0 ? (r[c] || '').trim() : '');
+    const name = get(C.name);
+    const facts = Object.fromEntries(Object.entries(factCols).map(([k, c]) => [k, get(c)]));
+    const extras = get(C.extra).split(/\r?\n/).map((l) => l.trim()).filter(Boolean);
+    const sale = { line, name, facts, extras };
+    const startText = get(C.start);
+    const endText = get(C.end);
+    if (!startText && !endText) {
+      // No dates: the everyday row. Its name isn't used in messages.
+      if (everyday) problems.push(`Row ${line}: only one row can have no dates (the everyday row).`);
+      else everyday = { ...sale, name: '' };
       return;
     }
-    const message = get('message');
-    if (!type && !message) return;
-    if (!['general', 'product', 'tip', 'countdown'].includes(type)) {
-      problems.push(`Row ${line}: unknown type "${get('type')}". Use general, product, tip, countdown or sale.`);
-      return;
+    sale.start = parseSheetDate(startText, false);
+    sale.end = parseSheetDate(endText, true);
+    if (sale.start == null || sale.end == null) {
+      problems.push(`Row ${line} (${name || 'no name'}): fill in both Starts and Ends, e.g. 2026-11-24 00:00.`);
+    } else if (sale.end < sale.start) {
+      problems.push(`Row ${line} (${name || 'no name'}): Ends is before Starts.`);
+    } else {
+      sales.push(sale);
     }
-    if (!message) return;
-    const entry = { line, set: set || 'Always', type, key: get('key'), pin: isYes(get('pin')), message };
-    if (type === 'tip' && !entry.key) problems.push(`Row ${line}: a tip needs a keyword in column C.`);
-    if (type === 'countdown') {
-      entry.minutes = parseInt(entry.key, 10);
-      if (!(entry.minutes > 0)) problems.push(`Row ${line}: a countdown needs the minutes left in column C, e.g. 30 min.`);
-    }
-    const bad = (message.match(/\{[^}]*\}/g) || []).filter((c) => !KNOWN_CODES.includes(c.slice(1, -1).toLowerCase()));
-    if (bad.length) problems.push(`Row ${line}: ${bad.join(' ')} is not a known code. Use {product} {price} {lowprice} {sale}.`);
-    messages.push(entry);
   });
-  return { sales, messages, problems };
+  return { sales, everyday, problems };
 }
 
-// The first sale row covering `now`, or BAU.
-function activeSale(sales, now) {
-  return sales.find((s) => now >= s.start && now <= s.end) || { name: '', set: 'BAU' };
+// The first sale row covering `now`, else the everyday row.
+function activeSale(parsed, now) {
+  return parsed.sales.find((s) => now >= s.start && now <= s.end) || parsed.everyday;
 }
 
-// Message settings for `now`, in the same text formats as the popup boxes.
-function sheetSettings(parsed, now) {
-  const sale = activeSale(parsed.sales, now);
-  const inSet = (m) => /^always$/i.test(m.set) || m.set.toLowerCase() === sale.set.toLowerCase();
-  const withSale = (text) =>
-    text.replace(/\{sale\}/gi, sale.name).replace(/\s{2,}/g, ' ').replace(/^\s+|\s+(?=[!?.,])/g, '');
-  const pin = (m) => (m.pin ? '[pin] ' : '');
-  // Rows reported as problems (a tip with no keyword, a countdown with no minutes) are left out.
-  const usable = (m) => (m.type !== 'tip' || m.key) && (m.type !== 'countdown' || m.minutes > 0);
-  const of = (type) => parsed.messages.filter((m) => m.type === type && inSet(m) && usable(m));
+// Fill a template with the sale's facts. Returns null when a fact it needs is blank,
+// so that message is skipped.
+function fillFacts(template, sale) {
+  let missing = false;
+  const text = template.replace(/\{(\w+)\}/g, (code, key) => {
+    key = key.toLowerCase();
+    if (key === 'sale') return sale.name;
+    if (!(key in FACT_COLUMNS)) return code; // {product}, {price}... filled when posting
+    if (!sale.facts[key]) missing = true;
+    return sale.facts[key];
+  });
+  if (missing) return null;
+  return text.replace(/\s{2,}/g, ' ').replace(/^\s+/, '').replace(/\s+(?=[!?.,])/g, '');
+}
+
+// General and countdown messages for `now`, in the same text formats as the
+// popup boxes. Product messages and tips stay as set in the extension.
+function sheetSettings(parsed, now, templates) {
+  const sale = activeSale(parsed, now);
   const warnings = [];
-  for (const m of parsed.messages.filter(inSet)) {
-    const text = withSale(m.message);
-    const fixed = text.replace(/\{(product|price|lowprice)\}/gi, '').length;
-    if (fixed > MAX_CHARS) warnings.push(`Row ${m.line}: ${fixed} characters, over Shopee's ${MAX_CHARS}.`);
-  }
-  return {
-    sale,
-    warnings,
-    settings: {
-      generalMessages: of('general').map((m) => pin(m) + withSale(m.message)).join('\n'),
-      productMessages: of('product').map((m) => pin(m) + withSale(m.message)).join('\n'),
-      productTips: of('tip').map((m) => `${m.key} | ${pin(m)}${withSale(m.message)}`).join('\n'),
-      countdownMessages: of('countdown').map((m) => `${m.minutes} | ${pin(m)}${withSale(m.message)}`).join('\n')
+  const general = [];
+  const countdown = [];
+  if (sale) {
+    const label = sale.name || 'Everyday row';
+    const check = (text) => {
+      const len = text.replace(/^\[pin\]\s*/i, '').length;
+      if (len > MAX_CHARS) warnings.push(`${label}: "${text.slice(0, 40)}…" is ${len} characters, over ${MAX_CHARS}. Shorten that cell.`);
+    };
+    for (const t of (templates.general || '').split('\n').filter((l) => l.trim())) {
+      const text = fillFacts(t.trim(), sale);
+      if (text) {
+        check(text);
+        general.push(text);
+      }
     }
-  };
+    for (const extra of sale.extras) {
+      check(extra);
+      general.push(extra);
+    }
+    for (const t of (templates.countdown || '').split('\n').filter((l) => l.trim())) {
+      const m = t.match(/^\s*(\d+)\s*\|\s*(.+)$/);
+      const text = m && fillFacts(m[2], sale);
+      if (text) countdown.push(`${m[1]} | ${text}`);
+    }
+  }
+  return { sale, warnings, settings: { generalMessages: general.join('\n'), countdownMessages: countdown.join('\n') } };
 }

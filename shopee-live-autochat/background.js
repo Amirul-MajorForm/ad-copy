@@ -10,15 +10,21 @@ async function getSettings() {
   const stored = await chrome.storage.local.get(Object.keys(DEFAULT_SETTINGS));
   const s = { ...DEFAULT_SETTINGS, ...stored };
   const sheet = await currentSheet(s);
-  if (sheet) Object.assign(s, sheet.settings);
+  // Sheet messages replace the built-in ones; if the sheet gives none (e.g. no
+  // everyday row), the built-in ones are kept.
+  if (sheet) for (const [k, v] of Object.entries(sheet.settings)) if (v) s[k] = v;
   return s;
 }
 
 async function currentSheet(s) {
   if (!s.sheetUrl) return null;
   const { sheetCache } = await chrome.storage.local.get('sheetCache');
-  if (!sheetCache || sheetCache.url !== s.sheetUrl || !sheetCache.parsed) return null;
-  return sheetSettings(sheetCache.parsed, Date.now());
+  if (!sheetCache || sheetCache.url !== s.sheetUrl || !sheetCache.parsed || !sheetCache.parsed.sales) return null;
+  return sheetSettings(sheetCache.parsed, Date.now(), templatesOf(s));
+}
+
+function templatesOf(s) {
+  return { general: s.generalTemplates, countdown: s.countdownTemplates };
 }
 
 // Read the sheet, unless it was read in the last few minutes. If it can't be
@@ -26,7 +32,7 @@ async function currentSheet(s) {
 async function refreshSheet({ force = false } = {}) {
   const { sheetUrl = DEFAULT_SETTINGS.sheetUrl, sheetCache } = await chrome.storage.local.get(['sheetUrl', 'sheetCache']);
   if (!sheetUrl) return sheetStatus();
-  const fresh = sheetCache && sheetCache.url === sheetUrl && sheetCache.parsed && !sheetCache.error;
+  const fresh = sheetCache && sheetCache.url === sheetUrl && sheetCache.parsed && sheetCache.parsed.sales && !sheetCache.error;
   if (!force && fresh && Date.now() - sheetCache.fetchedAt < SHEET_REFRESH_MINUTES * 60000) return sheetStatus();
 
   const keep = sheetCache && sheetCache.url === sheetUrl ? sheetCache : { url: sheetUrl };
@@ -40,7 +46,7 @@ async function refreshSheet({ force = false } = {}) {
       throw new Error("Can't read the sheet. In Google Sheets, set Share > General access to \"Anyone with the link\".");
     }
     const parsed = parseSheet(text);
-    if (!parsed.messages.length) throw new Error('No messages found in the sheet.');
+    if (!parsed.sales.length && !parsed.everyday) throw new Error(parsed.problems[0] || 'No sales found in the sheet.');
     await chrome.storage.local.set({ sheetCache: { url: sheetUrl, fetchedAt: Date.now(), parsed, error: null } });
   } catch (e) {
     if (!keep.error) await addLog({ ok: false, text: 'Google Sheet: ' + e.message });
@@ -56,9 +62,11 @@ async function sheetStatus() {
   if (!url) return { url: '' };
   const cache = stored.sheetCache && stored.sheetCache.url === url ? stored.sheetCache : null;
   const status = { url, fetchedAt: cache && cache.fetchedAt, error: cache && cache.error };
-  if (cache && cache.parsed) {
-    const sheet = sheetSettings(cache.parsed, Date.now());
-    Object.assign(status, { active: true, sale: sheet.sale, warnings: [...cache.parsed.problems, ...sheet.warnings] });
+  if (cache && cache.parsed && cache.parsed.sales) {
+    const s = { ...DEFAULT_SETTINGS, ...(await chrome.storage.local.get(Object.keys(DEFAULT_SETTINGS))) };
+    const sheet = sheetSettings(cache.parsed, Date.now(), templatesOf(s));
+    const sale = sheet.sale ? { name: sheet.sale.name, everyday: !sheet.sale.name && !sheet.sale.start } : null;
+    Object.assign(status, { active: true, sale, warnings: [...cache.parsed.problems, ...sheet.warnings] });
   }
   return status;
 }
@@ -315,6 +323,10 @@ function onTimer(elapsed, tab) {
 // text. On update, replace any such messages (and the old-style product tips,
 // which were descriptions rather than full messages) with this build's defaults.
 chrome.runtime.onInstalled.addListener(async () => {
+  // A saved link to a sheet this build has replaced: switch to the current one.
+  const { sheetUrl } = await chrome.storage.local.get('sheetUrl');
+  const retired = (DEFAULT_SETTINGS.retiredSheetUrls || []).map(sheetDocId);
+  if (sheetUrl && retired.includes(sheetDocId(sheetUrl))) await chrome.storage.local.remove('sheetUrl');
   refreshSheet({ force: true });
   const keys = ['productMessages', 'generalMessages', 'countdownMessages', 'tipMessages'];
   const stored = await chrome.storage.local.get(keys);

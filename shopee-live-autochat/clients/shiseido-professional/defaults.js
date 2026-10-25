@@ -4,11 +4,29 @@ const DEFAULT_SETTINGS = {
   running: false,
   // Google Sheet with the messages and sale periods. When set, its messages are used
   // instead of the boxes below (see sheet.js for the layout).
-  sheetUrl: 'https://docs.google.com/spreadsheets/d/1xSBTo-CfSvPyPBAJQG1Rca5Cbdzk_gsZq9a5eJtu3js/edit',
+  sheetUrl: 'https://docs.google.com/spreadsheets/d/1fFNZJTmtRWPHiuDYAXWD83tKJEZ9ll_uW2wn9T3JTVU/edit',
+  // Earlier sheet links: if one is saved in Chrome, the link above replaces it on update.
+  retiredSheetUrls: ['https://docs.google.com/spreadsheets/d/1xSBTo-CfSvPyPBAJQG1Rca5Cbdzk_gsZq9a5eJtu3js/edit'],
   intervalMinutes: 10,
   jitterMinutes: 1,
   // While a product is showing, every Nth timed message is a general one (0 = never).
   generalEvery: 3,
+  // Message templates used with the Google Sheet: {sale} is the sale name and
+  // {voucher} {winspend} {winprize} {gift} {gifttiers} {storewide} come from that
+  // sale's row. A template is skipped when a fact it uses is blank.
+  generalTemplates: [
+    "[pin] Welcome to the Shiseido Professional {sale} live! SUBLIMIC is our premium salon range from Japan. Tell us your hair concerns ✨",
+    "[pin] LIVE-EXCLUSIVE: {voucher}. Claim it in the bag icon 🎟️",
+    "[pin] SPEND & WIN: Spend {winspend} during the live & comment your order ID to win {winprize}! 🎁",
+    "FREE GIFT: {gift} 🎁",
+    "MORE GIFTS: {gifttiers} 🎁",
+    "STOREWIDE VOUCHERS: {storewide} 🛍️"
+  ].join('\n'),
+  countdownTemplates: [
+    "60 | [pin] 1 hour left in our {sale} live! Live-exclusive deals end with the stream, grab them now ✨",
+    "30 | [pin] 30 minutes left! Spend {winspend} & comment your order ID to win {winprize} 🎁",
+    "10 | [pin] Final 10 minutes of our {sale} live! Live-exclusive vouchers end with the stream, check out now ✨"
+  ].join('\n'),
   // Countdown messages: "minutes left | message", based on the live timer and live length.
   liveDurationMinutes: 120,
   countdownMessages: [
@@ -29,7 +47,7 @@ const DEFAULT_SETTINGS = {
     "Wonder Shield | 💡 SUBLIMIC Wonder Shield is for everyday protection from heat, UV, humidity & pollution ✨"
   ].join('\n'),
   productMessages: [
-    "[pin] Now showing: {product} at {price}! Grab it with our 12% live voucher 🎟️",
+    "[pin] Now showing: {product} at {price}! Grab it with our live-exclusive voucher 🎟️",
     "Have questions about this product? Ask us in the comments and we'll answer live 💬",
     "Not sure which SUBLIMIC range suits you? Share your hair & scalp concerns and we'll recommend one 💬"
   ].join('\n'),

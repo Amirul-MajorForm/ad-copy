@@ -32,18 +32,21 @@ dashboard). When nothing is showing, it uses your general messages instead.
   product is still showing.
 - Messages rotate in order. The log at the bottom shows what was sent and any errors.
 
-## Google Sheet
+## Google Sheet (sales)
 
-- When a Google Sheet link is set (top of the popup, or `sheetUrl` in a client's defaults), the
-  product, tip, general and countdown messages come from the sheet instead of the popup boxes.
-- The sheet is read on Start and every 10 minutes while running (or with **Refresh**). If it
-  can't be read, the last copy read keeps being used; with no copy, the popup boxes are used.
-- One tab, header row first: `Promo set | Type | Sale name / Keyword / Minutes left | Starts | Ends | Pin | Message`.
-  - `Type = sale` rows set when a promo set (e.g. Mega, A+) is active; on other days `BAU` is used.
-  - Message rows: `Promo set` is `Always` or a promo set; `Type` is general, product, tip or countdown.
-  - `{sale}` in a message becomes the active sale's name.
-- The sheet must be shared as "Anyone with the link: Viewer". Problems found in the sheet
-  (unknown codes, long messages, bad dates) are listed in the popup.
+- When a sheet link is set (top of the popup, or `sheetUrl` in a client's defaults), the general
+  and countdown messages are built from the sheet's facts using the client's `generalTemplates`
+  and `countdownTemplates`. Product messages and product tips stay in the extension.
+- One row per sale, header row first (columns found by name, any order):
+  `Sale name | Starts | Ends | Live vouchers | Spend & Win: min spend | Spend & Win: prize |
+  Free gift | Gift tiers | Storewide vouchers | Extra messages`. Other columns (e.g. Check) are ignored.
+- The row covering today is used; otherwise the row with no dates (the everyday row).
+- Templates use `{sale}` `{voucher}` `{winspend}` `{winprize}` `{gift}` `{gifttiers}` `{storewide}`.
+  A template is skipped when a fact it uses is blank. Extra messages are added one per line.
+- Read on Start and every 10 minutes (or **Refresh**). If it can't be read, the last copy read is
+  used; with no copy, the built-in messages. **Preview** lists everything that will be posted today.
+- `retiredSheetUrls` in a client's defaults: a saved link to one of these is replaced on update.
+- The sheet must be shared as "Anyone with the link: Viewer".
 
 ## Clients
 
