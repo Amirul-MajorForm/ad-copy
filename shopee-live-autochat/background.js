@@ -1,11 +1,66 @@
-importScripts('defaults.js');
+importScripts('defaults.js', 'sheet.js');
 
 const ALARM = 'shopee-autochat-next';
+const SHEET_ALARM = 'shopee-autochat-sheet';
 const LIVE_URL = 'https://live.shopee.sg/pc/*';
 
+// Settings saved in the popup, with the messages replaced by the Google Sheet's
+// when a sheet link is set and the sheet has been read.
 async function getSettings() {
   const stored = await chrome.storage.local.get(Object.keys(DEFAULT_SETTINGS));
-  return { ...DEFAULT_SETTINGS, ...stored };
+  const s = { ...DEFAULT_SETTINGS, ...stored };
+  const sheet = await currentSheet(s);
+  if (sheet) Object.assign(s, sheet.settings);
+  return s;
+}
+
+async function currentSheet(s) {
+  if (!s.sheetUrl) return null;
+  const { sheetCache } = await chrome.storage.local.get('sheetCache');
+  if (!sheetCache || sheetCache.url !== s.sheetUrl || !sheetCache.parsed) return null;
+  return sheetSettings(sheetCache.parsed, Date.now());
+}
+
+// Read the sheet, unless it was read in the last few minutes. If it can't be
+// read, the last good copy keeps being used.
+async function refreshSheet({ force = false } = {}) {
+  const { sheetUrl = DEFAULT_SETTINGS.sheetUrl, sheetCache } = await chrome.storage.local.get(['sheetUrl', 'sheetCache']);
+  if (!sheetUrl) return sheetStatus();
+  const fresh = sheetCache && sheetCache.url === sheetUrl && sheetCache.parsed && !sheetCache.error;
+  if (!force && fresh && Date.now() - sheetCache.fetchedAt < SHEET_REFRESH_MINUTES * 60000) return sheetStatus();
+
+  const keep = sheetCache && sheetCache.url === sheetUrl ? sheetCache : { url: sheetUrl };
+  try {
+    const csvUrl = sheetCsvUrl(sheetUrl);
+    if (/\/d\/e\//.test(sheetUrl)) throw new Error('Use the normal sheet link (Share > Copy link), not the "Publish to web" link.');
+    if (!csvUrl) throw new Error("This doesn't look like a Google Sheet link.");
+    const res = await fetch(csvUrl, { credentials: 'include', cache: 'no-store' });
+    const text = await res.text();
+    if (!res.ok || /^\s*</.test(text)) {
+      throw new Error("Can't read the sheet. In Google Sheets, set Share > General access to \"Anyone with the link\".");
+    }
+    const parsed = parseSheet(text);
+    if (!parsed.messages.length) throw new Error('No messages found in the sheet.');
+    await chrome.storage.local.set({ sheetCache: { url: sheetUrl, fetchedAt: Date.now(), parsed, error: null } });
+  } catch (e) {
+    if (!keep.error) await addLog({ ok: false, text: 'Google Sheet: ' + e.message });
+    await chrome.storage.local.set({ sheetCache: { ...keep, error: e.message, errorAt: Date.now() } });
+  }
+  return sheetStatus();
+}
+
+// What the popup shows about the sheet.
+async function sheetStatus() {
+  const stored = await chrome.storage.local.get(['sheetUrl', 'sheetCache']);
+  const url = stored.sheetUrl === undefined ? DEFAULT_SETTINGS.sheetUrl : stored.sheetUrl;
+  if (!url) return { url: '' };
+  const cache = stored.sheetCache && stored.sheetCache.url === url ? stored.sheetCache : null;
+  const status = { url, fetchedAt: cache && cache.fetchedAt, error: cache && cache.error };
+  if (cache && cache.parsed) {
+    const sheet = sheetSettings(cache.parsed, Date.now());
+    Object.assign(status, { active: true, sale: sheet.sale, warnings: [...cache.parsed.problems, ...sheet.warnings] });
+  }
+  return status;
 }
 
 function parseLines(text) {
@@ -187,6 +242,7 @@ function sendPendingTip(dueAt) {
 
 chrome.alarms.onAlarm.addListener(async (alarm) => {
   if (alarm.name === TIP_ALARM) return sendPendingTip();
+  if (alarm.name === SHEET_ALARM) return refreshSheet({ force: true });
   if (alarm.name !== ALARM) return;
   const s = await getSettings();
   if (!s.running) return;
@@ -259,6 +315,7 @@ function onTimer(elapsed, tab) {
 // text. On update, replace any such messages (and the old-style product tips,
 // which were descriptions rather than full messages) with this build's defaults.
 chrome.runtime.onInstalled.addListener(async () => {
+  refreshSheet({ force: true });
   const keys = ['productMessages', 'generalMessages', 'countdownMessages', 'tipMessages'];
   const stored = await chrome.storage.local.get(keys);
   const old = keys.filter((k) => /\{(range|tip)\}/.test(stored[k] || ''));
@@ -271,6 +328,9 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
   (async () => {
     if (msg.type === 'start') {
       await chrome.storage.local.set({ running: true, generalMessagesIndex: 0, sinceGeneral: 0 });
+      // Latest messages from the Google Sheet before the first post, then every few minutes.
+      await refreshSheet({ force: true });
+      await chrome.alarms.create(SHEET_ALARM, { periodInMinutes: SHEET_REFRESH_MINUTES });
       const result = await enqueue(() => postOnce({ restartProduct: true }));
       await scheduleNext();
       return result;
@@ -282,9 +342,15 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
       await chrome.storage.local.remove('pendingTip');
       await chrome.alarms.clear(ALARM);
       await chrome.alarms.clear(TIP_ALARM);
+      await chrome.alarms.clear(SHEET_ALARM);
       return { ok: true };
     }
     if (msg.type === 'sendNow') return enqueue(() => postOnce());
+    if (msg.type === 'refreshSheet') return refreshSheet({ force: true });
+    if (msg.type === 'getEffective') {
+      await refreshSheet();
+      return { settings: await getSettings(), sheet: await sheetStatus() };
+    }
     if (msg.type === 'getProduct') {
       const tab = await findLiveTab();
       if (!tab) return { ok: false, error: 'No Shopee Live tab open.' };

@@ -32,6 +32,19 @@ dashboard). When nothing is showing, it uses your general messages instead.
   product is still showing.
 - Messages rotate in order. The log at the bottom shows what was sent and any errors.
 
+## Google Sheet
+
+- When a Google Sheet link is set (top of the popup, or `sheetUrl` in a client's defaults), the
+  product, tip, general and countdown messages come from the sheet instead of the popup boxes.
+- The sheet is read on Start and every 10 minutes while running (or with **Refresh**). If it
+  can't be read, the last copy read keeps being used; with no copy, the popup boxes are used.
+- One tab, header row first: `Promo set | Type | Sale name / Keyword / Minutes left | Starts | Ends | Pin | Message`.
+  - `Type = sale` rows set when a promo set (e.g. Mega, A+) is active; on other days `BAU` is used.
+  - Message rows: `Promo set` is `Always` or a promo set; `Type` is general, product, tip or countdown.
+  - `{sale}` in a message becomes the active sale's name.
+- The sheet must be shared as "Anyone with the link: Viewer". Problems found in the sheet
+  (unknown codes, long messages, bad dates) are listed in the popup.
+
 ## Clients
 
 - Each client gets its own build with its messages filled in: `clients/<client>/defaults.js`.

@@ -2,6 +2,9 @@
 // Start a line with [pin] to pin that message.
 const DEFAULT_SETTINGS = {
   running: false,
+  // Google Sheet with the messages and sale periods. When set, its messages are used
+  // instead of the boxes below (see sheet.js for the layout).
+  sheetUrl: '',
   intervalMinutes: 10,
   jitterMinutes: 1,
   // While a product is showing, every Nth timed message is a general one (0 = never).

@@ -9,7 +9,7 @@ slug="$1"; out="${2:-.}"
 name=$(sed -n "s/^const CLIENT_NAME = '\(.*\)';/\1/p" "clients/$slug/defaults.js")
 tmp=$(mktemp -d); dir="$tmp/shopee-live-autochat-$slug"
 mkdir "$dir"
-cp -R manifest.json background.js content.js popup.html popup.js README.md icons fonts "$dir/"
+cp -R manifest.json background.js content.js sheet.js popup.html popup.js README.md icons fonts "$dir/"
 cp "clients/$slug/defaults.js" "$dir/defaults.js"
 node -e "const f='$dir/manifest.json',m=require(f);m.name='Shopee Live Auto Chat ($name)';require('fs').writeFileSync(f,JSON.stringify(m,null,2)+'\n')"
 out=$(cd "$out" && pwd); rm -f "$out/shopee-live-autochat-$slug.zip"
