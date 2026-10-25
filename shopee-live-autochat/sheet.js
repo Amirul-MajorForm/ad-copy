@@ -23,6 +23,14 @@ function sheetCsvUrl(url) {
   return `https://docs.google.com/spreadsheets/d/${id}/export?format=csv&gid=${gid}`;
 }
 
+// The same tab through Google's other CSV address, used if the export fails.
+function sheetGvizUrl(url) {
+  const id = sheetDocId(url);
+  if (!id) return null;
+  const gid = (url.match(/[#&?]gid=(\d+)/) || [])[1] || '0';
+  return `https://docs.google.com/spreadsheets/d/${id}/gviz/tq?tqx=out:csv&gid=${gid}`;
+}
+
 function parseCsv(text) {
   const rows = [];
   let row = [];

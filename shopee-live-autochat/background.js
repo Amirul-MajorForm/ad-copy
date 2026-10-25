@@ -36,15 +36,13 @@ async function refreshSheet({ force = false } = {}) {
   if (!force && fresh && Date.now() - sheetCache.fetchedAt < SHEET_REFRESH_MINUTES * 60000) return sheetStatus();
 
   const keep = sheetCache && sheetCache.url === sheetUrl ? sheetCache : { url: sheetUrl };
+  // After a failed read, retry automatically at most once a minute (Refresh always retries).
+  if (!force && keep.error && Date.now() - keep.errorAt < 60000) return sheetStatus();
   try {
     const csvUrl = sheetCsvUrl(sheetUrl);
     if (/\/d\/e\//.test(sheetUrl)) throw new Error('Use the normal sheet link (Share > Copy link), not the "Publish to web" link.');
     if (!csvUrl) throw new Error("This doesn't look like a Google Sheet link.");
-    const res = await fetch(csvUrl, { credentials: 'include', cache: 'no-store' });
-    const text = await res.text();
-    if (!res.ok || /^\s*</.test(text)) {
-      throw new Error("Can't read the sheet. In Google Sheets, set Share > General access to \"Anyone with the link\".");
-    }
+    const text = await fetchSheetCsv(sheetUrl);
     const parsed = parseSheet(text);
     if (!parsed.sales.length && !parsed.everyday) throw new Error(parsed.problems[0] || 'No sales found in the sheet.');
     await chrome.storage.local.set({ sheetCache: { url: sheetUrl, fetchedAt: Date.now(), parsed, error: null } });
@@ -53,6 +51,33 @@ async function refreshSheet({ force = false } = {}) {
     await chrome.storage.local.set({ sheetCache: { ...keep, error: e.message, errorAt: Date.now() } });
   }
   return sheetStatus();
+}
+
+// Try the sheet's CSV without Chrome's Google sign-in first (a shared sheet needs
+// none, and a signed-in request can get an account page instead), then Google's
+// other CSV address, then with the sign-in. The error says what each attempt got.
+async function fetchSheetCsv(sheetUrl) {
+  const attempts = [
+    [sheetCsvUrl(sheetUrl), 'omit'],
+    [sheetGvizUrl(sheetUrl), 'omit'],
+    [sheetCsvUrl(sheetUrl), 'include']
+  ];
+  const got = [];
+  for (const [url, credentials] of attempts) {
+    try {
+      const res = await fetch(url, { credentials, cache: 'no-store' });
+      const text = await res.text();
+      if (res.ok && !/^\s*</.test(text)) return text;
+      const host = new URL(res.url || url).host;
+      got.push(/^\s*</.test(text) ? `a web page from ${host} (${res.status})` : `error ${res.status} from ${host}`);
+    } catch (e) {
+      got.push(`no connection (${e.message})`);
+    }
+  }
+  throw new Error(
+    "Can't read the sheet. Check Share > General access is \"Anyone with the link\", then press Refresh. " +
+      `Google sent: ${[...new Set(got)].join('; ')}.`
+  );
 }
 
 // What the popup shows about the sheet.
