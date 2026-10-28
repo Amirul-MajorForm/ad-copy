@@ -1,6 +1,6 @@
-# Shopee Live Auto Chat (Chrome extension)
+# Live Auto Chat (Chrome extension for Shopee Live and TikTok Shop LIVE)
 
-Posts a host message into your Shopee Live session every ~10 minutes. When a product
+Posts a host message into your Shopee Live or TikTok Shop LIVE session every ~10 minutes. When a product
 is set to "Showing", it writes about that product (name and price are read from the
 dashboard). When nothing is showing, it uses your general messages instead.
 
@@ -51,10 +51,23 @@ dashboard). When nothing is showing, it uses your general messages instead.
 - `retiredSheetUrls` in a client's defaults: a saved link to one of these is replaced on update.
 - The sheet must be shared as "Anyone with the link: Viewer".
 
+## TikTok Shop LIVE
+
+- A client whose `PLATFORM` in `defaults.js` is TikTok (e.g. `clients/dettol`) gets a TikTok build:
+  the page script is `content-tiktok.js` (shipped as `content.js`) and it runs on
+  `https://shop.tiktok.com/streamer/live/*` (the seller LIVE dashboard).
+- The pinned product is the card with the **Unpin** button. Tags such as `[Authentic] [NEW]` are
+  dropped from the name.
+- Messages are typed into the "Type something..." box and sent with Enter, or the send arrow if
+  Enter doesn't send.
+- TikTok can't pin a comment as it is sent, so `[pin]` is ignored. Comments are limited to 100 characters.
+- `randomOrder: true` sends the messages in a random order (never the same one twice in a row),
+  on top of the random timing (`jitterMinutes`).
+
 ## Clients
 
 - Each client gets its own build with its messages filled in: `clients/<client>/defaults.js`.
-- Build a client's zip with `./build-client.sh shiseido-professional`. Install it in that
+- Build a client's zip with `./build-client.sh shiseido-professional` (or `dettol`). Install it in that
   client's Chrome profile from its own folder.
 - Settings are saved per Chrome profile and per computer; they do not sync between computers.
 
@@ -63,5 +76,6 @@ dashboard). When nothing is showing, it uses your general messages instead.
 - Keep the live dashboard tab open. It does not need to be the active tab.
 - If you change the extension files, click the reload icon on `chrome://extensions`
   and refresh the live tab.
-- Shopee uses build-specific class names. If Shopee updates its dashboard and the
-  extension stops finding the chat box or product, the selectors in `content.js` need updating.
+- Shopee and TikTok use build-specific class names. If either updates its dashboard and the
+  extension stops finding the chat box or product, the selectors in `content.js` (Shopee) or
+  `content-tiktok.js` (TikTok) need updating.

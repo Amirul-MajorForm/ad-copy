@@ -1,5 +1,7 @@
 // Shiseido Professional default settings. Start a line with [pin] to pin that message.
 const CLIENT_NAME = 'Shiseido Professional';
+// Which live dashboard this build works on.
+const PLATFORM = { name: 'Shopee Live', liveUrl: 'https://live.shopee.sg/pc/*', livePath: '/pc/live', canPin: true };
 const DEFAULT_SETTINGS = {
   running: false,
   // Google Sheet with the messages and sale periods. When set, its messages are used

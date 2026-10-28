@@ -2,7 +2,7 @@ importScripts('defaults.js', 'sheet.js');
 
 const ALARM = 'shopee-autochat-next';
 const SHEET_ALARM = 'shopee-autochat-sheet';
-const LIVE_URL = 'https://live.shopee.sg/pc/*';
+const LIVE_URL = PLATFORM.liveUrl;
 
 // Settings saved in the popup, with messages replaced by the Google Sheets'
 // (sales sheet: general and countdown messages; tips sheet: product tips) once read.
@@ -218,7 +218,7 @@ async function addLog(entry) {
 
 async function findLiveTab() {
   const tabs = await chrome.tabs.query({ url: LIVE_URL });
-  return tabs.find((t) => t.url.includes('/pc/live')) || tabs[0];
+  return tabs.find((t) => t.url.includes(PLATFORM.livePath)) || tabs[0];
 }
 
 async function sendToTab(tabId, msg) {
@@ -257,8 +257,8 @@ async function postOnce({ restartProduct = false } = {}) {
   const s = await getSettings();
   const tab = await findLiveTab();
   if (!tab) {
-    await addLog({ ok: false, text: 'No Shopee Live tab open.' });
-    return { ok: false, error: 'No Shopee Live tab open.' };
+    await addLog({ ok: false, text: `No ${PLATFORM.name} live tab open.` });
+    return { ok: false, error: `No ${PLATFORM.name} live tab open.` };
   }
 
   const res = await sendToTab(tab.id, { type: 'getProduct' });
@@ -283,12 +283,19 @@ async function postOnce({ restartProduct = false } = {}) {
   let { [idxKey]: idx = 0 } = await chrome.storage.local.get(idxKey);
   if (restartProduct && !useGeneral) idx = 0;
 
+  // Random order (if set): any line but the last one sent; a new product still
+  // starts with its first line.
+  if (s.randomOrder && lines.length > 1 && !(restartProduct && !useGeneral)) {
+    const { [listKey + 'Last']: last } = await chrome.storage.local.get(listKey + 'Last');
+    const others = lines.map((_, i) => i).filter((i) => i !== last);
+    idx = others[Math.floor(Math.random() * others.length)];
+  }
   const line = lines[idx % lines.length];
-  await chrome.storage.local.set({ [idxKey]: (idx + 1) % lines.length });
+  await chrome.storage.local.set({ [idxKey]: (idx + 1) % lines.length, [listKey + 'Last']: idx % lines.length });
 
   const text = fill(line.template, product);
-  const result = await sendToTab(tab.id, { type: 'post', text, pin: line.pin });
-  await addLog({ ok: !!(result && result.ok), pin: line.pin, text, error: result && (result.error || result.note) });
+  const result = await sendToTab(tab.id, { type: 'post', text, pin: line.pin && PLATFORM.canPin });
+  await addLog({ ok: !!(result && result.ok), pin: line.pin && PLATFORM.canPin, text, error: result && (result.error || result.note) });
   // A new product's first message is followed by its product tip. Scheduled even
   // if the send looked unconfirmed: Shopee can be slow to clear the chat box.
   if (restartProduct && !useGeneral) await scheduleTip(product, s);
@@ -334,8 +341,8 @@ function sendPendingTip(dueAt) {
       return;
     }
     const text = fill(tip.template, product);
-    const result = await sendToTab(tab.id, { type: 'post', text, pin: tip.pin });
-    await addLog({ ok: !!(result && result.ok), pin: tip.pin, text, error: result && (result.error || result.note) });
+    const result = await sendToTab(tab.id, { type: 'post', text, pin: tip.pin && PLATFORM.canPin });
+    await addLog({ ok: !!(result && result.ok), pin: tip.pin && PLATFORM.canPin, text, error: result && (result.error || result.note) });
   });
 }
 
@@ -403,8 +410,8 @@ function onTimer(elapsed, tab) {
     const res = await sendToTab(tab.id, { type: 'getProduct' });
     const product = res && res.product;
     const text = fill(due.template, product);
-    const result = await sendToTab(tab.id, { type: 'post', text, pin: due.pin });
-    await addLog({ ok: !!(result && result.ok), pin: due.pin, text, error: result && (result.error || result.note) });
+    const result = await sendToTab(tab.id, { type: 'post', text, pin: due.pin && PLATFORM.canPin });
+    await addLog({ ok: !!(result && result.ok), pin: due.pin && PLATFORM.canPin, text, error: result && (result.error || result.note) });
     // Give the countdown message room before the next timed one.
     await scheduleNext();
   });
@@ -430,7 +437,9 @@ chrome.runtime.onInstalled.addListener(async () => {
 chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
   (async () => {
     if (msg.type === 'start') {
+      // A new run: start the lists from the top and allow this live's countdowns again.
       await chrome.storage.local.set({ running: true, generalMessagesIndex: 0, sinceGeneral: 0 });
+      await chrome.storage.local.remove(['countdownSent', 'generalMessagesLast', 'productMessagesLast']);
       // Latest messages from the Google Sheet before the first post, then every few minutes.
       await refreshSheet({ force: true });
       await chrome.alarms.create(SHEET_ALARM, { periodInMinutes: SHEET_REFRESH_MINUTES });
@@ -456,7 +465,7 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
     }
     if (msg.type === 'getProduct') {
       const tab = await findLiveTab();
-      if (!tab) return { ok: false, error: 'No Shopee Live tab open.' };
+      if (!tab) return { ok: false, error: `No ${PLATFORM.name} live tab open.` };
       return sendToTab(tab.id, { type: 'getProduct' });
     }
   })().then(sendResponse, (e) => sendResponse({ ok: false, error: e.message }));

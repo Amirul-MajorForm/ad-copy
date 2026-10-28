@@ -1,9 +1,12 @@
 const FIELDS = ['sheetUrl', 'intervalMinutes', 'jitterMinutes', 'generalEvery', 'liveDurationMinutes', 'productTips', 'tipDelaySeconds', 'productMessages', 'generalMessages', 'countdownMessages'];
 const $ = (id) => document.getElementById(id);
 const send = (msg) => chrome.runtime.sendMessage(msg);
-// Client name comes from the manifest name, e.g. "Shopee Live Auto Chat (Sebamed)".
-const clientMatch = chrome.runtime.getManifest().name.match(/\((.+)\)$/);
-$('client').textContent = clientMatch ? clientMatch[1] : '';
+// Title and client name come from the manifest name, e.g. "TikTok Live Auto Chat (Dettol)".
+const nameMatch = chrome.runtime.getManifest().name.match(/^(.*?)\s*(?:\((.+)\))?$/);
+$('title').textContent = nameMatch[1];
+$('client').textContent = nameMatch[2] || '';
+$('maxChars').textContent = MAX_CHARS;
+if (!PLATFORM.canPin) $('pinHint').textContent = `${PLATFORM.name} can't pin messages, so [pin] is ignored.`;
 
 // Message boxes that come from the Google Sheet while one is connected.
 const SHEET_FIELDS = ['generalMessages', 'countdownMessages'];
@@ -128,7 +131,7 @@ function previewSection(title, lines, note) {
   const ol = document.createElement('ol');
   for (const line of lines) {
     const li = document.createElement('li');
-    const pinned = /^\[pin\]/i.test(line.text);
+    const pinned = PLATFORM.canPin && /^\[pin\]/i.test(line.text);
     if (pinned) {
       const tag = document.createElement('span');
       tag.className = 'pin';
@@ -180,7 +183,7 @@ $('sheetUrl').onchange = () => $('refreshSheet').click();
 
 async function showProduct() {
   const res = await send({ type: 'getProduct' }).catch(() => null);
-  if (!res || res.ok === false) $('product').textContent = (res && res.error) || 'Open the Shopee Live dashboard tab.';
+  if (!res || res.ok === false) $('product').textContent = (res && res.error) || `Open the ${PLATFORM.name} dashboard tab.`;
   else {
     const p = res.product ? `${res.product.name} (${res.product.price})` : 'none (general messages will be used)';
     const t = res.elapsed == null ? 'not found' : new Date(res.elapsed * 1000).toISOString().slice(11, 19);

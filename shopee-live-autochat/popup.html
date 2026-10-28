@@ -66,7 +66,7 @@
   <header>
     <img src="icons/logo.png" alt="MajorForm">
     <div>
-      <h1>Shopee Live Auto Chat</h1>
+      <h1 id="title">Live Auto Chat</h1>
       <div id="client" class="hint"></div>
     </div>
   </header>
@@ -118,7 +118,7 @@
   <div class="from-sheet hint" hidden>Wording is built in. The sale name and Spend &amp; Win details come from today's row in the sheet.</div>
   <div class="row">Live length <input id="liveDurationMinutes" type="number" min="1"> min</div>
   <textarea id="countdownMessages"></textarea>
-  <div class="hint">One message per line. Start a message with [pin] to pin it. Max 150 characters each.</div>
+  <div class="hint">One message per line. <span id="pinHint">Start a message with [pin] to pin it.</span> Max <span id="maxChars">150</span> characters each.</div>
 
   <div id="log"></div>
   </main>
