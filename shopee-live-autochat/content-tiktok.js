@@ -2,8 +2,10 @@
 // posts messages into the chat box when the background worker asks. TikTok's
 // version of content.js (Shopee); a TikTok build ships this file as content.js.
 (() => {
-  if (window.__liveAutoChatLoaded) return;
-  window.__liveAutoChatLoaded = true;
+  // A copy left over from before the extension was reloaded or updated can no
+  // longer reach the extension: stop it and take over (an extension's scripts
+  // share the page's isolated world, so its stop function is visible here).
+  if (window.__liveAutoChatStop) window.__liveAutoChatStop();
 
   const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
   const visible = (e) => e && e.offsetParent !== null;
@@ -11,7 +13,8 @@
   // Text that is only a price, e.g. "S$14.65" (names can contain prices too).
   const ONLY_PRICE_RE = new RegExp('^S?' + PRICE_RE.source + '$');
   // Lines on a product card that aren't the name.
-  const NOT_NAME_RE = /^(unpin|pin|pinned|hot deals?|in stock\b.*|clicks\b.*|added to cart\b.*|attr\.? items sold\b.*|\d+)$/i;
+  const NOT_NAME_RE =
+    /^(unpin|pin|pinned|hot deals?|in stock\b.*|clicks\b.*|added to cart\b.*|attr\.? items sold\b.*|\d+)$/i;
 
   // Text of an element with a space between child elements.
   function textOf(el) {
@@ -64,7 +67,9 @@
 
   function getInput() {
     return (
-      [...document.querySelectorAll('textarea[placeholder="Type something..."], textarea.m4b-input-textarea')].find(visible) ||
+      [...document.querySelectorAll('textarea[placeholder="Type something..."], textarea.m4b-input-textarea')].find(
+        visible
+      ) ||
       [...document.querySelectorAll('textarea')].find((t) => visible(t) && /type something/i.test(t.placeholder || ''))
     );
   }
@@ -84,7 +89,14 @@
     input.focus();
     for (const type of ['keydown', 'keypress', 'keyup']) {
       input.dispatchEvent(
-        new KeyboardEvent(type, { key: 'Enter', code: 'Enter', keyCode: 13, which: 13, bubbles: true, cancelable: true })
+        new KeyboardEvent(type, {
+          key: 'Enter',
+          code: 'Enter',
+          keyCode: 13,
+          which: 13,
+          bubbles: true,
+          cancelable: true
+        })
       );
     }
   }
@@ -94,9 +106,9 @@
     let box = input;
     for (let i = 0; i < 4 && box.parentElement; i++) {
       box = box.parentElement;
-      const icons = [...box.querySelectorAll('button, [role="button"], svg, [class*="send" i], [class*="icon" i]')].filter(
-        (e) => visible(e) && !e.contains(input) && !input.contains(e)
-      );
+      const icons = [
+        ...box.querySelectorAll('button, [role="button"], svg, [class*="send" i], [class*="icon" i]')
+      ].filter((e) => visible(e) && !e.contains(input) && !input.contains(e));
       if (icons.length) return icons[icons.length - 1];
     }
     return null;
@@ -126,14 +138,39 @@
     return { ok: true };
   }
 
-  chrome.runtime.onMessage.addListener((msg, _sender, sendResponse) => {
+  function onMessage(msg, _sender, sendResponse) {
     if (msg.type === 'getProduct') {
       sendResponse({ ok: true, product: getShowingProduct(), elapsed: getElapsedSeconds() });
     } else if (msg.type === 'post') {
       post(msg.text).then(sendResponse, (e) => sendResponse({ ok: false, error: String(e) }));
       return true;
     }
-  });
+  }
+  chrome.runtime.onMessage.addListener(onMessage);
+
+  // Stop everything this copy does: when a newer copy loads, or when the
+  // extension was reloaded and messages to it throw "Extension context invalidated".
+  const timers = [];
+  let observer = null;
+  function stop() {
+    observer && observer.disconnect();
+    timers.forEach(clearInterval);
+    clearTimeout(pending);
+    try {
+      chrome.runtime.onMessage.removeListener(onMessage);
+    } catch {}
+    if (window.__liveAutoChatStop === stop) delete window.__liveAutoChatStop;
+  }
+  window.__liveAutoChatStop = stop;
+
+  function send(msg) {
+    try {
+      if (!chrome.runtime || !chrome.runtime.id) return stop();
+      chrome.runtime.sendMessage(msg).catch(() => {});
+    } catch {
+      stop();
+    }
+  }
 
   // Tell the background worker when the pinned product changes, once it has
   // been stable for a couple of seconds (switching products can flicker).
@@ -145,20 +182,23 @@
     const name = product ? product.name : null;
     if (name === lastReported) return;
     lastReported = name;
-    chrome.runtime.sendMessage({ type: 'productChanged', product }).catch(() => {});
+    send({ type: 'productChanged', product });
   }
   function scheduleCheck() {
     if (!pending) pending = setTimeout(checkProduct, 2000);
   }
-  new MutationObserver(scheduleCheck).observe(document.body, { subtree: true, childList: true, characterData: true });
-  setInterval(scheduleCheck, 30000);
+  observer = new MutationObserver(scheduleCheck);
+  observer.observe(document.body, { subtree: true, childList: true, characterData: true });
+  timers.push(setInterval(scheduleCheck, 30000));
   scheduleCheck();
 
   // Report the live timer so the background can send countdown messages.
-  setInterval(() => {
-    const elapsed = getElapsedSeconds();
-    if (elapsed != null) chrome.runtime.sendMessage({ type: 'timer', elapsed }).catch(() => {});
-  }, 10000);
+  timers.push(
+    setInterval(() => {
+      const elapsed = getElapsedSeconds();
+      if (elapsed != null) send({ type: 'timer', elapsed });
+    }, 10000)
+  );
 
   window.__liveAutoChat = { getShowingProduct, getElapsedSeconds, post };
 })();

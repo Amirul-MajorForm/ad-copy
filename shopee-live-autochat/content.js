@@ -1,8 +1,10 @@
 // Runs inside the Shopee Live host dashboard. Reads the showing product and
 // posts messages into the comment box when the background worker asks.
 (() => {
-  if (window.__shopeeAutoChatLoaded) return;
-  window.__shopeeAutoChatLoaded = true;
+  // A copy left over from before the extension was reloaded or updated can no
+  // longer reach the extension: stop it and take over (an extension's scripts
+  // share the page's isolated world, so its stop function is visible here).
+  if (window.__shopeeAutoChatStop) window.__shopeeAutoChatStop();
 
   const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
   const PRICE_RE = /\$\s?[\d,]+(?:\.\d+)?(?:\s*[~\-–]\s*\$\s?[\d,]+(?:\.\d+)?)?/;
@@ -183,7 +185,9 @@
       // Fallback: press Enter in the box.
       input.focus();
       for (const type of ['keydown', 'keypress', 'keyup']) {
-        input.dispatchEvent(new KeyboardEvent(type, { key: 'Enter', code: 'Enter', keyCode: 13, which: 13, bubbles: true }));
+        input.dispatchEvent(
+          new KeyboardEvent(type, { key: 'Enter', code: 'Enter', keyCode: 13, which: 13, bubbles: true })
+        );
       }
       await sleep(1500);
     }
@@ -191,14 +195,39 @@
     return { ok: true, note: pinNote.trim() };
   }
 
-  chrome.runtime.onMessage.addListener((msg, _sender, sendResponse) => {
+  function onMessage(msg, _sender, sendResponse) {
     if (msg.type === 'getProduct') {
       sendResponse({ ok: true, product: getShowingProduct(), elapsed: getElapsedSeconds() });
     } else if (msg.type === 'post') {
       post(msg.text, msg.pin).then(sendResponse, (e) => sendResponse({ ok: false, error: String(e) }));
       return true;
     }
-  });
+  }
+  chrome.runtime.onMessage.addListener(onMessage);
+
+  // Stop everything this copy does: when a newer copy loads, or when the
+  // extension was reloaded and messages to it throw "Extension context invalidated".
+  const timers = [];
+  let observer = null;
+  function stop() {
+    observer && observer.disconnect();
+    timers.forEach(clearInterval);
+    clearTimeout(pending);
+    try {
+      chrome.runtime.onMessage.removeListener(onMessage);
+    } catch {}
+    if (window.__shopeeAutoChatStop === stop) delete window.__shopeeAutoChatStop;
+  }
+  window.__shopeeAutoChatStop = stop;
+
+  function send(msg) {
+    try {
+      if (!chrome.runtime || !chrome.runtime.id) return stop();
+      chrome.runtime.sendMessage(msg).catch(() => {});
+    } catch {
+      stop();
+    }
+  }
 
   // Tell the background worker when the showing product changes, once it has
   // been stable for a couple of seconds (switching products can flicker).
@@ -210,20 +239,23 @@
     const name = product ? product.name : null;
     if (name === lastReported) return;
     lastReported = name;
-    chrome.runtime.sendMessage({ type: 'productChanged', product }).catch(() => {});
+    send({ type: 'productChanged', product });
   }
   function scheduleCheck() {
     if (!pending) pending = setTimeout(checkProduct, 2000);
   }
-  new MutationObserver(scheduleCheck).observe(document.body, { subtree: true, childList: true, characterData: true });
-  setInterval(scheduleCheck, 30000);
+  observer = new MutationObserver(scheduleCheck);
+  observer.observe(document.body, { subtree: true, childList: true, characterData: true });
+  timers.push(setInterval(scheduleCheck, 30000));
   scheduleCheck();
 
   // Report the live timer so the background can send countdown messages.
-  setInterval(() => {
-    const elapsed = getElapsedSeconds();
-    if (elapsed != null) chrome.runtime.sendMessage({ type: 'timer', elapsed }).catch(() => {});
-  }, 10000);
+  timers.push(
+    setInterval(() => {
+      const elapsed = getElapsedSeconds();
+      if (elapsed != null) send({ type: 'timer', elapsed });
+    }, 10000)
+  );
 
   window.__shopeeAutoChat = { getShowingProduct, getElapsedSeconds, post };
 })();
