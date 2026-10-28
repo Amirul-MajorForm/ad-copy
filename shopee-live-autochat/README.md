@@ -70,6 +70,8 @@ dashboard). When nothing is showing, it uses your general messages instead.
 - Build a client's zip with `./build-client.sh shiseido-professional` (or `dettol`). Install it in that
   client's Chrome profile from its own folder.
 - Settings are saved per Chrome profile and per computer; they do not sync between computers.
+- `clients/<client>/frozen-at` holds a commit: that client is always built exactly as it was then.
+  Shiseido Professional is frozen at its last delivered version.
 
 ## Notes
 

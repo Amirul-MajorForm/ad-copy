@@ -10,6 +10,17 @@ slug="$1"; out="${2:-.}"
 defaults="clients/$slug/defaults.js"
 [ -f "$defaults" ] || { echo "No $defaults" >&2; exit 1; }
 
+# A client with clients/<slug>/frozen-at is built exactly as it was at that commit
+# (code and messages), so later changes never reach it.
+if [ -f "clients/$slug/frozen-at" ]; then
+  rev=$(tr -d '[:space:]' < "clients/$slug/frozen-at")
+  src=$(mktemp -d); out=$(cd "$out" && pwd)
+  git archive "$rev" . | tar -x -C "$src"
+  "$src/build-client.sh" "$slug" "$out"
+  rm -rf "$src"
+  exit 0
+fi
+
 # Platform and client name from the client's defaults.
 read -r platform prefix name < <(node -e "
   const vm = require('vm'), ctx = {};
