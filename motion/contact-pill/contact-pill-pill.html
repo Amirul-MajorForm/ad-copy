@@ -1,0 +1,30 @@
+<!-- MajorForm floating contact button (pill). Paste into Settings > Advanced > Code Injection > Footer (site-wide).
+     It stays in place as people scroll, appears after the first screen, and hides on the contact page. -->
+<a class="mf-cta mf-cta--pill" href="https://www.majorform.co/contact"><span class="mf-cta__dot" aria-hidden="true"></span><span class="mf-cta__long">Talk to our strategists</span><span class="mf-cta__short">Let's talk</span><svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="M3 8h9M8.5 4.5 12 8l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+<style>
+  .mf-cta { position: fixed; z-index: 9999; font-family: "Space Grotesk", system-ui, sans-serif; text-decoration: none;
+    opacity: 0; pointer-events: none; transform: translateY(14px); transition: opacity .4s ease, transform .5s cubic-bezier(.2, .8, .2, 1); }
+  .mf-cta.is-on { opacity: 1; pointer-events: auto; transform: none; }
+  .mf-cta:focus-visible { outline: 2px solid #ffffff; outline-offset: 3px; box-shadow: 0 0 0 5px #04202c; }
+  @media (prefers-reduced-motion: reduce) { .mf-cta, .mf-cta * { transition: none !important; animation: none !important; } }
+  @media print { .mf-cta { display: none; } }
+  .mf-cta--pill { right: max(20px, env(safe-area-inset-right)); bottom: max(20px, env(safe-area-inset-bottom)); display: inline-flex; align-items: center; gap: 10px;
+    padding: 13px 20px 13px 16px; border-radius: 999px; background: #04202c; color: #ffffff; font-size: 15px; font-weight: 500; line-height: 1;
+    box-shadow: 0 14px 34px -14px rgba(4, 32, 44, .7), 0 0 0 1px rgba(255, 255, 255, .12); overflow: hidden; isolation: isolate; }
+  .mf-cta--pill::before { content: ""; position: absolute; inset: 0; z-index: -1; background: #ffefae; transform: translateY(102%); transition: transform .4s cubic-bezier(.2, .8, .2, 1); }
+  .mf-cta--pill:hover { color: #04202c; } .mf-cta--pill:hover::before { transform: none; }
+  .mf-cta--pill svg { transition: transform .3s; } .mf-cta--pill:hover svg { transform: translateX(3px); }
+  .mf-cta__dot { position: relative; width: 8px; height: 8px; border-radius: 50%; background: #96d1aa; flex: none; }
+  .mf-cta__dot::after { content: ""; position: absolute; inset: 0; border-radius: 50%; background: inherit; animation: mf-cta-ping 2.4s ease-out infinite; }
+  @keyframes mf-cta-ping { 0% { transform: scale(1); opacity: .7; } 70%, 100% { transform: scale(2.8); opacity: 0; } }
+  .mf-cta__short { display: none; }
+  @media (max-width: 599px) { .mf-cta--pill { padding: 12px 16px 12px 14px; font-size: 14px; } .mf-cta__long { display: none; } .mf-cta__short { display: inline; } }
+</style>
+<script>
+(function () {
+  var a = document.querySelector(".mf-cta"); if (!a) return;
+  if (/^\/contact(\/|$)/.test(location.pathname)) { a.remove(); return; }
+  function check() { a.classList.toggle("is-on", window.scrollY > window.innerHeight * 0.6); }
+  window.addEventListener("scroll", check, { passive: true }); check();
+})();
+</script>

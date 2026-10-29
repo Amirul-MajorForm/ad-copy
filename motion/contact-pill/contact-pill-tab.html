@@ -1,0 +1,26 @@
+<!-- MajorForm floating contact button (tab). Paste into Settings > Advanced > Code Injection > Footer (site-wide).
+     It stays in place as people scroll, appears after the first screen, and hides on the contact page. -->
+<a class="mf-cta mf-cta--tab" href="https://www.majorform.co/contact"><span>Let's talk</span><svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="M3 8h9M8.5 4.5 12 8l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+<style>
+  .mf-cta { position: fixed; z-index: 9999; font-family: "Space Grotesk", system-ui, sans-serif; text-decoration: none;
+    opacity: 0; pointer-events: none; transform: translateY(14px); transition: opacity .4s ease, transform .5s cubic-bezier(.2, .8, .2, 1); }
+  .mf-cta.is-on { opacity: 1; pointer-events: auto; transform: none; }
+  .mf-cta:focus-visible { outline: 2px solid #ffffff; outline-offset: 3px; box-shadow: 0 0 0 5px #04202c; }
+  @media (prefers-reduced-motion: reduce) { .mf-cta, .mf-cta * { transition: none !important; animation: none !important; } }
+  @media print { .mf-cta { display: none; } }
+  .mf-cta--tab { right: 0; top: 50%; display: inline-flex; align-items: center; gap: 8px; padding: 16px 12px; border-radius: 14px 0 0 14px;
+    background: #ffefae; color: #04202c; font-size: 14px; font-weight: 600; letter-spacing: .02em; line-height: 1; writing-mode: vertical-rl; rotate: 180deg;
+    box-shadow: 0 10px 30px -12px rgba(4, 32, 44, .55); margin-top: -60px; }
+  .mf-cta--tab.is-on { transform: none; }
+  .mf-cta--tab:not(.is-on) { transform: translateX(-100%); }
+  .mf-cta--tab svg { rotate: 90deg; transition: translate .3s; }
+  .mf-cta--tab:hover { background: #96d1aa; } .mf-cta--tab:hover svg { translate: 0 3px; }
+</style>
+<script>
+(function () {
+  var a = document.querySelector(".mf-cta"); if (!a) return;
+  if (/^\/contact(\/|$)/.test(location.pathname)) { a.remove(); return; }
+  function check() { a.classList.toggle("is-on", window.scrollY > window.innerHeight * 0.6); }
+  window.addEventListener("scroll", check, { passive: true }); check();
+})();
+</script>

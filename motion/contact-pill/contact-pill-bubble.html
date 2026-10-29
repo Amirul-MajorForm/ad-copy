@@ -1,0 +1,26 @@
+<!-- MajorForm floating contact button (bubble). Paste into Settings > Advanced > Code Injection > Footer (site-wide).
+     It stays in place as people scroll, appears after the first screen, and hides on the contact page. -->
+<a class="mf-cta mf-cta--bubble" href="https://www.majorform.co/contact" aria-label="Talk to our strategists"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3h11A2.5 2.5 0 0 1 20 5.5v8a2.5 2.5 0 0 1-2.5 2.5H10l-4.5 4v-4h0A1.5 1.5 0 0 1 4 14.5z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg><span class="mf-cta__label">Talk to our strategists</span></a>
+<style>
+  .mf-cta { position: fixed; z-index: 9999; font-family: "Space Grotesk", system-ui, sans-serif; text-decoration: none;
+    opacity: 0; pointer-events: none; transform: translateY(14px); transition: opacity .4s ease, transform .5s cubic-bezier(.2, .8, .2, 1); }
+  .mf-cta.is-on { opacity: 1; pointer-events: auto; transform: none; }
+  .mf-cta:focus-visible { outline: 2px solid #ffffff; outline-offset: 3px; box-shadow: 0 0 0 5px #04202c; }
+  @media (prefers-reduced-motion: reduce) { .mf-cta, .mf-cta * { transition: none !important; animation: none !important; } }
+  @media print { .mf-cta { display: none; } }
+  .mf-cta--bubble { right: max(20px, env(safe-area-inset-right)); bottom: max(20px, env(safe-area-inset-bottom)); display: inline-flex; align-items: center;
+    height: 56px; padding: 0 18px; border-radius: 999px; background: #ffefae; color: #04202c; font-size: 15px; font-weight: 500; white-space: nowrap;
+    box-shadow: 0 14px 34px -14px rgba(4, 32, 44, .75), 0 0 0 1px rgba(4, 32, 44, .08); }
+  .mf-cta--bubble svg { flex: none; }
+  .mf-cta__label { max-width: 0; overflow: hidden; opacity: 0; transition: max-width .45s cubic-bezier(.2, .8, .2, 1), opacity .3s, margin .45s; }
+  .mf-cta--bubble:hover .mf-cta__label, .mf-cta--bubble:focus-visible .mf-cta__label { max-width: 220px; opacity: 1; margin-left: 10px; }
+  .mf-cta--bubble:hover { background: #96d1aa; }
+</style>
+<script>
+(function () {
+  var a = document.querySelector(".mf-cta"); if (!a) return;
+  if (/^\/contact(\/|$)/.test(location.pathname)) { a.remove(); return; }
+  function check() { a.classList.toggle("is-on", window.scrollY > window.innerHeight * 0.6); }
+  window.addEventListener("scroll", check, { passive: true }); check();
+})();
+</script>
