@@ -1,6 +1,10 @@
-"""Build squarespace-snippet.html: a self-contained logo marquee with the PNGs inlined.
+"""Build squarespace-snippet.html: a self-contained logo marquee, pure CSS (no script).
 
 Run: python3 build.py   (reads logos/*.png, writes squarespace-snippet.html)
+
+Each logo image is stored once, as a CSS variable, and reused for every repeat, so the loop can repeat logos
+as often as wide screens need without the code growing. Because there is no script, the Squarespace editor
+shows the block at its real size.
 """
 import base64, math, os
 from PIL import Image
@@ -10,32 +14,84 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 # Rows in display order; each row scrolls the opposite way to the one above it.
 ROWS = [
     [("oatside", "Oatside"), ("blackmores", "Blackmores"), ("the-ordinary", "The Ordinary"),
-     ("yoga-movement", "Yoga Movement"), ("strong-pilates", "Strong Pilates")],
-    [("sebamed", "Sebamed"), ("dettol", "Dettol"), ("hada-labo", "Hada Labo"),
+     ("yoga-movement", "Yoga Movement"), ("masterchef", "MasterChef"), ("strong-pilates", "Strong Pilates")],
+    [("sebamed", "Sebamed"), ("dettol", "Dettol"), ("atomic-events", "Atomic Events"), ("hada-labo", "Hada Labo"),
      ("melano-cc", "Melano CC"), ("shiseido-professional", "Shiseido Professional")],
     [("schwarzkopf-professional", "Schwarzkopf Professional"), ("flexar", "Flexar"), ("mbold", "MBOLD"),
      ("urban-company", "Urban Company"), ("sunday", "Sunday")],
 ]
 SPEEDS = [36, 28, 40]  # pixels per second, per row
-AREA = 6400            # target visual area per logo in px^2
+AREA = 6400            # target visual area per logo in px^2, so wide and stacked logos look equally heavy
 MAX_H = 60
+GAP = 72               # px between logos (smaller on narrow screens; the loop stays seamless either way)
+COVER = 2200           # each half of a row's track is at least this wide, so wide screens never see a gap
 
 
-def logo_tag(slug, name):
-    path = os.path.join(HERE, "logos", slug + ".png")
-    w, h = Image.open(path).size
+def size(slug):
+    w, h = Image.open(os.path.join(HERE, "logos", slug + ".png")).size
     dh = min(MAX_H, math.sqrt(AREA / (w / h)))
-    data = base64.b64encode(open(path, "rb").read()).decode()
-    return f'<img src="data:image/png;base64,{data}" alt="{name}" style="height:{dh:.0f}px">'
+    return round(dh * w / h), round(dh)
 
 
-rows_html = "\n".join(
-    f'  <div class="mf-logos__row" data-dir="{"right" if i % 2 else "left"}" data-speed="{SPEEDS[i]}">'
-    f'<div class="mf-logos__track"><div class="mf-logos__set">{"".join(logo_tag(*l) for l in row)}</div></div></div>'
-    for i, row in enumerate(ROWS)
-)
+def data(slug):
+    return "data:image/png;base64," + base64.b64encode(open(os.path.join(HERE, "logos", slug + ".png"), "rb").read()).decode()
 
-TEMPLATE = open(os.path.join(HERE, "template.html")).read()
-out = TEMPLATE.replace("<!--ROWS-->", rows_html)
+
+slugs = [s for row in ROWS for s, _ in row]
+images = ";\n    ".join(f'--mf-l-{s}: url("{data(s)}")' for s in slugs)
+
+rows_html = []
+for i, row in enumerate(ROWS):
+    one = sum(size(s)[0] + GAP for s, _ in row)          # width of one pass through the row
+    reps = max(1, math.ceil(COVER / one))                  # passes per half
+    half = one * reps
+
+    def logos(hidden):
+        out = []
+        for r in range(reps):
+            for s, name in row:
+                w, h = size(s)
+                label = "" if hidden or r else f' role="img" aria-label="{name}"'
+                rep = ' data-rep=""' if r else ""
+                out.append(f'<i class="mf-logos__l"{label}{rep} style="--l:var(--mf-l-{s});width:{w}px;height:{h}px"></i>')
+        return "".join(out)
+    rows_html.append(
+        f'  <div class="mf-logos__row" data-dir="{"right" if i % 2 else "left"}" style="--mf-dur:{half / SPEEDS[i]:.1f}s">'
+        f'<div class="mf-logos__track"><div class="mf-logos__set">{logos(False)}</div>'
+        f'<div class="mf-logos__set" aria-hidden="true">{logos(True)}</div></div></div>')
+
+out = f"""<!-- MajorForm logo marquee. Paste this whole file into a Squarespace Code block with Display Source turned off.
+     Rows alternate direction and loop forever; hovering pauses them. No scripts, so the editor shows its real size.
+     To add a logo: put a white PNG in logos/, add it to ROWS in build.py and rebuild. -->
+<div class="mf-logos" role="region" aria-label="Brands we've worked with">
+{chr(10).join(rows_html)}
+</div>
+<style>
+  .mf-logos {{
+    {images};
+    --mf-gap: clamp(40px, 5vw, {GAP}px);
+    display: grid;
+    gap: clamp(28px, 4vw, 48px);
+    padding-block: 12px;
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+  }}
+  .mf-logos__row {{ overflow: hidden; }}
+  /* two identical halves; sliding by exactly one half makes the loop seamless */
+  .mf-logos__track {{ display: flex; width: max-content; animation: mf-logos-scroll var(--mf-dur, 60s) linear infinite; }}
+  .mf-logos__row[data-dir="right"] .mf-logos__track {{ animation-direction: reverse; }}
+  .mf-logos:hover .mf-logos__track {{ animation-play-state: paused; }}
+  .mf-logos__set {{ display: flex; align-items: center; gap: var(--mf-gap); padding-right: var(--mf-gap); }}
+  .mf-logos__l {{ display: block; flex: none; background: var(--l) center / contain no-repeat; opacity: .92; }}
+  @keyframes mf-logos-scroll {{ from {{ transform: translateX(0); }} to {{ transform: translateX(-50%); }} }}
+  @media (prefers-reduced-motion: reduce) {{
+    .mf-logos {{ -webkit-mask-image: none; mask-image: none; }}
+    .mf-logos__track {{ animation: none; width: auto; justify-content: center; }}
+    .mf-logos__set {{ flex-wrap: wrap; justify-content: center; padding-right: 0; row-gap: 28px; }}
+    .mf-logos__set[aria-hidden], .mf-logos__l[data-rep] {{ display: none; }}
+  }}
+</style>
+"""
 open(os.path.join(HERE, "squarespace-snippet.html"), "w").write(out)
 print("wrote squarespace-snippet.html", len(out), "bytes")
