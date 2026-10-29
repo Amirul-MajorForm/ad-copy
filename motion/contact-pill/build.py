@@ -22,9 +22,8 @@ BASE = """  .mf-cta { position: fixed; z-index: 9999; font-family: "Space Grotes
   @media print { .mf-cta { display: none; } }"""
 
 STYLES = {
-    # A: a pill in the bottom-right corner with a live dot; fills with lemon on hover
-    "pill": (f'<a class="mf-cta mf-cta--pill" href="{CONTACT}"><span class="mf-cta__dot" aria-hidden="true"></span><span class="mf-cta__long">{LABEL}</span>'
-             f'<span class="mf-cta__short">{SHORT}</span>{ARROW}</a>', """
+    # A (chosen): a pill in the bottom-right corner with a live dot; fills with lemon on hover; full label on every screen size
+    "pill": (f'<a class="mf-cta mf-cta--pill" href="{CONTACT}"><span class="mf-cta__dot" aria-hidden="true"></span><span>{LABEL}</span>{ARROW}</a>', """
   .mf-cta--pill { right: max(20px, env(safe-area-inset-right)); bottom: max(20px, env(safe-area-inset-bottom)); display: inline-flex; align-items: center; gap: 10px;
     padding: 13px 20px 13px 16px; border-radius: 999px; background: #04202c; color: #ffffff; font-size: 15px; font-weight: 500; line-height: 1;
     box-shadow: 0 14px 34px -14px rgba(4, 32, 44, .7), 0 0 0 1px rgba(255, 255, 255, .12); overflow: hidden; isolation: isolate; }
@@ -34,8 +33,7 @@ STYLES = {
   .mf-cta__dot { position: relative; width: 8px; height: 8px; border-radius: 50%; background: #96d1aa; flex: none; }
   .mf-cta__dot::after { content: ""; position: absolute; inset: 0; border-radius: 50%; background: inherit; animation: mf-cta-ping 2.4s ease-out infinite; }
   @keyframes mf-cta-ping { 0% { transform: scale(1); opacity: .7; } 70%, 100% { transform: scale(2.8); opacity: 0; } }
-  .mf-cta__short { display: none; }
-  @media (max-width: 599px) { .mf-cta--pill { padding: 12px 16px 12px 14px; font-size: 14px; } .mf-cta__long { display: none; } .mf-cta__short { display: inline; } }"""),
+  @media (max-width: 599px) { .mf-cta--pill { padding: 12px 16px 12px 14px; font-size: 14px; gap: 8px; } }"""),
     # B: a tab on the right edge, halfway down the screen, reading upwards
     "tab": (f'<a class="mf-cta mf-cta--tab" href="{CONTACT}"><span>{SHORT}</span>{ARROW}</a>', """
   .mf-cta--tab { right: 0; top: 50%; display: inline-flex; align-items: center; gap: 8px; padding: 16px 12px; border-radius: 14px 0 0 14px;
