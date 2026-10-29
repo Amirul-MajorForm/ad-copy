@@ -54,7 +54,7 @@ for i, row in enumerate(ROWS):
                 new = bool(flag and flag[0] == "new")
                 label = "" if hidden or r else f' role="img" aria-label="{name}{" (new client)" if new else ""}"'
                 rep = ' data-rep=""' if r else ""
-                out.append(f'<i class="mf-logos__l"{label}{rep}{" data-new" if new else ""} style="--l:var(--mf-l-{s});width:{w}px;height:{h}px"></i>')
+                out.append(f'<i class="mf-logos__l"{label}{rep}{" data-new" if new else ""} style="--l:var(--mf-l-{s});--w:{w};--h:{h}"></i>')
         return "".join(out)
     rows_html.append(
         f'  <div class="mf-logos__row" data-dir="{"right" if i % 2 else "left"}" style="--mf-dur:{half / SPEEDS[i]:.1f}s">'
@@ -70,6 +70,7 @@ out = f"""<!-- MajorForm logo marquee. Paste this whole file into a Squarespace 
 <style>
   .mf-logos {{
     {images};
+    --mf-scale: 1;  /* logo size relative to desktop: smaller on tablets and phones */
     --mf-gap: clamp(40px, 5vw, {GAP}px);
     display: grid;
     gap: clamp(28px, 4vw, 48px);
@@ -84,11 +85,13 @@ out = f"""<!-- MajorForm logo marquee. Paste this whole file into a Squarespace 
   .mf-logos__row[data-dir="right"] .mf-logos__track {{ animation-direction: reverse; }}
   .mf-logos:hover .mf-logos__track {{ animation-play-state: paused; }}
   .mf-logos__set {{ display: flex; align-items: center; gap: var(--mf-gap); padding-right: var(--mf-gap); }}
-  .mf-logos__l {{ position: relative; display: block; flex: none; background: var(--l) center / contain no-repeat; opacity: .92; }}
+  .mf-logos__l {{ position: relative; display: block; flex: none; width: calc(var(--w) * var(--mf-scale) * 1px); height: calc(var(--h) * var(--mf-scale) * 1px); background: var(--l) center / contain no-repeat; opacity: .92; }}
   /* "NEW" badge on recently added clients (mark a logo with "new" in ROWS) */
   .mf-logos__l[data-new]::after {{ content: "NEW"; position: absolute; top: -9px; right: -26px; padding: 3px 7px; border-radius: 999px;
     background: #ffefae; color: #04202c; font: 700 9px/1 "Space Grotesk", system-ui, sans-serif; letter-spacing: .12em;
     box-shadow: 0 4px 12px -6px rgba(0, 0, 0, .6); }}
+  @media (max-width: 899px) {{ .mf-logos {{ --mf-scale: .8; }} }}
+  @media (max-width: 599px) {{ .mf-logos {{ --mf-scale: .6; --mf-gap: 32px; gap: 18px; }} }}
   @keyframes mf-logos-scroll {{ from {{ transform: translateX(0); }} to {{ transform: translateX(-50%); }} }}
   @media (prefers-reduced-motion: reduce) {{
     .mf-logos {{ -webkit-mask-image: none; mask-image: none; }}
