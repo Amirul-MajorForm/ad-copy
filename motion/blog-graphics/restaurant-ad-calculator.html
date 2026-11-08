@@ -1,0 +1,243 @@
+<!-- MajorForm: Restaurant Advertising Profitability Calculator.
+     Paste this whole snippet into a Squarespace 7.1 Code Block inside the blog post, with Display Source turned off.
+     Self-contained: no libraries, fonts, cookies, tracking or third-party requests. All CSS is scoped to
+     #mf-restaurant-calculator and the script creates no global variables.
+     To change defaults or ranges: edit the min, max, step and value attributes on each slider below (the "value" is the default).
+     To change colours: edit the variables at the top of the <style> block. -->
+<section id="mf-restaurant-calculator" aria-labelledby="mfrc-title">
+  <header class="mfrc-head">
+    <h3 id="mfrc-title" class="mfrc-title">Is Your Restaurant Advertising Worth It?</h3>
+    <p class="mfrc-lede">Adjust the numbers below to see how much contribution your advertising could generate, and what you can afford to spend acquiring each additional diner.</p>
+  </header>
+
+  <div class="mfrc-grid">
+    <form class="mfrc-inputs" aria-label="Calculator inputs" onsubmit="return false">
+      <div class="mfrc-field">
+        <div class="mfrc-row"><label for="mfrc-spend-per">Average spend per diner</label><output class="mfrc-val" for="mfrc-spend-per" data-out="avg">S$30</output></div>
+        <input type="range" id="mfrc-spend-per" data-key="avg" min="10" max="150" step="5" value="30" aria-describedby="mfrc-h-avg">
+        <p class="mfrc-help" id="mfrc-h-avg">The average amount an additional diner spends during a visit.</p>
+      </div>
+      <div class="mfrc-field">
+        <div class="mfrc-row"><label for="mfrc-margin">Contribution margin before advertising</label><output class="mfrc-val" for="mfrc-margin" data-out="margin">60%</output></div>
+        <input type="range" id="mfrc-margin" data-key="margin" min="20" max="80" step="5" value="60" aria-describedby="mfrc-h-margin">
+        <p class="mfrc-help" id="mfrc-h-margin">The percentage remaining after the relevant variable costs of serving a diner (such as food and packaging), but before advertising.</p>
+      </div>
+      <div class="mfrc-field">
+        <div class="mfrc-row"><label for="mfrc-budget">Advertising spend</label><output class="mfrc-val" for="mfrc-budget" data-out="budget">S$300</output></div>
+        <input type="range" id="mfrc-budget" data-key="budget" min="100" max="3000" step="50" value="300" aria-describedby="mfrc-h-budget">
+        <p class="mfrc-help" id="mfrc-h-budget">Total media spend for the campaign, excluding any additional production or agency fees.</p>
+      </div>
+      <div class="mfrc-field">
+        <div class="mfrc-row"><label for="mfrc-cost">Cost per additional diner</label><output class="mfrc-val" for="mfrc-cost" data-out="cost">S$10</output></div>
+        <input type="range" id="mfrc-cost" data-key="cost" min="5" max="50" step="1" value="10" aria-describedby="mfrc-h-cost">
+        <p class="mfrc-help" id="mfrc-h-cost">The estimated advertising cost of acquiring one genuinely additional (incremental) customer: someone who would not have visited without the ads. Not simply a click or reservation.</p>
+      </div>
+      <button type="button" class="mfrc-reset">Reset to defaults</button>
+    </form>
+
+    <div class="mfrc-results" aria-label="Results">
+      <div class="mfrc-primary" data-state="positive" aria-live="polite" aria-atomic="true">
+        <p class="mfrc-k">Estimated contribution after advertising</p>
+        <p class="mfrc-big"><span data-out="after">+S$240</span></p>
+        <p class="mfrc-badge"><span class="mfrc-badge-icon" aria-hidden="true" data-out="icon">&#9650;</span> <span data-out="status">Pays for itself</span></p>
+        <p class="mfrc-msg" data-out="msg">Based on your inputs, your campaign could contribute S$240 after advertising costs.</p>
+      </div>
+
+      <dl class="mfrc-metrics">
+        <div><dt>Break-even acquisition cost</dt><dd data-out="be">S$18</dd></div>
+        <div><dt>Estimated additional diners</dt><dd data-out="diners">30</dd></div>
+        <div><dt>Estimated additional revenue</dt><dd data-out="revenue">S$900</dd></div>
+      </dl>
+
+      <div class="mfrc-gauge" aria-hidden="true">
+        <div class="mfrc-track"><span class="mfrc-zone" style="width:72%"></span><span class="mfrc-be" style="left:72%"></span><span class="mfrc-dot" style="left:40%"></span></div>
+        <div class="mfrc-scale"><span>S$0</span><span data-out="gmax">S$25</span></div>
+      </div>
+      <p class="mfrc-gauge-text" data-out="gauge">Your cost per additional diner (S$10) is below the break-even cost (S$18).</p>
+
+      <p class="mfrc-explain" data-out="explain">At S$30 per diner and a 60% contribution margin, each additional customer contributes S$18 before advertising. If acquiring that customer costs S$10, you're left with S$8 per diner after media spend.</p>
+    </div>
+  </div>
+
+  <p class="mfrc-note">Illustrative estimates only. Results assume all acquired diners are genuinely incremental and that contribution margin includes relevant variable costs. Actual results depend on attribution, discounts, repeat visits, operational costs and any additional campaign expenses. This calculator is not a forecast or guarantee.</p>
+
+  <div class="mfrc-cta">
+    <div>
+      <p class="mfrc-cta-title">Want to make your advertising budget work harder?</p>
+      <p class="mfrc-cta-text">MajorForm helps businesses plan, execute and measure performance marketing campaigns across Meta, Google and other digital platforms.</p>
+    </div>
+    <a class="mfrc-cta-link" href="https://www.majorform.co/contact">Discuss Your Growth Goals <span aria-hidden="true">&rarr;</span></a>
+  </div>
+</section>
+
+<style>
+  #mf-restaurant-calculator {
+    /* Brand colours: MajorForm navy, deep ink, and Wada 281 accents used across majorform.co */
+    --mfrc-ink: #233551;          /* headings and values */
+    --mfrc-text: #3d4350;         /* body copy */
+    --mfrc-muted: #6b7180;        /* helper text */
+    --mfrc-line: #e1e4e8;         /* borders */
+    --mfrc-panel: #f6f7f9;        /* results panel */
+    --mfrc-accent: #253551;       /* slider fill, buttons */
+    --mfrc-pos: #0f6b4f;          /* positive result text */
+    --mfrc-pos-bg: #e3f3ea;       /* positive result background */
+    --mfrc-neg: #a3261c;          /* negative result text */
+    --mfrc-neg-bg: #fbe9e6;       /* negative result background */
+    --mfrc-even: #6b5a00;         /* break-even result text */
+    --mfrc-even-bg: #fff6cf;      /* break-even result background */
+    --mfrc-base: 14px;            /* text size; the blog paragraphs are about 12px */
+    container-type: inline-size; box-sizing: border-box; margin: 0; padding: clamp(18px, 3.2cqi, 30px);
+    border: 1px solid var(--mfrc-line); border-radius: 16px; background: #ffffff; color: var(--mfrc-text);
+    font-family: inherit; font-size: var(--mfrc-base); line-height: 1.5;
+  }
+  #mf-restaurant-calculator *, #mf-restaurant-calculator *::before, #mf-restaurant-calculator *::after { box-sizing: border-box; }
+  #mf-restaurant-calculator p, #mf-restaurant-calculator dl, #mf-restaurant-calculator dd, #mf-restaurant-calculator h3 { margin: 0; }
+  #mf-restaurant-calculator .mfrc-head { margin-bottom: clamp(16px, 2.6cqi, 22px); max-width: 60ch; }
+  #mf-restaurant-calculator .mfrc-title { font-family: inherit; font-size: 1.6em; font-weight: 600; line-height: 1.15; letter-spacing: -.02em; color: var(--mfrc-ink); text-transform: none; margin-bottom: 6px; }
+  #mf-restaurant-calculator .mfrc-lede { color: var(--mfrc-text); }
+  #mf-restaurant-calculator .mfrc-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 20px; }
+  @container (min-width: 620px) { #mf-restaurant-calculator .mfrc-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 26px; align-items: start; } }
+
+  /* inputs */
+  #mf-restaurant-calculator .mfrc-inputs { display: grid; gap: 18px; margin: 0; }
+  #mf-restaurant-calculator .mfrc-field { display: grid; gap: 6px; }
+  #mf-restaurant-calculator .mfrc-row { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
+  #mf-restaurant-calculator label { font-weight: 600; color: var(--mfrc-ink); font-size: 1em; line-height: 1.3; }
+  #mf-restaurant-calculator .mfrc-val { flex: none; min-width: 5ch; text-align: right; font-weight: 700; font-size: 1.15em; color: var(--mfrc-ink); font-variant-numeric: tabular-nums; }
+  #mf-restaurant-calculator .mfrc-help { font-size: .86em; line-height: 1.45; color: var(--mfrc-muted); }
+  #mf-restaurant-calculator input[type="range"] { --p: 50%; -webkit-appearance: none; appearance: none; width: 100%; height: 28px; margin: 0; padding: 0; background: transparent; cursor: pointer; touch-action: pan-y; }
+  #mf-restaurant-calculator input[type="range"]::-webkit-slider-runnable-track { height: 6px; border-radius: 999px; background: linear-gradient(var(--mfrc-accent), var(--mfrc-accent)) 0 / var(--p) 100% no-repeat, var(--mfrc-line); }
+  #mf-restaurant-calculator input[type="range"]::-moz-range-track { height: 6px; border-radius: 999px; background: var(--mfrc-line); }
+  #mf-restaurant-calculator input[type="range"]::-moz-range-progress { height: 6px; border-radius: 999px; background: var(--mfrc-accent); }
+  #mf-restaurant-calculator input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 22px; height: 22px; margin-top: -8px; border-radius: 50%; background: #ffffff; border: 2px solid var(--mfrc-accent); box-shadow: 0 1px 3px rgba(4, 32, 44, .25); }
+  #mf-restaurant-calculator input[type="range"]::-moz-range-thumb { width: 18px; height: 18px; border-radius: 50%; background: #ffffff; border: 2px solid var(--mfrc-accent); box-shadow: 0 1px 3px rgba(4, 32, 44, .25); }
+  #mf-restaurant-calculator input[type="range"]:focus { outline: none; }
+  #mf-restaurant-calculator input[type="range"]:focus-visible { outline: 2px solid var(--mfrc-accent); outline-offset: 4px; border-radius: 6px; }
+  #mf-restaurant-calculator .mfrc-reset { justify-self: start; font: inherit; font-size: .93em; font-weight: 600; color: var(--mfrc-ink); background: transparent; border: 1px solid var(--mfrc-line);
+    border-radius: 999px; padding: 8px 16px; cursor: pointer; }
+  #mf-restaurant-calculator .mfrc-reset:hover { border-color: var(--mfrc-ink); }
+  #mf-restaurant-calculator .mfrc-reset:focus-visible, #mf-restaurant-calculator .mfrc-cta-link:focus-visible { outline: 2px solid var(--mfrc-accent); outline-offset: 3px; }
+
+  /* results */
+  #mf-restaurant-calculator .mfrc-results { display: grid; gap: 14px; padding: clamp(16px, 2.6cqi, 22px); border-radius: 12px; background: var(--mfrc-panel); }
+  #mf-restaurant-calculator .mfrc-primary { padding: 16px; border-radius: 10px; background: var(--mfrc-pos-bg); color: var(--mfrc-pos); }
+  #mf-restaurant-calculator .mfrc-primary[data-state="negative"] { background: var(--mfrc-neg-bg); color: var(--mfrc-neg); }
+  #mf-restaurant-calculator .mfrc-primary[data-state="even"] { background: var(--mfrc-even-bg); color: var(--mfrc-even); }
+  #mf-restaurant-calculator .mfrc-k { font-size: .82em; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+  #mf-restaurant-calculator .mfrc-big { font-size: clamp(2.2em, 6cqi, 2.9em); font-weight: 700; line-height: 1.1; letter-spacing: -.02em; font-variant-numeric: tabular-nums; margin: 4px 0 6px; white-space: nowrap; }
+  #mf-restaurant-calculator .mfrc-badge { display: inline-flex; align-items: center; gap: 6px; font-weight: 700; font-size: .93em; }
+  #mf-restaurant-calculator .mfrc-badge-icon { font-size: .8em; }
+  #mf-restaurant-calculator .mfrc-msg { margin-top: 6px; color: var(--mfrc-text); min-height: 3em; }
+  #mf-restaurant-calculator .mfrc-metrics { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+  #mf-restaurant-calculator .mfrc-metrics > div { padding: 10px; border-radius: 10px; background: #ffffff; border: 1px solid var(--mfrc-line); }
+  #mf-restaurant-calculator .mfrc-metrics dt { font-size: .78em; line-height: 1.3; color: var(--mfrc-muted); }
+  #mf-restaurant-calculator .mfrc-metrics dd { font-size: 1.3em; font-weight: 700; color: var(--mfrc-ink); font-variant-numeric: tabular-nums; margin-top: 4px; overflow-wrap: anywhere; }
+  /* indicator: where your cost per diner sits against the break-even cost */
+  #mf-restaurant-calculator .mfrc-track { position: relative; height: 8px; border-radius: 999px; background: var(--mfrc-neg-bg); }
+  #mf-restaurant-calculator .mfrc-zone { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 999px 0 0 999px; background: var(--mfrc-pos-bg); box-shadow: inset 0 0 0 1px rgba(15, 107, 79, .25); }
+  #mf-restaurant-calculator .mfrc-be { position: absolute; top: -5px; bottom: -5px; width: 2px; margin-left: -1px; background: var(--mfrc-ink); }
+  #mf-restaurant-calculator .mfrc-dot { position: absolute; top: 50%; width: 14px; height: 14px; margin: -7px 0 0 -7px; border-radius: 50%; background: var(--mfrc-ink); border: 2px solid #ffffff; box-shadow: 0 0 0 1px var(--mfrc-ink); }
+  #mf-restaurant-calculator .mfrc-scale { display: flex; justify-content: space-between; margin-top: 6px; font-size: .78em; color: var(--mfrc-muted); font-variant-numeric: tabular-nums; }
+  #mf-restaurant-calculator .mfrc-gauge-text { font-size: .9em; color: var(--mfrc-text); }
+  #mf-restaurant-calculator .mfrc-explain { font-size: .9em; color: var(--mfrc-text); padding-top: 12px; border-top: 1px solid var(--mfrc-line); min-height: 4.5em; }
+  @container (max-width: 380px) { #mf-restaurant-calculator .mfrc-metrics { grid-template-columns: minmax(0, 1fr); } }
+
+  /* note and call to action */
+  #mf-restaurant-calculator .mfrc-note { margin-top: 18px; font-size: .8em; line-height: 1.5; color: var(--mfrc-muted); }
+  #mf-restaurant-calculator .mfrc-cta { margin-top: 18px; padding-top: 18px; border-top: 1px solid var(--mfrc-line); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 24px; }
+  #mf-restaurant-calculator .mfrc-cta > div { flex: 1 1 280px; }
+  #mf-restaurant-calculator .mfrc-cta-title { font-weight: 600; color: var(--mfrc-ink); }
+  #mf-restaurant-calculator .mfrc-cta-text { font-size: .9em; color: var(--mfrc-muted); }
+  #mf-restaurant-calculator .mfrc-cta-link { display: inline-flex; align-items: center; gap: 8px; padding: 10px 18px; border-radius: 999px; background: var(--mfrc-accent); color: #ffffff;
+    font-weight: 600; font-size: .93em; text-decoration: none; white-space: nowrap; }
+  #mf-restaurant-calculator .mfrc-cta-link:hover { background: #04202c; }
+  @media (prefers-reduced-motion: reduce) { #mf-restaurant-calculator * { transition: none !important; animation: none !important; } }
+</style>
+
+<script>
+(function () {
+  "use strict";
+  var root = document.getElementById("mf-restaurant-calculator");
+  if (!root || root.getAttribute("data-mfrc-ready")) return;
+  root.setAttribute("data-mfrc-ready", "1");
+
+  var inputs = {};
+  Array.prototype.forEach.call(root.querySelectorAll('input[type="range"]'), function (el) {
+    inputs[el.getAttribute("data-key")] = el;
+    el.setAttribute("data-default", el.value);
+  });
+  function out(name) { return root.querySelector('[data-out="' + name + '"]'); }
+
+  // S$ with no decimals for whole amounts, two decimals otherwise; a sign only when asked for
+  function money(x, signed) {
+    var abs = Math.abs(x), whole = Math.abs(abs - Math.round(abs)) < 0.005;
+    var s = "S$" + abs.toLocaleString("en-SG", { minimumFractionDigits: whole ? 0 : 2, maximumFractionDigits: whole ? 0 : 2 });
+    if (x < 0) return (signed ? "−" : "-") + s;
+    return (signed && x > 0 ? "+" : "") + s;
+  }
+  function diners(n) {
+    var r = Math.round(n * 10) / 10;
+    return (Math.abs(n - Math.round(n)) < 1e-9 ? "" : "≈") + r.toLocaleString("en-SG", { maximumFractionDigits: 1 });
+  }
+
+  function update() {
+    var avg = +inputs.avg.value, pct = +inputs.margin.value, budget = +inputs.budget.value, cost = +inputs.cost.value;
+    // slider fill
+    Object.keys(inputs).forEach(function (k) {
+      var el = inputs[k]; el.style.setProperty("--p", ((el.value - el.min) / (el.max - el.min)) * 100 + "%");
+    });
+    out("avg").textContent = money(avg); out("margin").textContent = pct + "%";
+    out("budget").textContent = money(budget); out("cost").textContent = money(cost);
+
+    var margin = pct / 100;
+    var perDiner = avg * margin;                 // contribution per additional diner = break-even acquisition cost
+    var count = budget / cost;                   // estimated additional diners (unrounded internally)
+    var revenue = count * avg;                   // estimated revenue from additional diners
+    var before = revenue * margin;               // contribution before advertising
+    // contribution after advertising, computed from whole numbers so break-even is exactly zero:
+    // budget * (avg * pct - cost * 100) / (cost * 100)
+    var edge = avg * pct - cost * 100;           // 100 x (contribution per diner - cost per diner): exact whole number, so its sign is exact
+    var after = budget * edge / (cost * 100);
+    var perAfter = perDiner - cost;              // contribution per diner after advertising
+
+    var state = edge > 0 ? "positive" : edge < 0 ? "negative" : "even";
+    var box = root.querySelector(".mfrc-primary");
+    box.setAttribute("data-state", state);
+    out("after").textContent = state === "even" ? "S$0" : money(after, true);
+    out("icon").innerHTML = state === "positive" ? "&#9650;" : state === "negative" ? "&#9660;" : "&#9644;";
+    out("status").textContent = state === "positive" ? "Pays for itself" : state === "negative" ? "Does not pay for itself" : "Breaks even";
+    out("msg").textContent = state === "positive"
+      ? "Based on your inputs, your campaign could contribute " + money(after) + " after advertising costs."
+      : state === "negative"
+        ? "Based on your inputs, advertising costs exceed the contribution generated from these additional diners."
+        : "Based on your inputs, the contribution from these additional diners exactly covers your advertising costs: the campaign breaks even.";
+
+    out("be").textContent = money(perDiner);
+    out("diners").textContent = diners(count);
+    out("revenue").textContent = money(revenue);
+
+    // indicator scale: 0 to a little above the larger of the two costs
+    var top = Math.max(perDiner, cost) * 1.25;
+    root.querySelector(".mfrc-zone").style.width = (perDiner / top) * 100 + "%";
+    root.querySelector(".mfrc-be").style.left = (perDiner / top) * 100 + "%";
+    root.querySelector(".mfrc-dot").style.left = (cost / top) * 100 + "%";
+    out("gmax").textContent = money(Math.round(top));
+    out("gauge").textContent = "Your cost per additional diner (" + money(cost) + ") is " +
+      (state === "positive" ? "below" : state === "negative" ? "above" : "equal to") + " the break-even cost (" + money(perDiner) + ").";
+
+    out("explain").textContent = "At " + money(avg) + " per diner and " + (/^(8|11|18)/.test(String(pct)) ? "an " : "a ") + pct + "% contribution margin, each additional customer contributes " +
+      money(perDiner) + " before advertising. If acquiring that customer costs " + money(cost) + ", " +
+      (perAfter > 0 ? "you're left with " + money(perAfter) + " per diner after media spend."
+        : perAfter < 0 ? "you lose " + money(-perAfter) + " per diner after media spend."
+        : "you break even on each diner after media spend.");
+    root.setAttribute("data-before", before.toFixed(2));  // contribution before advertising, kept for checking
+  }
+
+  Object.keys(inputs).forEach(function (k) { inputs[k].addEventListener("input", update); });
+  root.querySelector(".mfrc-reset").addEventListener("click", function () {
+    Object.keys(inputs).forEach(function (k) { inputs[k].value = inputs[k].getAttribute("data-default"); });
+    update();
+  });
+  update();
+})();
+</script>
