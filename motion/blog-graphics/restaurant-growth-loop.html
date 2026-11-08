@@ -1,0 +1,62 @@
+<!-- MajorForm blog graphic: the restaurant growth loop (Discovery, Conversion, Retention).
+     Paste into a Squarespace Code block inside the blog post, with Display Source turned off. No scripts, so the editor
+     shows its real size. Stacks into a column on phones. -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,600&family=Space+Grotesk:wght@400;500&display=swap">
+<figure class="mf-loop" aria-labelledby="mf-loop-title">
+  <figcaption class="mf-loop__head">
+    <span class="mf-loop__kick">The restaurant growth loop</span>
+    <span class="mf-loop__title" id="mf-loop-title">Three questions every restaurant's marketing should answer</span>
+  </figcaption>
+  <ol class="mf-loop__steps">
+    <li class="mf-loop__step" style="--c:#ffefae">
+      <span class="mf-loop__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m15.5 15.5 5 5"/></svg></span>
+      <span class="mf-loop__num">01</span>
+      <h3 class="mf-loop__name">Discovery</h3>
+      <p class="mf-loop__q">Can potential customers find your restaurant when they're looking for somewhere to eat?</p>
+    </li>
+    <li class="mf-loop__step" style="--c:#96d1aa">
+      <span class="mf-loop__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4M9 14.5l2 2 4-4"/></svg></span>
+      <span class="mf-loop__num">02</span>
+      <h3 class="mf-loop__name">Conversion</h3>
+      <p class="mf-loop__q">Does your online presence give them a compelling reason to visit or book?</p>
+    </li>
+    <li class="mf-loop__step" style="--c:#2fc2b6">
+      <span class="mf-loop__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M19.5 12a7.5 7.5 0 0 1-13 5.1M4.5 12a7.5 7.5 0 0 1 13-5.1"/><path d="M17.5 3v4h-4M6.5 21v-4h4"/></svg></span>
+      <span class="mf-loop__num">03</span>
+      <h3 class="mf-loop__name">Retention</h3>
+      <p class="mf-loop__q">Are you giving customers enough reasons to come back?</p>
+    </li>
+  </ol>
+  <p class="mf-loop__back"><span class="mf-loop__arc" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-2.6-5.9"/><path d="M20 3.5v4.5h-4.5"/></svg></span><span>Regulars become your best source of discovery, through reviews, word of mouth and repeat bookings.</span></p>
+</figure>
+<style>
+  .mf-loop { --navy: #253551; --deep: #04202c; container-type: inline-size; margin: 0; padding: clamp(22px, 4cqi, 40px); border-radius: 22px; background: var(--navy);
+    color: rgba(243, 242, 247, .82); font-family: "Space Grotesk", system-ui, sans-serif; }
+  .mf-loop * { box-sizing: border-box; }
+  .mf-loop__head { display: grid; gap: 6px; margin-bottom: clamp(18px, 3cqi, 28px); }
+  .mf-loop__kick { font-size: 11px; font-weight: 500; letter-spacing: .16em; text-transform: uppercase; color: #96d1aa; }
+  .mf-loop__title { font-family: "DM Sans", "Helvetica Neue", Arial, sans-serif; font-weight: 600; font-size: clamp(22px, 3.4cqi, 30px); line-height: 1.12;
+    letter-spacing: -.03em; color: #ffffff; text-wrap: balance; max-width: 24ch; }
+  .mf-loop__steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: minmax(0, 1fr); gap: 34px; counter-reset: none; }
+  @container (min-width: 560px) { .mf-loop__steps { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; } }
+  .mf-loop__step { position: relative; margin: 0; padding: 22px 22px 24px; border-radius: 18px; background: var(--c); color: var(--deep);
+    display: grid; grid-template-columns: auto 1fr; grid-template-rows: auto auto 1fr; column-gap: 12px; row-gap: 8px; align-items: center;
+    transition: transform .35s cubic-bezier(.2, .8, .2, 1), box-shadow .35s; }
+  .mf-loop__step::before, .mf-loop__step::marker { content: none; }
+  .mf-loop__step:hover { transform: translateY(-4px); box-shadow: 0 18px 36px -20px rgba(0, 0, 0, .6); }
+  /* the arrow between steps: a white circle, pointing down on phones and right on wider screens */
+  .mf-loop__step + .mf-loop__step::after { content: "\2193"; position: absolute; left: 50%; top: -30px; width: 26px; height: 26px; margin-left: -13px; border-radius: 50%;
+    display: grid; place-items: center; background: #ffffff; color: #00978d; font-size: 13px; font-weight: 600; line-height: 1; box-shadow: 0 4px 12px -4px rgba(0, 0, 0, .4); }
+  @container (min-width: 560px) { .mf-loop__step + .mf-loop__step::after { content: "\2192"; left: -22px; top: 50%; margin: -13px 0 0; } }
+  .mf-loop__icon { grid-row: 1; width: 40px; height: 40px; border-radius: 12px; background: rgba(4, 32, 44, .1); display: grid; place-items: center; }
+  .mf-loop__icon svg { width: 22px; height: 22px; fill: none; stroke: var(--deep); stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+  .mf-loop__num { grid-row: 1; justify-self: end; font-family: "DM Sans", "Helvetica Neue", Arial, sans-serif; font-weight: 600; font-size: 13px; letter-spacing: .04em; opacity: .55; }
+  .mf-loop .mf-loop__name { grid-column: 1 / -1; margin: 6px 0 0; font-family: "DM Sans", "Helvetica Neue", Arial, sans-serif; font-weight: 600; font-size: clamp(20px, 3cqi, 24px);
+    line-height: 1.1; letter-spacing: -.02em; color: var(--deep); text-transform: none; }
+  .mf-loop .mf-loop__q { grid-column: 1 / -1; align-self: start; margin: 0; font-size: 15.5px; line-height: 1.45; color: rgba(4, 32, 44, .86); }
+  /* the loop back: retention feeds discovery */
+  .mf-loop__back { display: flex; align-items: center; gap: 14px; margin: clamp(18px, 3cqi, 26px) 0 0; padding-top: 18px; border-top: 1px solid rgba(255, 255, 255, .16); font-size: 15px; line-height: 1.45; }
+  .mf-loop__arc { flex: none; width: 38px; height: 38px; border-radius: 50%; background: rgba(150, 209, 170, .16); display: grid; place-items: center; }
+  .mf-loop__arc svg { width: 20px; height: 20px; fill: none; stroke: #96d1aa; stroke-width: 1.9; stroke-linecap: round; stroke-linejoin: round; }
+  @media (prefers-reduced-motion: reduce) { .mf-loop__step { transition: none; } .mf-loop__step:hover { transform: none; } }
+</style>
