@@ -2,7 +2,7 @@
      Paste into a Squarespace Code block inside the blog post, with Display Source turned off. No scripts, so the editor
      shows its real size. Stacks into a column on phones. Text sizes follow --mf-base (your blog paragraph size, about 12px);
      change that one number to scale the whole graphic.
-     Colours: Sanzo Wada combination 287. Animation: the timeline fills stage by stage while each card lights up in turn (off for reduced motion). -->
+     Colours: deep tones of Sanzo Wada combination 287 on the cards (white text, about 6:1 contrast), the original light tones on the timeline. Animation: the timeline fills stage by stage while each card lights up in turn (off for reduced motion). -->
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,600&family=Space+Grotesk:wght@400;500&display=swap">
 <figure class="mf-90" aria-labelledby="mf-90-title">
   <figcaption class="mf-90__head">
@@ -11,19 +11,19 @@
   </figcaption>
   <div class="mf-90__bar" aria-hidden="true"><span class="mf-90__seg mf-90__seg--1" style="--c:#a7d4e4"></span><span class="mf-90__seg mf-90__seg--2" style="--c:#78cdd0"></span><span class="mf-90__seg mf-90__seg--3" style="--c:#f37f94"></span></div>
   <ol class="mf-90__steps">
-    <li class="mf-90__step mf-90__step--1" style="--c:#a7d4e4">
+    <li class="mf-90__step mf-90__step--1" style="--c:#2e6580">
       <span class="mf-90__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m15.5 15.5 5 5M7.8 10.6l1.9 1.9 3.5-3.6"/></svg></span>
       <span class="mf-90__days">Days 1&ndash;30</span>
       <h3 class="mf-90__name">Diagnose</h3>
       <p class="mf-90__what">Audit, establish baselines, fix priorities</p>
     </li>
-    <li class="mf-90__step mf-90__step--2" style="--c:#78cdd0">
+    <li class="mf-90__step mf-90__step--2" style="--c:#1f6e70">
       <span class="mf-90__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9.5 3.5h5M10 3.5v6L4.8 18.3A1.5 1.5 0 0 0 6.1 20.5h11.8a1.5 1.5 0 0 0 1.3-2.2L14 9.5v-6"/><path d="M7.2 14.5h9.6"/></svg></span>
       <span class="mf-90__days">Days 31&ndash;60</span>
       <h3 class="mf-90__name">Validate</h3>
       <p class="mf-90__what">Test hypotheses, evaluate quality, identify drivers</p>
     </li>
-    <li class="mf-90__step mf-90__step--3" style="--c:#f37f94">
+    <li class="mf-90__step mf-90__step--3" style="--c:#a83a55">
       <span class="mf-90__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 20.5h16M6.5 17v-3M10.5 17v-6M14.5 17v-4M18.5 17V8"/><path d="m5 10 4.5-4 4 3 5.5-5.5M15.5 3.5H19V7"/></svg></span>
       <span class="mf-90__days">Days 61&ndash;90</span>
       <h3 class="mf-90__name">Decide</h3>
@@ -33,7 +33,7 @@
 </figure>
 <style>
   /* every size is relative to --mf-base, set to match the blog's paragraph text */
-  .mf-90 { --mf-base: 12px; --panel: #241b2f; --deep: #1c1626; --loop: 9s; container-type: inline-size; margin: 0; padding: clamp(20px, 3.4cqi, 30px); border-radius: 18px;
+  .mf-90 { --mf-base: 12px; --panel: #241b2f; --loop: 9s; container-type: inline-size; margin: 0; padding: clamp(20px, 3.4cqi, 30px); border-radius: 18px;
     background: var(--panel); color: rgba(243, 242, 247, .82); font-family: "Space Grotesk", system-ui, sans-serif; font-size: var(--mf-base); line-height: 1.5; }
   .mf-90 * { box-sizing: border-box; }
   .mf-90__head { display: grid; gap: 5px; margin-bottom: clamp(14px, 2.4cqi, 20px); }
@@ -48,9 +48,9 @@
   }
   .mf-90__steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: minmax(0, 1fr); gap: 10px; }
   @container (min-width: 560px) { .mf-90__steps { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; } }
-  .mf-90__step { margin: 0; padding: 1.4em 1.4em 1.5em; border-radius: 14px; background: var(--c); color: var(--deep);
+  .mf-90__step { margin: 0; padding: 1.4em 1.4em 1.5em; border-radius: 14px; background: var(--c); color: #ffffff;
     display: grid; grid-template-columns: auto 1fr; column-gap: 10px; row-gap: 6px; align-items: center; align-content: start;
-    opacity: .88; }
+    opacity: .82; }
   .mf-90__step::before, .mf-90__step::marker { content: none; }
 
   /* Animation: one 9-second loop. Each stage's bar segment fills in its third of the loop while its card lifts and
@@ -65,15 +65,15 @@
   .mf-90__step--2 { animation-delay: calc(var(--loop) / 3); }
   .mf-90__step--3 { animation-delay: calc(var(--loop) * 2 / 3); }
   @keyframes mf-90-on {
-    0%, 36%, 100% { opacity: .88; transform: none; box-shadow: none; }
-    5%, 30% { opacity: 1; transform: translateY(-4px); box-shadow: 0 0 0 2px rgba(255, 255, 255, .55), 0 18px 34px -20px rgba(0, 0, 0, .7); }
+    0%, 36%, 100% { opacity: .82; transform: none; box-shadow: none; }
+    5%, 30% { opacity: 1; transform: translateY(-4px); box-shadow: 0 0 0 2px rgba(255, 255, 255, .7), 0 18px 34px -20px rgba(0, 0, 0, .7); }
   }
-  .mf-90__icon { width: 2.8em; height: 2.8em; border-radius: 10px; background: rgba(4, 32, 44, .1); display: grid; place-items: center; }
-  .mf-90__icon svg { width: 1.5em; height: 1.5em; fill: none; stroke: var(--deep); stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
-  .mf-90__days { justify-self: end; font-family: "DM Sans", "Helvetica Neue", Arial, sans-serif; font-weight: 600; font-size: .9em; letter-spacing: .02em; opacity: .6; }
+  .mf-90__icon { width: 2.8em; height: 2.8em; border-radius: 10px; background: rgba(255, 255, 255, .14); display: grid; place-items: center; }
+  .mf-90__icon svg { width: 1.5em; height: 1.5em; fill: none; stroke: #ffffff; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+  .mf-90__days { justify-self: end; font-family: "DM Sans", "Helvetica Neue", Arial, sans-serif; font-weight: 600; font-size: .9em; letter-spacing: .02em; opacity: .8; }
   .mf-90 .mf-90__name { grid-column: 1 / -1; margin: 4px 0 0; font-family: "DM Sans", "Helvetica Neue", Arial, sans-serif; font-weight: 600; font-size: 1.4em;
-    line-height: 1.1; letter-spacing: -.02em; color: var(--deep); text-transform: none; }
-  .mf-90 .mf-90__what { grid-column: 1 / -1; margin: 0; font-size: 1em; line-height: 1.5; color: rgba(4, 32, 44, .86); }
+    line-height: 1.1; letter-spacing: -.02em; color: #ffffff; text-transform: none; }
+  .mf-90 .mf-90__what { grid-column: 1 / -1; margin: 0; font-size: 1em; line-height: 1.5; color: rgba(255, 255, 255, .92); }
   /* no motion: every card at full strength and the timeline shown complete */
   @media (prefers-reduced-motion: reduce) {
     .mf-90__step { animation: none; opacity: 1; }
