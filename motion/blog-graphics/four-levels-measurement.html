@@ -1,0 +1,92 @@
+<!-- MajorForm blog graphic: the four levels of performance measurement.
+     Paste into a Squarespace Code block inside the blog post, with Display Source turned off. No scripts, so the editor
+     shows its real size. Text sizes follow --mf-base (your blog paragraph size, about 12px); change that one number to scale it.
+     Colours: the same deep Wada 287 tones as the first-90-days graphic (white text, about 6:1 contrast).
+     Structure: each level widens, because each adds context to the one before. Animation: a rail fills top to bottom and
+     each level brightens as the fill reaches it (off for reduced motion). -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,600&family=Space+Grotesk:wght@400;500&display=swap">
+<figure class="mf-4l" aria-labelledby="mf-4l-title">
+  <figcaption class="mf-4l__head">
+    <span class="mf-4l__kick">The four levels of performance measurement</span>
+    <span class="mf-4l__title" id="mf-4l-title">Are Your Meta Ads Actually Working?</span>
+    <span class="mf-4l__lede">Four levels of measurement, from advertising delivery to business results.</span>
+  </figcaption>
+  <div class="mf-4l__body">
+    <span class="mf-4l__axis" aria-hidden="true"></span>
+    <ol class="mf-4l__levels">
+      <li class="mf-4l__lv mf-4l__lv--1" style="--c:#2e6580">
+        <span class="mf-4l__num" aria-hidden="true">01</span>
+        <div class="mf-4l__txt"><h3>Media Efficiency</h3><p>Are we reaching and engaging audiences efficiently?</p></div>
+        <ul class="mf-4l__kpis" aria-label="Metrics"><li>CPM</li><li>CTR</li><li>CPC</li><li>Frequency</li></ul>
+      </li>
+      <li class="mf-4l__lv mf-4l__lv--2" style="--c:#1f6e70">
+        <span class="mf-4l__num" aria-hidden="true">02</span>
+        <div class="mf-4l__txt"><h3>Conversion Performance</h3><p>Are clicks and impressions turning into measurable actions?</p></div>
+        <ul class="mf-4l__kpis" aria-label="Metrics"><li>CVR</li><li>CPL</li><li>CPA</li><li>Platform ROAS</li></ul>
+      </li>
+      <li class="mf-4l__lv mf-4l__lv--3" style="--c:#6f6020">
+        <span class="mf-4l__num" aria-hidden="true">03</span>
+        <div class="mf-4l__txt"><h3>Customer Quality</h3><p>Are we acquiring customers or leads that are valuable to the business?</p></div>
+        <ul class="mf-4l__kpis" aria-label="Metrics"><li>Qualified lead rate</li><li>Lead-to-sale rate</li><li>New customer share</li></ul>
+      </li>
+      <li class="mf-4l__lv mf-4l__lv--4" style="--c:#a83a55">
+        <span class="mf-4l__num" aria-hidden="true">04</span>
+        <div class="mf-4l__txt"><h3>Business Outcomes</h3><p>Is advertising contributing to profitable, incremental growth?</p></div>
+        <ul class="mf-4l__kpis" aria-label="Metrics"><li>Blended CAC</li><li>MER</li><li>Revenue</li><li>Contribution margin</li></ul>
+      </li>
+    </ol>
+  </div>
+  <p class="mf-4l__foot">Each level adds context to the previous one. Strong platform metrics alone don't establish incremental business growth.</p>
+</figure>
+<style>
+  /* every size is relative to --mf-base, set to match the blog's paragraph text */
+  .mf-4l { --mf-base: 12px; --panel: #241b2f; --loop: 10s; container-type: inline-size; margin: 0; padding: clamp(20px, 3.4cqi, 30px); border-radius: 18px;
+    background: var(--panel); color: rgba(243, 242, 247, .82); font-family: "Space Grotesk", system-ui, sans-serif; font-size: var(--mf-base); line-height: 1.5; }
+  .mf-4l * { box-sizing: border-box; }
+  .mf-4l__head { display: grid; gap: 5px; margin-bottom: clamp(16px, 2.6cqi, 22px); }
+  .mf-4l__kick { font-size: .85em; font-weight: 500; letter-spacing: .16em; text-transform: uppercase; color: #cab356; }
+  .mf-4l__title { font-family: "DM Sans", "Helvetica Neue", Arial, sans-serif; font-weight: 600; font-size: 1.7em; line-height: 1.15; letter-spacing: -.03em; color: #ffffff; }
+  .mf-4l__lede { color: rgba(243, 242, 247, .78); }
+
+  .mf-4l__body { position: relative; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 0 14px; }
+  /* left rail: fills from the top (delivery) to the bottom (business results) over the loop */
+  .mf-4l__axis { position: relative; width: 4px; border-radius: 999px; background: rgba(255, 255, 255, .12); }
+  .mf-4l__axis::after { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 100%; border-radius: inherit;
+    background: linear-gradient(#a7d4e4, #78cdd0 40%, #cab356 70%, #f37f94); transform-origin: top; animation: mf-4l-rail var(--loop) cubic-bezier(.45, 0, .25, 1) infinite; }
+  @keyframes mf-4l-rail { 0% { transform: scaleY(0); opacity: 1; } 85%, 94% { transform: scaleY(1); opacity: 1; } 100% { transform: scaleY(1); opacity: 0; } }
+
+  .mf-4l__levels { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+  /* each level is wider than the one before: more context at each step */
+  .mf-4l__lv { margin: 0; padding: 1em 1.2em; border-radius: 12px; background: var(--c); color: #ffffff; display: grid;
+    grid-template-columns: auto minmax(0, 1fr); gap: 6px 12px; align-items: start; opacity: .82; }
+  .mf-4l__lv::before, .mf-4l__lv::marker { content: none; }
+  @container (min-width: 600px) {
+    .mf-4l__lv { grid-template-columns: auto minmax(0, 1.25fr) minmax(0, 1fr); align-items: center; }
+    .mf-4l__lv--1 { width: 76%; } .mf-4l__lv--2 { width: 84%; } .mf-4l__lv--3 { width: 92%; } .mf-4l__lv--4 { width: 100%; }
+  }
+  .mf-4l__num { align-self: start; display: grid; place-items: center; min-width: 2.4em; height: 2.4em; padding: 0 .4em; border-radius: 8px; background: rgba(255, 255, 255, .16);
+    font-family: "DM Sans", "Helvetica Neue", Arial, sans-serif; font-weight: 600; font-size: .95em; }
+  .mf-4l .mf-4l__txt h3 { margin: 0; font-family: "DM Sans", "Helvetica Neue", Arial, sans-serif; font-weight: 600; font-size: 1.3em; line-height: 1.15; letter-spacing: -.02em;
+    color: #ffffff; text-transform: none; }
+  .mf-4l .mf-4l__txt p { margin: 3px 0 0; color: rgba(255, 255, 255, .92); line-height: 1.45; }
+  .mf-4l__kpis { grid-column: 1 / -1; list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 5px; }
+  @container (min-width: 600px) { .mf-4l__kpis { grid-column: auto; justify-content: flex-end; } }
+  .mf-4l__kpis li { margin: 0; padding: 3px 9px; border-radius: 999px; border: 1px solid rgba(255, 255, 255, .4); font-size: .86em; font-weight: 500; line-height: 1.3; white-space: nowrap; }
+  .mf-4l__kpis li::before, .mf-4l__kpis li::marker { content: none; }
+
+  /* each level brightens and gets a white outline as the rail reaches it */
+  .mf-4l__lv { animation: mf-4l-on var(--loop) ease-in-out infinite; }
+  .mf-4l__lv--2 { animation-delay: calc(var(--loop) * .21); }
+  .mf-4l__lv--3 { animation-delay: calc(var(--loop) * .42); }
+  .mf-4l__lv--4 { animation-delay: calc(var(--loop) * .63); }
+  @keyframes mf-4l-on {
+    0%, 30%, 100% { opacity: .82; box-shadow: none; }
+    5%, 22% { opacity: 1; box-shadow: 0 0 0 2px rgba(255, 255, 255, .7), 0 14px 28px -18px rgba(0, 0, 0, .7); }
+  }
+  .mf-4l__foot { margin: clamp(14px, 2.4cqi, 20px) 0 0; padding-top: 14px; border-top: 1px solid rgba(255, 255, 255, .16); color: rgba(243, 242, 247, .82); }
+  /* no motion: every level at full strength and the rail shown complete */
+  @media (prefers-reduced-motion: reduce) {
+    .mf-4l__lv { animation: none; opacity: 1; }
+    .mf-4l__axis::after { animation: none; transform: none; opacity: 1; }
+  }
+</style>
