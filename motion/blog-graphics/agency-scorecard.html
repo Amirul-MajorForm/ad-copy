@@ -1,0 +1,108 @@
+<!-- MajorForm blog graphic: Your 90-Day Agency Scorecard (interactive checklist).
+     Paste into a Squarespace Code block inside the blog post, with Display Source turned off.
+     No scripts: the boxes are real checkboxes, the score is counted with CSS and Reset is the browser's own form reset,
+     so the editor shows the block at its real size. Nothing is saved or sent anywhere.
+     Text sizes follow --mf-base (your blog paragraph size, about 12px). Colours match the first-90-days and four-levels graphics. -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,600&family=Space+Grotesk:wght@400;500&display=swap">
+<form class="mf-sc" aria-labelledby="mf-sc-title">
+  <div class="mf-sc__head">
+    <span class="mf-sc__kick">Checklist</span>
+    <h3 class="mf-sc__title" id="mf-sc-title">Your 90-Day Agency Scorecard</h3>
+    <p class="mf-sc__lede">Tick each item your agency has demonstrated.</p>
+  </div>
+
+  <ol class="mf-sc__list">
+    <li style="--c:#2e6580"><label><input type="checkbox" name="audit"><span class="mf-sc__box" aria-hidden="true"></span>
+      <span class="mf-sc__txt"><b>Account Audit &amp; Tracking</b><span>Has the agency identified major account issues, addressed priority tracking gaps and established reliable performance baselines?</span></span></label></li>
+    <li style="--c:#1f6e70"><label><input type="checkbox" name="strategy"><span class="mf-sc__box" aria-hidden="true"></span>
+      <span class="mf-sc__txt"><b>Clear Campaign Strategy</b><span>Is there a documented strategy explaining campaign structure, objectives, audience approach and budget allocation?</span></span></label></li>
+    <li style="--c:#6f6020"><label><input type="checkbox" name="creative"><span class="mf-sc__box" aria-hidden="true"></span>
+      <span class="mf-sc__txt"><b>Creative Testing &amp; Learnings</b><span>Has the agency tested meaningful creative concepts and identified what resonates with your customers?</span></span></label></li>
+    <li style="--c:#a83a55"><label><input type="checkbox" name="reporting"><span class="mf-sc__box" aria-hidden="true"></span>
+      <span class="mf-sc__txt"><b>Business-Focused Reporting</b><span>Can the agency explain results beyond Meta Ads Manager, including lead quality, customer acquisition costs or overall revenue?</span></span></label></li>
+    <li style="--c:#2e6580"><label><input type="checkbox" name="improvement"><span class="mf-sc__box" aria-hidden="true"></span>
+      <span class="mf-sc__txt"><b>Evidence of Improvement</b><span>Is there measurable progress against agreed KPIs, or a clear, evidence-backed explanation of what is limiting performance?</span></span></label></li>
+    <li style="--c:#1f6e70"><label><input type="checkbox" name="plan"><span class="mf-sc__box" aria-hidden="true"></span>
+      <span class="mf-sc__txt"><b>Next 90-Day Action Plan</b><span>Does the agency have a prioritised plan outlining what to scale, improve or stop, and why?</span></span></label></li>
+  </ol>
+
+  <!-- shown at the top by the layout, but placed after the checkboxes so the CSS counter can count them -->
+  <div class="mf-sc__score" aria-hidden="true">
+    <p class="mf-sc__count"><span class="mf-sc__n"></span><span class="mf-sc__of">/6</span></p>
+    <p class="mf-sc__count-label">Demonstrated</p>
+  </div>
+  <div class="mf-sc__bar" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+
+  <div class="mf-sc__foot">
+    <button type="reset" class="mf-sc__reset"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12a8 8 0 1 0 2.6-5.9M4 4v4.5h4.5"/></svg>Reset</button>
+    <p class="mf-sc__verdict mf-sc__verdict--all">All six demonstrated: your agency is covering the essentials.</p>
+    <p class="mf-sc__verdict mf-sc__verdict--some">Any unticked item is worth raising at your next review.</p>
+  </div>
+</form>
+<style>
+  /* every size is relative to --mf-base, set to match the blog's paragraph text */
+  .mf-sc { --mf-base: 12px; --panel: #241b2f; counter-reset: mfsc; /* no container-type: it would stop the CSS counter */ margin: 0; padding: clamp(20px, 4vw, 30px); border-radius: 18px;
+    background: var(--panel); color: rgba(243, 242, 247, .82); font-family: "Space Grotesk", system-ui, sans-serif; font-size: var(--mf-base); line-height: 1.5;
+    display: grid; grid-template-columns: minmax(0, 1fr) auto; column-gap: 16px; }
+  .mf-sc * { box-sizing: border-box; }
+  /* visual order: heading and score, bar, list, footer */
+  .mf-sc__head { grid-column: 1; grid-row: 1; display: grid; gap: 5px; }
+  .mf-sc__score { grid-column: 2; grid-row: 1; align-self: end; text-align: right; }
+  .mf-sc__bar { grid-column: 1 / -1; grid-row: 2; }
+  .mf-sc__list { grid-column: 1 / -1; grid-row: 3; }
+  .mf-sc__foot { grid-column: 1 / -1; grid-row: 4; }
+
+  .mf-sc__kick { font-size: .85em; font-weight: 500; letter-spacing: .16em; text-transform: uppercase; color: #cab356; }
+  .mf-sc .mf-sc__title { margin: 0; font-family: "DM Sans", "Helvetica Neue", Arial, sans-serif; font-weight: 600; font-size: 1.7em; line-height: 1.15; letter-spacing: -.03em;
+    color: #ffffff; text-transform: none; }
+  .mf-sc .mf-sc__lede { margin: 0; color: rgba(243, 242, 247, .78); }
+  .mf-sc__score p { margin: 0; }
+  .mf-sc__count { font-family: "DM Sans", "Helvetica Neue", Arial, sans-serif; font-weight: 600; font-size: 2.4em; line-height: 1; color: #ffffff; font-variant-numeric: tabular-nums; }
+  .mf-sc__n::before { content: counter(mfsc); }
+  .mf-sc__of { color: rgba(243, 242, 247, .5); }
+  .mf-sc__count-label { font-size: .85em; color: rgba(243, 242, 247, .6); }
+
+  /* progress: one segment per item, lit in that item's colour when it is ticked */
+  .mf-sc__bar { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 4px; margin: 14px 0 16px; }
+  .mf-sc__bar span { height: 6px; border-radius: 999px; background: rgba(255, 255, 255, .12); transition: background .35s; }
+  .mf-sc:has(li:nth-child(1) input:checked) .mf-sc__bar span:nth-child(1) { background: #a7d4e4; }
+  .mf-sc:has(li:nth-child(2) input:checked) .mf-sc__bar span:nth-child(2) { background: #78cdd0; }
+  .mf-sc:has(li:nth-child(3) input:checked) .mf-sc__bar span:nth-child(3) { background: #cab356; }
+  .mf-sc:has(li:nth-child(4) input:checked) .mf-sc__bar span:nth-child(4) { background: #f37f94; }
+  .mf-sc:has(li:nth-child(5) input:checked) .mf-sc__bar span:nth-child(5) { background: #a7d4e4; }
+  .mf-sc:has(li:nth-child(6) input:checked) .mf-sc__bar span:nth-child(6) { background: #78cdd0; }
+
+  .mf-sc__list { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+  .mf-sc__list li { margin: 0; padding: 0; }
+  .mf-sc__list li::before, .mf-sc__list li::marker { content: none; }
+  .mf-sc__list label { position: relative; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 12px; align-items: start; padding: .9em 1em; border-radius: 12px; cursor: pointer;
+    background: rgba(255, 255, 255, .04); border: 1px solid rgba(255, 255, 255, .1); transition: background .3s, border-color .3s; }
+  .mf-sc__list label:hover { border-color: rgba(255, 255, 255, .3); }
+  .mf-sc__list input { position: absolute; opacity: 0; width: 1px; height: 1px; margin: 0; }
+  .mf-sc__list input:checked { counter-increment: mfsc; }
+  .mf-sc__box { position: relative; width: 1.8em; height: 1.8em; border-radius: 50%; border: 1.5px solid rgba(255, 255, 255, .5); transition: background .3s, border-color .3s; }
+  .mf-sc__box::after { content: ""; position: absolute; left: 50%; top: 45%; width: .45em; height: .85em; border: solid #ffffff; border-width: 0 2px 2px 0;
+    transform: translate(-50%, -50%) rotate(45deg) scale(0); transition: transform .25s cubic-bezier(.2, .8, .2, 1); }
+  .mf-sc__txt { display: grid; gap: 3px; }
+  .mf-sc__txt b { font-family: "DM Sans", "Helvetica Neue", Arial, sans-serif; font-weight: 600; font-size: 1.2em; line-height: 1.2; letter-spacing: -.01em; color: #ffffff; }
+  .mf-sc__txt span { color: rgba(243, 242, 247, .78); }
+  /* ticked: the row takes its colour and the circle fills with a tick */
+  .mf-sc__list input:checked + .mf-sc__box { background: rgba(255, 255, 255, .18); border-color: #ffffff; }
+  .mf-sc__list input:checked + .mf-sc__box::after { transform: translate(-50%, -50%) rotate(45deg) scale(1); }
+  .mf-sc__list label:has(input:checked) { background: var(--c); border-color: var(--c); }
+  .mf-sc__list label:has(input:checked) .mf-sc__txt span { color: rgba(255, 255, 255, .92); }
+  .mf-sc__list label:has(input:focus-visible) { outline: 2px solid #ffffff; outline-offset: 2px; }
+
+  .mf-sc__foot { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; margin-top: 14px; }
+  .mf-sc__reset { display: inline-flex; align-items: center; gap: 7px; font: inherit; font-weight: 500; color: #ffffff; background: transparent; border: 1px solid rgba(255, 255, 255, .35);
+    border-radius: 999px; padding: 7px 14px; cursor: pointer; }
+  .mf-sc__reset:hover { border-color: #ffffff; }
+  .mf-sc__reset:focus-visible { outline: 2px solid #ffffff; outline-offset: 2px; }
+  .mf-sc__reset svg { width: 1.1em; height: 1.1em; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .mf-sc .mf-sc__verdict { margin: 0; color: rgba(243, 242, 247, .7); display: none; }
+  .mf-sc:has(input:checked) .mf-sc__verdict--some { display: block; }
+  .mf-sc:not(:has(input:not(:checked))) .mf-sc__verdict--some { display: none; }
+  .mf-sc:not(:has(input:not(:checked))) .mf-sc__verdict--all { display: block; color: #cab356; font-weight: 500; }
+  @media (max-width: 480px) { .mf-sc__count { font-size: 2em; } }
+  @media (prefers-reduced-motion: reduce) { .mf-sc * { transition: none !important; } }
+</style>
