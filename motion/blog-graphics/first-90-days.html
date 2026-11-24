@@ -1,28 +1,29 @@
 <!-- MajorForm blog graphic: the first-90-days framework (Diagnose, Validate, Decide).
      Paste into a Squarespace Code block inside the blog post, with Display Source turned off. No scripts, so the editor
      shows its real size. Stacks into a column on phones. Text sizes follow --mf-base (your blog paragraph size, about 12px);
-     change that one number to scale the whole graphic. -->
+     change that one number to scale the whole graphic.
+     Colours: Sanzo Wada combination 287. Animation: the timeline fills stage by stage while each card lights up in turn (off for reduced motion). -->
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,600&family=Space+Grotesk:wght@400;500&display=swap">
 <figure class="mf-90" aria-labelledby="mf-90-title">
   <figcaption class="mf-90__head">
     <span class="mf-90__kick">MajorForm's first-90-days framework</span>
     <span class="mf-90__title" id="mf-90-title">Diagnose, validate, then decide</span>
   </figcaption>
-  <div class="mf-90__bar" aria-hidden="true"><span style="--c:#ffefae"></span><span style="--c:#96d1aa"></span><span style="--c:#2fc2b6"></span></div>
+  <div class="mf-90__bar" aria-hidden="true"><span class="mf-90__seg mf-90__seg--1" style="--c:#a7d4e4"></span><span class="mf-90__seg mf-90__seg--2" style="--c:#78cdd0"></span><span class="mf-90__seg mf-90__seg--3" style="--c:#f37f94"></span></div>
   <ol class="mf-90__steps">
-    <li class="mf-90__step" style="--c:#ffefae">
+    <li class="mf-90__step mf-90__step--1" style="--c:#a7d4e4">
       <span class="mf-90__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m15.5 15.5 5 5M7.8 10.6l1.9 1.9 3.5-3.6"/></svg></span>
       <span class="mf-90__days">Days 1&ndash;30</span>
       <h3 class="mf-90__name">Diagnose</h3>
       <p class="mf-90__what">Audit, establish baselines, fix priorities</p>
     </li>
-    <li class="mf-90__step" style="--c:#96d1aa">
+    <li class="mf-90__step mf-90__step--2" style="--c:#78cdd0">
       <span class="mf-90__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9.5 3.5h5M10 3.5v6L4.8 18.3A1.5 1.5 0 0 0 6.1 20.5h11.8a1.5 1.5 0 0 0 1.3-2.2L14 9.5v-6"/><path d="M7.2 14.5h9.6"/></svg></span>
       <span class="mf-90__days">Days 31&ndash;60</span>
       <h3 class="mf-90__name">Validate</h3>
       <p class="mf-90__what">Test hypotheses, evaluate quality, identify drivers</p>
     </li>
-    <li class="mf-90__step" style="--c:#2fc2b6">
+    <li class="mf-90__step mf-90__step--3" style="--c:#f37f94">
       <span class="mf-90__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 20.5h16M6.5 17v-3M10.5 17v-6M14.5 17v-4M18.5 17V8"/><path d="m5 10 4.5-4 4 3 5.5-5.5M15.5 3.5H19V7"/></svg></span>
       <span class="mf-90__days">Days 61&ndash;90</span>
       <h3 class="mf-90__name">Decide</h3>
@@ -32,30 +33,50 @@
 </figure>
 <style>
   /* every size is relative to --mf-base, set to match the blog's paragraph text */
-  .mf-90 { --mf-base: 12px; --navy: #253551; --deep: #04202c; container-type: inline-size; margin: 0; padding: clamp(20px, 3.4cqi, 30px); border-radius: 18px;
-    background: var(--navy); color: rgba(243, 242, 247, .82); font-family: "Space Grotesk", system-ui, sans-serif; font-size: var(--mf-base); line-height: 1.5; }
+  .mf-90 { --mf-base: 12px; --panel: #241b2f; --deep: #1c1626; --loop: 9s; container-type: inline-size; margin: 0; padding: clamp(20px, 3.4cqi, 30px); border-radius: 18px;
+    background: var(--panel); color: rgba(243, 242, 247, .82); font-family: "Space Grotesk", system-ui, sans-serif; font-size: var(--mf-base); line-height: 1.5; }
   .mf-90 * { box-sizing: border-box; }
   .mf-90__head { display: grid; gap: 5px; margin-bottom: clamp(14px, 2.4cqi, 20px); }
-  .mf-90__kick { font-size: .85em; font-weight: 500; letter-spacing: .16em; text-transform: uppercase; color: #96d1aa; }
+  .mf-90__kick { font-size: .85em; font-weight: 500; letter-spacing: .16em; text-transform: uppercase; color: #cab356; }
   .mf-90__title { font-family: "DM Sans", "Helvetica Neue", Arial, sans-serif; font-weight: 600; font-size: 1.7em; line-height: 1.15; letter-spacing: -.03em; color: #ffffff; }
   /* a timeline bar split into the three 30-day stages (hidden on phones, where the cards stack) */
   .mf-90__bar { display: none; }
   @container (min-width: 560px) {
     .mf-90__bar { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 4px; margin-bottom: 12px; }
-    .mf-90__bar span { height: 5px; border-radius: 999px; background: var(--c); }
+    .mf-90__seg { position: relative; overflow: hidden; height: 5px; border-radius: 999px; background: rgba(255, 255, 255, .12); }
+    .mf-90__seg::after { content: ""; position: absolute; inset: 0; border-radius: inherit; background: var(--c); transform-origin: left; }
   }
   .mf-90__steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: minmax(0, 1fr); gap: 10px; }
   @container (min-width: 560px) { .mf-90__steps { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; } }
   .mf-90__step { margin: 0; padding: 1.4em 1.4em 1.5em; border-radius: 14px; background: var(--c); color: var(--deep);
     display: grid; grid-template-columns: auto 1fr; column-gap: 10px; row-gap: 6px; align-items: center; align-content: start;
-    transition: transform .35s cubic-bezier(.2, .8, .2, 1), box-shadow .35s; }
+    opacity: .88; }
   .mf-90__step::before, .mf-90__step::marker { content: none; }
-  .mf-90__step:hover { transform: translateY(-4px); box-shadow: 0 18px 36px -20px rgba(0, 0, 0, .6); }
+
+  /* Animation: one 9-second loop. Each stage's bar segment fills in its third of the loop while its card lifts and
+     brightens; the bar clears at the end and the cycle starts again. */
+  .mf-90__seg--1::after { animation: mf-90-fill1 var(--loop) cubic-bezier(.45, 0, .25, 1) infinite; }
+  .mf-90__seg--2::after { animation: mf-90-fill2 var(--loop) cubic-bezier(.45, 0, .25, 1) infinite; }
+  .mf-90__seg--3::after { animation: mf-90-fill3 var(--loop) cubic-bezier(.45, 0, .25, 1) infinite; }
+  @keyframes mf-90-fill1 { 0% { transform: scaleX(0); opacity: 1; } 28%, 94% { transform: scaleX(1); opacity: 1; } 100% { transform: scaleX(1); opacity: 0; } }
+  @keyframes mf-90-fill2 { 0%, 33% { transform: scaleX(0); opacity: 1; } 61%, 94% { transform: scaleX(1); opacity: 1; } 100% { transform: scaleX(1); opacity: 0; } }
+  @keyframes mf-90-fill3 { 0%, 66% { transform: scaleX(0); opacity: 1; } 94% { transform: scaleX(1); opacity: 1; } 100% { transform: scaleX(1); opacity: 0; } }
+  .mf-90__step { animation: mf-90-on var(--loop) ease-in-out infinite; }
+  .mf-90__step--2 { animation-delay: calc(var(--loop) / 3); }
+  .mf-90__step--3 { animation-delay: calc(var(--loop) * 2 / 3); }
+  @keyframes mf-90-on {
+    0%, 36%, 100% { opacity: .88; transform: none; box-shadow: none; }
+    5%, 30% { opacity: 1; transform: translateY(-4px); box-shadow: 0 0 0 2px rgba(255, 255, 255, .55), 0 18px 34px -20px rgba(0, 0, 0, .7); }
+  }
   .mf-90__icon { width: 2.8em; height: 2.8em; border-radius: 10px; background: rgba(4, 32, 44, .1); display: grid; place-items: center; }
   .mf-90__icon svg { width: 1.5em; height: 1.5em; fill: none; stroke: var(--deep); stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
   .mf-90__days { justify-self: end; font-family: "DM Sans", "Helvetica Neue", Arial, sans-serif; font-weight: 600; font-size: .9em; letter-spacing: .02em; opacity: .6; }
   .mf-90 .mf-90__name { grid-column: 1 / -1; margin: 4px 0 0; font-family: "DM Sans", "Helvetica Neue", Arial, sans-serif; font-weight: 600; font-size: 1.4em;
     line-height: 1.1; letter-spacing: -.02em; color: var(--deep); text-transform: none; }
   .mf-90 .mf-90__what { grid-column: 1 / -1; margin: 0; font-size: 1em; line-height: 1.5; color: rgba(4, 32, 44, .86); }
-  @media (prefers-reduced-motion: reduce) { .mf-90__step { transition: none; } .mf-90__step:hover { transform: none; } }
+  /* no motion: every card at full strength and the timeline shown complete */
+  @media (prefers-reduced-motion: reduce) {
+    .mf-90__step { animation: none; opacity: 1; }
+    .mf-90__seg::after { animation: none; transform: none; opacity: 1; }
+  }
 </style>
