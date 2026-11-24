@@ -1,0 +1,65 @@
+<!-- MajorForm blog graphic: Singapore Facebook vs Instagram advertising benchmarks.
+     Paste into a Squarespace Code block inside the blog post, with Display Source turned off. No scripts.
+     A real HTML table (readable by search engines and screen readers) with a bar behind each figure.
+     Bars are scaled per column: CPM against S$7.75, CPC against S$4.09. For a range, the solid bar runs to the low figure
+     and the lighter extension to the high figure. Each objective is a heading row above its two platforms. To change a figure, edit its text and its --lo / --hi values
+     (percent of the column maximum). Colours: Sanzo Wada combination 291. Text follows --mf-base (about 12px). -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,600&family=Space+Grotesk:wght@400;500&display=swap">
+<figure class="mf-bm">
+  <figcaption class="mf-bm__head">
+    <span class="mf-bm__kick">Meta advertising in Singapore</span>
+    <span class="mf-bm__title">Singapore Facebook vs Instagram Advertising Benchmarks</span>
+    <span class="mf-bm__legend" aria-hidden="true"><i style="--c:var(--fb)"></i>Facebook <i style="--c:var(--ig)"></i>Instagram <i class="mf-bm__rng"></i>Range</span>
+  </figcaption>
+  <table class="mf-bm__t">
+    <thead><tr><th scope="col">Platform</th><th scope="col">CPM</th><th scope="col">CPC (link)</th></tr></thead>
+    <tbody>
+      <tr class="mf-bm__obj"><th scope="colgroup" colspan="3">Brand awareness</th></tr>
+      <tr style="--c:var(--fb)"><th scope="row">Facebook</th>
+        <td><span class="mf-bm__v" style="--lo:17.7%;--hi:17.7%">S$1.37</span></td><td><span class="mf-bm__v" style="--lo:50.1%;--hi:50.1%">S$2.05</span></td></tr>
+      <tr style="--c:var(--ig)"><th scope="row">Instagram</th>
+        <td><span class="mf-bm__v" style="--lo:17.8%;--hi:17.8%">S$1.38</span></td><td><span class="mf-bm__v" style="--lo:100%;--hi:100%">S$4.09</span></td></tr>
+      <tr class="mf-bm__obj"><th scope="colgroup" colspan="3">E-commerce / sales</th></tr>
+      <tr style="--c:var(--fb)"><th scope="row">Facebook</th>
+        <td><span class="mf-bm__v" style="--lo:77.8%;--hi:78.2%">S$6.03&ndash;S$6.06</span></td><td><span class="mf-bm__v" style="--lo:16.1%;--hi:21.5%">S$0.66&ndash;S$0.88</span></td></tr>
+      <tr style="--c:var(--ig)"><th scope="row">Instagram</th>
+        <td><span class="mf-bm__v" style="--lo:79.1%;--hi:100%">S$6.13&ndash;S$7.75</span></td><td><span class="mf-bm__v" style="--lo:17.4%;--hi:17.8%">S$0.71&ndash;S$0.73</span></td></tr>
+    </tbody>
+  </table>
+  <p class="mf-bm__foot">CPM is the cost per 1,000 impressions; CPC (link) is the cost per click to your website. Benchmarks vary with audience, creative, season and bidding, so treat them as a starting reference rather than a target.</p>
+</figure>
+<style>
+  /* every size is relative to --mf-base, set to match the blog's paragraph text */
+  .mf-bm { --mf-base: 12px; --panel: #0e2526; --fb: #78cdd0; --ig: #c7d14f; --accent: #00b49b; --line: rgba(255, 255, 255, .12);
+    margin: 0; padding: clamp(18px, 4vw, 30px); border-radius: 18px; background: var(--panel); color: rgba(240, 246, 244, .86);
+    font-family: "Space Grotesk", system-ui, sans-serif; font-size: var(--mf-base); line-height: 1.5; }
+  .mf-bm * { box-sizing: border-box; }
+  .mf-bm__head { display: grid; gap: 5px; margin-bottom: 16px; }
+  .mf-bm__kick { font-size: .85em; font-weight: 500; letter-spacing: .16em; text-transform: uppercase; color: var(--accent); }
+  .mf-bm__title { font-family: "DM Sans", "Helvetica Neue", Arial, sans-serif; font-weight: 600; font-size: 1.7em; line-height: 1.15; letter-spacing: -.03em; color: #ffffff; }
+  .mf-bm__legend { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; margin-top: 4px; font-size: .9em; color: rgba(240, 246, 244, .7); }
+  .mf-bm__legend i { display: inline-block; width: 1.6em; height: .6em; border-radius: 999px; background: var(--c); margin-left: 6px; }
+  .mf-bm__legend i:first-child { margin-left: 0; }
+  .mf-bm__legend i.mf-bm__rng { background: linear-gradient(90deg, rgba(255, 255, 255, .7) 50%, rgba(255, 255, 255, .25) 50%); }
+
+  .mf-bm__t { width: 100%; border-collapse: collapse; table-layout: fixed; margin: 0; }
+  .mf-bm__t th, .mf-bm__t td { padding: .7em .6em; text-align: left; vertical-align: middle; border: 0; font-size: 1em; }
+  .mf-bm__t thead th { font-size: .82em; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; color: rgba(240, 246, 244, .6); border-bottom: 1px solid var(--line); }
+  .mf-bm__t thead th:first-child { width: 26%; }
+  /* objective as a group heading */
+  .mf-bm__t .mf-bm__obj th { padding-top: 1.2em; padding-bottom: .2em; font-family: "DM Sans", "Helvetica Neue", Arial, sans-serif; font-weight: 600; font-size: 1.15em;
+    letter-spacing: -.01em; text-transform: none; color: #ffffff; }
+  .mf-bm__t tbody .mf-bm__obj:not(:first-child) th { border-top: 1px solid var(--line); }
+  /* platform name with a colour dot */
+  .mf-bm__t tbody th[scope="row"] { font-weight: 500; color: #ffffff; white-space: nowrap; }
+  .mf-bm__t tbody th[scope="row"]::before { content: ""; display: inline-block; width: .65em; height: .65em; border-radius: 50%; background: var(--c); margin-right: .5em; vertical-align: .02em; }
+  /* the figure with its bar: lighter bar to the high end of a range, solid bar to the low end */
+  .mf-bm__v { position: relative; display: block; padding-top: 1.1em; font-family: "DM Sans", "Helvetica Neue", Arial, sans-serif; font-weight: 600; font-size: 1.05em;
+    color: #ffffff; font-variant-numeric: tabular-nums; }
+  .mf-bm__v::before, .mf-bm__v::after { content: ""; position: absolute; left: 0; top: 0; height: .55em; border-radius: 999px; }
+  .mf-bm__v::before { right: 0; background: linear-gradient(90deg, color-mix(in srgb, var(--c) 38%, transparent) 0 var(--hi), rgba(255, 255, 255, .08) var(--hi)); }
+  .mf-bm__v::after { width: var(--lo); background: var(--c); }
+  .mf-bm__foot { margin: 14px 0 0; padding-top: 12px; border-top: 1px solid var(--line); font-size: .9em; color: rgba(240, 246, 244, .7); }
+
+  @media (max-width: 480px) { .mf-bm__t thead th:first-child { width: 30%; } .mf-bm__v { font-size: .95em; } }
+</style>
