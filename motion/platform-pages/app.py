@@ -10,20 +10,20 @@ PAGE = {
     "crumb": "App install ads",
     "short": "App",
     "pills_label": "App ads work best with",
-    "accent": "#ffdd00",
-    # Wada 284: Eugenia Red, Apricot Yellow, Sea Green, Dusky Green
-    "arrow": "#004f46",  # arrow on the white circles between cards
-    "hi": "#ffdd00",  # highlight text on the navy sections and the results tag
+    "accent": "#afd472",
+    # Wada 276: Eosine Pink, Seashell Pink, Yellow Green, Black
+    "arrow": "#111314",  # arrow on the white circles between cards
+    "hi": "#afd472",  # highlight text on the navy sections and the results tag
     # Slots placed on the site's navy sections (set those sections' background to this colour in Squarespace)
     "dark": {"shift": "#253551", "types": "#253551", "related": "#2a2829"},  # the closing block sits on the footer grey black
     "slots": ["hero", "shift", "types", "results", "process", "fit", "faq", "related"],
-    # Hero numbers as a colour plate from Wada combination 284 (Meta uses 281, TikTok 264, Search 257).
-    # Red and sea green take navy text: white on them is too faint for small labels.
+    # Hero numbers as a colour plate from Wada combination 276 (Meta uses 281, TikTok 264, Search 257).
+    # Only black takes white text: pink, peach and lime take navy.
     "poster": [
-        {"value": "$2M+", "label": "Ad spend managed", "bg": "#004f46", "fg": "#ffffff", "hover": {"bg": "#ffdd00", "fg": "#233551"}},
-        {"value": "10+", "label": "Markets in Asia", "bg": "#ffdd00", "fg": "#233551", "hover": {"bg": "#e2625e", "fg": "#233551"}},
-        {"value": "1 team", "label": "Creative, media and measurement", "bg": "#e2625e", "fg": "#233551", "hover": {"bg": "#00b49b", "fg": "#233551"}},
-        {"value": "300+", "label": "Campaigns run since 2025", "bg": "#00b49b", "fg": "#233551", "hover": {"bg": "#004f46", "fg": "#ffffff"}},
+        {"value": "$2M+", "label": "Ad spend managed", "bg": "#111314", "fg": "#ffffff", "hover": {"bg": "#afd472", "fg": "#233551"}},
+        {"value": "10+", "label": "Markets in Asia", "bg": "#afd472", "fg": "#233551", "hover": {"bg": "#f37f94", "fg": "#233551"}},
+        {"value": "1 team", "label": "Creative, media and measurement", "bg": "#f37f94", "fg": "#233551", "hover": {"bg": "#fdd4bd", "fg": "#233551"}},
+        {"value": "300+", "label": "Campaigns run since 2025", "bg": "#fdd4bd", "fg": "#233551", "hover": {"bg": "#111314", "fg": "#ffffff"}},
     ],
 
     "logos": [("oatside", "Oatside"), ("yoga-movement", "Yoga Movement"), ("flexar", "Flexar")],
@@ -63,13 +63,13 @@ PAGE = {
                  "Here's how we handle each one."),
         "we_label": "How we handle it",
         "steps": [
-            {"who": "you", "bg": "#ffdd00", "fg": "#233551", "title": "Reach people who will use the app",
+            {"who": "you", "bg": "#afd472", "fg": "#233551", "title": "Reach people who will use the app",
              "changed": "The platforms now decide who sees your ads, based on the result you ask for. Ask for cheap installs and you get people who rarely open the app again.",
              "we": "We set campaigns to aim for actions inside the app, such as sign-ups, bookings or first purchases, as soon as there's enough data."},
             {"who": "meta", "bg": "transparent", "fg": "rgba(243, 242, 247, .86)", "title": "The ad does the targeting",
              "changed": "With broad targeting, your creative decides who stops scrolling, and app ads tire quickly once the same people have seen them.",
              "we": "We make and test short videos and screen recordings that show the app in use, and refresh them before results drop."},
-            {"who": "you", "bg": "#e2625e", "fg": "#233551", "title": "Measured past the install",
+            {"who": "you", "bg": "#f37f94", "fg": "#233551", "title": "Measured past the install",
              "changed": "Since Apple's privacy changes, iPhone results arrive late and in totals, and each platform counts installs its own way.",
              "we": "We set up tracking for the events that matter, count each install once across platforms, and report on cost per active or paying user."},
         ],
@@ -83,16 +83,16 @@ PAGE = {
         "title": "App campaigns across the whole journey",
         "lede": "Some campaigns get your app discovered, some win the store search, and some turn downloads into regular users. We set the mix by your goal and budget.",
         "stages": [
-            {"label": "Stage 1", "title": "Get discovered", "bg": "#ffdd00", "fg": "#233551", "pill": {"bg": "#004f46", "fg": "#ffffff"}, "items": [
+            {"label": "Stage 1", "title": "Get discovered", "bg": "#afd472", "fg": "#233551", "pill": {"bg": "#111314", "fg": "#ffffff"}, "items": [
                 ("Meta app ads", "Video and image ads in Facebook and Instagram feeds, Stories and Reels that open your app store page.", ["CPI", "CTR"]),
                 ("TikTok app campaigns", "Short videos in the For You feed, made to feel native and drive downloads.", ["CPI", "CTR"]),
                 ("Google App campaigns", "One campaign across Google Search, Google Play, YouTube and Discover, built from your text, images and videos.", ["CPI"]),
             ]},
-            {"label": "Stage 2", "title": "Win the store search", "bg": "transparent", "fg": "rgba(243, 242, 247, .9)", "pill": {"bg": "#ffdd00", "fg": "#233551"}, "items": [
+            {"label": "Stage 2", "title": "Win the store search", "bg": "transparent", "fg": "rgba(243, 242, 247, .9)", "pill": {"bg": "#afd472", "fg": "#233551"}, "items": [
                 ("Apple Ads", "Ads at the top of App Store search results for the words people type, including your own app's name.", ["Cost per tap", "Tap-to-install rate"]),
                 ("Store page tests", "Icon, screenshot and description tests, so more people who visit your store page install.", ["Store conversion rate"]),
             ]},
-            {"label": "Stage 3", "title": "Grow active users", "bg": "#00b49b", "fg": "#233551", "pill": {"bg": "#004f46", "fg": "#ffffff"}, "items": [
+            {"label": "Stage 3", "title": "Grow active users", "bg": "#fdd4bd", "fg": "#233551", "pill": {"bg": "#111314", "fg": "#ffffff"}, "items": [
                 ("In-app action campaigns", "Campaigns that aim for sign-ups, bookings or first purchases rather than downloads.", ["CPA", "Cost per first purchase"]),
                 ("Value campaigns", "Bidding towards people likely to spend more, once purchase data is coming through.", ["ROAS"]),
                 ("Re-engagement", "Ads that bring lapsed users back, with links that open the right screen in the app.", ["Reactivation rate", "CPA"]),
@@ -120,14 +120,14 @@ PAGE = {
         "title": "From Research to Scale",
         "lede": "A clear plan from day one, so you always know what's happening and what you'll get next.",
         "steps": [
-            {"c": "#ffdd00", "when": "Week 1", "title": "Research",
+            {"c": "#afd472", "when": "Week 1", "title": "Research",
              "text": "We study your market, users and competitors, audit your app tracking and store pages, and agree the one number that matters.",
              "gets": ["Audit report", "Target KPI"]},
-            {"c": "#004f46", "ct": "#ffffff", "when": "Week 2", "title": "Plan",
+            {"c": "#111314", "ct": "#ffffff", "when": "Week 2", "title": "Plan",
              "text": "We map the campaigns across the journey, set up the events to track and plan the first round of ads.", "gets": ["Media plan", "Event map"]},
-            {"c": "#e2625e", "ct": "#233551", "when": "Weeks 3 to 6", "title": "Test",
+            {"c": "#f37f94", "ct": "#233551", "when": "Weeks 3 to 6", "title": "Test",
              "text": "We launch structured tests of creative, platforms, store pages and bidding against that number.", "gets": ["Test results", "Weekly report"]},
-            {"c": "#00b49b", "ct": "#233551", "when": "Month 2 onwards", "title": "Scale",
+            {"c": "#fdd4bd", "ct": "#233551", "when": "Month 2 onwards", "title": "Scale",
              "text": "We move budget to what wins, cut what brings in users who don't stay, and refresh creative every month.", "gets": ["Monthly review", "New ads"]},
         ],
     },
@@ -141,12 +141,12 @@ PAGE = {
         ("Your accounts", None),
     ],
 
-    # FAQ in the performance page's style: navy panel with a Wada 284 tile, questions that flood with colour on hover
+    # FAQ in the performance page's style: navy panel with a Wada 276 tile, questions that flood with colour on hover
     "faq_panel": {
         "title": "Questions brands ask about app install ads",
         "intro": "What brands usually ask us before we start growing their app together.",
-        "tile": ["#ffdd00", "#004f46", "#e2625e", "#00b49b"],
-        "floods": ["#ffdd00", "#00b49b"],
+        "tile": ["#afd472", "#111314", "#f37f94", "#fdd4bd"],
+        "floods": ["#afd472", "#fdd4bd"],
     },
     # 7 FAQs (also written into the FAQPage schema)
     "faqs": [
@@ -192,5 +192,5 @@ PAGE = {
     ],
     "closing": "Ready to grow your app?",
     "closing_sub": "Tell us your goal and we'll show you how we'd plan it.",
-    "related_floods": ["#ffdd00", "#00b49b"],  # pill hover colours in the closing block
+    "related_floods": ["#afd472", "#fdd4bd"],  # pill hover colours in the closing block
 }
