@@ -222,7 +222,7 @@ CSS = {
   @container (min-width: 640px) { .mfp--results .mfp__feat:has(.mfp__fimg--bottom) { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
   .mfp--results .mfp__fimg--bottom .mfp__fbase { width: 100%; }
   /* the brand's logo in the panel's top corner (white logo files, darkened to suit a light panel) */
-  .mfp--results .mfp__fmark { position: absolute; left: 24px; top: 24px; height: 54px; width: auto; filter: brightness(0); opacity: .85; }
+  .mfp--results .mfp__fmark { position: absolute; left: 24px; top: 24px; height: auto; width: auto; max-height: 54px; max-width: 120px; filter: brightness(0); opacity: .85; }
   @container (max-width: 639px) { .mfp--results .mfp__fmark { display: none; } }
   .mfp--results .mfp__fimg--bottom .mfp__fart { max-width: 100%; }
   .mfp--results .mfp__fimg--bottom .mfp__fbase { max-height: 380px; }

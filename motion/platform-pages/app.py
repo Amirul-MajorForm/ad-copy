@@ -110,7 +110,16 @@ PAGE = {
     "results_title": "What this looks like in practice",
     "results_lede": "Results from app campaigns we run, for brands across Asia.",
     "results": [
-        {"brand": None, "value": None, "label": None, "url": None},
+        {"brand": "Flexar", "channel": "Google & TikTok", "value": "34.1K", "label": "App installs across Android and iOS",
+         "note": "Cost per install came in 44% below forecast, with 25.7K installs from Google App Campaigns.",
+         "url": None,  # no Flexar case study page yet: add its link here to show "Read the case study"
+         # the Flexar app's booking screen, from flexar.com.sg; cut off at the bottom so it sits on the panel's edge
+         "image": "flexar-app.webp", "image_anchor": "bottom", "image_bg": "#afd472", "panel_logo": "flexar",
+         "image_alt": "The Flexar car-sharing app showing nearby cars on a map",
+         "callouts": [{"text": "Google App Campaigns", "left": 50, "top": 16, "bg": "#111314", "fg": "#ffffff"},
+                      {"text": "TikTok App Promotion", "left": -14, "top": 58, "bg": "#f37f94", "fg": "#233551"}],
+         "story": [("Challenge", "Build an install base for a relaunched Singapore car-sharing app while keeping acquisition costs in check."),
+                   ("What we did", "Ran dedicated Android and iOS acquisition campaigns on Google and TikTok, testing ads that showed how car-sharing fits into everyday trips.")]},
     ],
     "quote": {"text": None, "who": None},
 
