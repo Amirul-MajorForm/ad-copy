@@ -256,6 +256,32 @@ CSS = {
   @media (prefers-reduced-motion: reduce) { a.mfp__feat, .mfp--results .mfp__layer { transition: none; } a.mfp__feat:hover { transform: none; }
     .mfp--results .mfp__fbase, .mfp--results .mfp__layer { animation: none; } .mfp--results .mfp__callout { animation: none; opacity: 1; } }
 """,
+    "guides": """
+  .mfp--guides .mfp__label { margin-bottom: 10px; font-size: 11px; font-weight: 500; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
+  .mfp--guides .mfp__top { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px 56px; align-items: start; }
+  @container (min-width: 860px) { .mfp--guides .mfp__top { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
+  .mfp--guides .mfp__top .mfp__lede { margin-top: 0; line-height: 1.45; }
+  .mfp--guides .mfp__guides { list-style: none; margin-top: 24px; padding: 0; border-top: 1px solid var(--rule); }
+  .mfp--guides .mfp__guides li { margin: 0; padding: 0; }
+  .mfp--guides .mfp__guides li::before, .mfp--guides .mfp__guides li::marker { content: none; }
+  .mfp--guides .mfp__guide { position: relative; overflow: hidden; isolation: isolate; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px 18px; align-items: center;
+    padding: 20px 12px; border-bottom: 1px solid var(--rule); color: inherit; text-decoration: none; }
+  @container (min-width: 760px) { .mfp--guides .mfp__guide { grid-template-columns: 200px minmax(0, 1fr) auto; } }
+  .mfp--guides .mfp__guide::after { content: ""; position: absolute; inset: 0; z-index: -1; background: var(--c); opacity: .55; transform: translateY(102%);
+    transition: transform .4s cubic-bezier(.2, .8, .2, 1); }
+  .mfp--guides .mfp__guide:hover::after, .mfp--guides .mfp__guide:focus-visible::after { transform: none; }
+  .mfp--guides .mfp__guide:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+  .mfp--guides .mfp__gtag { justify-self: start; font-size: 11px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; color: var(--ink); background: var(--tint);
+    border-radius: 999px; padding: 3px 9px; }
+  @container (max-width: 759px) { .mfp--guides .mfp__gtag { grid-column: 1 / -1; } }
+  .mfp--guides .mfp__gq { display: grid; gap: 2px; }
+  .mfp--guides .mfp__gq b { font-family: var(--mf-h2-font, var(--num)); font-weight: 600; font-size: 19px; line-height: 1.25; letter-spacing: -.015em; color: var(--ink); }
+  .mfp--guides .mfp__gq span { font-size: 14px; color: var(--muted); }
+  .mfp--guides .mfp__garrow { width: 38px; height: 38px; border-radius: 50%; border: 1px solid rgba(35, 53, 81, .35); display: grid; place-items: center; color: var(--ink);
+    transition: transform .3s, background .3s; }
+  .mfp--guides .mfp__guide:hover .mfp__garrow { transform: rotate(-45deg); background: #ffffff; }
+  @media (prefers-reduced-motion: reduce) { .mfp--guides .mfp__guide::after, .mfp--guides .mfp__garrow { transition: none; } }
+""",
     "process": """
   .mfp--process .mfp__label { margin-bottom: 10px; font-size: 11px; font-weight: 500; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
   .mfp--process .mfp__top { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px 56px; align-items: start; }
@@ -615,6 +641,21 @@ def process(d, g):
     return wrap("process", d, inner, "how we work, as a timeline revealed on scroll")
 
 
+def guides(d, g):
+    """Blog guides, framed as the questions they answer: rows that flood with Wada colour on hover."""
+    gd = d.get("guides")
+    if not gd:
+        return None
+    rows = "".join(
+        f'<li><a class="mfp__guide" href="{e(it["url"])}" style="--c:{it["c"]}"><span class="mfp__gtag">{e(it["tag"])}</span>'
+        f'<span class="mfp__gq"><b>{e(it["q"])}</b><span>{e(it["sum"])}</span></span><span class="mfp__garrow" aria-hidden="true">&rarr;</span></a></li>'
+        for it in gd["items"])
+    inner = (f'<p class="mfp__label">{e(gd["label"])}</p>'
+             f'<div class="mfp__top">{head2(gd["title"])}<p class="mfp__lede">{e(gd["lede"])}</p></div>'
+             f'\n<ul class="mfp__body mfp__guides">{rows}</ul>')
+    return wrap("guides", d, inner, "blog guides, as the questions they answer")
+
+
 def fit(d, g):
     cells = []
     for title, text in d["fit"]:
@@ -707,7 +748,7 @@ DARK_CSS = {
 
 
 SLOTS = [("hero", hero), ("shift", shift), ("problems", problems), ("work", work), ("types", types),
-         ("results", results), ("process", process), ("fit", fit), ("faq", faq), ("related", related)]
+         ("results", results), ("process", process), ("guides", guides), ("fit", fit), ("faq", faq), ("related", related)]
 
 
 def schema(d):

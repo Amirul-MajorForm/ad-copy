@@ -13,7 +13,7 @@ PAGE = {
     # Slots placed on the site's navy sections (set those sections' background to this colour in Squarespace)
     "dark": {"shift": "#253551", "types": "#253551", "related": "#2a2829"},  # the closing block sits on the footer grey black
     # Page order. "problems" is left out: block 2 now covers the same ground, so results follow it directly.
-    "slots": ["hero", "shift", "types", "results", "work", "process", "fit", "faq", "related"],
+    "slots": ["hero", "shift", "types", "results", "work", "process", "guides", "fit", "faq", "related"],
     # Hero numbers as a colour plate from Wada combination 281 (no colour names shown on the page)
     "poster": [
         # tex is the texture colour; hover swaps to another colour from the same Wada combination
@@ -162,6 +162,24 @@ PAGE = {
              "text": "We launch structured tests of angles, formats and campaign types against that number.", "gets": ["Test results", "Weekly report"]},
             {"c": "#007190", "ct": "#ffffff", "when": "Month 2 onwards", "title": "Scale",
              "text": "We move budget to what wins and refresh creative before it tires, every month.", "gets": ["Monthly review", "New creative"]},
+        ],
+    },
+
+    # Blog guides, framed as the questions they answer (sits between How we work and the FAQs)
+    "guides": {
+        "label": "Go deeper",
+        "title": "Questions we answer in depth",
+        "lede": "Longer guides from our team, for when a short answer isn't enough.",
+        "items": [
+            {"tag": "Costs", "q": "How much do Facebook and Instagram ads cost in Singapore?",
+             "sum": "CPM and CPC benchmarks for 2026, by objective, platform and market.",
+             "url": "https://www.majorform.co/blog-1/facebook-instagram-ads-cost-singapore", "c": "#ffefae"},
+            {"tag": "Working with an agency", "q": "What should a Meta ads agency do in the first 90 days?",
+             "sum": "Diagnose, validate, decide, plus a scorecard to check your agency.",
+             "url": "https://www.majorform.co/blog-1/meta-ads-agency-first-90-days", "c": "#96d1aa"},
+            {"tag": "Targeting", "q": "Does Meta interest targeting still work?",
+             "sum": "When to use interests, and when broad audiences do better.",
+             "url": "https://www.majorform.co/blog-1/the-power-of-meta-interest-targeting-a-strategic-guide-for-smarter-campaigns", "c": "#2fc2b6"},
         ],
     },
 
