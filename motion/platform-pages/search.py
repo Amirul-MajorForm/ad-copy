@@ -109,7 +109,7 @@ PAGE = {
     "results_lede": "Results from search campaigns we run, for brands across Asia.",
     "results": [
         {"brand": "Yoga Movement", "channel": "Google Search", "value": "+56%", "label": "Tracked purchase completions from Google Search",
-         "note": "Purchase completions rose from 481 to 750 year over year on 4% more media spend (Aug\u2013Oct 2026 vs Aug\u2013Oct 2025).",
+         "note": "Up 56% year over year on 4% more media spend (Aug\u2013Oct 2026 vs Aug\u2013Oct 2025).",
          "url": "https://www.majorform.co/our-work/yogamovement-digital-marketing-majorform-2026",
          # the Yoga Movement app on two phones, from yogamovement.com; the image is cut off at its bottom edge, so it sits on the panel's edge
          "image": "yoga-movement-app.webp", "image_anchor": "bottom", "image_bg": "#fcb315", "panel_logo": "yoga-movement",
