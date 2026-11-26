@@ -7,7 +7,7 @@ Process is shared across platform pages; fit is shared apart from its title.
 PAGE = {
     "key": "search",
     "name": "Search Ads",
-    "crumb": "Search advertising",
+    "crumb": "Google Search ads",
     "short": "Search",
     "accent": "#fcb315",
     # Wada 257: Spectrum Red, Orange Yellow, Blue, Aconite Violet (a nod to Google's colours, not a copy)
@@ -21,16 +21,16 @@ PAGE = {
     "poster": [
         {"value": "$2M+", "label": "Ad spend managed", "bg": "#006eb8", "fg": "#ffffff", "hover": {"bg": "#fcb315", "fg": "#233551"}},
         {"value": "10+", "label": "Markets in Asia", "bg": "#fcb315", "fg": "#233551", "hover": {"bg": "#e31f26", "fg": "#ffffff"}},
-        {"value": "1 team", "label": "Strategy, creative, media and data", "bg": "#e31f26", "fg": "#ffffff", "hover": {"bg": "#a36aa5", "fg": "#140f1f"}},
+        {"value": "1 team", "label": "Keywords, ads, bidding and tracking", "bg": "#e31f26", "fg": "#ffffff", "hover": {"bg": "#a36aa5", "fg": "#140f1f"}},
         {"value": "300+", "label": "Campaigns run since 2025", "bg": "#a36aa5", "fg": "#140f1f", "hover": {"bg": "#006eb8", "fg": "#ffffff"}},
     ],
 
     "logos": [("oatside", "Oatside"), ("yoga-movement", "Yoga Movement"), ("flexar", "Flexar")],
     "logos_label": "Brands we work with",
     "slug": "google-search-ads-agency-singapore",
-    "title": "Google Ads & Search Advertising Agency Singapore | MajorForm",
-    "description": "MajorForm plans and optimises Google Search, Shopping and Performance Max campaigns for brands in Singapore and across Asia, measured on leads and sales.",
-    "service_name": "Google Ads and Search Advertising Management",
+    "title": "Google Search Ads Agency Singapore | MajorForm",
+    "description": "MajorForm runs Google Search ads for brands in Singapore and across Asia: keyword research, ad copy, bidding and tracking, judged on leads and sales.",
+    "service_name": "Google Search Ads Management",
     "confirm": [
         "Hero figures: are $2M+ ad spend and 300+ campaigns right to show across all platforms here? Send search-only figures if you'd rather",
         "The three logos are brands you run search for (swap in the right ones)",
@@ -41,10 +41,10 @@ PAGE = {
 
     # 1 Hero
     "h1": "From Search to Sale. Powered by Google.",
-    "thesis": "Keywords, data and optimisation, working as one system.",
-    "answer": ("MajorForm plans and optimises Google Ads for brands in Singapore and across Asia, from Search and Shopping "
-               "to Performance Max. One team runs strategy, keyword research, ad copy, landing page advice and measurement, "
-               "so every campaign is built to reach people already looking for what you sell and is judged on leads and sales."),
+    "thesis": "Keywords, ad copy and bidding, working as one system.",
+    "answer": ("MajorForm plans and runs Google Search ads for brands in Singapore and across Asia, putting you in front of "
+               "people at the moment they search for what you sell. One team handles keyword research, ad copy, bidding, "
+               "landing page advice and conversion tracking, and every campaign is judged on leads and sales, not clicks."),
     "stats": [
         ("$2M+", "Ad spend managed"),
         ("10+", "Asian markets"),
@@ -151,7 +151,7 @@ PAGE = {
 
     # FAQ in the performance page's style: navy panel with a Wada 257 tile, questions that flood with colour on hover
     "faq_panel": {
-        "title": "Questions brands ask about search advertising",
+        "title": "Questions brands ask about Google Search ads",
         "intro": "What brands usually ask us before we start running Google Ads together.",
         "tile": ["#fcb315", "#006eb8", "#e31f26", "#a36aa5"],
         "floods": ["#fcb315", "#a36aa5"],
@@ -202,7 +202,7 @@ PAGE = {
         ("TikTok Shop Ads", None),
         ("Social media content", "https://www.majorform.co/social-media-management-singapore-2026"),
     ],
-    "closing": "Ready to grow on search?",
+    "closing": "Ready to grow on Google Search?",
     "closing_sub": "Tell us your goal and we'll show you how we'd plan it.",
     "related_floods": ["#fcb315", "#a36aa5"],  # pill hover colours in the closing block
 }
