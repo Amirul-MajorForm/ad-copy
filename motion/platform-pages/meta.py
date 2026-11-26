@@ -224,7 +224,7 @@ PAGE = {
     # 10 Related and closing
     "related": [
         ("TikTok Ads", "https://majorform.co/tiktok-ads-agency-singapore"),
-        ("Search Ads", None),
+        ("Search Ads", "https://majorform.co/google-search-ads-agency-singapore"),
         ("TikTok Shop Ads", None),
         ("Social media content", "https://www.majorform.co/social-media-management-singapore-2026"),
     ],

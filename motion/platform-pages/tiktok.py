@@ -199,7 +199,7 @@ PAGE = {
     "related": [
         ("Meta Ads", "https://majorform.co/meta-ads-agency-singapore"),
         ("TikTok Shop Ads", None),
-        ("Search Ads", None),
+        ("Search Ads", "https://majorform.co/google-search-ads-agency-singapore"),
         ("Social media content", "https://www.majorform.co/social-media-management-singapore-2026"),
     ],
     "closing": "Ready to grow on TikTok?",

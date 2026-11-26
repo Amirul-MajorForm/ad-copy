@@ -478,7 +478,9 @@ def hero(d, g):
     inner = (f'{crumbs}\n<h1 class="mfp__h1">{e(d["h1"])}</h1>\n<p class="mfp__thesis">{e(d["thesis"])}</p>\n'
              f'<p class="mfp__answer">{e(d["answer"])}</p>\n'
              f'<div class="mfp__ctas"><a class="mfp__btn" href="{CONTACT}">Talk to our strategists <span aria-hidden="true">&rarr;</span></a>'
-             f'<a class="mfp__btn mfp__btn--ghost" href="#results">See {e(d["short"])} results</a></div>')
+             # only link to results when the page has a confirmed result to show
+             + (f'<a class="mfp__btn mfp__btn--ghost" href="#results">See {e(d["short"])} results</a>' if d.get("results") and d["results"][0].get("value") else "")
+             + '</div>')
     if stats:
         inner += f'\n<div class="mfp__strip{" mfp__strip--3" if len(stats) == 3 else ""}">' + "".join(stats) + "</div>"
     if d.get("poster"):

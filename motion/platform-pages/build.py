@@ -17,7 +17,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 import template  # noqa: E402
 
-SHEETS = ["meta", "tiktok"]
+SHEETS = ["meta", "tiktok", "search"]
 
 
 def band(d, n, h):
