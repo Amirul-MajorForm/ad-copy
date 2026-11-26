@@ -765,7 +765,7 @@ def related(d, g):
     inner = (f'<div class="mfp__close-in"><h2 class="mfp__big">{e(lead)} <em>{e(last)}</em></h2>'
              + (f'<p class="mfp__sub">{e(d["closing_sub"])}</p>' if d.get("closing_sub") else "")
              + f'<a class="mfp__btn mfp__btn--close" href="{CONTACT}">Talk to our strategists <span aria-hidden="true">&rarr;</span></a>'
-             f'\n<div class="mfp__pills"><p class="mfp__pills-label">{e(d["short"])} works best with</p>' + "".join(pills) + "</div></div>")
+             f'\n<div class="mfp__pills"><p class="mfp__pills-label">{e(d.get("pills_label", d["short"] + " works best with"))}</p>' + "".join(pills) + "</div></div>")
     return wrap("related", d, inner, "10: closing call to action, with related pages as pills")
 
 

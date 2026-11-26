@@ -1,0 +1,202 @@
+<!-- App Install Ads page header. Paste into Page Settings > Advanced > Page Header Code Injection.
+     The schema is built from the same text as the page, so the FAQ answers match word for word.
+     The short script below plays the block animations once as they scroll into view. -->
+<script type="application/ld+json">
+[
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "@id": "https://www.majorform.co/app-install-ads-agency-singapore/#service",
+    "name": "App Install Ads Management",
+    "serviceType": "App Install Ads Management",
+    "description": "MajorForm plans and runs app install campaigns for brands in Singapore and across Asia, on Google, Apple, Meta and TikTok. One team handles ad creative, media buying, app store page advice and measurement, and every campaign is judged on people who sign up, buy and come back, not just downloads.",
+    "url": "https://www.majorform.co/app-install-ads-agency-singapore",
+    "provider": {
+      "@id": "https://www.majorform.co/#organization"
+    },
+    "areaServed": [
+      {
+        "@type": "Country",
+        "name": "Singapore"
+      },
+      {
+        "@type": "Country",
+        "name": "Malaysia"
+      },
+      {
+        "@type": "Country",
+        "name": "Indonesia"
+      },
+      {
+        "@type": "Country",
+        "name": "Philippines"
+      },
+      {
+        "@type": "Country",
+        "name": "Thailand"
+      },
+      {
+        "@type": "Country",
+        "name": "Vietnam"
+      }
+    ],
+    "category": "Performance Marketing"
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://www.majorform.co/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Performance marketing",
+        "item": "https://www.majorform.co/performance-marketing-majorform-singapore"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "App install ads",
+        "item": "https://www.majorform.co/app-install-ads-agency-singapore"
+      }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "@id": "https://www.majorform.co/app-install-ads-agency-singapore/#faq",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How much does it cost to get app installs in Singapore?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "It depends on the platform, your audience and whether you're after iPhone or Android users, and most platforms charge per impression or per tap rather than per install. We estimate costs from a test budget agreed with you, then judge campaigns on cost per active or paying user, because a cheap install that never opens the app costs more in the end. Our fee is a monthly retainer, not a commission on spend."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Which platforms should we run app ads on?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "It depends on where your users are. Google App campaigns reach people across Search, Google Play and YouTube, Apple Ads puts you at the top of App Store searches, and Meta and TikTok are strong for getting a new app discovered. Most apps start with two and add more once tracking shows which bring in users who stay."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Why not just aim for the cheapest installs?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Because the platforms find exactly what you ask for. Campaigns set for installs often bring in people who download and never return. Once there's enough data, we set campaigns to aim for actions like sign-ups or first purchases, so the budget goes towards users who are worth more."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do you track installs on iPhones after Apple's privacy changes?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Apple now reports most ad results in totals and with a delay, rather than person by person. We set up Apple's attribution reporting alongside a measurement tool, and read results across a few days rather than day by day, so decisions aren't made on incomplete numbers."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Do we need a mobile measurement partner like AppsFlyer or Adjust?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "If you advertise on more than one platform, it usually helps. A mobile measurement partner counts each install once and credits it to the right campaign, instead of every platform claiming it. For an app running on one platform, Firebase can be enough to start."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What kind of creative works for app ads?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Short videos that show the app being used, with the benefit clear in the first few seconds. Screen recordings, real people using the app and simple before-and-after stories tend to work well. We test several openings at once and refresh ads regularly, because app ads tire quickly."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can you help with our app store page?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. Your store page is where people decide to install, so we review the icon, screenshots and description, and test changes that make the app's main benefit clear at a glance."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How long before app campaigns show results?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Installs can start coming in within days of launch. Campaigns aimed at sign-ups or purchases need a few weeks of event data before the platforms' bidding settles, so we judge the first weeks on cost per install and move to cost per active user as data builds."
+        }
+      }
+    ]
+  }
+]
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  // Match block headings to the site's own H2: measure a hidden H2 styled like a Squarespace text block
+  var host = document.querySelector(".sqs-block-content"), probe = document.createElement("div");
+  if (host) {
+  probe.className = "sqs-html-content"; probe.style.cssText = "position:absolute;visibility:hidden;left:-9999px";
+  probe.innerHTML = "<h2>Ag</h2>"; host.appendChild(probe);
+  var cs = getComputedStyle(probe.firstChild), root = document.documentElement.style;
+  root.setProperty("--mf-h2", cs.fontSize); root.setProperty("--mf-h2-font", cs.fontFamily);
+  root.setProperty("--mf-h2-weight", cs.fontWeight); root.setProperty("--mf-h2-ls", cs.letterSpacing === "normal" ? "0" : cs.letterSpacing);
+  probe.remove();
+  }
+  if ((window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches) || !window.IntersectionObserver) return;
+
+  // Process timeline: hold the section in place while steps 2, 3 and 4 appear with scroll.
+  // Falls back to revealing steps as they come into view if a parent clips overflow or the steps don't fit on screen.
+  document.querySelectorAll(".mfp--process").forEach(function (el) {
+    var steps = el.querySelectorAll(".mfp__pstep"), pin = el.querySelector(".mfp__pin");
+    if (!steps.length || !pin) return;
+    function show(n) { for (var i = 0; i < steps.length; i++) { steps[i].classList.toggle("is-on", i < n); steps[i].classList.toggle("is-done", i < n - 1); } }
+    el.setAttribute("data-stage", ""); show(1);
+    var clipped = false;
+    for (var p = el.parentElement; p && p !== document.body; p = p.parentElement) {
+      var o = getComputedStyle(p); if (/(hidden|auto|scroll|clip)/.test(o.overflow + o.overflowY)) { clipped = true; break; }
+    }
+    var h = pin.offsetHeight;
+    if (clipped || h > window.innerHeight * 0.88) {
+      var io = new IntersectionObserver(function (en) {
+        // steps light up as they enter, and reset once they drop below the screen, so scrolling back down plays it again
+        en.forEach(function (x) {
+          var i = [].indexOf.call(steps, x.target);
+          if (x.isIntersecting) { for (var k = 0; k <= i; k++) steps[k].classList.add("is-on"); if (i > 0) steps[i - 1].classList.add("is-done"); }
+          else if (i > 0 && x.boundingClientRect.top > 0) { for (var k = i; k < steps.length; k++) steps[k].classList.remove("is-on", "is-done"); steps[i - 1].classList.remove("is-done"); }
+        });
+      }, { rootMargin: "0px 0px -20% 0px" });
+      steps.forEach(function (s) { io.observe(s); });
+      window.addEventListener("scroll", function () { if (el.getBoundingClientRect().top > window.innerHeight) show(1); }, { passive: true }); return;
+    }
+    el.setAttribute("data-pinned", ""); el.style.setProperty("--pin-h", h + "px");
+    var extra = window.innerHeight * 0.45 * (steps.length - 1);
+    el.style.height = (h + extra) + "px";
+    function onScroll() {
+      var r = el.getBoundingClientRect(), span = el.offsetHeight - h, top = Math.max(24, window.innerHeight / 2 - h / 2);
+      var prog = Math.min(1, Math.max(0, (top - r.top) / span));
+      show(Math.min(steps.length, 1 + Math.floor(prog * steps.length + 0.15)));
+    }
+    window.addEventListener("scroll", onScroll, { passive: true }); window.addEventListener("resize", onScroll); onScroll();
+  });
+  document.querySelectorAll(".mfp[data-anim]").forEach(function (el) {
+    if (el.getBoundingClientRect().top < window.innerHeight * 0.8) return; // already on screen: leave at rest
+    el.classList.add("mfp-pre");
+    var io = new IntersectionObserver(function (entries) {
+      if (!entries[entries.length - 1].isIntersecting) return;
+      io.disconnect();
+      el.classList.add("mfp-in");
+      requestAnimationFrame(function () { requestAnimationFrame(function () { el.classList.remove("mfp-pre"); }); });
+    }, { threshold: 0.3 });
+    io.observe(el);
+  });
+});
+</script>
