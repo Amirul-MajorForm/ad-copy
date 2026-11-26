@@ -1,4 +1,4 @@
-<!-- MajorForm Meta Ads page: blog guides, as the questions they answer.
+<!-- MajorForm Meta Ads page: blog guides on a navy panel, with typographic covers.
      Paste into its own Squarespace Code block, with Display Source turned off. No scripts. -->
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,600&family=Space+Grotesk:wght@400;500&display=swap">
 <style>
@@ -24,32 +24,47 @@
   .mfp b .mfp__gap, .mfp em .mfp__gap { font-size: inherit; color: #ffb38a; }
   @media (prefers-reduced-motion: reduce) { .mfp * { transition: none !important; } }
 
-  .mfp--guides .mfp__label { margin-bottom: 10px; font-size: 11px; font-weight: 500; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
+  /* a navy panel inside the white section, so the section background needs no change */
+  .mfp--guides .mfp__gpanel { border-radius: 22px; padding: clamp(22px, 4cqi, 40px); background: #253551; color: rgba(243, 242, 247, .82); }
+  .mfp--guides .mfp__label { margin-bottom: 10px; font-size: 11px; font-weight: 500; letter-spacing: .16em; text-transform: uppercase; color: var(--mf-hi, #96d1aa); }
+  .mfp--guides .mfp__gpanel .mfp__h2 { color: #ffffff; }
   .mfp--guides .mfp__top { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px 56px; align-items: start; }
   @container (min-width: 860px) { .mfp--guides .mfp__top { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
-  .mfp--guides .mfp__top .mfp__lede { margin-top: 0; line-height: 1.45; }
-  .mfp--guides .mfp__guides { list-style: none; margin-top: 24px; padding: 0; border-top: 1px solid var(--rule); }
-  .mfp--guides .mfp__guides li { margin: 0; padding: 0; }
-  .mfp--guides .mfp__guides li::before, .mfp--guides .mfp__guides li::marker { content: none; }
-  .mfp--guides .mfp__guide { position: relative; overflow: hidden; isolation: isolate; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px 18px; align-items: center;
-    padding: 20px 12px; border-bottom: 1px solid var(--rule); color: inherit; text-decoration: none; }
-  @container (min-width: 760px) { .mfp--guides .mfp__guide { grid-template-columns: 200px minmax(0, 1fr) auto; } }
-  .mfp--guides .mfp__guide::after { content: ""; position: absolute; inset: 0; z-index: -1; background: var(--c); opacity: .55; transform: translateY(102%);
-    transition: transform .4s cubic-bezier(.2, .8, .2, 1); }
-  .mfp--guides .mfp__guide:hover::after, .mfp--guides .mfp__guide:focus-visible::after { transform: none; }
-  .mfp--guides .mfp__guide:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
-  .mfp--guides .mfp__gtag { justify-self: start; font-size: 11px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; color: var(--ink); background: var(--tint);
-    border-radius: 999px; padding: 3px 9px; }
-  @container (max-width: 759px) { .mfp--guides .mfp__gtag { grid-column: 1 / -1; } }
-  .mfp--guides .mfp__gq { display: grid; gap: 2px; }
-  .mfp--guides .mfp__gq b { font-family: var(--mf-h2-font, var(--num)); font-weight: 600; font-size: 19px; line-height: 1.25; letter-spacing: -.015em; color: var(--ink); }
-  .mfp--guides .mfp__gq span { font-size: 14px; color: var(--muted); }
-  .mfp--guides .mfp__garrow { width: 38px; height: 38px; border-radius: 50%; border: 1px solid rgba(35, 53, 81, .35); display: grid; place-items: center; color: var(--ink);
-    transition: transform .3s, background .3s; }
-  .mfp--guides .mfp__guide:hover .mfp__garrow { transform: rotate(-45deg); background: #ffffff; }
-  @media (prefers-reduced-motion: reduce) { .mfp--guides .mfp__guide::after, .mfp--guides .mfp__garrow { transition: none; } }
+  .mfp--guides .mfp__top .mfp__lede { margin-top: 0; line-height: 1.45; color: rgba(243, 242, 247, .82); }
+  .mfp--guides .mfp__ggrid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 14px; margin-top: 24px; }
+  @container (min-width: 820px) { .mfp--guides .mfp__ggrid { grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); } }
+  .mfp--guides .mfp__cov { display: block; width: 100%; height: 100%; }
+  .mfp--guides .mfp__gtag { justify-self: start; font-size: 11px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; border-radius: 999px; padding: 3px 9px; }
+  .mfp--guides h3 { margin: 0; font-family: var(--mf-h2-font, var(--num)); font-weight: 600; letter-spacing: -.015em; text-transform: none; color: inherit; }
+  .mfp--guides .mfp__ggo { font-size: 14px; font-weight: 500; }
+  /* featured guide: full cover on top, white card below */
+  .mfp--guides .mfp__gfeat { display: grid; grid-template-rows: auto 1fr; border-radius: 18px; overflow: hidden; background: #ffffff; color: var(--ink); text-decoration: none;
+    transition: transform .35s cubic-bezier(.2, .8, .2, 1), box-shadow .35s; }
+  .mfp--guides .mfp__gfeat:hover, .mfp--guides .mfp__gfeat:focus-visible { transform: translateY(-4px); box-shadow: 0 20px 40px -24px rgba(0, 0, 0, .6); }
+  .mfp--guides .mfp__gcov { display: block; aspect-ratio: 2 / 1; overflow: hidden; }
+  .mfp--guides .mfp__gcov .mfp__cov { transition: transform .8s cubic-bezier(.2, .8, .2, 1); }
+  .mfp--guides .mfp__gfeat:hover .mfp__cov { transform: scale(1.04); }
+  .mfp--guides .mfp__gfeat .mfp__gb { padding: 18px 22px 22px; display: grid; gap: 8px; }
+  .mfp--guides .mfp__gfeat .mfp__gtag { background: var(--tint); color: var(--ink); }
+  .mfp--guides .mfp__gfeat h3 { font-size: 24px; line-height: 1.15; }
+  .mfp--guides .mfp__gsum { font-size: 14.5px; color: var(--text); }
+  .mfp--guides .mfp__gfeat .mfp__ggo { color: var(--ink); }
+  /* other guides: rows with a small cover, flooding with Wada colour on hover */
+  .mfp--guides .mfp__gside { display: grid; gap: 14px; grid-auto-rows: 1fr; }
+  .mfp--guides .mfp__grow { position: relative; overflow: hidden; isolation: isolate; display: grid; grid-template-columns: 168px minmax(0, 1fr); gap: 16px; align-items: center;
+    padding: 14px; border-radius: 18px; color: #ffffff; text-decoration: none; box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .22); transition: color .3s; }
+  .mfp--guides .mfp__grow::after { content: ""; position: absolute; inset: 0; z-index: -1; background: var(--c); transform: translateY(101%); transition: transform .45s cubic-bezier(.2, .8, .2, 1); }
+  .mfp--guides .mfp__grow:hover, .mfp--guides .mfp__grow:focus-visible { color: #04202c; }
+  .mfp--guides .mfp__grow:hover::after, .mfp--guides .mfp__grow:focus-visible::after { transform: none; }
+  .mfp--guides .mfp__gthumb { display: block; width: 168px; aspect-ratio: 2 / 1; border-radius: 10px; overflow: hidden; }
+  .mfp--guides .mfp__grow .mfp__gb { display: grid; gap: 8px; }
+  .mfp--guides .mfp__grow .mfp__gtag { background: rgba(255, 255, 255, .14); color: inherit; }
+  .mfp--guides .mfp__grow h3 { font-size: 18px; line-height: 1.2; }
+  .mfp--guides .mfp__gfeat:focus-visible, .mfp--guides .mfp__grow:focus-visible { outline: 2px solid #ffffff; outline-offset: 3px; }
+  @container (max-width: 480px) { .mfp--guides .mfp__grow { grid-template-columns: minmax(0, 1fr); } .mfp--guides .mfp__gthumb { width: 100%; } }
+  @media (prefers-reduced-motion: reduce) { .mfp--guides .mfp__gfeat, .mfp--guides .mfp__cov, .mfp--guides .mfp__grow, .mfp--guides .mfp__grow::after { transition: none; } }
 </style>
 <div class="mfp mfp--guides" style="--acc:#ffefae" data-theme="light">
-<p class="mfp__label">Go deeper</p><div class="mfp__top"><h2 class="mfp__h2">Questions we answer in depth</h2><p class="mfp__lede">Longer guides from our team, for when a short answer isn&#x27;t enough.</p></div>
-<ul class="mfp__body mfp__guides"><li><a class="mfp__guide" href="https://www.majorform.co/blog-1/facebook-instagram-ads-cost-singapore" style="--c:#ffefae"><span class="mfp__gtag">Costs</span><span class="mfp__gq"><b>How much do Facebook and Instagram ads cost in Singapore?</b><span>CPM and CPC benchmarks for 2026, by objective, platform and market.</span></span><span class="mfp__garrow" aria-hidden="true">&rarr;</span></a></li><li><a class="mfp__guide" href="https://www.majorform.co/blog-1/meta-ads-agency-first-90-days" style="--c:#96d1aa"><span class="mfp__gtag">Working with an agency</span><span class="mfp__gq"><b>What should a Meta ads agency do in the first 90 days?</b><span>Diagnose, validate, decide, plus a scorecard to check your agency.</span></span><span class="mfp__garrow" aria-hidden="true">&rarr;</span></a></li><li><a class="mfp__guide" href="https://www.majorform.co/blog-1/the-power-of-meta-interest-targeting-a-strategic-guide-for-smarter-campaigns" style="--c:#2fc2b6"><span class="mfp__gtag">Targeting</span><span class="mfp__gq"><b>Does Meta interest targeting still work?</b><span>When to use interests, and when broad audiences do better.</span></span><span class="mfp__garrow" aria-hidden="true">&rarr;</span></a></li></ul>
+<div class="mfp__gpanel"><p class="mfp__label">Meta ads guides</p><div class="mfp__top"><h2 class="mfp__h2">Read before you spend</h2><p class="mfp__lede">Practical guides from our team on what Meta advertising costs, how it&#x27;s measured and what to expect from an agency.</p></div>
+<div class="mfp__body mfp__ggrid"><a class="mfp__gfeat" href="https://www.majorform.co/blog-1/facebook-instagram-ads-cost-singapore"><span class="mfp__gcov"><svg class="mfp__cov" viewBox="0 0 800 400" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false"><rect width="800" height="400" fill="#ffefae"/><text x="56" y="92" font-family="Space Grotesk, system-ui, sans-serif" font-size="22" letter-spacing="4" fill="#04202c" opacity=".75">FACEBOOK CPM · SINGAPORE</text><text x="50" y="255" font-family="DM Sans, Helvetica Neue, Arial, sans-serif" font-weight="600" font-size="190" letter-spacing="-10" fill="#04202c">S$1.37</text><text x="56" y="330" font-family="Space Grotesk, system-ui, sans-serif" font-size="26" fill="#04202c" opacity=".75">Brand awareness benchmark, 2026</text></svg></span><span class="mfp__gb"><span class="mfp__gtag">Costs · 2026</span><h3>How Much Do Facebook &amp; Instagram Ads Cost in Singapore?</h3><span class="mfp__gsum">CPM and CPC benchmarks by objective and platform, with Southeast Asian comparisons.</span><span class="mfp__ggo">Read the guide <span aria-hidden="true">&rarr;</span></span></span></a><div class="mfp__gside"><a class="mfp__grow" href="https://www.majorform.co/blog-1/meta-ads-agency-first-90-days" style="--c:#ffefae"><span class="mfp__gthumb"><svg class="mfp__cov" viewBox="0 0 800 400" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false"><rect width="800" height="400" fill="#96d1aa"/><text x="56" y="92" font-family="Space Grotesk, system-ui, sans-serif" font-size="22" letter-spacing="4" fill="#04202c" opacity=".75">DIAGNOSE · VALIDATE · DECIDE</text><text x="44" y="320" font-family="DM Sans, Helvetica Neue, Arial, sans-serif" font-weight="600" font-size="270" letter-spacing="-14" fill="#04202c">90</text><text x="400" y="300" font-family="DM Sans, Helvetica Neue, Arial, sans-serif" font-weight="600" font-size="64" letter-spacing="-2" fill="#04202c">days</text></svg></span><span class="mfp__gb"><span class="mfp__gtag">Working with an agency</span><h3>What a Meta Ads Agency Does in Your First 90 Days</h3><span class="mfp__ggo">Read the guide <span aria-hidden="true">&rarr;</span></span></span></a><a class="mfp__grow" href="https://www.majorform.co/blog-1/the-power-of-meta-interest-targeting-a-strategic-guide-for-smarter-campaigns" style="--c:#96d1aa"><span class="mfp__gthumb"><svg class="mfp__cov" viewBox="0 0 800 400" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false"><rect width="800" height="400" fill="#00978d"/><text x="56" y="92" font-family="Space Grotesk, system-ui, sans-serif" font-size="22" letter-spacing="4" fill="#ffffff" opacity=".75">META TARGETING</text><text x="52" y="215" font-family="DM Sans, Helvetica Neue, Arial, sans-serif" font-weight="600" font-size="100" letter-spacing="-4" fill="#ffffff">Interests</text><text x="52" y="320" font-family="DM Sans, Helvetica Neue, Arial, sans-serif" font-weight="600" font-size="100" letter-spacing="-4" fill="#ffefae">or broad?</text></svg></span><span class="mfp__gb"><span class="mfp__gtag">Targeting</span><h3>The Power of Meta Interest Targeting</h3><span class="mfp__ggo">Read the guide <span aria-hidden="true">&rarr;</span></span></span></a></div></div></div>
 </div>

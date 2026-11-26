@@ -167,19 +167,23 @@ PAGE = {
 
     # Blog guides, framed as the questions they answer (sits between How we work and the FAQs)
     "guides": {
-        "label": "Go deeper",
-        "title": "Questions we answer in depth",
-        "lede": "Longer guides from our team, for when a short answer isn't enough.",
+        "label": "Meta ads guides",
+        "title": "Read before you spend",
+        "lede": "Practical guides from our team on what Meta advertising costs, how it's measured and what to expect from an agency.",
+        # the first guide is featured; each cover is typographic art drawn in code (nothing to upload)
         "items": [
-            {"tag": "Costs", "q": "How much do Facebook and Instagram ads cost in Singapore?",
-             "sum": "CPM and CPC benchmarks for 2026, by objective, platform and market.",
-             "url": "https://www.majorform.co/blog-1/facebook-instagram-ads-cost-singapore", "c": "#ffefae"},
-            {"tag": "Working with an agency", "q": "What should a Meta ads agency do in the first 90 days?",
+            {"tag": "Costs \u00b7 2026", "title": "How Much Do Facebook & Instagram Ads Cost in Singapore?",
+             "sum": "CPM and CPC benchmarks by objective and platform, with Southeast Asian comparisons.",
+             "url": "https://www.majorform.co/blog-1/facebook-instagram-ads-cost-singapore", "c": "#ffefae",
+             "cover": {"bg": "#ffefae", "fg": "#04202c", "kick": "FACEBOOK CPM \u00b7 SINGAPORE", "big": "S$1.37", "foot": "Brand awareness benchmark, 2026"}},
+            {"tag": "Working with an agency", "title": "What a Meta Ads Agency Does in Your First 90 Days",
              "sum": "Diagnose, validate, decide, plus a scorecard to check your agency.",
-             "url": "https://www.majorform.co/blog-1/meta-ads-agency-first-90-days", "c": "#96d1aa"},
-            {"tag": "Targeting", "q": "Does Meta interest targeting still work?",
+             "url": "https://www.majorform.co/blog-1/meta-ads-agency-first-90-days", "c": "#ffefae",
+             "cover": {"bg": "#96d1aa", "fg": "#04202c", "kick": "DIAGNOSE \u00b7 VALIDATE \u00b7 DECIDE", "big": "90", "unit": "days"}},
+            {"tag": "Targeting", "title": "The Power of Meta Interest Targeting",
              "sum": "When to use interests, and when broad audiences do better.",
-             "url": "https://www.majorform.co/blog-1/the-power-of-meta-interest-targeting-a-strategic-guide-for-smarter-campaigns", "c": "#2fc2b6"},
+             "url": "https://www.majorform.co/blog-1/the-power-of-meta-interest-targeting-a-strategic-guide-for-smarter-campaigns", "c": "#96d1aa",
+             "cover": {"bg": "#00978d", "fg": "#ffffff", "accent": "#ffefae", "kick": "META TARGETING", "lines": ["Interests", "or broad?"]}},
         ],
     },
 
