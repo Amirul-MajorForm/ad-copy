@@ -217,6 +217,16 @@ CSS = {
   @container (min-width: 640px) { .mfp--results .mfp__feat { grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); } }
   a.mfp__feat:hover, a.mfp__feat:focus-visible { transform: translateY(-4px); box-shadow: 0 18px 36px -16px rgba(4, 32, 44, .5); }
   .mfp--results .mfp__fimg { background: var(--fbg); display: grid; place-items: center; min-height: 260px; padding: 20px; }
+  /* an image cut off at its bottom edge (e.g. phones) sits on the panel's bottom edge and does not float */
+  .mfp--results .mfp__fimg--bottom { position: relative; place-items: end center; padding: 28px 28px 0; }
+  @container (min-width: 640px) { .mfp--results .mfp__feat:has(.mfp__fimg--bottom) { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
+  .mfp--results .mfp__fimg--bottom .mfp__fbase { width: 100%; }
+  /* the brand's logo in the panel's top corner (white logo files, darkened to suit a light panel) */
+  .mfp--results .mfp__fmark { position: absolute; left: 24px; top: 24px; height: 54px; width: auto; filter: brightness(0); opacity: .85; }
+  @container (max-width: 639px) { .mfp--results .mfp__fmark { display: none; } }
+  .mfp--results .mfp__fimg--bottom .mfp__fart { max-width: 100%; }
+  .mfp--results .mfp__fimg--bottom .mfp__fbase { max-height: 380px; animation: none; transition: transform .6s cubic-bezier(.2, .8, .2, 1); transform-origin: bottom center; }
+  a.mfp__feat:hover .mfp__fimg--bottom .mfp__fbase { transform: translateY(-6px) scale(1.02); }
   .mfp--results .mfp__fart { position: relative; display: inline-block; line-height: 0; max-width: 92%; }
   .mfp--results .mfp__fbase { display: block; width: auto; max-width: 100%; height: auto; max-height: 340px; animation: mfp-float 5s ease-in-out infinite alternate; }
   .mfp--results .mfp__fimg--logo .mfp__fart { width: min(64%, 300px); }
@@ -245,12 +255,13 @@ CSS = {
   .mfp--results .mfp__ftag { font-size: 11px; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; color: var(--mf-hi, #96d1aa); }
   .mfp--results .mfp__fnum { font-family: var(--num); font-weight: 600; font-size: clamp(52px, 7cqi, 76px); line-height: .95; letter-spacing: -.045em; color: #fff; }
   .mfp--results .mfp__flabel { font-size: 16px; }
+  .mfp--results .mfp__fnote { margin-top: 4px; font-size: 13px; line-height: 1.45; color: rgba(243, 242, 247, .7); }
   .mfp--results .mfp__fbody dl { margin: 6px 0 0; display: grid; gap: 10px; }
   .mfp--results .mfp__fbody dt { font-size: 11px; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; color: rgba(243, 242, 247, .6); }
   .mfp--results .mfp__fbody dd { margin: 3px 0 0; font-size: 15px; line-height: 1.42; }
   .mfp--results .mfp__fbody u { text-decoration: none; justify-self: start; font-weight: 500; border-bottom: 1px solid rgba(255, 255, 255, .45); margin-top: 6px; color: #fff; }
   .mfp--results .mfp__side { display: grid; gap: 12px; }
-  .mfp--results .mfp__mini { border-radius: 18px; padding: 22px; background: var(--mb); color: var(--ink); display: grid; gap: 4px; align-content: end; min-height: 160px; }
+  .mfp--results .mfp__mini { border-radius: 18px; padding: 22px; background: var(--mb); color: var(--mf, var(--ink)); display: grid; gap: 4px; align-content: end; min-height: 160px; }
   .mfp--results .mfp__mini em { font-style: normal; font-size: 11px; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; opacity: .75; }
   .mfp--results .mfp__mini b { font-family: var(--num); font-weight: 600; font-size: clamp(40px, 5cqi, 56px); line-height: .95; letter-spacing: -.045em; }
   @media (prefers-reduced-motion: reduce) { a.mfp__feat, .mfp--results .mfp__layer { transition: none; } a.mfp__feat:hover { transform: none; }
@@ -616,7 +627,8 @@ def results(d, g):
     # callout pills that pop up in turn around the product, then fade and repeat
     layers += "".join(f'<span class="mfp__callout" aria-hidden="true" style="left:{c["left"]}%;top:{c["top"]}%;--cb:{c["bg"]};--cf:{c["fg"]};'
                       f'animation-delay:{i * 1.3}s">{e(c["text"])}</span>' for i, c in enumerate(lead.get("callouts", [])))
-    img = (f'<div class="mfp__fimg{" mfp__fimg--stage" if lead.get("stage") else ""}" style="--fbg:{lead.get("image_bg", "#f3d23c")}"><div class="mfp__fart">'
+    mark = (f'<img class="mfp__fmark" src="{logo_src(lead["panel_logo"])}" alt="" aria-hidden="true">' if lead.get("panel_logo") else "")
+    img = (f'<div class="mfp__fimg{" mfp__fimg--stage" if lead.get("stage") else ""}{" mfp__fimg--bottom" if lead.get("image_anchor") == "bottom" else ""}" style="--fbg:{lead.get("image_bg", "#f3d23c")}">{mark}<div class="mfp__fart">'
            f'<img class="mfp__fbase" src="{asset_src(lead["image"])}" alt="{e(lead["image_alt"])}" loading="lazy">{layers}</div></div>'
            if lead.get("image") else
            # no product photo yet: the brand's logo on its colour, with the same gentle float
@@ -625,8 +637,9 @@ def results(d, g):
            if lead.get("logo") else "")
     facts = "".join(f'<div><dt>{e(k)}</dt><dd>{e(v)}</dd></div>' for k, v in lead.get("story", [])
                     if g.ok(v, f"Result story: {k} ({lead['brand']})"))
-    feat_body = (f'<div class="mfp__fbody"><span class="mfp__ftag">{e(lead["brand"])} &middot; {e(d["short"])}</span>'
+    feat_body = (f'<div class="mfp__fbody"><span class="mfp__ftag">{e(lead["brand"])} &middot; {e(lead.get("channel", d["short"]))}</span>'
                  f'<b class="mfp__fnum">{e(lead["value"])}</b><span class="mfp__flabel">{e(lead["label"])}</span>'
+                 + (f'<span class="mfp__fnote">{e(lead["note"])}</span>' if lead.get("note") else "")
                  + (f"<dl>{facts}</dl>" if facts else "")
                  + (f'<u>Read the case study&nbsp;<span aria-hidden="true">&rarr;</span></u>' if lead.get("url") else "") + "</div>")
     tag = "a" if lead.get("url") else "div"
@@ -635,9 +648,9 @@ def results(d, g):
     minis = []
     for r in rest:
         if g.ok(r["value"], f"Result: {r['brand'] or 'a brand'} on {d['short']}") and r["brand"]:
-            minis.append(f'<div class="mfp__mini" style="--mb:{r.get("bg", "#ffefae")}"><em>{e(r["brand"])}</em><b>{e(r["value"])}</b><span>{e(r["label"])}</span></div>')
+            minis.append(f'<div class="mfp__mini" style="--mb:{r.get("bg", "#ffefae")};--mf:{r.get("fg", "#233551")}"><em>{e(r["brand"])}</em><b>{e(r["value"])}</b><span>{e(r["label"])}</span></div>')
         elif g.preview:
-            minis.append(f'<div class="mfp__mini" style="--mb:{r.get("bg", "#ffefae")}"><em>{g.ph("brand")}</em><b>{g.ph("x")}</b><span>{g.ph(r["label"])}</span></div>')
+            minis.append(f'<div class="mfp__mini" style="--mb:{r.get("bg", "#ffefae")};--mf:{r.get("fg", "#233551")}"><em>{g.ph("brand")}</em><b>{g.ph("x")}</b><span>{g.ph(r["label"])}</span></div>')
     side = f'<div class="mfp__side">{"".join(minis)}</div>' if minis else ""
     inner = (f'<p class="mfp__label">{e(d["results_label"])}</p>'
              f'<div class="mfp__top">{head2(d["results_title"], anchor="results")}<p class="mfp__lede">{e(d["results_lede"])}</p></div>'

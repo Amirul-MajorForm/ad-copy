@@ -103,13 +103,24 @@ PAGE = {
     "types_lede": "We pick the campaign type from your goal, then judge it against one number.",
     "types": [],
 
-    # 4 Results: the first is the featured case; the rest sit beside it once confirmed (none confirmed yet, so the block stays off)
+    # 4 Results: the first is the featured case; the rest sit beside it
     "results_label": "Results",
     "results_title": "What this looks like in practice",
     "results_lede": "Results from search campaigns we run, for brands across Asia.",
     "results": [
-        {"brand": None, "value": None, "label": "result from search", "url": None},
-        {"brand": None, "value": None, "label": "result from search", "url": None, "bg": "#fcb315"},
+        {"brand": "Yoga Movement", "channel": "Google Search", "value": "+56%", "label": "Tracked purchase completions from Google Search",
+         "note": "Purchase completions rose from 481 to 750 year over year on 4% more media spend (Aug\u2013Oct 2026 vs Aug\u2013Oct 2025).",
+         "url": "https://www.majorform.co/our-work/yogamovement-digital-marketing-majorform-2026",
+         # the Yoga Movement app on two phones, from yogamovement.com; the image is cut off at its bottom edge, so it sits on the panel's edge
+         "image": "yoga-movement-app.webp", "image_anchor": "bottom", "image_bg": "#fcb315", "panel_logo": "yoga-movement",
+         "image_alt": "The Yoga Movement app on two phones",
+         "callouts": [{"text": "Google Search", "left": 52, "top": 4, "bg": "#04202c", "fg": "#ffffff"},
+                      {"text": "Brand Search", "left": 66, "top": 40, "bg": "#006eb8", "fg": "#ffffff"},
+                      {"text": "Local Search", "left": -4, "top": 70, "bg": "#ffffff", "fg": "#233551"}],
+         "story": [("Challenge", "Turn more searches for Yoga Movement and its studios into class-pack purchases while keeping media spend steady."),
+                   ("What we did", "Managed branded, studio-location and generic searches in separate campaigns, with studio-specific ad copy and starter-pack offers.")]},
+        {"brand": "Yoga Movement", "value": "\u221233%", "label": "Cost per tracked purchase completion", "url": None, "bg": "#fcb315"},
+        {"brand": "Yoga Movement", "value": "+20%", "label": "Search ad clicks", "url": None, "bg": "#006eb8", "fg": "#ffffff"},
     ],
     "quote": {"text": None, "who": None},
 
