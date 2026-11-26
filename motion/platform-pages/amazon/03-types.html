@@ -1,0 +1,80 @@
+<!-- MajorForm Amazon Ads page: campaign types across the funnel.
+     Paste into its own Squarespace Code block, with Display Source turned off. No scripts.
+     Set this section's background to your navy (#253551) so the block blends in. -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,600&family=Space+Grotesk:wght@400;500&display=swap">
+<style>
+  .mfp { --ink: #233551; --deep: #04202c; --text: #3d4350; --muted: #6b7180; --rule: rgba(35, 53, 81, .16); --tint: #f4f6f8;
+    --num: "DM Sans", "Helvetica Neue", Arial, sans-serif; --gap-ph: #c2410c;
+    container-type: inline-size; font-family: "Space Grotesk", system-ui, sans-serif; color: var(--text); font-size: 16px; line-height: 1.55; }
+  .mfp * { box-sizing: border-box; }
+  .mfp p, .mfp ul, .mfp ol, .mfp h1, .mfp h2, .mfp h3 { margin: 0; }
+  .mfp ul, .mfp ol { padding: 0; list-style: none; }
+  .mfp li { margin: 0; padding: 0; }
+  .mfp li::before, .mfp li::marker { content: none; }
+  .mfp .mfp__h2 { color: var(--ink); font-family: var(--mf-h2-font, "DM Sans", "Helvetica Neue", Arial, sans-serif); font-weight: var(--mf-h2-weight, 600);
+    font-size: var(--mf-h2, clamp(28px, 3.2vw, 40px)); line-height: 1.08; letter-spacing: var(--mf-h2-ls, -.03em); text-transform: none; text-wrap: balance; }
+  .mfp .mfp__lede { margin-top: 10px; max-width: 62ch; color: #1a1a1a; }
+  .mfp .mfp__body { margin-top: 22px; }
+  .mfp a { color: inherit; }
+  .mfp .mfp__btn { display: inline-flex; align-items: center; gap: 10px; padding: 12px 20px; border-radius: 999px; background: var(--deep); color: #fff; font-size: 15px; font-weight: 500;
+    text-decoration: none; border: 1px solid var(--deep); transition: background .3s, color .3s, border-color .3s; }
+  .mfp .mfp__btn:hover, .mfp .mfp__btn:focus-visible { background: var(--acc); border-color: var(--acc); color: var(--deep); }
+  .mfp .mfp__btn--ghost { background: none; color: var(--ink); border-color: rgba(35, 53, 81, .3); }
+  .mfp a:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+  .mfp .mfp__gap { color: var(--gap-ph); }
+  .mfp b .mfp__gap, .mfp em .mfp__gap { font-size: inherit; color: #ffb38a; }
+  @media (prefers-reduced-motion: reduce) { .mfp * { transition: none !important; } }
+
+  .mfp--types .mfp__label { margin-bottom: 10px; font-size: 11px; font-weight: 500; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
+  .mfp--types .mfp__top { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px 56px; align-items: start; }
+  @container (min-width: 860px) { .mfp--types .mfp__top { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
+  .mfp--types .mfp__top .mfp__lede { margin-top: 0; line-height: 1.45; }
+  .mfp--types .mfp__body { margin-top: 30px; }
+  .mfp--types .mfp__funnel { display: grid; grid-template-columns: minmax(0, 1fr); gap: 22px; }
+  @container (min-width: 820px) { .mfp--types .mfp__funnel { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; } }
+  .mfp--types .mfp__stage { position: relative; border-radius: 16px; padding: 22px; display: grid; gap: 10px; align-content: start; background: var(--sb); color: var(--sf);
+    transition: transform .35s cubic-bezier(.2, .8, .2, 1), box-shadow .35s; }
+  /* Hover: the card lifts a little with a soft shadow */
+  .mfp--types .mfp__stage:hover { transform: translateY(-6px); box-shadow: 0 18px 36px -14px rgba(4, 32, 44, .55); }
+  .mfp--types .mfp__stage--line:hover { box-shadow: inset 0 0 0 1px rgba(35, 53, 81, .25), 0 18px 36px -14px rgba(4, 32, 44, .55); }
+  /* Side by side, each campaign sits in a shared row, so dividers line up across the cards */
+  @container (min-width: 820px) {
+    .mfp--types .mfp__funnel { grid-template-rows: auto auto repeat(var(--rows), auto) 1fr; row-gap: 0; }
+    .mfp--types .mfp__stage { grid-row: span calc(var(--rows) + 3); grid-template-rows: subgrid; row-gap: 0; }
+    .mfp--types .mfp__stage h3 { padding: 10px 0 12px; }
+    .mfp--types .mfp__funnel .mfp__camps { display: contents; } }
+  .mfp--types .mfp__stage--line { box-shadow: inset 0 0 0 1px rgba(35, 53, 81, .25); }
+  .mfp--types .mfp__step-n { font-family: var(--num); font-weight: 600; font-size: 13px; letter-spacing: .06em; }
+  .mfp--types .mfp__stage h3 { color: inherit; font-size: 21px; line-height: 1.15; letter-spacing: -.015em; text-transform: none; }
+  .mfp--types .mfp__camps { display: grid; }
+  .mfp--types .mfp__camps > li { align-content: start; padding: 12px 0; border-top: 1px solid color-mix(in srgb, currentColor 22%, transparent); display: grid; gap: 4px; }
+  .mfp--types .mfp__camps b { font-weight: 500; font-size: 16px; line-height: 1.3; }
+  .mfp--types .mfp__camps p { font-size: 14.5px; line-height: 1.42; opacity: .9; }
+  .mfp--types .mfp__pills { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+  .mfp--types .mfp__pill { position: relative; overflow: hidden; isolation: isolate; font-size: 12px; font-weight: 500; line-height: 1.2; border-radius: 999px; padding: 4px 10px;
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, currentColor 45%, transparent); cursor: default; transition: color .3s, box-shadow .3s; }
+  /* Hover: another Wada colour floods up from the bottom, as on the hero tiles */
+  .mfp--types .mfp__pill::after { content: ""; position: absolute; inset: 0; z-index: -1; background: var(--pb); transform: translateY(101%); transition: transform .4s cubic-bezier(.2, .8, .2, 1); }
+  .mfp--types .mfp__pill:hover { color: var(--pf); box-shadow: inset 0 0 0 1px var(--pb); }
+  .mfp--types .mfp__pill:hover::after { transform: translateY(0); }
+  @media (prefers-reduced-motion: reduce) { .mfp--types .mfp__stage, .mfp--types .mfp__pill, .mfp--types .mfp__pill::after { transition: none; } .mfp--types .mfp__stage:hover { transform: none; } }
+  .mfp--types .mfp__stage:not(:last-child)::after { content: "\2193"; position: absolute; left: 50%; bottom: -11px; transform: translate(-50%, 50%); z-index: 1;
+    width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; font-size: 13px; background: #ffffff; color: var(--mf-arrow, #00978d); font-weight: 600; box-shadow: 0 2px 6px rgba(4, 32, 44, .25); }  /* white circle, Wada teal arrow */
+  @container (min-width: 820px) { .mfp--types .mfp__stage:not(:last-child)::after { content: "\2192"; left: auto; right: -6px; bottom: auto; top: 46px; transform: translate(50%, -50%); } }
+  .mfp--types .mfp__close { margin-top: 22px; font-size: 16px; color: var(--ink); }
+  .mfp--types .mfp__close b { font-weight: 500; }
+
+  .mfp[data-theme="dark"] { --ink: #ffffff; --text: rgba(243, 242, 247, .8); --muted: rgba(243, 242, 247, .6); --rule: rgba(255, 255, 255, .16);
+    --tint: rgba(255, 255, 255, .06); background: var(--mfp-bg, #253551); color: var(--text); }
+  .mfp[data-theme="dark"] .mfp__lede { color: rgba(243, 242, 247, .86); }
+
+  .mfp--types[data-theme="dark"] .mfp__label { color: var(--mf-hi, #96d1aa); }
+  .mfp--types[data-theme="dark"] .mfp__stage--line { box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .28); }
+  .mfp--types[data-theme="dark"] .mfp__close { color: #fff; }
+  .mfp--types[data-theme="dark"] .mfp__close b { color: var(--mf-hi, #96d1aa); }
+</style>
+<div class="mfp mfp--types" style="--acc:#d8a37b;--mfp-bg:#253551;--mf-arrow:#40456a;--mf-hi:#d8a37b" data-theme="dark">
+<p class="mfp__label">Campaign types</p><div class="mfp__top"><h2 class="mfp__h2">Amazon campaigns across the whole funnel</h2><p class="mfp__lede">Some campaigns put your products in front of new shoppers, some win the searches that lead to a sale, and some protect and grow the customers you have. We set the mix by your goal and budget.</p></div>
+<ol class="mfp__body mfp__funnel" style="--rows:3"><li class="mfp__stage" style="--sb:#d8a37b;--sf:#233551;--pb:#40456a;--pf:#ffffff"><span class="mfp__step-n">Stage 1</span><h3>Get discovered</h3><ul class="mfp__camps"><li><b>Sponsored Display</b><p>Ads on and off Amazon that reach shoppers browsing similar products or your category.</p><span class="mfp__pills"><span class="mfp__pill">CPM</span><span class="mfp__pill">Detail page views</span></span></li><li><b>Amazon DSP</b><p>Display and video ads bought with Amazon&#x27;s shopper data, on Amazon and across other sites and apps.</p><span class="mfp__pills"><span class="mfp__pill">CPM</span><span class="mfp__pill">Reach</span></span></li></ul></li><li class="mfp__stage mfp__stage--line" style="--sb:transparent;--sf:rgba(243, 242, 247, .9);--pb:#d8a37b;--pf:#233551"><span class="mfp__step-n">Stage 2</span><h3>Win the search</h3><ul class="mfp__camps"><li><b>Sponsored Products</b><p>Product ads in search results and on product pages, the core of most Amazon accounts.</p><span class="mfp__pills"><span class="mfp__pill">ACOS</span><span class="mfp__pill">CPC</span></span></li><li><b>Sponsored Brands</b><p>Your logo, a headline and several products together at the top of search results.</p><span class="mfp__pills"><span class="mfp__pill">ACOS</span><span class="mfp__pill">New-to-brand</span></span></li><li><b>Sponsored Brands video</b><p>Short video ads in search results that show the product in use.</p><span class="mfp__pills"><span class="mfp__pill">CTR</span><span class="mfp__pill">ACOS</span></span></li></ul></li><li class="mfp__stage" style="--sb:#a5c8d1;--sf:#233551;--pb:#40456a;--pf:#ffffff"><span class="mfp__step-n">Stage 3</span><h3>Protect and grow</h3><ul class="mfp__camps"><li><b>Brand defence</b><p>Ads on your own product pages and brand searches, so competitors can&#x27;t take shoppers who are already yours.</p><span class="mfp__pills"><span class="mfp__pill">ACOS</span><span class="mfp__pill">Impression share</span></span></li><li><b>Remarketing</b><p>Brings back shoppers who viewed your product but didn&#x27;t buy.</p><span class="mfp__pills"><span class="mfp__pill">ROAS</span></span></li><li><b>Brand Store traffic</b><p>Sends shoppers to your branded store on Amazon, where they see your full range.</p><span class="mfp__pills"><span class="mfp__pill">Store visits</span><span class="mfp__pill">Sales</span></span></li></ul></li></ol>
+<p class="mfp__close"><b>One plan, three stages.</b> Budget moves to whichever stage is holding growth back.</p>
+</div>

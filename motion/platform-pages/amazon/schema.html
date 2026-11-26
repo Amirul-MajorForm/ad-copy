@@ -1,0 +1,202 @@
+<!-- Amazon Ads page header. Paste into Page Settings > Advanced > Page Header Code Injection.
+     The schema is built from the same text as the page, so the FAQ answers match word for word.
+     The short script below plays the block animations once as they scroll into view. -->
+<script type="application/ld+json">
+[
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "@id": "https://www.majorform.co/amazon-ads-agency-singapore/#service",
+    "name": "Amazon Ads Management",
+    "serviceType": "Amazon Ads Management",
+    "description": "MajorForm plans and runs Amazon Ads for brands in Singapore and across Asia, from Sponsored Products to Sponsored Brands and Display. One team handles keyword research, bidding, product listing advice and reporting, and every campaign is judged on sales and return on ad spend, not clicks.",
+    "url": "https://www.majorform.co/amazon-ads-agency-singapore",
+    "provider": {
+      "@id": "https://www.majorform.co/#organization"
+    },
+    "areaServed": [
+      {
+        "@type": "Country",
+        "name": "Singapore"
+      },
+      {
+        "@type": "Country",
+        "name": "Malaysia"
+      },
+      {
+        "@type": "Country",
+        "name": "Indonesia"
+      },
+      {
+        "@type": "Country",
+        "name": "Philippines"
+      },
+      {
+        "@type": "Country",
+        "name": "Thailand"
+      },
+      {
+        "@type": "Country",
+        "name": "Vietnam"
+      }
+    ],
+    "category": "Performance Marketing"
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://www.majorform.co/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Performance marketing",
+        "item": "https://www.majorform.co/performance-marketing-majorform-singapore"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Amazon ads",
+        "item": "https://www.majorform.co/amazon-ads-agency-singapore"
+      }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "@id": "https://www.majorform.co/amazon-ads-agency-singapore/#faq",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How much do Amazon Ads cost in Singapore?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Most Amazon ads charge per click, with the price set in an auction each time a shopper searches. It depends on how competitive your category is and how well your product sells. We set a target for each product from its margin, agree a test budget with you, then scale what sells at a profit. Our fee is a monthly retainer, not a commission on spend."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is ACOS, and what should ours be?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "ACOS is your ad spend divided by the sales those ads brought in, so a lower number means each sale cost less in ads. A good target depends on your margin: if a product makes 30% profit before advertising, an ACOS above 30% loses money on each ad sale. New launches often run higher for a while to build sales history."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Sponsored Products, Brands or Display: which should we use?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Most accounts start with Sponsored Products, because they show your product right where shoppers search. Sponsored Brands put your logo and several products at the top of results, which helps shoppers remember you. Sponsored Display reaches people browsing similar products and brings back those who viewed yours."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Do Amazon ads help our organic ranking?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "They can. Amazon doesn't publish how it ranks products, but sales for a search are widely seen as a strong factor, so ads that bring in sales for a search can help your product rank for it without ads over time."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Do we need Amazon Brand Registry?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Sponsored Products works without it. If you sell on Amazon as a seller, you need Brand Registry for Sponsored Brands, your own Brand Store and A+ content, so it's worth setting up if you own your brand."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can you help with our product listings?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. Ads work best on strong product pages, so we review your titles, images, bullet points and A+ content, and flag listings that need work before we put spend behind them."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do you measure results on Amazon?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "We track ACOS and return on ad spend for each campaign, and total ACOS, which compares ad spend with all your Amazon sales, to show what ads add overall. We also watch new-to-brand sales, which shows how many buyers are new to you."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How long before Amazon ads show results?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Ads can start bringing in sales within days of launch. Bids and keywords need a few weeks of sales data to settle, and organic ranking gains build more slowly, so we review results weekly and judge the bigger picture month by month."
+        }
+      }
+    ]
+  }
+]
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  // Match block headings to the site's own H2: measure a hidden H2 styled like a Squarespace text block
+  var host = document.querySelector(".sqs-block-content"), probe = document.createElement("div");
+  if (host) {
+  probe.className = "sqs-html-content"; probe.style.cssText = "position:absolute;visibility:hidden;left:-9999px";
+  probe.innerHTML = "<h2>Ag</h2>"; host.appendChild(probe);
+  var cs = getComputedStyle(probe.firstChild), root = document.documentElement.style;
+  root.setProperty("--mf-h2", cs.fontSize); root.setProperty("--mf-h2-font", cs.fontFamily);
+  root.setProperty("--mf-h2-weight", cs.fontWeight); root.setProperty("--mf-h2-ls", cs.letterSpacing === "normal" ? "0" : cs.letterSpacing);
+  probe.remove();
+  }
+  if ((window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches) || !window.IntersectionObserver) return;
+
+  // Process timeline: hold the section in place while steps 2, 3 and 4 appear with scroll.
+  // Falls back to revealing steps as they come into view if a parent clips overflow or the steps don't fit on screen.
+  document.querySelectorAll(".mfp--process").forEach(function (el) {
+    var steps = el.querySelectorAll(".mfp__pstep"), pin = el.querySelector(".mfp__pin");
+    if (!steps.length || !pin) return;
+    function show(n) { for (var i = 0; i < steps.length; i++) { steps[i].classList.toggle("is-on", i < n); steps[i].classList.toggle("is-done", i < n - 1); } }
+    el.setAttribute("data-stage", ""); show(1);
+    var clipped = false;
+    for (var p = el.parentElement; p && p !== document.body; p = p.parentElement) {
+      var o = getComputedStyle(p); if (/(hidden|auto|scroll|clip)/.test(o.overflow + o.overflowY)) { clipped = true; break; }
+    }
+    var h = pin.offsetHeight;
+    if (clipped || h > window.innerHeight * 0.88) {
+      var io = new IntersectionObserver(function (en) {
+        // steps light up as they enter, and reset once they drop below the screen, so scrolling back down plays it again
+        en.forEach(function (x) {
+          var i = [].indexOf.call(steps, x.target);
+          if (x.isIntersecting) { for (var k = 0; k <= i; k++) steps[k].classList.add("is-on"); if (i > 0) steps[i - 1].classList.add("is-done"); }
+          else if (i > 0 && x.boundingClientRect.top > 0) { for (var k = i; k < steps.length; k++) steps[k].classList.remove("is-on", "is-done"); steps[i - 1].classList.remove("is-done"); }
+        });
+      }, { rootMargin: "0px 0px -20% 0px" });
+      steps.forEach(function (s) { io.observe(s); });
+      window.addEventListener("scroll", function () { if (el.getBoundingClientRect().top > window.innerHeight) show(1); }, { passive: true }); return;
+    }
+    el.setAttribute("data-pinned", ""); el.style.setProperty("--pin-h", h + "px");
+    var extra = window.innerHeight * 0.45 * (steps.length - 1);
+    el.style.height = (h + extra) + "px";
+    function onScroll() {
+      var r = el.getBoundingClientRect(), span = el.offsetHeight - h, top = Math.max(24, window.innerHeight / 2 - h / 2);
+      var prog = Math.min(1, Math.max(0, (top - r.top) / span));
+      show(Math.min(steps.length, 1 + Math.floor(prog * steps.length + 0.15)));
+    }
+    window.addEventListener("scroll", onScroll, { passive: true }); window.addEventListener("resize", onScroll); onScroll();
+  });
+  document.querySelectorAll(".mfp[data-anim]").forEach(function (el) {
+    if (el.getBoundingClientRect().top < window.innerHeight * 0.8) return; // already on screen: leave at rest
+    el.classList.add("mfp-pre");
+    var io = new IntersectionObserver(function (entries) {
+      if (!entries[entries.length - 1].isIntersecting) return;
+      io.disconnect();
+      el.classList.add("mfp-in");
+      requestAnimationFrame(function () { requestAnimationFrame(function () { el.classList.remove("mfp-pre"); }); });
+    }, { threshold: 0.3 });
+    io.observe(el);
+  });
+});
+</script>
