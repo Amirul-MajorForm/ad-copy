@@ -284,7 +284,11 @@
   .mfp--results .mfp__fmark { position: absolute; left: 24px; top: 24px; height: 54px; width: auto; filter: brightness(0); opacity: .85; }
   @container (max-width: 639px) { .mfp--results .mfp__fmark { display: none; } }
   .mfp--results .mfp__fimg--bottom .mfp__fart { max-width: 100%; }
-  .mfp--results .mfp__fimg--bottom .mfp__fbase { max-height: 380px; animation: none; transition: transform .6s cubic-bezier(.2, .8, .2, 1); transform-origin: bottom center; }
+  .mfp--results .mfp__fimg--bottom .mfp__fbase { max-height: 380px; }
+  .mfp--results .mfp__rgrid--solo .mfp__fimg--bottom { padding: 24px 14px 0; }
+  @container (min-width: 640px) { .mfp--results .mfp__rgrid--solo .mfp__fimg--bottom { padding: 104px 40px 0; min-height: 560px; } .mfp--results .mfp__rgrid--solo .mfp__fimg--bottom .mfp__fbase { max-height: 560px; } }
+  @container (min-width: 640px) { .mfp--results .mfp__rgrid--solo .mfp__fbody { align-content: center; padding: 40px; } }
+  .mfp--results .mfp__fimg--bottom .mfp__fbase { animation: none; transition: transform .6s cubic-bezier(.2, .8, .2, 1); transform-origin: bottom center; }
   a.mfp__feat:hover .mfp__fimg--bottom .mfp__fbase { transform: translateY(-6px) scale(1.02); }
   .mfp--results .mfp__fart { position: relative; display: inline-block; line-height: 0; max-width: 92%; }
   .mfp--results .mfp__fbase { display: block; width: auto; max-width: 100%; height: auto; max-height: 340px; animation: mfp-float 5s ease-in-out infinite alternate; }

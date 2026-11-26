@@ -119,8 +119,6 @@ PAGE = {
                       {"text": "Local Search", "left": -4, "top": 70, "bg": "#ffffff", "fg": "#233551"}],
          "story": [("Challenge", "Turn more searches for Yoga Movement and its studios into class-pack purchases while keeping media spend steady."),
                    ("What we did", "Managed branded, studio-location and generic searches in separate campaigns, with studio-specific ad copy and starter-pack offers.")]},
-        {"brand": "Yoga Movement", "value": "\u221233%", "label": "Cost per tracked purchase completion", "url": None, "bg": "#fcb315"},
-        {"brand": "Yoga Movement", "value": "+20%", "label": "Search ad clicks", "url": None, "bg": "#006eb8", "fg": "#ffffff"},
     ],
     "quote": {"text": None, "who": None},
 
