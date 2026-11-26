@@ -9,32 +9,31 @@ PAGE = {
     "name": "Amazon Ads",
     "crumb": "Amazon ads",
     "short": "Amazon",
-    "accent": "#d8a37b",
-    # Wada 339: Ochraceous Salmon, English Red, Light Glaucous Blue, Violet Blue
-    "arrow": "#40456a",  # arrow on the white circles between cards
-    "hi": "#d8a37b",  # highlight text on the navy sections and the results tag
+    "accent": "#ff9900",
+    # Amazon orange and Amazon's dark blue-grey, with two Wada 339 colours: Ochraceous Salmon and Light Glaucous Blue
+    "arrow": "#232f3e",  # arrow on the white circles between cards
+    "hi": "#ff9900",  # highlight text on the navy sections and the results tag
     # Slots placed on the site's navy sections (set those sections' background to this colour in Squarespace)
     "dark": {"shift": "#253551", "types": "#253551", "related": "#2a2829"},  # the closing block sits on the footer grey black
     "slots": ["hero", "shift", "types", "results", "process", "fit", "faq", "related"],
-    # Hero numbers as a colour plate from Wada combination 339 (Meta 281, TikTok 264, Search 257, App 276).
-    # English red only takes near-black text: neither white nor navy is clear enough on it for small labels.
+    # Hero numbers as a colour plate: Amazon orange and dark blue-grey with Wada 339 sand and pale blue.
+    # Only the dark blue-grey takes white text; orange, sand and pale blue take navy.
     "poster": [
-        {"value": "$2M+", "label": "Ad spend managed", "bg": "#40456a", "fg": "#ffffff", "hover": {"bg": "#d8a37b", "fg": "#233551"}},
-        {"value": "10+", "label": "Markets in Asia", "bg": "#d8a37b", "fg": "#233551", "hover": {"bg": "#d96629", "fg": "#140f1f"}},
-        {"value": "1 team", "label": "Ads, listings and retail data", "bg": "#d96629", "fg": "#140f1f", "hover": {"bg": "#a5c8d1", "fg": "#233551"}},
-        {"value": "300+", "label": "Campaigns run since 2025", "bg": "#a5c8d1", "fg": "#233551", "hover": {"bg": "#40456a", "fg": "#ffffff"}},
+        {"value": "$2M+", "label": "Ad spend managed", "bg": "#232f3e", "fg": "#ffffff", "hover": {"bg": "#ff9900", "fg": "#233551"}},
+        {"value": "10+", "label": "Markets in Asia", "bg": "#ff9900", "fg": "#233551", "hover": {"bg": "#d8a37b", "fg": "#233551"}},
+        {"value": "1 team", "label": "Ads, listings and retail data", "bg": "#d8a37b", "fg": "#233551", "hover": {"bg": "#a5c8d1", "fg": "#233551"}},
+        {"value": "300+", "label": "Campaigns run since 2025", "bg": "#a5c8d1", "fg": "#233551", "hover": {"bg": "#232f3e", "fg": "#ffffff"}},
     ],
 
-    "logos": [("oatside", "Oatside"), ("blackmores", "Blackmores"), ("the-ordinary", "The Ordinary")],
-    "logos_label": "Brands we work with",
+    "logos": [("oatside", "Oatside")],
+    "logos_label": "Trusted by",
     "slug": "amazon-ads-agency-singapore",
     "title": "Amazon Ads Agency Singapore | MajorForm",
     "description": "MajorForm runs Amazon Ads for brands in Singapore and across Asia: Sponsored Products, Brands and Display, judged on sales and ACOS.",
     "service_name": "Amazon Ads Management",
     "confirm": [
         "Hero figures: are $2M+ ad spend and 300+ campaigns right to show across all platforms here? Send Amazon-only figures if you'd rather",
-        "The three logos are brands you run Amazon ads for (swap in the right ones)",
-        "Which Amazon stores you run ads on (Amazon.sg only, or others such as Japan, Australia or India)",
+        "Amazon stores: the page says Singapore and across Asia, and the result is from Amazon Japan; list any other stores you run",
         "Services: do you run Amazon DSP, and do you advise on listings and A+ content?",
         "Process timings (research week 1, plan week 2, tests weeks 3 to 6, scaling from month 2) and weekly reporting",
     ],
@@ -61,13 +60,13 @@ PAGE = {
                  "what each ad really earns. Here's how we handle each one."),
         "we_label": "How we handle it",
         "steps": [
-            {"who": "you", "bg": "#d8a37b", "fg": "#233551", "title": "Show up for the right searches",
+            {"who": "you", "bg": "#ff9900", "fg": "#233551", "title": "Show up for the right searches",
              "changed": "Most Amazon sales start with a search, and where your ad shows depends on your bid and how well your product sells for that search.",
              "we": "We research the words shoppers use, split campaigns by brand, category and competitor searches, and cut terms that spend without selling."},
             {"who": "meta", "bg": "transparent", "fg": "rgba(243, 242, 247, .86)", "title": "The product page closes the sale",
              "changed": "An ad can only bring shoppers to your page. Weak images, unclear titles or few reviews mean they click and leave, and you still pay.",
              "we": "We review your titles, images, A+ content and stock levels, and pause ads on products that aren't ready to sell."},
-            {"who": "you", "bg": "#d96629", "fg": "#140f1f", "title": "Measured on sales, not clicks",
+            {"who": "you", "bg": "#d8a37b", "fg": "#233551", "title": "Measured on sales, not clicks",
              "changed": "Amazon's reports only count sales made soon after an ad, and ads also lift organic sales that the reports don't show.",
              "we": "We report on ACOS alongside total ACOS (ad spend against all sales), so you see what ads add to your whole Amazon business."},
         ],
@@ -81,16 +80,16 @@ PAGE = {
         "title": "Amazon campaigns across the whole funnel",
         "lede": "Some campaigns put your products in front of new shoppers, some win the searches that lead to a sale, and some protect and grow the customers you have. We set the mix by your goal and budget.",
         "stages": [
-            {"label": "Stage 1", "title": "Get discovered", "bg": "#d8a37b", "fg": "#233551", "pill": {"bg": "#40456a", "fg": "#ffffff"}, "items": [
+            {"label": "Stage 1", "title": "Get discovered", "bg": "#ff9900", "fg": "#233551", "pill": {"bg": "#232f3e", "fg": "#ffffff"}, "items": [
                 ("Sponsored Display", "Ads on and off Amazon that reach shoppers browsing similar products or your category.", ["CPM", "Detail page views"]),
                 ("Amazon DSP", "Display and video ads bought with Amazon's shopper data, on Amazon and across other sites and apps.", ["CPM", "Reach"]),
             ]},
-            {"label": "Stage 2", "title": "Win the search", "bg": "transparent", "fg": "rgba(243, 242, 247, .9)", "pill": {"bg": "#d8a37b", "fg": "#233551"}, "items": [
+            {"label": "Stage 2", "title": "Win the search", "bg": "transparent", "fg": "rgba(243, 242, 247, .9)", "pill": {"bg": "#ff9900", "fg": "#233551"}, "items": [
                 ("Sponsored Products", "Product ads in search results and on product pages, the core of most Amazon accounts.", ["ACOS", "CPC"]),
                 ("Sponsored Brands", "Your logo, a headline and several products together at the top of search results.", ["ACOS", "New-to-brand"]),
                 ("Sponsored Brands video", "Short video ads in search results that show the product in use.", ["CTR", "ACOS"]),
             ]},
-            {"label": "Stage 3", "title": "Protect and grow", "bg": "#a5c8d1", "fg": "#233551", "pill": {"bg": "#40456a", "fg": "#ffffff"}, "items": [
+            {"label": "Stage 3", "title": "Protect and grow", "bg": "#a5c8d1", "fg": "#233551", "pill": {"bg": "#232f3e", "fg": "#ffffff"}, "items": [
                 ("Brand defence", "Ads on your own product pages and brand searches, so competitors can't take shoppers who are already yours.", ["ACOS", "Impression share"]),
                 ("Remarketing", "Brings back shoppers who viewed your product but didn't buy.", ["ROAS"]),
                 ("Brand Store traffic", "Sends shoppers to your branded store on Amazon, where they see your full range.", ["Store visits", "Sales"]),
@@ -108,7 +107,17 @@ PAGE = {
     "results_title": "What this looks like in practice",
     "results_lede": "Results from Amazon campaigns we run, for brands across Asia.",
     "results": [
-        {"brand": None, "value": None, "label": None, "url": None},
+        {"brand": "OATSIDE", "channel": "Amazon Japan", "value": "18.3\u00d7", "label": "Return on ad spend on Amazon Japan",
+         "note": "\u00a54.48M in ad-attributed sales from 1,499 ad-attributed orders.",
+         "url": None,  # add a link here once there is an OATSIDE Amazon case study page
+         # OATSIDE Oat Latte for Japan, cut out from the client's pack shot; floats on the panel and shows larger on desktop
+         "image": "oatside-latte-jp.webp", "image_size": "large", "image_bg": "#a5c8d1", "panel_logo": "oatside",
+         "image_alt": "OATSIDE Oat Latte carton for Japan",
+         "callouts": [{"text": "Amazon Ads", "left": 58, "top": 8, "bg": "#232f3e", "fg": "#ffffff"},
+                      {"text": "Sponsored Products", "left": -40, "top": 44, "bg": "#ff9900", "fg": "#233551"},
+                      {"text": "Japan", "left": 70, "top": 74, "bg": "#ffffff", "fg": "#233551"}],
+         "story": [("Challenge", "Turn existing demand for oat milk on Amazon Japan into sales for OATSIDE\u2019s products."),
+                   ("What we did", "Launched automatically targeted Sponsored Products campaigns for two OATSIDE listings and analysed the Japanese search terms that led to orders.")]},
     ],
     "quote": {"text": None, "who": None},
 
@@ -118,12 +127,12 @@ PAGE = {
         "title": "From Research to Scale",
         "lede": "A clear plan from day one, so you always know what's happening and what you'll get next.",
         "steps": [
-            {"c": "#d8a37b", "when": "Week 1", "title": "Research",
+            {"c": "#ff9900", "when": "Week 1", "title": "Research",
              "text": "We study your category, shoppers and competitors, audit your Amazon account and listings, and agree the one number that matters.",
              "gets": ["Audit report", "Target KPI"]},
-            {"c": "#40456a", "ct": "#ffffff", "when": "Week 2", "title": "Plan",
+            {"c": "#232f3e", "ct": "#ffffff", "when": "Week 2", "title": "Plan",
              "text": "We map the campaigns across the funnel, build the keyword plan and set targets for each product from its margin.", "gets": ["Media plan", "Keyword plan"]},
-            {"c": "#d96629", "ct": "#140f1f", "when": "Weeks 3 to 6", "title": "Test",
+            {"c": "#d8a37b", "ct": "#233551", "when": "Weeks 3 to 6", "title": "Test",
              "text": "We launch structured tests of keywords, products, bids and ad creative against that number.", "gets": ["Test results", "Weekly report"]},
             {"c": "#a5c8d1", "ct": "#233551", "when": "Month 2 onwards", "title": "Scale",
              "text": "We move budget to the products and searches that sell at a profit, cut wasted terms and refresh ads every month.", "gets": ["Monthly review", "New ads"]},
@@ -139,12 +148,12 @@ PAGE = {
         ("Your accounts", None),
     ],
 
-    # FAQ in the performance page's style: navy panel with a Wada 339 tile, questions that flood with colour on hover
+    # FAQ in the performance page's style: navy panel with a Amazon and Wada 339 tile, questions that flood with colour on hover
     "faq_panel": {
         "title": "Questions brands ask about Amazon ads",
         "intro": "What brands usually ask us before we start running Amazon Ads together.",
-        "tile": ["#d8a37b", "#40456a", "#d96629", "#a5c8d1"],
-        "floods": ["#d8a37b", "#a5c8d1"],
+        "tile": ["#ff9900", "#232f3e", "#d8a37b", "#a5c8d1"],
+        "floods": ["#ff9900", "#a5c8d1"],
     },
     # 7 FAQs (also written into the FAQPage schema)
     "faqs": [
@@ -185,5 +194,5 @@ PAGE = {
     ],
     "closing": "Ready to grow on Amazon?",
     "closing_sub": "Tell us your goal and we'll show you how we'd plan it.",
-    "related_floods": ["#d8a37b", "#a5c8d1"],  # pill hover colours in the closing block
+    "related_floods": ["#ff9900", "#a5c8d1"],  # pill hover colours in the closing block
 }

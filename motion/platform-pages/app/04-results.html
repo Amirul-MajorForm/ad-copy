@@ -35,7 +35,7 @@
     transition: transform .35s cubic-bezier(.2, .8, .2, 1), box-shadow .35s; }
   @container (min-width: 640px) { .mfp--results .mfp__feat { grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); } }
   a.mfp__feat:hover, a.mfp__feat:focus-visible { transform: translateY(-4px); box-shadow: 0 18px 36px -16px rgba(4, 32, 44, .5); }
-  .mfp--results .mfp__fimg { background: var(--fbg); display: grid; place-items: center; min-height: 260px; padding: 20px; }
+  .mfp--results .mfp__fimg { position: relative; background: var(--fbg); display: grid; place-items: center; min-height: 260px; padding: 20px; }
   /* an image cut off at its bottom edge (e.g. phones) sits on the panel's bottom edge and does not float */
   .mfp--results .mfp__fimg--bottom { position: relative; place-items: end center; padding: 28px 28px 0; }
   @container (min-width: 640px) { .mfp--results .mfp__feat:has(.mfp__fimg--bottom) { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
@@ -50,6 +50,8 @@
   @container (min-width: 640px) { .mfp--results .mfp__rgrid--solo .mfp__fbody { align-content: center; padding: 40px; } }
   .mfp--results .mfp__fimg--bottom .mfp__fbase { animation: none; transition: transform .6s cubic-bezier(.2, .8, .2, 1); transform-origin: bottom center; }
   a.mfp__feat:hover .mfp__fimg--bottom .mfp__fbase { transform: translateY(-6px) scale(1.02); }
+  /* a tall product shot shown bigger on desktop, when the featured card has the row to itself */
+  @container (min-width: 640px) { .mfp--results .mfp__fimg--large { min-height: 540px; padding: 48px 24px; } .mfp--results .mfp__fimg--large .mfp__fbase { max-height: 460px; } }
   .mfp--results .mfp__fart { position: relative; display: inline-block; line-height: 0; max-width: 92%; }
   .mfp--results .mfp__fbase { display: block; width: auto; max-width: 100%; height: auto; max-height: 340px; animation: mfp-float 5s ease-in-out infinite alternate; }
   .mfp--results .mfp__fimg--logo .mfp__fart { width: min(64%, 300px); }

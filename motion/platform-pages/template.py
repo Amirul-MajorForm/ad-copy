@@ -105,6 +105,7 @@ CSS = {
   .mfp--hero .mfp__marquee:hover .mfp__track { animation-play-state: paused; }
   .mfp--hero .mfp__run { display: flex; align-items: center; gap: 44px; padding-right: 44px; }
   .mfp--hero .mfp__run img { display: block; height: 26px; width: auto; max-width: 140px; object-fit: contain; filter: brightness(0); opacity: .72; }
+  .mfp--hero .mfp__solo img { display: block; height: 30px; width: auto; max-width: 160px; object-fit: contain; filter: brightness(0); opacity: .72; }
   .mfp--hero .mfp__more { font-size: 15px; font-weight: 500; color: var(--ink); white-space: nowrap; }
   @keyframes mfp-marquee { to { transform: translateX(-50%); } }
   @media (prefers-reduced-motion: reduce) { .mfp--hero .mfp__track { animation: none; } .mfp--hero .mfp__run[aria-hidden] { display: none; } .mfp--hero .mfp__marquee { -webkit-mask-image: none; mask-image: none; } }
@@ -216,7 +217,7 @@ CSS = {
     transition: transform .35s cubic-bezier(.2, .8, .2, 1), box-shadow .35s; }
   @container (min-width: 640px) { .mfp--results .mfp__feat { grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); } }
   a.mfp__feat:hover, a.mfp__feat:focus-visible { transform: translateY(-4px); box-shadow: 0 18px 36px -16px rgba(4, 32, 44, .5); }
-  .mfp--results .mfp__fimg { background: var(--fbg); display: grid; place-items: center; min-height: 260px; padding: 20px; }
+  .mfp--results .mfp__fimg { position: relative; background: var(--fbg); display: grid; place-items: center; min-height: 260px; padding: 20px; }
   /* an image cut off at its bottom edge (e.g. phones) sits on the panel's bottom edge and does not float */
   .mfp--results .mfp__fimg--bottom { position: relative; place-items: end center; padding: 28px 28px 0; }
   @container (min-width: 640px) { .mfp--results .mfp__feat:has(.mfp__fimg--bottom) { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
@@ -231,6 +232,8 @@ CSS = {
   @container (min-width: 640px) { .mfp--results .mfp__rgrid--solo .mfp__fbody { align-content: center; padding: 40px; } }
   .mfp--results .mfp__fimg--bottom .mfp__fbase { animation: none; transition: transform .6s cubic-bezier(.2, .8, .2, 1); transform-origin: bottom center; }
   a.mfp__feat:hover .mfp__fimg--bottom .mfp__fbase { transform: translateY(-6px) scale(1.02); }
+  /* a tall product shot shown bigger on desktop, when the featured card has the row to itself */
+  @container (min-width: 640px) { .mfp--results .mfp__fimg--large { min-height: 540px; padding: 48px 24px; } .mfp--results .mfp__fimg--large .mfp__fbase { max-height: 460px; } }
   .mfp--results .mfp__fart { position: relative; display: inline-block; line-height: 0; max-width: 92%; }
   .mfp--results .mfp__fbase { display: block; width: auto; max-width: 100%; height: auto; max-height: 340px; animation: mfp-float 5s ease-in-out infinite alternate; }
   .mfp--results .mfp__fimg--logo .mfp__fart { width: min(64%, 300px); }
@@ -538,7 +541,12 @@ def poster(d, g):
     states = ";".join(f'--s{i + 1}-bg:{b["bg"]};--s{i + 1}-fg:{b["fg"]};--s{i + 1}-num:{b.get("num", b["fg"])};--s{i + 1}-tex:{b.get("tex", "rgba(255, 255, 255, .2)")}'
                       for i, b in enumerate(d["poster"][:4]))
     out = f'<div class="mfp__poster"><div class="mfp__plates" style="{states}">' + "".join(cells) + "</div>"
-    if d.get("logos"):
+    if d.get("logos") and len(d["logos"]) == 1:
+        # one logo sits still: scrolling it would only repeat the same name
+        (k, n), = d["logos"]
+        out += (f'<div class="mfp__logos"><p class="mfp__logos-label">{e(d.get("logos_label", "Brands we work with"))}</p>'
+                f'<div class="mfp__solo"><img src="{logo_src(k)}" alt="{e(n)}" height="30"></div></div>')
+    elif d.get("logos"):
         names = d["logos"]
         # with only a few logos, repeat them so one run is wider than the row and the loop has no gap (repeats are silent to screen readers)
         reps = 1 if len(names) >= 4 else -(-6 // len(names))
@@ -632,7 +640,7 @@ def results(d, g):
     layers += "".join(f'<span class="mfp__callout" aria-hidden="true" style="left:{c["left"]}%;top:{c["top"]}%;--cb:{c["bg"]};--cf:{c["fg"]};'
                       f'animation-delay:{i * 1.3}s">{e(c["text"])}</span>' for i, c in enumerate(lead.get("callouts", [])))
     mark = (f'<img class="mfp__fmark" src="{logo_src(lead["panel_logo"])}" alt="" aria-hidden="true">' if lead.get("panel_logo") else "")
-    img = (f'<div class="mfp__fimg{" mfp__fimg--stage" if lead.get("stage") else ""}{" mfp__fimg--bottom" if lead.get("image_anchor") == "bottom" else ""}" style="--fbg:{lead.get("image_bg", "#f3d23c")}">{mark}<div class="mfp__fart">'
+    img = (f'<div class="mfp__fimg{" mfp__fimg--stage" if lead.get("stage") else ""}{" mfp__fimg--bottom" if lead.get("image_anchor") == "bottom" else ""}{" mfp__fimg--large" if lead.get("image_size") == "large" else ""}" style="--fbg:{lead.get("image_bg", "#f3d23c")}">{mark}<div class="mfp__fart">'
            f'<img class="mfp__fbase" src="{asset_src(lead["image"])}" alt="{e(lead["image_alt"])}" loading="lazy">{layers}</div></div>'
            if lead.get("image") else
            # no product photo yet: the brand's logo on its colour, with the same gentle float
