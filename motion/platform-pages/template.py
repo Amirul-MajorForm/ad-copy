@@ -265,7 +265,7 @@ CSS = {
   @container (min-width: 860px) { .mfp--guides .mfp__top { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
   .mfp--guides .mfp__top .mfp__lede { margin-top: 0; line-height: 1.45; color: rgba(243, 242, 247, .82); }
   .mfp--guides .mfp__ggrid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 14px; margin-top: 24px; }
-  @container (min-width: 820px) { .mfp--guides .mfp__ggrid { grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); } }
+  @container (min-width: 820px) { .mfp--guides .mfp__ggrid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
   .mfp--guides .mfp__cov { display: block; width: 100%; height: 100%; }
   .mfp--guides .mfp__gtag { justify-self: start; font-size: 11px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; border-radius: 999px; padding: 3px 9px; }
   .mfp--guides h3 { margin: 0; font-family: var(--mf-h2-font, var(--num)); font-weight: 600; letter-spacing: -.015em; text-transform: none; color: inherit; }
@@ -274,25 +274,25 @@ CSS = {
   .mfp--guides .mfp__gfeat { display: grid; grid-template-rows: auto 1fr; border-radius: 18px; overflow: hidden; background: #ffffff; color: var(--ink); text-decoration: none;
     transition: transform .35s cubic-bezier(.2, .8, .2, 1), box-shadow .35s; }
   .mfp--guides .mfp__gfeat:hover, .mfp--guides .mfp__gfeat:focus-visible { transform: translateY(-4px); box-shadow: 0 20px 40px -24px rgba(0, 0, 0, .6); }
-  .mfp--guides .mfp__gcov { display: block; aspect-ratio: 2 / 1; overflow: hidden; }
+  .mfp--guides .mfp__gcov { display: block; aspect-ratio: 5 / 2; overflow: hidden; }
   .mfp--guides .mfp__gcov .mfp__cov { transition: transform .8s cubic-bezier(.2, .8, .2, 1); }
   .mfp--guides .mfp__gfeat:hover .mfp__cov { transform: scale(1.04); }
-  .mfp--guides .mfp__gfeat .mfp__gb { padding: 18px 22px 22px; display: grid; gap: 8px; }
+  .mfp--guides .mfp__gfeat .mfp__gb { padding: 16px 20px 18px; display: grid; gap: 8px; }
   .mfp--guides .mfp__gfeat .mfp__gtag { background: var(--tint); color: var(--ink); }
-  .mfp--guides .mfp__gfeat h3 { font-size: 24px; line-height: 1.15; }
-  .mfp--guides .mfp__gsum { font-size: 14.5px; color: var(--text); }
+  .mfp--guides .mfp__gfeat h3 { font-size: 20px; line-height: 1.2; }
+  .mfp--guides .mfp__gsum { font-size: 14px; line-height: 1.45; color: var(--text); }
   .mfp--guides .mfp__gfeat .mfp__ggo { color: var(--ink); }
   /* other guides: rows with a small cover, flooding with Wada colour on hover */
   .mfp--guides .mfp__gside { display: grid; gap: 14px; grid-auto-rows: 1fr; }
-  .mfp--guides .mfp__grow { position: relative; overflow: hidden; isolation: isolate; display: grid; grid-template-columns: 168px minmax(0, 1fr); gap: 16px; align-items: center;
+  .mfp--guides .mfp__grow { position: relative; overflow: hidden; isolation: isolate; display: grid; grid-template-columns: 44% minmax(0, 1fr); gap: 18px; align-items: center;
     padding: 14px; border-radius: 18px; color: #ffffff; text-decoration: none; box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .22); transition: color .3s; }
   .mfp--guides .mfp__grow::after { content: ""; position: absolute; inset: 0; z-index: -1; background: var(--c); transform: translateY(101%); transition: transform .45s cubic-bezier(.2, .8, .2, 1); }
   .mfp--guides .mfp__grow:hover, .mfp--guides .mfp__grow:focus-visible { color: #04202c; }
   .mfp--guides .mfp__grow:hover::after, .mfp--guides .mfp__grow:focus-visible::after { transform: none; }
-  .mfp--guides .mfp__gthumb { display: block; width: 168px; aspect-ratio: 2 / 1; border-radius: 10px; overflow: hidden; }
+  .mfp--guides .mfp__gthumb { display: block; width: 100%; aspect-ratio: 2 / 1; border-radius: 12px; overflow: hidden; }
   .mfp--guides .mfp__grow .mfp__gb { display: grid; gap: 8px; }
   .mfp--guides .mfp__grow .mfp__gtag { background: rgba(255, 255, 255, .14); color: inherit; }
-  .mfp--guides .mfp__grow h3 { font-size: 18px; line-height: 1.2; }
+  .mfp--guides .mfp__grow h3 { font-size: 20px; line-height: 1.2; }
   .mfp--guides .mfp__gfeat:focus-visible, .mfp--guides .mfp__grow:focus-visible { outline: 2px solid #ffffff; outline-offset: 3px; }
   @container (max-width: 480px) { .mfp--guides .mfp__grow { grid-template-columns: minmax(0, 1fr); } .mfp--guides .mfp__gthumb { width: 100%; } }
   @media (prefers-reduced-motion: reduce) { .mfp--guides .mfp__gfeat, .mfp--guides .mfp__cov, .mfp--guides .mfp__grow, .mfp--guides .mfp__grow::after { transition: none; } }
