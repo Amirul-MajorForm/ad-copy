@@ -158,28 +158,41 @@ PAGE = {
     },
     # 7 FAQs (also written into the FAQPage schema)
     "faqs": [
-        ("How much does it cost to run Google Ads in Singapore?",
-         "It depends on your industry and how competitive your keywords are, because you pay per click and clicks in "
-         "some categories cost far more than others. We estimate costs from keyword research before launch, agree a test "
-         "budget with you, then scale what converts. Our fee is a monthly retainer, not a commission on spend."),
+        ("How much do Google Search ads cost in Singapore?",
+         "You pay each time someone clicks your ad, and the price is set in an auction every time a search happens. It "
+         "depends on how many advertisers want that keyword, your bid, and your Quality Score, Google's rating of how relevant "
+         "your ad and landing page are to the search. We estimate cost per click from keyword research before launch, agree a "
+         "test budget with you, then scale what converts. Our fee is a monthly retainer, not a commission on spend."),
+        ("How do you choose which keywords to bid on?",
+         "We start with the searches that show someone is ready to buy or enquire, such as your product, your service plus "
+         "a location, or your brand name, and set match types so your ads show for the right variations. We add negative "
+         "keywords to block searches you don't want to pay for, like jobs or free versions, and check the search terms report "
+         "regularly to add new winners and cut the waste."),
+        ("Why bid on my own brand name if I already rank first?",
+         "Competitors can bid on your brand name, and their ads appear above your website in the results. Brand campaigns "
+         "usually cost little per click and keep people who are already looking for you on your page. We still check whether "
+         "they bring in extra customers before recommending the spend."),
+        ("Can you reach people searching near our outlets or studios?",
+         "Yes. We target by location and can show your address in the ad. For brands with several outlets, we run "
+         "location searches in their own campaign with ads written for each outlet, as we did for Yoga Movement's studios, "
+         "so someone searching nearby sees the place closest to them."),
+        ("Should I use Search, Shopping or Performance Max?",
+         "It depends on what you sell. Search gives you control over keywords and messaging for high-intent searches, and "
+         "suits services and lead generation. Shopping and Performance Max use your product feed to show products with prices "
+         "and images, which suits e-commerce. Many brands run Search alongside one of them, and we set the split from your "
+         "products, data and targets."),
+        ("Should we do search ads or SEO?",
+         "Search ads put you at the top of the results from the day they go live, and you choose the message and the page "
+         "people land on. SEO earns unpaid rankings but takes months to build. Many brands run both, and the keyword data from "
+         "your ads shows which searches turn into sales, which helps decide what to write about for SEO."),
+        ("How do you measure leads and sales from Google Ads?",
+         "We set up conversion tracking for the actions that matter to you, such as purchases, enquiry forms and calls, "
+         "using Google Ads and GA4. Google's bidding then aims for those actions rather than clicks, and we report on cost per "
+         "lead or sale, not clicks or impressions."),
         ("How long before Google Ads show results?",
-         "Search can bring in enquiries within days of launch, because it reaches people already looking. Smart Bidding "
+         "Search can bring in enquiries within days of launch, because it reaches people who are already looking. Smart Bidding "
          "usually needs a few weeks of conversion data to settle, and clients typically see clear improvements in cost "
          "per lead or ROAS within 30 to 60 days."),
-        ("Should I use Performance Max or Search campaigns?",
-         "Usually both, for different jobs. Search gives you control over keywords and messaging for high-intent queries, "
-         "while Performance Max finds buyers across all of Google's channels using your product feed and goals. We set the "
-         "split based on your products, data and targets."),
-        ("Why bid on my own brand name?",
-         "Competitors can bid on your brand name, and ads appear above your website in the results. Brand campaigns are "
-         "usually low-cost and protect the people already looking for you, though we check whether they are bringing in "
-         "extra customers before recommending the spend."),
-        ("Do you write the ads and advise on landing pages?",
-         "Yes. We write and test the ad copy, and review the pages your ads send people to, because a strong landing page "
-         "often lowers the cost of every lead or sale more than bidding changes do."),
-        ("Google Ads or Meta: which should I start with?",
-         "Start with search if people already look for what you sell, because you reach them at the moment of intent. Meta "
-         "suits building demand for products people don't yet search for. Many clients run both, with each one feeding the other."),
     ],
 
     # 8 Related and closing
