@@ -107,8 +107,8 @@ PAGE = {
     "results_title": "What this looks like in practice",
     "results_lede": "Results from Amazon campaigns we run, for brands across Asia.",
     "results": [
-        {"brand": "OATSIDE", "channel": "Amazon Japan", "value": "18.3\u00d7", "label": "Return on ad spend on Amazon Japan",
-         "note": "\u00a54.48M in ad-attributed sales from 1,499 ad-attributed orders.",
+        {"brand": "OATSIDE", "channel": "Amazon Japan", "value": "18\u00d7+", "label": "Return on ad spend on Amazon Japan",
+         "note": "From 1.5K orders over a 3-month period.",
          "url": None,  # add a link here once there is an OATSIDE Amazon case study page
          # OATSIDE Oat Latte for Japan, cut out from the client's pack shot; floats on the panel and shows larger on desktop
          "image": "oatside-latte-jp.webp", "image_size": "large", "image_bg": "#a5c8d1", "panel_logo": "oatside",
