@@ -1,5 +1,5 @@
 <!doctype html><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><title>Homepage Blog</title><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,600&family=Space+Grotesk:wght@400;500&display=swap"><!-- MajorForm homepage blog styles. Paste into the homepage's Page Settings > Advanced > Page Header Code Injection.
-     Restyles the blog Summary block, filters it by the category pills above it, and pops each post's tags out as "Perfect for" callouts.
+     Restyles the blog Summary block, filters it by the category pills above it, and pops each post's tags out as audience callouts.
      Summary block settings: Design Grid, 12+ items, Primary metadata Categories, Secondary metadata Tags, metadata Above title. -->
 <style>
   /* layout: a row of cards that scrolls sideways when there are more than three */
@@ -26,17 +26,13 @@
   #block-yui_3_17_2_1_1755306803804_4200 .summary-metadata-item--cats { font-size: 11px; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; }
   #block-yui_3_17_2_1_1755306803804_4200 .summary-metadata-item--cats a { color: #00978d !important; text-decoration: none !important; }
   #block-yui_3_17_2_1_1755306803804_4200 .summary-content::after { content: "Read the article \2192"; order: 3; margin-top: auto; padding-top: 6px; font-size: 14px; font-weight: 500; color: #233551; }
-  /* "Perfect for" callouts: the post's tags, hidden until the card is hovered, then they pop out over the image one after another */
+  /* audience callouts: the post's tags, hidden until the card is hovered, then they pop out over the image one after another */
   #block-yui_3_17_2_1_1755306803804_4200 .summary-metadata-item--tags { position: absolute; left: 12px; right: 12px; top: 12px; z-index: 2; display: flex; flex-wrap: wrap; gap: 6px;
     font-size: 0; pointer-events: none; }
-  #block-yui_3_17_2_1_1755306803804_4200 .summary-metadata-item--tags::before { content: "Perfect for"; font-size: 11px; font-weight: 500; letter-spacing: .12em; text-transform: uppercase; line-height: 1;
-    padding: 7px 10px; border-radius: 999px; background: #04202c; color: #fff; opacity: 0; transform: translateY(6px) scale(.85);
-    transition: opacity .25s, transform .35s cubic-bezier(.2, .9, .3, 1.3); }
   #block-yui_3_17_2_1_1755306803804_4200 .summary-metadata-item--tags a { font-size: 12px; font-weight: 500; line-height: 1; padding: 7px 11px; border-radius: 999px; background: var(--c, #96d1aa);
     color: #04202c !important; text-decoration: none !important; box-shadow: 0 8px 18px -10px rgba(4, 32, 44, .55);
     opacity: 0; transform: translateY(6px) scale(.85); transition: opacity .25s, transform .35s cubic-bezier(.2, .9, .3, 1.3); }
-  #block-yui_3_17_2_1_1755306803804_4200 .summary-item:hover .summary-metadata-item--tags::before, #block-yui_3_17_2_1_1755306803804_4200 .summary-item:hover .summary-metadata-item--tags a,
-  #block-yui_3_17_2_1_1755306803804_4200 .summary-item:focus-within .summary-metadata-item--tags::before, #block-yui_3_17_2_1_1755306803804_4200 .summary-item:focus-within .summary-metadata-item--tags a { opacity: 1; transform: none; }
+  #block-yui_3_17_2_1_1755306803804_4200 .summary-item:hover .summary-metadata-item--tags a, #block-yui_3_17_2_1_1755306803804_4200 .summary-item:focus-within .summary-metadata-item--tags a { opacity: 1; transform: none; }
   #block-yui_3_17_2_1_1755306803804_4200 .summary-metadata-item--tags a:nth-of-type(1) { --c: #96d1aa; transition-delay: 0.00s; }
   #block-yui_3_17_2_1_1755306803804_4200 .summary-metadata-item--tags a:nth-of-type(2) { --c: #ffefae; transition-delay: 0.07s; }
   #block-yui_3_17_2_1_1755306803804_4200 .summary-metadata-item--tags a:nth-of-type(3) { --c: #f8b6ba; transition-delay: 0.14s; }
@@ -45,7 +41,6 @@
   @media (hover: none) {
     #block-yui_3_17_2_1_1755306803804_4200 .summary-metadata-container--above-title, #block-yui_3_17_2_1_1755306803804_4200 .summary-metadata--secondary { display: contents; }
     #block-yui_3_17_2_1_1755306803804_4200 .summary-metadata-item--tags { position: static; order: 2; font-size: 0; }
-    #block-yui_3_17_2_1_1755306803804_4200 .summary-metadata-item--tags::before { display: none; }
     #block-yui_3_17_2_1_1755306803804_4200 .summary-metadata-item--tags a { opacity: 1; transform: none; box-shadow: none; font-size: 11px; padding: 5px 9px; }
   }
   #block-yui_3_17_2_1_1755306803804_4200 .summary-metadata--secondary:empty, #block-yui_3_17_2_1_1755306803804_4200 .summary-metadata-container--below-title { display: none; }

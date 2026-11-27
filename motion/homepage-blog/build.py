@@ -3,7 +3,7 @@
 No scripts anywhere, and new posts still appear by themselves.
   filter-block.html   a Code block placed just above the Summary block: the category pills and "Read all articles"
   header.html         CSS for the homepage's Page Header Code Injection: restyles the Summary block, filters it, and turns
-                      each post's tags into "Perfect for" callouts that pop out on hover
+                      each post's tags into audience callouts that pop out on hover
   preview.html        a working copy using the same markup Squarespace prints, for review only
 Squarespace settings the CSS relies on (Summary block > Design and Display):
   Design: Grid (or List). Items: 12 or more. Primary metadata: Categories. Secondary metadata: Tags. Metadata position: Above title.
@@ -49,7 +49,7 @@ filters = "\n".join(
     for k, _, m in CATS if m)
 colours = "\n".join(f"  {S} .summary-metadata-item--tags a:nth-of-type({i + 1}) {{ --c: {c}; transition-delay: {i * .07:.2f}s; }}" for i, c in enumerate(WADA))
 HEADER = f"""<!-- MajorForm homepage blog styles. Paste into the homepage's Page Settings > Advanced > Page Header Code Injection.
-     Restyles the blog Summary block, filters it by the category pills above it, and pops each post's tags out as "Perfect for" callouts.
+     Restyles the blog Summary block, filters it by the category pills above it, and pops each post's tags out as audience callouts.
      Summary block settings: Design Grid, 12+ items, Primary metadata Categories, Secondary metadata Tags, metadata Above title. -->
 <style>
   /* layout: a row of cards that scrolls sideways when there are more than three */
@@ -76,23 +76,18 @@ HEADER = f"""<!-- MajorForm homepage blog styles. Paste into the homepage's Page
   {S} .summary-metadata-item--cats {{ font-size: 11px; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; }}
   {S} .summary-metadata-item--cats a {{ color: #00978d !important; text-decoration: none !important; }}
   {S} .summary-content::after {{ content: "Read the article \\2192"; order: 3; margin-top: auto; padding-top: 6px; font-size: 14px; font-weight: 500; color: #233551; }}
-  /* "Perfect for" callouts: the post's tags, hidden until the card is hovered, then they pop out over the image one after another */
+  /* audience callouts: the post's tags, hidden until the card is hovered, then they pop out over the image one after another */
   {S} .summary-metadata-item--tags {{ position: absolute; left: 12px; right: 12px; top: 12px; z-index: 2; display: flex; flex-wrap: wrap; gap: 6px;
     font-size: 0; pointer-events: none; }}
-  {S} .summary-metadata-item--tags::before {{ content: "Perfect for"; font-size: 11px; font-weight: 500; letter-spacing: .12em; text-transform: uppercase; line-height: 1;
-    padding: 7px 10px; border-radius: 999px; background: #04202c; color: #fff; opacity: 0; transform: translateY(6px) scale(.85);
-    transition: opacity .25s, transform .35s cubic-bezier(.2, .9, .3, 1.3); }}
   {S} .summary-metadata-item--tags a {{ font-size: 12px; font-weight: 500; line-height: 1; padding: 7px 11px; border-radius: 999px; background: var(--c, #96d1aa);
     color: #04202c !important; text-decoration: none !important; box-shadow: 0 8px 18px -10px rgba(4, 32, 44, .55);
     opacity: 0; transform: translateY(6px) scale(.85); transition: opacity .25s, transform .35s cubic-bezier(.2, .9, .3, 1.3); }}
-  {S} .summary-item:hover .summary-metadata-item--tags::before, {S} .summary-item:hover .summary-metadata-item--tags a,
-  {S} .summary-item:focus-within .summary-metadata-item--tags::before, {S} .summary-item:focus-within .summary-metadata-item--tags a {{ opacity: 1; transform: none; }}
+  {S} .summary-item:hover .summary-metadata-item--tags a, {S} .summary-item:focus-within .summary-metadata-item--tags a {{ opacity: 1; transform: none; }}
 {colours}
   /* phones and tablets have no hover: the tags show as small chips under the title instead */
   @media (hover: none) {{
     {S} .summary-metadata-container--above-title, {S} .summary-metadata--secondary {{ display: contents; }}
     {S} .summary-metadata-item--tags {{ position: static; order: 2; font-size: 0; }}
-    {S} .summary-metadata-item--tags::before {{ display: none; }}
     {S} .summary-metadata-item--tags a {{ opacity: 1; transform: none; box-shadow: none; font-size: 11px; padding: 5px 9px; }}
   }}
   {S} .summary-metadata--secondary:empty, {S} .summary-metadata-container--below-title {{ display: none; }}
