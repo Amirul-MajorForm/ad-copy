@@ -1,0 +1,150 @@
+<!-- MajorForm Our Work page header. Paste into Page Settings > Advanced > Page Header Code Injection on /our-work.
+     Replaces the page's old WebPage schema with a CollectionPage that lists every case study, and matches the block headings to your H2 size. -->
+<script type="application/ld+json">
+[
+  {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "@id": "https://www.majorform.co/our-work#page",
+    "url": "https://www.majorform.co/our-work",
+    "name": "Case Studies: Real Brands, Real Growth",
+    "description": "MajorForm case studies with the results behind each campaign: performance marketing, social commerce and social media content for brands in Singapore and Asia.",
+    "isPartOf": {
+      "@id": "https://www.majorform.co/#website"
+    },
+    "about": {
+      "@id": "https://www.majorform.co/#organization"
+    },
+    "mainEntity": {
+      "@type": "ItemList",
+      "numberOfItems": 15,
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "url": "https://www.majorform.co/our-work/oatside-digital-marketing-majorform-2026",
+          "name": "Scaling digital media across APAC with OATSIDE"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "url": "https://www.majorform.co/our-work/blackmores-tiktok-livestreaming-majorform-2026",
+          "name": "Driving ROI on TikTok Shop with Blackmores"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "url": "https://www.majorform.co/our-work/yogamovement-digital-marketing-majorform-2026",
+          "name": "Turning searches into class-pack sales for Yoga Movement"
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "url": "https://www.majorform.co/our-work/app-install-digital-marketing-singapore-2026",
+          "name": "Driving app installs for Flexar in Singapore"
+        },
+        {
+          "@type": "ListItem",
+          "position": 5,
+          "url": "https://www.majorform.co/our-work/the-generation-clean-attitude-social-media-video-majorform-2026",
+          "name": "Brand films for The Generation Clean"
+        },
+        {
+          "@type": "ListItem",
+          "position": 6,
+          "url": "https://www.majorform.co/our-work/lizflorals-content-creation-case-study-majorform-2026",
+          "name": "Social media content for a wedding and event florist"
+        },
+        {
+          "@type": "ListItem",
+          "position": 7,
+          "url": "https://www.majorform.co/our-work/gym-content-marketing-mbold-singapore-2026",
+          "name": "Social media content for a gym"
+        },
+        {
+          "@type": "ListItem",
+          "position": 8,
+          "url": "https://www.majorform.co/our-work/pawpal-social-media-pet-brand-singapore-2026",
+          "name": "A clearer social media identity for PawPal"
+        },
+        {
+          "@type": "ListItem",
+          "position": 9,
+          "url": "https://www.majorform.co/our-work/majorform-sunday-bedding",
+          "name": "Sunday Bedding"
+        },
+        {
+          "@type": "ListItem",
+          "position": 10,
+          "url": "https://www.majorform.co/our-work/grey-and-sanders",
+          "name": "Grey & Sanders"
+        },
+        {
+          "@type": "ListItem",
+          "position": 11,
+          "url": "https://www.majorform.co/our-work/tag-espresso-2025",
+          "name": "TAG Espresso"
+        },
+        {
+          "@type": "ListItem",
+          "position": 12,
+          "url": "https://www.majorform.co/our-work/rippleco-home-singapore-2025",
+          "name": "Ripple+ Home"
+        },
+        {
+          "@type": "ListItem",
+          "position": 13,
+          "url": "https://www.majorform.co/our-work/urban-company",
+          "name": "Urban Company"
+        },
+        {
+          "@type": "ListItem",
+          "position": 14,
+          "url": "https://www.majorform.co/our-work/soundpeats-singapore-2025",
+          "name": "SoundPeats"
+        },
+        {
+          "@type": "ListItem",
+          "position": 15,
+          "url": "https://www.majorform.co/our-work/katin-life",
+          "name": "Katin Life"
+        }
+      ]
+    }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://www.majorform.co/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Our work",
+        "item": "https://www.majorform.co/our-work"
+      }
+    ]
+  }
+]
+</script>
+<script>
+(function () {
+  if (window.mfCaseH2) return; window.mfCaseH2 = true;
+  function measure() {
+    var host = document.querySelector(".sqs-block-content"); if (!host) return;
+    var probe = document.createElement("div"); probe.className = "sqs-html-content"; probe.style.cssText = "position:absolute;visibility:hidden;left:-9999px";
+    probe.innerHTML = "<h2>Ag</h2>"; host.appendChild(probe);
+    var cs = getComputedStyle(probe.firstChild), root = document.documentElement.style;
+    root.setProperty("--mf-h2", cs.fontSize); root.setProperty("--mf-h2-font", cs.fontFamily);
+    root.setProperty("--mf-h2-weight", cs.fontWeight); root.setProperty("--mf-h2-ls", cs.letterSpacing === "normal" ? "0" : cs.letterSpacing);
+    probe.remove();
+  }
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", measure); else measure();
+  window.addEventListener("resize", measure);
+})();
+</script>
