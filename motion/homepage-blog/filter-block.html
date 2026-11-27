@@ -1,0 +1,23 @@
+<!-- MajorForm homepage blog: category pills and "Read all articles". Paste into a Code block placed directly above the blog
+     Summary block, with Display Source turned off. No scripts: the pills are radio buttons and the filtering is CSS in the page header. -->
+<div class="mf-bf">
+  <div class="mf-bf__pills" role="group" aria-label="Show articles about">
+    <input type="radio" name="mf-bf" id="mf-bf-all" checked><label for="mf-bf-all">All</label><input type="radio" name="mf-bf" id="mf-bf-perf"><label for="mf-bf-perf">Performance marketing</label><input type="radio" name="mf-bf" id="mf-bf-brand"><label for="mf-bf-brand">Brand &amp; content</label><input type="radio" name="mf-bf" id="mf-bf-comm"><label for="mf-bf-comm">Social commerce</label><input type="radio" name="mf-bf" id="mf-bf-ai"><label for="mf-bf-ai">AI &amp; trends</label>
+  </div>
+  <a class="mf-bf__all" href="/blog-1">Read all articles <span aria-hidden="true">&rarr;</span></a>
+</div>
+<style>
+  .mf-bf { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px; font-family: "Space Grotesk", system-ui, sans-serif; }
+  .mf-bf__pills { display: flex; flex-wrap: wrap; gap: 8px; }
+  .mf-bf input { position: absolute; opacity: 0; pointer-events: none; }
+  .mf-bf label { cursor: pointer; border: 1px solid rgba(35, 53, 81, .2); border-radius: 999px; padding: 8px 16px; font-size: 14px; font-weight: 500; color: #233551;
+    transition: background .25s, color .25s, border-color .25s; }
+  .mf-bf label:hover { border-color: #233551; }
+  .mf-bf input:checked + label { background: #233551; border-color: #233551; color: #fff; }
+  .mf-bf input:focus-visible + label, .mf-bf__all:focus-visible { outline: 2px solid #233551; outline-offset: 2px; }
+  .mf-bf__all { display: inline-flex; align-items: center; gap: 8px; padding: 10px 18px; border-radius: 999px; background: #04202c; color: #fff !important;
+    font-size: 14px; font-weight: 500; text-decoration: none !important; transition: background .25s, color .25s; }
+  .mf-bf__all:hover { background: #96d1aa; color: #04202c !important; }
+  .mf-bf__all span { display: inline-block; transition: transform .25s; }
+  .mf-bf__all:hover span { transform: translateX(4px); }
+</style>
